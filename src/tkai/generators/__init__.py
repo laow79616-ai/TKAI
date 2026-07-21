@@ -1,5 +1,7 @@
-from .project import ProjectGenerator
+from .base import BaseGenerator
+from .generator import GeneratorManager
 
 __all__ = [
-    "ProjectGenerator",
+    "BaseGenerator",
+    "GeneratorManager",
 ]
