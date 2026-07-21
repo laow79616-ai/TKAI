@@ -4,7 +4,7 @@ AI Software Factory Command Line Interface
 """
 
 import argparse
-from tkai.commands import template
+
 from tkai.commands import doctor
 from tkai.commands import version
 from tkai.commands import new
@@ -81,10 +81,26 @@ def build_parser():
         help="Template management"
     )
 
-    template_parser.add_argument(
-        "action",
-        choices=["list"],
-        help="Template action"
+    template_sub = template_parser.add_subparsers(
+        dest="action",
+        required=True
+    )
+
+    # template list
+    template_sub.add_parser(
+        "list",
+        help="List templates"
+    )
+
+    # template info
+    info_parser = template_sub.add_parser(
+        "info",
+        help="Show template information"
+    )
+
+    info_parser.add_argument(
+        "template_name",
+        help="Template name"
     )
 
     return parser
