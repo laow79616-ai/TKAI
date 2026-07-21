@@ -48,3 +48,36 @@ def run(args):
         print("-" * 50)
         print(", ".join(info.get("tags", [])))
         print()
+
+    elif args.action == "validate":
+
+        results = manager.validate_all()
+
+        print()
+        print("=" * 50)
+        print("Checking Templates")
+        print("=" * 50)
+        print()
+
+        passed = 0
+        failed = 0
+
+        for result in results:
+
+            if result["valid"]:
+                print(f"✓ {result['name']}")
+                passed += 1
+
+            else:
+                print(f"✗ {result['name']}")
+                for error in result["errors"]:
+                    print(f"  - {error}")
+                failed += 1
+
+            print()
+
+        print("-" * 50)
+        print(f"Templates : {len(results)}")
+        print(f"Passed    : {passed}")
+        print(f"Failed    : {failed}")
+        print()

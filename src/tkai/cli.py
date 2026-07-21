@@ -103,6 +103,12 @@ def build_parser():
         help="Template name"
     )
 
+    # template validate
+    template_sub.add_parser(
+        "validate",
+        help="Validate all templates"
+    )
+
     return parser
 
 
