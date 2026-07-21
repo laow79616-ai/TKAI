@@ -1,15 +1,18 @@
 """
 TKAI Configuration Manager
 
-Issue-002.1
+Issue-002.2
 """
 
 from __future__ import annotations
 
 from copy import deepcopy
+from pathlib import Path
 from typing import Any
 
 from .defaults import DEFAULT_CONFIG
+from .loader import ConfigLoader
+from .saver import ConfigSaver
 
 
 class ConfigManager:
@@ -22,25 +25,47 @@ class ConfigManager:
     def load_default(self) -> dict[str, Any]:
         """Load default configuration."""
         self._config = deepcopy(DEFAULT_CONFIG)
-        return self._config
+        return deepcopy(self._config)
 
     def load_user(self) -> dict[str, Any]:
-        """
-        Placeholder for user configuration.
+        """Load and merge user configuration."""
+        config = ConfigLoader.load_user()
 
-        Future:
-            ~/.tkai/config.yaml
-        """
-        return self._config
+        if config:
+            self.merge(config)
 
-    def load_project(self) -> dict[str, Any]:
-        """
-        Placeholder for project configuration.
+        return deepcopy(self._config)
 
-        Future:
-            ./.tkai/config.yaml
+    def load_project(self, root: Path | None = None) -> dict[str, Any]:
+        """Load and merge project configuration."""
+        config = ConfigLoader.load_project(root)
+
+        if config:
+            self.merge(config)
+
+        return deepcopy(self._config)
+
+    def load_all(self, root: Path | None = None) -> dict[str, Any]:
         """
-        return self._config
+        Load configuration in order:
+
+        1. Default
+        2. User
+        3. Project
+        """
+        self.load_default()
+        self.load_user()
+        self.load_project(root)
+
+        return deepcopy(self._config)
+
+    def save_user(self) -> None:
+        """Save current configuration to the user config file."""
+        ConfigSaver.save_user(self._config)
+
+    def save_project(self, root: Path | None = None) -> None:
+        """Save current configuration to the project config file."""
+        ConfigSaver.save_project(self._config, root)
 
     def merge(self, config: dict[str, Any]) -> None:
         """Merge configuration into current config."""
@@ -87,9 +112,7 @@ class ConfigManager:
 
     @property
     def config(self) -> dict[str, Any]:
-        """
-        Return a copy of current configuration.
-        """
+        """Return a copy of current configuration."""
         return deepcopy(self._config)
 
     @staticmethod
