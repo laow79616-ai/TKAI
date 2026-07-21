@@ -1,8 +1,9 @@
 """
-TKAI Package
+TKAI
 """
 
-__version__ = "0.1.0"
+# 必须最先定义
+__version__ = "0.2.1"
 
 from .core import (
     Context,
@@ -14,11 +15,10 @@ from .core import (
 )
 
 __all__ = [
-    "__version__",
-    "Project",
-    "Workspace",
     "Context",
+    "Lifecycle",
+    "Project",
     "Registry",
     "Settings",
-    "Lifecycle",
+    "Workspace",
 ]
