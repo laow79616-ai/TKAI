@@ -87,8 +87,10 @@ class ConfigManager:
 
     @property
     def config(self) -> dict[str, Any]:
-        """Return configuration."""
-        return self._config
+        """
+        Return a copy of current configuration.
+        """
+        return deepcopy(self._config)
 
     @staticmethod
     def _merge_dict(
