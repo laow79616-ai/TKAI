@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from tkai.core.exceptions import AIProviderError
 
+from .errors import ProviderNotFoundError
 from .provider import AIProvider
 
 
@@ -24,7 +25,14 @@ class ProviderRegistry:
         try:
             return self._providers[name]
         except KeyError as exc:
-            raise AIProviderError(f"Provider '{name}' is not registered") from exc
+            raise ProviderNotFoundError(f"Provider '{name}' is not registered") from exc
+
+    def unregister(self, name: str) -> AIProvider:
+        """Remove and return a provider."""
+        try:
+            return self._providers.pop(name)
+        except KeyError as exc:
+            raise ProviderNotFoundError(f"Provider '{name}' is not registered") from exc
 
     def names(self) -> list[str]:
         """Return names in stable order."""

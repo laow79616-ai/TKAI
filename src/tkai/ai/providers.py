@@ -1,47 +1,236 @@
-"""Built-in provider identities for supported AI services."""
+"""Built-in provider adapters with injected, offline-testable transports."""
 
 from __future__ import annotations
 
-from .provider import BaseAIProvider
+from collections.abc import Callable, Iterator
+from typing import Any
+
+from .errors import ProviderConfigurationError, ProviderResponseError
+from .models import (
+    ChatRequest,
+    ChatResponse,
+    EmbeddingRequest,
+    EmbeddingResponse,
+    ModelInfo,
+    ProviderCapabilities,
+    ProviderConfig,
+    Usage,
+)
+from .provider import BaseAIProvider, CompletionClient
+
+Transport = Callable[
+    [str, dict[str, Any], dict[str, str]], dict[str, Any] | Iterator[dict[str, Any]]
+]
 
 
-class OpenAIProvider(BaseAIProvider):
-    """OpenAI-compatible provider identity."""
+class OpenAICompatibleProvider(BaseAIProvider):
+    """OpenAI-shaped API adapter using an injectable request transport."""
+
+    name = "openai-compatible"
+    default_model = "gpt-5.5"
+    capabilities = ProviderCapabilities(chat=True, streaming=True, embeddings=True)
+
+    def __init__(
+        self,
+        client: CompletionClient | None = None,
+        *,
+        config: ProviderConfig | None = None,
+        transport: Transport | None = None,
+    ) -> None:
+        super().__init__(client)
+        self.config = config or ProviderConfig(name=self.name, type=self.name)
+        self.transport = transport
+
+    def validate_config(self) -> None:
+        """Validate injected transport or configured API credentials."""
+        self.config.validate()
+        if self.transport is None and self.client is None and not self.config.api_key:
+            raise ProviderConfigurationError(
+                f"Provider '{self.name}' requires an API key or injected transport"
+            )
+
+    def _headers(self) -> dict[str, str]:
+        headers = dict(self.config.headers)
+        if self.config.api_key:
+            headers["Authorization"] = f"Bearer {self.config.api_key}"
+        if self.config.organization:
+            headers["OpenAI-Organization"] = self.config.organization
+        if self.config.project:
+            headers["OpenAI-Project"] = self.config.project
+        return headers
+
+    def _request(self, path: str, payload: dict[str, Any]) -> dict[str, Any]:
+        if self.transport is None:
+            raise ProviderConfigurationError(
+                f"Provider '{self.name}' requires an injected HTTP transport"
+            )
+        response = self.transport(path, payload, self._headers())
+        if not isinstance(response, dict):
+            raise ProviderResponseError(
+                "Provider returned a streaming response unexpectedly"
+            )
+        return response
+
+    def chat(self, request: ChatRequest) -> ChatResponse:
+        """Normalize an OpenAI-compatible chat-completions response."""
+        model = request.model or self.config.model or self.default_model
+        payload = {
+            "model": model,
+            "messages": [
+                {
+                    "role": item.role,
+                    "content": item.content,
+                    "tool_calls": list(item.tool_calls),
+                }
+                for item in request.messages
+            ],
+            **request.options,
+        }
+        data = self._request("/chat/completions", payload)
+        choice = data.get("choices", [{}])[0]
+        message = choice.get("message", {})
+        usage = data.get("usage", {})
+        return ChatResponse(
+            content=message.get("content") or "",
+            model=data.get("model", model),
+            provider=self.name,
+            finish_reason=choice.get("finish_reason"),
+            usage=Usage(
+                prompt_tokens=usage.get("prompt_tokens", 0),
+                completion_tokens=usage.get("completion_tokens", 0),
+                total_tokens=usage.get("total_tokens", 0),
+            ),
+            tool_calls=tuple(message.get("tool_calls", ())),
+            raw_response=data,
+            request_id=data.get("id"),
+        )
+
+    def stream_chat(self, request: ChatRequest) -> Iterator[ChatResponse]:
+        """Normalize injected OpenAI-compatible streaming chunks."""
+        if self.transport is None:
+            raise ProviderConfigurationError("Streaming requires an injected transport")
+        model = request.model or self.config.model or self.default_model
+        response = self.transport(
+            "/chat/completions",
+            {
+                "model": model,
+                "stream": True,
+                "messages": [
+                    {"role": item.role, "content": item.content}
+                    for item in request.messages
+                ],
+            },
+            self._headers(),
+        )
+        if isinstance(response, dict):
+            response = iter((response,))
+        for chunk in response:
+            choice = chunk.get("choices", [{}])[0]
+            delta = choice.get("delta", {})
+            usage = chunk.get("usage", {})
+            yield ChatResponse(
+                content=delta.get("content") or "",
+                model=chunk.get("model", model),
+                provider=self.name,
+                finish_reason=choice.get("finish_reason"),
+                usage=Usage(total_tokens=usage.get("total_tokens", 0)),
+                tool_calls=tuple(delta.get("tool_calls", ())),
+                raw_response=chunk,
+                request_id=chunk.get("id"),
+            )
+
+    def embed(self, request: EmbeddingRequest) -> EmbeddingResponse:
+        """Normalize OpenAI-compatible embeddings."""
+        model = request.model or self.config.model or self.default_model
+        data = self._request(
+            "/embeddings", {"model": model, "input": list(request.input)}
+        )
+        usage = data.get("usage", {})
+        return EmbeddingResponse(
+            embeddings=tuple(tuple(item["embedding"]) for item in data.get("data", [])),
+            model=data.get("model", model),
+            provider=self.name,
+            usage=Usage(total_tokens=usage.get("total_tokens", 0)),
+        )
+
+    def list_models(self) -> list[ModelInfo]:
+        """List models from an injected compatible endpoint when available."""
+        if self.transport is None:
+            return [
+                ModelInfo(
+                    self.config.model or self.default_model, self.name, True, True
+                )
+            ]
+        data = self._request("/models", {})
+        return [
+            ModelInfo(item["id"], self.name, True, True)
+            for item in data.get("data", [])
+        ]
+
+
+class OpenAIProvider(OpenAICompatibleProvider):
+    """Official OpenAI identity over the compatible transport."""
 
     name = "openai"
-    default_model = "gpt-5.5"
 
 
-class ClaudeProvider(BaseAIProvider):
-    """Anthropic Claude provider identity."""
-
-    name = "claude"
-    default_model = "claude-sonnet"
-
-
-class GeminiProvider(BaseAIProvider):
-    """Google Gemini provider identity."""
-
-    name = "gemini"
-    default_model = "gemini-pro"
-
-
-class DeepSeekProvider(BaseAIProvider):
-    """DeepSeek provider identity."""
+class DeepSeekProvider(OpenAICompatibleProvider):
+    """DeepSeek-compatible OpenAI endpoint identity."""
 
     name = "deepseek"
     default_model = "deepseek-chat"
 
 
-class QwenProvider(BaseAIProvider):
-    """Alibaba Qwen provider identity."""
+class QwenProvider(OpenAICompatibleProvider):
+    """Qwen-compatible OpenAI endpoint identity."""
 
     name = "qwen"
     default_model = "qwen-plus"
 
 
-class OpenRouterProvider(BaseAIProvider):
-    """OpenRouter provider identity."""
+class OpenRouterProvider(OpenAICompatibleProvider):
+    """OpenRouter adapter adding referer and application title headers."""
 
     name = "openrouter"
     default_model = "openai/gpt-5.5"
+
+    def _headers(self) -> dict[str, str]:
+        headers = super()._headers()
+        if referer := self.config.headers.get("HTTP-Referer"):
+            headers["HTTP-Referer"] = referer
+        if title := self.config.headers.get("X-Title"):
+            headers["X-Title"] = title
+        return headers
+
+
+class _OptionalSDKProvider(BaseAIProvider):
+    """Adapter base that fails clearly until an optional SDK is installed."""
+
+    dependency = ""
+
+    def validate_config(self) -> None:
+        if self.client is not None:
+            return
+        try:
+            __import__(self.dependency)
+        except ImportError as exc:
+            raise ProviderConfigurationError(
+                "Provider "
+                f"'{self.name}' requires optional dependency '{self.dependency}'"
+            ) from exc
+
+
+class ClaudeProvider(_OptionalSDKProvider):
+    """Anthropic adapter with lazy optional dependency validation."""
+
+    name = "claude"
+    default_model = "claude-sonnet"
+    dependency = "anthropic"
+
+
+class GeminiProvider(_OptionalSDKProvider):
+    """Gemini adapter with lazy optional dependency validation."""
+
+    name = "gemini"
+    default_model = "gemini-pro"
+    dependency = "google.generativeai"
