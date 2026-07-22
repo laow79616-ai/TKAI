@@ -5,7 +5,7 @@ import pytest
 
 from tkai.core.context import Context
 from tkai.core.exceptions import PluginError
-from tkai.plugins import PluginManager, PluginManifest
+from tkai.plugins import PluginDiscovery, PluginManager, PluginManifest, PluginRegistry
 
 
 def _create_plugin(root: Path, *, enabled: bool = True) -> Path:
@@ -64,3 +64,50 @@ def test_disabled_plugin_cannot_load(tmp_path: Path):
 
     with pytest.raises(PluginError, match="disabled"):
         PluginManager().load(plugin_dir)
+
+
+def test_registry_rejects_duplicate_plugins(tmp_path: Path):
+    manifest = PluginManifest.load(_create_plugin(tmp_path))
+    registry = PluginRegistry()
+
+    class Plugin:
+        def activate(self, context: Context) -> None:
+            pass
+
+        def deactivate(self, context: Context) -> None:
+            pass
+
+    registry.register(Plugin(), manifest)
+
+    with pytest.raises(PluginError, match="already registered"):
+        registry.register(Plugin(), manifest)
+
+
+def test_bundled_plugins_are_auto_discovered_and_loadable():
+    discovery = PluginDiscovery()
+    manager = PluginManager()
+
+    assert [manifest.name for manifest in discovery.discover()] == [
+        "claude",
+        "docker",
+        "gemini",
+        "git",
+        "openai",
+        "python",
+        "telegram",
+        "tiktok",
+    ]
+    assert manager.names() == []
+
+    manager.load_all()
+
+    assert manager.names() == [
+        "claude",
+        "docker",
+        "gemini",
+        "git",
+        "openai",
+        "python",
+        "telegram",
+        "tiktok",
+    ]

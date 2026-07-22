@@ -2,15 +2,16 @@
 
 from __future__ import annotations
 
-import importlib.util
 from pathlib import Path
-from types import ModuleType
-from typing import Any, Protocol
+from typing import Any, Protocol, cast
 
 from tkai.core.context import Context
 from tkai.core.exceptions import PluginError
 
+from .discovery import PluginDiscovery
+from .loader import PluginLoader
 from .manifest import PluginManifest
+from .registry import PluginRegistry
 
 
 class Plugin(Protocol):
@@ -28,27 +29,21 @@ class PluginManager:
 
     def __init__(self, context: Context | None = None) -> None:
         self.context = context or Context()
-        self._plugins: dict[str, Plugin] = {}
-        self._manifests: dict[str, PluginManifest] = {}
+        self.registry = PluginRegistry()
+        self.loader = PluginLoader()
 
-    def discover(self, root: str | Path) -> list[PluginManifest]:
+    def discover(self, root: str | Path | None = None) -> list[PluginManifest]:
         """Return valid manifests found directly below a plugin root directory."""
-        root_path = Path(root)
-        if not root_path.is_dir():
-            return []
+        return PluginDiscovery(root).discover()
 
-        manifests: list[PluginManifest] = []
-        for directory in sorted(root_path.iterdir()):
-            if not directory.is_dir() or directory.name == "__pycache__":
-                continue
-            try:
-                manifests.append(PluginManifest.load(directory))
-            except PluginError as exc:
-                if (directory / "plugin.json").exists():
-                    raise PluginError(
-                        f"Failed to discover plugin: {directory}"
-                    ) from exc
-        return manifests
+    def load_all(self, root: str | Path | None = None) -> list[Plugin]:
+        """Discover and activate every enabled plugin below ``root``."""
+        discovery = PluginDiscovery(root)
+        return [
+            self.load(discovery.root / manifest.name)
+            for manifest in discovery.discover()
+            if manifest.enabled
+        ]
 
     def load(self, plugin_dir: str | Path) -> Plugin:
         """Load, register, and activate the plugin declared in ``plugin_dir``."""
@@ -57,11 +52,7 @@ class PluginManager:
         if not manifest.enabled:
             raise PluginError(f"Plugin '{manifest.name}' is disabled")
 
-        plugin_type = self._resolve_entry(directory, manifest.entry)
-        try:
-            plugin = plugin_type()
-        except TypeError as exc:
-            raise PluginError(f"Unable to construct plugin '{manifest.name}'") from exc
+        plugin = cast(Plugin, self.loader.load(directory, manifest))
 
         self.register(plugin, manifest)
         try:
@@ -73,11 +64,8 @@ class PluginManager:
 
     def register(self, plugin: Plugin, manifest: PluginManifest) -> None:
         """Register a plugin instance without activating it."""
-        if manifest.name in self._plugins:
-            raise PluginError(f"Plugin '{manifest.name}' already registered")
         self._validate_plugin(plugin, manifest.name)
-        self._plugins[manifest.name] = plugin
-        self._manifests[manifest.name] = manifest
+        self.registry.register(plugin, manifest)
 
     def unload(self, name: str) -> Plugin:
         """Deactivate and unregister a loaded plugin."""
@@ -90,62 +78,22 @@ class PluginManager:
 
     def unregister(self, name: str) -> Plugin:
         """Unregister a plugin without calling its lifecycle hooks."""
-        if name not in self._plugins:
-            raise PluginError(f"Plugin '{name}' is not registered")
-        self._manifests.pop(name, None)
-        return self._plugins.pop(name)
+        return self.registry.unregister(name)
 
     def get(self, name: str) -> Plugin:
         """Return a registered plugin by name."""
-        try:
-            return self._plugins[name]
-        except KeyError as exc:
-            raise PluginError(f"Plugin '{name}' is not registered") from exc
+        return self.registry.get(name)
 
     def manifest(self, name: str) -> PluginManifest:
         """Return metadata for a registered plugin."""
-        try:
-            return self._manifests[name]
-        except KeyError as exc:
-            raise PluginError(f"Plugin '{name}' is not registered") from exc
+        return self.registry.manifest(name)
 
     def names(self) -> list[str]:
         """Return registered plugin names in stable order."""
-        return sorted(self._plugins)
+        return self.registry.names()
 
     @staticmethod
     def _validate_plugin(plugin: Any, name: str) -> None:
         for method in ("activate", "deactivate"):
             if not callable(getattr(plugin, method, None)):
                 raise PluginError(f"Plugin '{name}' does not define {method}()")
-
-    @staticmethod
-    def _resolve_entry(plugin_dir: Path, entry: str) -> type[Plugin]:
-        module_name, separator, attribute = entry.partition(":")
-        if not separator or not module_name or not attribute:
-            raise PluginError("Plugin entry must use 'module:Class' syntax")
-        if not all(part.isidentifier() for part in module_name.split(".")):
-            raise PluginError(f"Invalid plugin module name: {module_name}")
-
-        module = PluginManager._load_module(plugin_dir, module_name)
-        plugin_type = getattr(module, attribute, None)
-        if not isinstance(plugin_type, type):
-            raise PluginError(f"Plugin entry '{entry}' does not reference a class")
-        return plugin_type
-
-    @staticmethod
-    def _load_module(plugin_dir: Path, module_name: str) -> ModuleType:
-        relative = Path(*module_name.split("."))
-        source = plugin_dir / relative.with_suffix(".py")
-        if not source.is_file():
-            source = plugin_dir / relative / "__init__.py"
-        if not source.is_file():
-            raise PluginError(f"Plugin module not found: {module_name}")
-
-        unique_name = f"_tkai_plugin_{plugin_dir.name}_{module_name}"
-        spec = importlib.util.spec_from_file_location(unique_name, source)
-        if spec is None or spec.loader is None:
-            raise PluginError(f"Unable to load plugin module: {module_name}")
-        module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(module)
-        return module
