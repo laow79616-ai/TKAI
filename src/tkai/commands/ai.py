@@ -125,6 +125,12 @@ def observability(
     _render(_call(_service.observability_summary), as_json=as_json)
 
 
+@app.command("breaker")
+def breaker(as_json: bool = typer.Option(False, "--json")) -> None:
+    """Show passive provider circuit breaker state without changing it."""
+    _render(_call(_service.breaker_summary), as_json=as_json)
+
+
 @app.command("config")
 def config(
     as_json: bool = typer.Option(False, "--json"),

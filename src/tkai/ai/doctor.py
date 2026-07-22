@@ -11,6 +11,7 @@ from dataclasses import asdict, dataclass, field
 from enum import Enum
 from typing import Any
 
+from tkai.circuit_breaker import CircuitBreakerManager, CircuitState
 from tkai.configuration import ConfigurationManager
 from tkai.credentials import CredentialManager
 from tkai.health import HealthManager, HealthStatus
@@ -131,6 +132,7 @@ class DoctorService:
         metrics_adapter: MetricsAdapter | None = None,
         logger_adapter: LoggerAdapter | None = None,
         trace_adapter: TraceAdapter | None = None,
+        circuit_breaker: CircuitBreakerManager | None = None,
     ) -> None:
         self.manager = manager
         self._transports = tuple(transports)
@@ -147,6 +149,7 @@ class DoctorService:
         self._metrics_adapter = metrics_adapter
         self._logger_adapter = logger_adapter
         self._trace_adapter = trace_adapter
+        self._circuit_breaker = circuit_breaker
 
     def run(self) -> DoctorReport:
         """Run every diagnostic once and return a complete immutable report."""
@@ -160,6 +163,7 @@ class DoctorService:
         checks.extend(self._persistent_configuration_checks())
         checks.extend(self._health_checks())
         checks.extend(self._observability_checks())
+        checks.extend(self._circuit_breaker_checks())
         return DoctorReport(tuple(checks))
 
     def validate_config(self) -> DoctorReport:
@@ -771,6 +775,41 @@ class DoctorService:
                 )
             )
         return tuple(checks)
+
+    def _circuit_breaker_checks(self) -> tuple[DoctorCheck, ...]:
+        """Inspect passive breaker registry and strategy without opening requests."""
+        if self._circuit_breaker is None:
+            return (
+                DoctorCheck(
+                    "circuit_breaker",
+                    DoctorStatus.WARNING,
+                    "No CircuitBreakerManager was supplied",
+                ),
+            )
+        snapshots = self._circuit_breaker.list()
+        states = {item.provider: item.state.value for item in snapshots}
+        open_providers = [
+            item.provider for item in snapshots if item.state is CircuitState.OPEN
+        ]
+        status = DoctorStatus.ERROR if open_providers else DoctorStatus.PASS
+        message = (
+            "One or more provider breakers are open"
+            if open_providers
+            else "Circuit breaker registry and strategy are available"
+        )
+        return (
+            DoctorCheck(
+                "circuit_breaker.registry",
+                status,
+                message,
+                {
+                    "provider_count": len(snapshots),
+                    "states": states,
+                    "open_providers": open_providers,
+                    "strategy": type(self._circuit_breaker.strategy).__name__,
+                },
+            ),
+        )
 
     @staticmethod
     def _unique_objects(values: Iterable[object]) -> tuple[object, ...]:

@@ -7,6 +7,7 @@ from collections.abc import Iterable
 from typing import Any
 
 from tkai import __version__
+from tkai.circuit_breaker import CircuitBreakerManager
 from tkai.configuration import ConfigurationManager
 from tkai.credentials import CredentialManager
 from tkai.health import HealthManager
@@ -47,6 +48,7 @@ class AICommandService:
         metrics_adapter: MetricsAdapter | None = None,
         logger_adapter: LoggerAdapter | None = None,
         trace_adapter: TraceAdapter | None = None,
+        circuit_breaker: CircuitBreakerManager | None = None,
     ) -> None:
         self.manager = manager or ProviderManager()
         self.fallback = fallback or FallbackEngine()
@@ -59,6 +61,13 @@ class AICommandService:
         self.metrics_adapter = metrics_adapter
         self.logger_adapter = logger_adapter
         self.trace_adapter = trace_adapter
+        self.circuit_breaker = circuit_breaker
+
+    def breaker_summary(self) -> list[dict[str, Any]]:
+        """Return stable, safe circuit breaker snapshots for CLI rendering."""
+        if self.circuit_breaker is None:
+            return []
+        return [snapshot.to_dict() for snapshot in self.circuit_breaker.list()]
 
     def observability_summary(self) -> dict[str, Any]:
         """Return safe EventBus, adapter, subscriber, and event metadata."""
@@ -303,6 +312,7 @@ class AICommandService:
             metrics_adapter=self.metrics_adapter,
             logger_adapter=self.logger_adapter,
             trace_adapter=self.trace_adapter,
+            circuit_breaker=self.circuit_breaker,
         )
 
     def _fallback_policy(self) -> FallbackPolicy:
