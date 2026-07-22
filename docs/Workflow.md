@@ -77,3 +77,24 @@ return early at a safe application-defined boundary.
 | `resuming` | `running`, `cancelling` |
 | `cancelling` | `cancelled` |
 | `cancelled`, `completed`, `failed` | terminal |
+
+## Command line
+
+The workflow CLI exposes built-in definitions without requiring a network or
+external service:
+
+```bash
+tkai workflow list
+tkai workflow info hello-workflow
+tkai workflow validate serial-example
+tkai workflow run hello-workflow --input '{"name": "TKAI"}' --json
+tkai workflow run hello-workflow --input-file input.yaml
+tkai workflow checkpoint serial-example --output serial.checkpoint.json
+tkai workflow resume serial-example --checkpoint serial.checkpoint.json --json
+tkai workflow doctor
+```
+
+`checkpoint` writes a paused JSON snapshot before execution. `resume` imports
+that snapshot and executes only work that remains pending. Commands return a
+non-zero exit status for invalid input, unknown workflow names, validation
+failures, or non-completed workflow results.

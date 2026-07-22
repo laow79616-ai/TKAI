@@ -10,8 +10,9 @@
   storage remain future work.
 - Parallel workflows share one mutable context. Introduce immutable inputs or
   synchronization primitives before supporting writes from parallel tasks.
-- Workflow scheduling is in-process only; persistence, cancellation, timeout,
-  and distributed execution are not yet implemented.
+- Workflow control and JSON checkpoint recovery are in-process only; durable
+  storage, distributed execution, and forced termination of synchronous
+  handlers remain intentionally out of scope for V1.0.
 - The repository retains an unrelated top-level `core/` prototype directory;
   it is excluded from package tooling and should be removed only through a
   dedicated migration after confirming external consumers do not rely on it.

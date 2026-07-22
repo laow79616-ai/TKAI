@@ -18,3 +18,11 @@ and provider implementations.
 The public package APIs are exposed from each package's `__init__.py`; legacy
 paths such as `tkai.template_engine.TemplateManager` remain compatibility
 imports for the canonical template manager.
+
+## Workflow runtime
+
+`WorkflowEngine` is a public facade. `WorkflowRuntime` owns execution state,
+`Dispatcher` owns stable dependency-ready queues, `Executor` owns a single
+step invocation, and `CheckpointManager` serializes runtime state. The CLI
+only invokes the facade and does not import scheduler internals, avoiding a
+reverse dependency from commands into runtime control.

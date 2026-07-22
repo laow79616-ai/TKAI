@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- Workflow runtime checkpoints, recovery, cooperative pause/resume/cancel,
+  and native asyncio control boundaries.
+- `tkai workflow checkpoint`, `resume`, and `doctor` commands, plus JSON/YAML
+  run input and machine-readable result output.
+- `checkpoint-example` and `pause-resume-example` built-in workflows.
+
+### Changed
+
+- Workflow release documentation now describes runtime architecture, state
+  transitions, compatibility, and operational limitations.
+
 ## 1.0.0-rc.1
 
 ### Added
