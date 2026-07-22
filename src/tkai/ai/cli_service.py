@@ -10,6 +10,13 @@ from tkai import __version__
 from tkai.configuration import ConfigurationManager
 from tkai.credentials import CredentialManager
 from tkai.health import HealthManager
+from tkai.observability import (
+    EventBus,
+    EventDispatcher,
+    LoggerAdapter,
+    MetricsAdapter,
+    TraceAdapter,
+)
 
 from .doctor import DoctorReport, DoctorService
 from .fallback import FallbackCandidate, FallbackEngine, FallbackPolicy
@@ -35,6 +42,11 @@ class AICommandService:
         credentials: CredentialManager | None = None,
         configuration: ConfigurationManager | None = None,
         health: HealthManager | None = None,
+        observability_bus: EventBus | None = None,
+        observability_dispatcher: EventDispatcher | None = None,
+        metrics_adapter: MetricsAdapter | None = None,
+        logger_adapter: LoggerAdapter | None = None,
+        trace_adapter: TraceAdapter | None = None,
     ) -> None:
         self.manager = manager or ProviderManager()
         self.fallback = fallback or FallbackEngine()
@@ -42,6 +54,40 @@ class AICommandService:
         self.credentials = credentials
         self.configuration = configuration
         self.health = health
+        self.observability_bus = observability_bus
+        self.observability_dispatcher = observability_dispatcher
+        self.metrics_adapter = metrics_adapter
+        self.logger_adapter = logger_adapter
+        self.trace_adapter = trace_adapter
+
+    def observability_summary(self) -> dict[str, Any]:
+        """Return safe EventBus, adapter, subscriber, and event metadata."""
+        bus = self.observability_bus
+        dispatcher = self.observability_dispatcher
+        recent_events = []
+        if bus is not None:
+            recent_events = [
+                {
+                    "name": event.name,
+                    "timestamp": event.timestamp.isoformat(),
+                    "trace_id": event.trace_id,
+                    "correlation_id": event.correlation_id,
+                }
+                for event in bus.events[-5:]
+            ]
+        return {
+            "event_bus": {
+                "available": bus is not None,
+                "event_count": len(bus.events) if bus is not None else 0,
+            },
+            "subscribers": len(dispatcher.subscribers) if dispatcher else 0,
+            "adapters": {
+                "metrics": self.metrics_adapter is not None,
+                "logger": self.logger_adapter is not None,
+                "trace": self.trace_adapter is not None,
+            },
+            "recent_events": recent_events,
+        }
 
     def health_summary(self) -> list[dict[str, Any]]:
         """Return passive health snapshots and their most recent event safely."""
@@ -252,6 +298,11 @@ class AICommandService:
             credentials=self.credentials,
             persistent_configuration=self.configuration,
             health=self.health,
+            observability_bus=self.observability_bus,
+            observability_dispatcher=self.observability_dispatcher,
+            metrics_adapter=self.metrics_adapter,
+            logger_adapter=self.logger_adapter,
+            trace_adapter=self.trace_adapter,
         )
 
     def _fallback_policy(self) -> FallbackPolicy:

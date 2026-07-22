@@ -17,6 +17,14 @@ from tkai.ai import (
 from tkai.ai.cli_service import AICommandService
 from tkai.ai.fallback import FallbackCandidate, FallbackPolicy
 from tkai.commands import ai as ai_commands
+from tkai.observability import (
+    EventBus,
+    EventDispatcher,
+    LoggerAdapter,
+    MetricsAdapter,
+    RequestStarted,
+    TraceAdapter,
+)
 
 runner = CliRunner()
 
@@ -138,3 +146,31 @@ def test_help_and_unknown_command_are_safe(monkeypatch) -> None:
     assert "doctor" in help_result.stdout
     assert unknown_result.exit_code == 2
     assert "Traceback" not in unknown_result.stdout
+
+
+def test_observability_text_json_and_option_errors_are_safe(monkeypatch) -> None:
+    metrics = MetricsAdapter()
+    logger = LoggerAdapter()
+    trace = TraceAdapter()
+    dispatcher = EventDispatcher([metrics, logger, trace])
+    bus = EventBus()
+    bus.subscribe(dispatcher.dispatch)
+    bus.publish(RequestStarted(trace_id="trace-1", correlation_id="request-1"))
+    configured = AICommandService(
+        observability_bus=bus,
+        observability_dispatcher=dispatcher,
+        metrics_adapter=metrics,
+        logger_adapter=logger,
+        trace_adapter=trace,
+    )
+    monkeypatch.setattr(ai_commands, "_service", configured)
+
+    text = runner.invoke(ai_commands.app, ["observability", "--text"])
+    structured = runner.invoke(ai_commands.app, ["observability", "--json"])
+    invalid = runner.invoke(ai_commands.app, ["observability", "--unknown"])
+
+    assert text.exit_code == 0
+    assert "recent_events" in text.stdout
+    assert structured.exit_code == 0
+    assert json.loads(structured.stdout)["subscribers"] == 3
+    assert invalid.exit_code == 2

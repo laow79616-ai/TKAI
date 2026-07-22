@@ -10,9 +10,12 @@ from typing import Any
 
 @dataclass(frozen=True, slots=True)
 class Event:
-    name: str
+    """Base immutable event emitted by framework-neutral observability code."""
+
+    name: str = "Event"
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     trace_id: str | None = None
+    correlation_id: str | None = None
     data: Mapping[str, Any] = field(default_factory=dict)
 
 

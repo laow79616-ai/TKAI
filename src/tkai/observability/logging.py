@@ -16,6 +16,11 @@ class LoggerAdapter(Subscriber):
     def handle(self, event: Event) -> None:
         self.records.append(
             json.dumps(
-                {"event": event.name, "trace_id": event.trace_id}, sort_keys=True
+                {
+                    "event": event.name,
+                    "trace_id": event.trace_id,
+                    "correlation_id": event.correlation_id,
+                },
+                sort_keys=True,
             )
         )

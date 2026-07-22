@@ -114,6 +114,17 @@ def health(as_json: bool = typer.Option(False, "--json")) -> None:
     _render(_call(_service.health_summary), as_json=as_json)
 
 
+@app.command("observability")
+def observability(
+    as_json: bool = typer.Option(False, "--json"),
+    text: bool = typer.Option(False, "--text"),
+) -> None:
+    """Show EventBus, subscriber, adapter, and recent-event metadata."""
+    if as_json and text:
+        _call(lambda: (_ for _ in ()).throw(ValueError("choose --json or --text")))
+    _render(_call(_service.observability_summary), as_json=as_json)
+
+
 @app.command("config")
 def config(
     as_json: bool = typer.Option(False, "--json"),

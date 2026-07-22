@@ -14,6 +14,13 @@ from typing import Any
 from tkai.configuration import ConfigurationManager
 from tkai.credentials import CredentialManager
 from tkai.health import HealthManager, HealthStatus
+from tkai.observability import (
+    EventBus,
+    EventDispatcher,
+    LoggerAdapter,
+    MetricsAdapter,
+    TraceAdapter,
+)
 from tkai.providers.http import AsyncHTTPTransport
 
 from .fallback import FallbackCandidate, FallbackEngine, FallbackPolicy
@@ -119,6 +126,11 @@ class DoctorService:
         credentials: CredentialManager | None = None,
         persistent_configuration: ConfigurationManager | None = None,
         health: HealthManager | None = None,
+        observability_bus: EventBus | None = None,
+        observability_dispatcher: EventDispatcher | None = None,
+        metrics_adapter: MetricsAdapter | None = None,
+        logger_adapter: LoggerAdapter | None = None,
+        trace_adapter: TraceAdapter | None = None,
     ) -> None:
         self.manager = manager
         self._transports = tuple(transports)
@@ -130,6 +142,11 @@ class DoctorService:
         self._credentials = credentials
         self._persistent_configuration = persistent_configuration
         self._health = health
+        self._observability_bus = observability_bus
+        self._observability_dispatcher = observability_dispatcher
+        self._metrics_adapter = metrics_adapter
+        self._logger_adapter = logger_adapter
+        self._trace_adapter = trace_adapter
 
     def run(self) -> DoctorReport:
         """Run every diagnostic once and return a complete immutable report."""
@@ -142,6 +159,7 @@ class DoctorService:
         checks.extend(self._credential_checks())
         checks.extend(self._persistent_configuration_checks())
         checks.extend(self._health_checks())
+        checks.extend(self._observability_checks())
         return DoctorReport(tuple(checks))
 
     def validate_config(self) -> DoctorReport:
@@ -672,6 +690,87 @@ class DoctorService:
         return tuple(checks) or (
             DoctorCheck("health", DoctorStatus.WARNING, "No passive health records"),
         )
+
+    def _observability_checks(self) -> tuple[DoctorCheck, ...]:
+        """Inspect observability wiring and retained event summaries read-only."""
+        checks: list[DoctorCheck] = []
+        bus = self._observability_bus
+        dispatcher = self._observability_dispatcher
+        if bus is None:
+            checks.append(
+                DoctorCheck(
+                    "observability.event_bus",
+                    DoctorStatus.WARNING,
+                    "No EventBus was supplied",
+                )
+            )
+        else:
+            checks.append(
+                DoctorCheck(
+                    "observability.event_bus",
+                    DoctorStatus.PASS,
+                    "EventBus is available",
+                    {
+                        "event_count": len(bus.events),
+                        "recent_events": [event.name for event in bus.events[-5:]],
+                    },
+                )
+            )
+        if dispatcher is None:
+            checks.extend(
+                (
+                    DoctorCheck(
+                        "observability.dispatcher",
+                        DoctorStatus.WARNING,
+                        "No EventDispatcher was supplied",
+                    ),
+                    DoctorCheck(
+                        "observability.subscribers",
+                        DoctorStatus.WARNING,
+                        "No subscribers are registered",
+                        {"count": 0},
+                    ),
+                )
+            )
+        else:
+            count = len(dispatcher.subscribers)
+            checks.extend(
+                (
+                    DoctorCheck(
+                        "observability.dispatcher",
+                        DoctorStatus.PASS,
+                        "EventDispatcher is available",
+                        {"subscriber_count": count},
+                    ),
+                    DoctorCheck(
+                        "observability.subscribers",
+                        DoctorStatus.PASS if count else DoctorStatus.WARNING,
+                        (
+                            "Subscribers are registered"
+                            if count
+                            else "No subscribers are registered"
+                        ),
+                        {"count": count},
+                    ),
+                )
+            )
+        for name, adapter in (
+            ("metrics", self._metrics_adapter),
+            ("logger", self._logger_adapter),
+            ("trace", self._trace_adapter),
+        ):
+            checks.append(
+                DoctorCheck(
+                    f"observability.{name}",
+                    DoctorStatus.PASS if adapter is not None else DoctorStatus.WARNING,
+                    (
+                        f"{name.title()} adapter is available"
+                        if adapter is not None
+                        else f"No {name.title()} adapter was supplied"
+                    ),
+                )
+            )
+        return tuple(checks)
 
     @staticmethod
     def _unique_objects(values: Iterable[object]) -> tuple[object, ...]:
