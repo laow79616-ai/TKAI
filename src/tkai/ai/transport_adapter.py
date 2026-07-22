@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import json
 from collections.abc import AsyncIterator, Callable
 from typing import Any, cast
 
@@ -32,7 +33,18 @@ class TransportAdapter(AsyncTransport):
     ) -> AsyncIterator[bytes]:
         result = await self.request(method, url, **kwargs)
         for item in result if not isinstance(result, dict) else (result,):
-            yield str(item).encode()
+            if isinstance(item, bytes):
+                yield item
+            elif isinstance(item, str):
+                yield item.encode("utf-8")
+            elif isinstance(item, (dict, list)):
+                yield json.dumps(
+                    item, ensure_ascii=False, separators=(",", ":")
+                ).encode("utf-8")
+            else:
+                raise TypeError(
+                    f"Unsupported legacy stream chunk: {type(item).__name__}"
+                )
 
     async def close(self) -> None:
         self._closed = True

@@ -19,6 +19,7 @@ from .models import (
 from .openai_runtime_adapter import OpenAIProviderRuntimeAdapter
 from .provider import BaseAIProvider, CompletionClient
 from .runtime import OwnershipPolicy, ProviderRuntime
+from .sync_bridge import SyncBridge
 from .transport_adapter import resolve_transport
 
 Transport = Callable[
@@ -60,6 +61,7 @@ class OpenAICompatibleProvider(BaseAIProvider):
             model=self.config.model or self.default_model,
             headers=self._headers(),
         )
+        self._bridge = SyncBridge()
 
     async def achat(self, request: ChatRequest) -> ChatResponse:
         """Execute chat through the provider runtime adapter."""
@@ -106,6 +108,7 @@ class OpenAICompatibleProvider(BaseAIProvider):
 
     def chat(self, request: ChatRequest) -> ChatResponse:
         """Normalize an OpenAI-compatible chat-completions response."""
+        return self._bridge.run(self.achat(request))
         model = request.model or self.config.model or self.default_model
         payload = {
             "model": model,
@@ -140,6 +143,8 @@ class OpenAICompatibleProvider(BaseAIProvider):
 
     def stream_chat(self, request: ChatRequest) -> Iterator[ChatResponse]:
         """Normalize injected OpenAI-compatible streaming chunks."""
+        yield from self._bridge.stream(self.astream_chat(request))
+        return
         if self.transport is None:
             raise ProviderConfigurationError("Streaming requires an injected transport")
         model = request.model or self.config.model or self.default_model
@@ -171,6 +176,10 @@ class OpenAICompatibleProvider(BaseAIProvider):
                 raw_response=chunk,
                 request_id=chunk.get("id"),
             )
+
+    def close(self) -> None:
+        """Synchronously close runtime resources through SyncBridge."""
+        self._bridge.run(self.aclose())
 
     def embed(self, request: EmbeddingRequest) -> EmbeddingResponse:
         """Normalize OpenAI-compatible embeddings."""

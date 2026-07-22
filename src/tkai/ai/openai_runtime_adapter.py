@@ -71,7 +71,10 @@ class OpenAIProviderRuntimeAdapter:
         try:
             async with self.runtime.request_scope() as transport:
                 async for raw in transport.stream(
-                    "POST", "/chat/completions", json={"model": model, "stream": True}
+                    "POST",
+                    "/chat/completions",
+                    json={"model": model, "stream": True},
+                    headers=self.headers,
                 ):
                     text = raw.decode().removeprefix("data: ").strip()
                     if text == "[DONE]":
