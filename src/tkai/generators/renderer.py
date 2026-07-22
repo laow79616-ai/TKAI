@@ -4,13 +4,11 @@ TKAI Template Renderer
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from jinja2 import Environment
-from jinja2 import FileSystemLoader
-from jinja2 import StrictUndefined
-from jinja2 import Template
+from jinja2 import Environment, FileSystemLoader, StrictUndefined, Template
 
 
 class TemplateRenderer:
@@ -74,7 +72,7 @@ class TemplateRenderer:
     def add_filter(
         self,
         name: str,
-        func,
+        func: Callable[..., Any],
     ) -> None:
         self._env.filters[name] = func
 

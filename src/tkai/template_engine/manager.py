@@ -1,99 +1,70 @@
-from pathlib import Path
+"""Template discovery and backwards-compatible manifest validation."""
+
+from __future__ import annotations
+
 import json
 from json import JSONDecodeError
+from pathlib import Path
+from typing import Any
+
+from tkai.templates.manager import TemplateManager as _TemplateCatalog
+from tkai.templates.manifest import TemplateManifest
 
 
-class TemplateManager:
+class TemplateManager(_TemplateCatalog):
+    """Manage project templates stored in either JSON or YAML manifest format.
+
+    The legacy ``list_templates``, ``get_template``, and validation methods are
+    retained.  Newer callers may use ``list`` and ``manifest`` inherited from
+    :class:`tkai.templates.manager.TemplateManager`.
     """
-    Manage TKAI project templates.
-    """
 
-    REQUIRED_FIELDS = (
-        "name",
-        "description",
-        "version",
-    )
+    REQUIRED_FIELDS = ("name", "description", "version")
 
-    def __init__(self):
-        self.root = Path(__file__).resolve().parents[3]
-        self.templates_dir = self.root / "templates"
+    def __init__(self, root: str | Path | None = None) -> None:
+        if root is None:
+            root = Path(__file__).resolve().parents[3] / "templates"
+        super().__init__(root)
+        self.templates_dir = self.root
 
-    def list_templates(self):
+    def list_templates(self) -> list[dict[str, Any]]:
+        """Return metadata for each available template.
+
+        Directories without a manifest are represented with minimal metadata,
+        preserving the behavior of the original implementation.
         """
-        Return all available templates.
-        """
-
-        templates = []
-
-        if not self.templates_dir.exists():
-            return templates
-
-        for template_dir in self.templates_dir.iterdir():
-
-            if not template_dir.is_dir():
-                continue
-
-            manifest = template_dir / "template.json"
-
-            if manifest.exists():
-
-                with open(manifest, "r", encoding="utf-8") as f:
-                    templates.append(json.load(f))
-
-            else:
-
-                templates.append(
-                    {
-                        "name": template_dir.name,
-                        "description": "No description",
-                    }
-                )
-
+        templates: list[dict[str, Any]] = []
+        for name in self.list():
+            try:
+                templates.append(self.get_template(name))
+            except FileNotFoundError:
+                templates.append({"name": name, "description": "No description"})
         return templates
 
-    def get_template(self, name: str):
-        """
-        Return one template metadata.
-        """
+    def get_template(self, name: str) -> dict[str, Any]:
+        """Return raw manifest metadata for one template."""
+        directory = self.root / name
+        manifest = self._manifest_path(directory)
+        if manifest is None:
+            raise FileNotFoundError(f"Template '{name}' not found.")
+        return self._read_metadata(manifest)
 
-        manifest = self.templates_dir / name / "template.json"
-
-        if not manifest.exists():
-            raise FileNotFoundError(
-                f"Template '{name}' not found."
-            )
-
-        with open(manifest, "r", encoding="utf-8") as f:
-            return json.load(f)
-
-    def validate_template(self, name: str):
-        """
-        Validate a single template.
-        """
-
-        manifest = self.templates_dir / name / "template.json"
-
-        result = {
-            "name": name,
-            "valid": True,
-            "errors": [],
-        }
-
-        if not manifest.exists():
+    def validate_template(self, name: str) -> dict[str, Any]:
+        """Validate one template manifest without raising on invalid metadata."""
+        result: dict[str, Any] = {"name": name, "valid": True, "errors": []}
+        manifest = self._manifest_path(self.root / name)
+        if manifest is None:
             result["valid"] = False
             result["errors"].append("template.json not found")
             return result
 
         try:
-            with open(manifest, "r", encoding="utf-8") as f:
-                metadata = json.load(f)
-
-        except JSONDecodeError as exc:
+            metadata = self._read_metadata(manifest)
+        except (JSONDecodeError, ValueError) as exc:
             result["valid"] = False
             result["errors"].append(f"Invalid JSON: {exc}")
             return result
-
-        except Exception as exc:
+        except OSError as exc:
             result["valid"] = False
             result["errors"].append(str(exc))
             return result
@@ -101,29 +72,27 @@ class TemplateManager:
         for field in self.REQUIRED_FIELDS:
             if field not in metadata:
                 result["valid"] = False
-                result["errors"].append(
-                    f"Missing field: {field}"
-                )
-
+                result["errors"].append(f"Missing field: {field}")
         return result
 
-    def validate_all(self):
-        """
-        Validate every template.
-        """
+    def validate_all(self) -> list[dict[str, Any]]:
+        """Validate every available template."""
+        return [self.validate_template(name) for name in self.list()]
 
-        results = []
+    @staticmethod
+    def _manifest_path(template_dir: Path) -> Path | None:
+        for name in ("template.json", "template.yaml"):
+            candidate = template_dir / name
+            if candidate.is_file():
+                return candidate
+        return None
 
-        if not self.templates_dir.exists():
-            return results
-
-        for template_dir in sorted(self.templates_dir.iterdir()):
-
-            if not template_dir.is_dir():
-                continue
-
-            results.append(
-                self.validate_template(template_dir.name)
-            )
-
-        return results
+    @staticmethod
+    def _read_metadata(path: Path) -> dict[str, Any]:
+        if path.suffix == ".json":
+            data = json.loads(path.read_text(encoding="utf-8"))
+        else:
+            data = TemplateManifest.load(path.parent).to_dict()
+        if not isinstance(data, dict):
+            raise ValueError("Template manifest must be a mapping")
+        return data

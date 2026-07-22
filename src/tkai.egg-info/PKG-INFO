@@ -1,5 +1,114 @@
 Metadata-Version: 2.4
 Name: tkai
-Version: 0.0.0
+Version: 0.2.1
+Summary: TKAI AI Software Factory
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
 License-File: LICENSE
+Requires-Dist: jinja2>=3.1
+Requires-Dist: PyYAML>=6.0
+Requires-Dist: typer>=0.12
+Provides-Extra: dev
+Requires-Dist: pytest>=8.0; extra == "dev"
+Requires-Dist: ruff>=0.6; extra == "dev"
 Dynamic: license-file
+
+# TKAI
+
+> AI Software Factory
+
+## Overview
+
+TKAI（Toolkit AI）是一个 AI 软件工厂，用于统一管理 AI 软件开发流程。
+
+本项目不负责具体业务，而是负责：
+
+- 项目模板（Templates）
+- AI Prompt 库（Prompts）
+- 开发规范（Standards）
+- 产品文档（Docs）
+- Sprint 与任务管理（Tasks）
+- AI 协作规则（CLAUDE.md）
+
+---
+
+# Project Structure
+
+```
+TKAI/
+├── docs
+├── prompts
+├── standards
+├── tasks
+├── templates
+```
+
+---
+
+# Development Workflow
+
+Requirement
+
+↓
+
+Architecture
+
+↓
+
+Database
+
+↓
+
+API
+
+↓
+
+Implementation
+
+↓
+
+Review
+
+↓
+
+Testing
+
+↓
+
+Release
+
+---
+
+# Tech Stack
+
+Backend
+
+- Python
+- FastAPI
+
+Frontend
+
+- React
+- TypeScript
+
+Database
+
+- PostgreSQL
+
+Automation
+
+- Playwright
+
+Container
+
+- Docker
+
+CI/CD
+
+- GitHub Actions
+
+---
+
+Version
+
+v0.1.0

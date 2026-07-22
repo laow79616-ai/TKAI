@@ -17,8 +17,8 @@ from .constants import (
     OUTPUT_DIR,
     PLUGIN_DIR,
     PROJECT_MARKER,
-    TEMPLATE_DIR,
     TEMP_DIR,
+    TEMPLATE_DIR,
 )
 
 

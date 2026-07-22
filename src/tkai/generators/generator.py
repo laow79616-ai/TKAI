@@ -6,7 +6,8 @@ Generator registry and dispatcher.
 
 from __future__ import annotations
 
-from typing import Any, Iterator
+from collections.abc import Iterator
+from typing import Any
 
 from tkai.core.context import Context
 from tkai.core.exceptions import GeneratorError

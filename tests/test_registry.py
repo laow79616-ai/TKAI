@@ -18,7 +18,7 @@ def test_duplicate_register():
 
     try:
         registry.register("demo", object())
-        assert False
+        raise AssertionError("Expected duplicate registration to fail")
     except RegistryError:
         assert True
 
@@ -45,7 +45,7 @@ def test_missing():
 
     try:
         registry.get("none")
-        assert False
+        raise AssertionError("Expected missing registry item to fail")
     except RegistryError:
         assert True
 

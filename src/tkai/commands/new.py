@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from pathlib import Path
 from types import SimpleNamespace
+from typing import Any
 
 import typer
 
@@ -16,7 +17,7 @@ app = typer.Typer(
 )
 
 
-def run(args) -> None:
+def run(args: Any) -> None:
     """
     Compatibility entry for argparse CLI.
     """
@@ -52,11 +53,7 @@ def create(
     Create a new project.
     """
 
-    template_dir = (
-        Path(__file__).parent.parent
-        / "templates"
-        / template
-    )
+    template_dir = Path(__file__).resolve().parent.parent / "templates" / template
 
     output = Path.cwd() / project
 

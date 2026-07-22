@@ -10,8 +10,8 @@ from tkai import __version__
 def build_variables(
     project_name: str,
     template: str,
-):
-
+ ) -> dict[str, str]:
+    """Build the standard variables available to legacy templates."""
     return {
 
         "project_name": project_name,

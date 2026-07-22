@@ -111,7 +111,7 @@ class VariableManager:
     def from_dict(
         cls,
         data: dict[str, Any],
-    ) -> "VariableManager":
+    ) -> VariableManager:
         """Deserialize variables."""
 
         manager = cls()

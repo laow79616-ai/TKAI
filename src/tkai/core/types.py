@@ -7,8 +7,7 @@ Shared type definitions.
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, Protocol, TypeAlias, TypedDict
-
+from typing import Any, Protocol, Self, TypeAlias, TypedDict
 
 # ----------------------------------------------------------------------
 # Common Aliases
@@ -52,7 +51,7 @@ class Serializable(Protocol):
         ...
 
     @classmethod
-    def from_dict(cls, data: JsonDict):
+    def from_dict(cls, data: JsonDict) -> Self:
         ...
 
 

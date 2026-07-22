@@ -61,7 +61,7 @@ class Project:
         }
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "Project":
+    def from_dict(cls, data: dict[str, Any]) -> Project:
         """Deserialize project."""
 
         created = data.get("created_at")

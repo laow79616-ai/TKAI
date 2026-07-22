@@ -25,11 +25,14 @@ class TemplateManager:
         ).exists()
 
     def list(self) -> list[str]:
+        """Return template directory names in stable order."""
+        if not self.root.exists():
+            return []
         return sorted(
             [
                 p.name
                 for p in self.root.iterdir()
-                if p.is_dir()
+                if p.is_dir() and p.name != "__pycache__"
             ]
         )
 

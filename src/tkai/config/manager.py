@@ -10,6 +10,8 @@ from copy import deepcopy
 from pathlib import Path
 from typing import Any
 
+from tkai.core.mappings import deep_merge, get_dotted, set_dotted
+
 from .defaults import DEFAULT_CONFIG
 from .loader import ConfigLoader
 from .saver import ConfigSaver
@@ -80,18 +82,7 @@ class ConfigManager:
         Example:
             get("llm.provider")
         """
-        value: Any = self._config
-
-        for part in key.split("."):
-            if not isinstance(value, dict):
-                return default
-
-            if part not in value:
-                return default
-
-            value = value[part]
-
-        return value
+        return get_dotted(self._config, key, default)
 
     def set(self, key: str, value: Any) -> None:
         """
@@ -102,13 +93,7 @@ class ConfigManager:
         Example:
             set("llm.provider", "openai")
         """
-        parts = key.split(".")
-        current = self._config
-
-        for part in parts[:-1]:
-            current = current.setdefault(part, {})
-
-        current[parts[-1]] = value
+        set_dotted(self._config, key, value)
 
     @property
     def config(self) -> dict[str, Any]:
@@ -121,12 +106,4 @@ class ConfigManager:
         source: dict[str, Any],
     ) -> None:
         """Deep merge dictionaries."""
-        for key, value in source.items():
-            if (
-                key in target
-                and isinstance(target[key], dict)
-                and isinstance(value, dict)
-            ):
-                ConfigManager._merge_dict(target[key], value)
-            else:
-                target[key] = deepcopy(value)
+        deep_merge(target, source)

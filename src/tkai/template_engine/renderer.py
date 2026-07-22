@@ -3,15 +3,17 @@ Template Renderer
 """
 
 from pathlib import Path
+from typing import Any
 
 
 class TemplateRenderer:
+    """Render the lightweight legacy ``{{ name }}`` template syntax."""
 
     def render_text(
         self,
         text: str,
-        variables: dict,
-    ):
+        variables: dict[str, Any],
+    ) -> str:
 
         for key, value in variables.items():
 
@@ -26,8 +28,8 @@ class TemplateRenderer:
         self,
         source: Path,
         target: Path,
-        variables: dict,
-    ):
+        variables: dict[str, Any],
+    ) -> Path:
 
         text = source.read_text(
             encoding="utf-8"
@@ -47,3 +49,4 @@ class TemplateRenderer:
             text,
             encoding="utf-8",
         )
+        return target

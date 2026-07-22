@@ -5,8 +5,8 @@ TKAI Generator Hooks
 from __future__ import annotations
 
 from collections import defaultdict
+from collections.abc import Callable
 from typing import Any
-from typing import Callable
 
 Hook = Callable[..., Any]
 
@@ -51,8 +51,8 @@ class HookManager:
     def run(
         self,
         event: str,
-        *args,
-        **kwargs,
+        *args: Any,
+        **kwargs: Any,
     ) -> list[Any]:
         """Run hooks."""
         results = []
@@ -65,7 +65,9 @@ class HookManager:
         return results
 
     def has(self, event: str) -> bool:
+        """Return whether an event has registered hooks."""
         return bool(self._hooks.get(event))
 
     def events(self) -> list[str]:
+        """Return event names in stable order."""
         return sorted(self._hooks.keys())

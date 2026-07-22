@@ -32,7 +32,7 @@ def test_duplicate():
 
     try:
         manager.register(gen)
-        assert False
+        raise AssertionError("Expected duplicate registration to fail")
     except GeneratorError:
         assert True
 

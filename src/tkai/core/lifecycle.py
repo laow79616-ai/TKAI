@@ -48,20 +48,25 @@ class Lifecycle:
 
     @property
     def is_created(self) -> bool:
+        """Whether the lifecycle has not yet been initialized."""
         return self._state is LifecycleState.CREATED
 
     @property
     def is_initialized(self) -> bool:
+        """Whether the lifecycle is initialized."""
         return self._state is LifecycleState.INITIALIZED
 
     @property
     def is_started(self) -> bool:
+        """Whether the lifecycle is started."""
         return self._state is LifecycleState.STARTED
 
     @property
     def is_stopped(self) -> bool:
+        """Whether the lifecycle is stopped."""
         return self._state is LifecycleState.STOPPED
 
     @property
     def is_disposed(self) -> bool:
+        """Whether the lifecycle is disposed."""
         return self._state is LifecycleState.DISPOSED
