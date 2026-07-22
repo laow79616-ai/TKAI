@@ -113,3 +113,22 @@ class Workflow:
 
     def cancel(self) -> None:
         self.transition(WorkflowStatus.CANCELLED)
+
+    def checkpoint(self) -> bool:
+        """Return whether cooperative scheduling may start another step."""
+        return self.status is WorkflowStatus.RUNNING
+
+    def snapshot(
+        self, context: WorkflowContext, result: WorkflowResult
+    ) -> dict[str, Any]:
+        """Return an in-memory recovery payload."""
+        return {
+            "status": self.status.name,
+            "context": {
+                "inputs": context.inputs,
+                "shared": context.shared,
+                "results": context.results,
+                "previous_result": context.previous_result,
+            },
+            "result": result.to_dict(),
+        }

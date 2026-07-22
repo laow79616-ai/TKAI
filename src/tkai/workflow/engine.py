@@ -36,6 +36,22 @@ class WorkflowEngine:
         """Run steps and return their results grouped by step."""
         return self.scheduler.run(steps, context or {}, mode)
 
+    async def run_async(
+        self,
+        steps: list[Step],
+        context: dict[str, Any] | None = None,
+        *,
+        max_parallelism: int = 4,
+        fail_fast: bool = True,
+    ) -> list[list[Any] | Exception]:
+        """Execute independent steps with native asyncio concurrency."""
+        return await self.scheduler.run_async(
+            steps,
+            context or {},
+            max_parallelism=max_parallelism,
+            fail_fast=fail_fast,
+        )
+
     def execute(
         self, definition: WorkflowDefinition, inputs: dict[str, Any] | None = None
     ) -> WorkflowResult:
