@@ -2,10 +2,15 @@
 
 from __future__ import annotations
 
+import asyncio
+import inspect
+from collections.abc import AsyncIterator, Awaitable, Iterable, Iterator
+from dataclasses import replace
 from threading import RLock
+from typing import cast
 
 from .config import load_provider_config
-from .errors import ProviderNotFoundError
+from .errors import ProviderConfigurationError, ProviderNotFoundError
 from .models import (
     ChatRequest,
     ChatResponse,
@@ -24,14 +29,26 @@ class ProviderManager:
         self.default_provider: str | None = None
         self._lock = RLock()
 
-    def register(self, provider: AIProvider, *, default: bool = False) -> None:
+    def register(
+        self,
+        provider: AIProvider,
+        *,
+        default: bool = False,
+        aliases: Iterable[str] = (),
+    ) -> None:
         """Register and initialize one provider."""
         provider.validate_config()
         provider.initialize()
         with self._lock:
             self.registry.register(provider)
+            self.registry.register_aliases(provider.name, aliases)
             if default or self.default_provider is None:
                 self.default_provider = provider.name
+
+    def register_alias(self, alias: str, provider: str) -> None:
+        """Register an alternate name for an already registered provider."""
+        with self._lock:
+            self.registry.register_alias(alias, provider)
 
     @classmethod
     def from_config(
@@ -80,6 +97,17 @@ class ProviderManager:
         for name in self.names():
             self.get(name).initialize()
 
+    async def ainitialize_all(self) -> None:
+        """Initialize all providers, awaiting async initializers when present."""
+        for name in self.names():
+            initializer = getattr(self.get(name), "ainitialize", None)
+            if initializer is None:
+                self.get(name).initialize()
+                continue
+            result = initializer()
+            if inspect.isawaitable(result):
+                await result
+
     def close_all(self) -> None:
         """Close all registered providers."""
         self.close()
@@ -110,6 +138,34 @@ class ProviderManager:
         with self._lock:
             return self.registry.names()
 
+    def aliases(self) -> dict[str, str]:
+        """Return registered aliases and their canonical provider names."""
+        with self._lock:
+            return self.registry.aliases()
+
+    def _route(
+        self,
+        request: ChatRequest,
+        provider: str | None,
+        model: str | None,
+    ) -> tuple[AIProvider, ChatRequest]:
+        """Resolve a provider and preserve a provider-prefixed model suffix."""
+        selected = provider
+        selected_model = model or request.model
+        if selected is None and selected_model and "/" in selected_model:
+            prefix, _, remainder = selected_model.partition("/")
+            try:
+                resolved = self.registry.resolve(prefix)
+                self.registry.get(resolved)
+            except ProviderNotFoundError:
+                pass
+            else:
+                selected = resolved
+                selected_model = remainder
+        if selected_model != request.model:
+            request = replace(request, model=selected_model)
+        return self.get(selected), request
+
     def chat(
         self,
         request: ChatRequest,
@@ -118,14 +174,51 @@ class ProviderManager:
         model: str | None = None,
     ) -> ChatResponse:
         """Route a chat request."""
-        selected = provider
-        if selected is None and model and "/" in model:
-            prefix, _, remainder = model.partition("/")
-            if prefix in self.names():
-                selected, request = prefix, ChatRequest(
-                    request.messages, remainder, request.stream, request.options
-                )
-        return self.get(selected).chat(request)
+        selected_provider, selected_request = self._route(request, provider, model)
+        return selected_provider.chat(selected_request)
+
+    async def achat(
+        self,
+        request: ChatRequest,
+        *,
+        provider: str | None = None,
+        model: str | None = None,
+    ) -> ChatResponse:
+        """Route chat through a provider's async API when it is available."""
+        selected_provider, selected_request = self._route(request, provider, model)
+        method = getattr(selected_provider, "achat", None)
+        if method is None:
+            return await asyncio.to_thread(selected_provider.chat, selected_request)
+        response = method(selected_request)
+        if not inspect.isawaitable(response):
+            raise ProviderConfigurationError(
+                f"Provider '{selected_provider.name}' returned a "
+                "non-awaitable achat result"
+            )
+        return await cast(Awaitable[ChatResponse], response)
+
+    def stream_chat(
+        self,
+        request: ChatRequest,
+        *,
+        provider: str | None = None,
+        model: str | None = None,
+    ) -> Iterator[ChatResponse]:
+        """Route a synchronous chat stream without exposing provider internals."""
+        selected_provider, selected_request = self._route(request, provider, model)
+        return selected_provider.stream_chat(selected_request)
+
+    async def astream_chat(
+        self,
+        request: ChatRequest,
+        *,
+        provider: str | None = None,
+        model: str | None = None,
+    ) -> AsyncIterator[ChatResponse]:
+        """Route an asynchronous stream through the selected provider."""
+        selected_provider, selected_request = self._route(request, provider, model)
+        async for response in selected_provider.astream_chat(selected_request):
+            yield response
 
     def health(self) -> dict[str, bool]:
         """Return provider health without mutating registrations."""
@@ -147,3 +240,20 @@ class ProviderManager:
         """Close all providers once."""
         for name in self.names():
             self.unregister(name)
+
+    async def aclose(self) -> None:
+        """Close and unregister providers, awaiting async close methods when present."""
+        for name in self.names():
+            with self._lock:
+                provider = self.registry.unregister(name)
+                if self.default_provider == name:
+                    self.default_provider = None
+            closer = getattr(provider, "aclose", None)
+            if closer is None:
+                await asyncio.to_thread(provider.close)
+                continue
+            result = closer()
+            if inspect.isawaitable(result):
+                await result
+            else:
+                await asyncio.to_thread(provider.close)
