@@ -40,6 +40,7 @@ class OpenAICompatibleProvider(BaseAIProvider):
         super().__init__(client)
         self.config = config or ProviderConfig(name=self.name, type=self.name)
         self.transport = transport
+
     def validate_config(self) -> None:
         """Validate injected transport or configured API credentials."""
         self.config.validate()
