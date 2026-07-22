@@ -11,6 +11,7 @@ from dataclasses import asdict, dataclass, field
 from enum import Enum
 from typing import Any
 
+from tkai.configuration import ConfigurationManager
 from tkai.credentials import CredentialManager
 from tkai.providers.http import AsyncHTTPTransport
 
@@ -115,6 +116,7 @@ class DoctorService:
         fallback: FallbackEngine | FallbackPolicy | None = None,
         fallback_candidates: Sequence[FallbackCandidate[object]] = (),
         credentials: CredentialManager | None = None,
+        persistent_configuration: ConfigurationManager | None = None,
     ) -> None:
         self.manager = manager
         self._transports = tuple(transports)
@@ -124,6 +126,7 @@ class DoctorService:
         self._fallback = fallback
         self._fallback_candidates = tuple(fallback_candidates)
         self._credentials = credentials
+        self._persistent_configuration = persistent_configuration
 
     def run(self) -> DoctorReport:
         """Run every diagnostic once and return a complete immutable report."""
@@ -134,6 +137,7 @@ class DoctorService:
         checks.extend(self._runtime_checks())
         checks.extend(self._fallback_checks())
         checks.extend(self._credential_checks())
+        checks.extend(self._persistent_configuration_checks())
         return DoctorReport(tuple(checks))
 
     def validate_config(self) -> DoctorReport:
@@ -572,6 +576,54 @@ class DoctorService:
         return tuple(checks) or (
             DoctorCheck(
                 "credentials", DoctorStatus.WARNING, "No credentials are configured"
+            ),
+        )
+
+    def _persistent_configuration_checks(self) -> tuple[DoctorCheck, ...]:
+        """Inspect local configuration source metadata without exposing values."""
+        if self._persistent_configuration is None:
+            return (
+                DoctorCheck(
+                    "persistent_configuration",
+                    DoctorStatus.WARNING,
+                    "No persistent configuration is supplied",
+                ),
+            )
+        config = self._persistent_configuration.list()
+        if not config.data:
+            return (
+                DoctorCheck(
+                    "persistent_configuration",
+                    DoctorStatus.WARNING,
+                    "Configuration is empty",
+                    {
+                        "source": config.source,
+                        "override_chain": list(config.overrides),
+                        "loaded_files": [],
+                    },
+                ),
+            )
+        duplicates = len(config.overrides) != len(set(config.overrides))
+        status = DoctorStatus.ERROR if duplicates else DoctorStatus.PASS
+        message = (
+            "Duplicate configuration sources"
+            if duplicates
+            else "Configuration is loaded"
+        )
+        return (
+            DoctorCheck(
+                "persistent_configuration",
+                status,
+                message,
+                {
+                    "source": config.source,
+                    "override_chain": list(config.overrides),
+                    "loaded_files": [
+                        item
+                        for item in config.overrides
+                        if item in {"workspace", "user"}
+                    ],
+                },
             ),
         )
 

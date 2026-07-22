@@ -221,6 +221,7 @@ class AICommandService:
             fallback=self.fallback,
             fallback_candidates=self.fallback_candidates,
             credentials=self.credentials,
+            persistent_configuration=self.configuration,
         )
 
     def _fallback_policy(self) -> FallbackPolicy:
