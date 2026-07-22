@@ -35,7 +35,11 @@ class EventBus:
         if handlers is not None and handler in handlers:
             handlers.remove(handler)
 
-    def emit(self, event: Event) -> None:
+    def emit(self, event: Event, *, fail_fast: bool = False) -> None:
         """Synchronously notify handlers registered for ``event``."""
         for handler in tuple(self._handlers.get(event.name, ())):
-            handler(event)
+            try:
+                handler(event)
+            except Exception:
+                if fail_fast:
+                    raise

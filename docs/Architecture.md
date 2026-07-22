@@ -10,6 +10,11 @@ commands → generators/templates/config → core
 plugins, workflow, ai                → core
 ```
 
+The workflow layer depends only on core exceptions and typed local models.
+Its executor owns retry and timeout mechanics, while the scheduler retains the
+compatible serial/parallel facade. This keeps workflows independent of plugins
+and provider implementations.
+
 The public package APIs are exposed from each package's `__init__.py`; legacy
 paths such as `tkai.template_engine.TemplateManager` remain compatibility
 imports for the canonical template manager.

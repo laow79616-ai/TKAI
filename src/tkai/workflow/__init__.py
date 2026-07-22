@@ -2,7 +2,7 @@
 
 from .engine import WorkflowEngine
 from .events import Event, EventBus
-from .executor import Executor
+from .executor import ExecutionError, Executor, RetryError, StepError, WorkflowExecutor
 from .models import (
     StepResult,
     StepStatus,
@@ -14,18 +14,24 @@ from .models import (
 )
 from .registry import WorkflowNotFoundError, WorkflowRegistry, WorkflowValidationError
 from .scheduler import ScheduleMode, Scheduler
-from .task import Condition, Step, Task, TaskHandler
+from .task import Condition, RetryPolicy, Step, StepDependency, Task, TaskHandler
 
 __all__ = (
     "Condition",
     "Event",
     "EventBus",
     "Executor",
+    "ExecutionError",
+    "RetryError",
+    "StepError",
+    "WorkflowExecutor",
     "ScheduleMode",
     "Scheduler",
     "Step",
+    "StepDependency",
     "Task",
     "TaskHandler",
+    "RetryPolicy",
     "WorkflowEngine",
     "Workflow",
     "WorkflowContext",
