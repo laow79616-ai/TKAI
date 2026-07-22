@@ -4,6 +4,7 @@ from tkai.core.exceptions import AIProviderError
 
 from .client import AIClient
 from .config import load_provider_config
+from .doctor import DoctorCheck, DoctorReport, DoctorService, DoctorStatus
 from .errors import (
     AuthenticationError,
     CapabilityNotSupportedError,
@@ -63,6 +64,10 @@ __all__ = (
     "ChatResponse",
     "CompletionClient",
     "DeepSeekProvider",
+    "DoctorCheck",
+    "DoctorReport",
+    "DoctorService",
+    "DoctorStatus",
     "EmbeddingRequest",
     "EmbeddingResponse",
     "FallbackCandidate",
