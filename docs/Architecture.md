@@ -26,3 +26,9 @@ imports for the canonical template manager.
 step invocation, and `CheckpointManager` serializes runtime state. The CLI
 only invokes the facade and does not import scheduler internals, avoiding a
 reverse dependency from commands into runtime control.
+
+## AI providers
+
+The AI layer is independent of workflow runtime internals. `ProviderManager`
+routes normalized requests to provider adapters; adapters return TKAI models,
+not third-party SDK objects. Optional SDKs are lazy imports.

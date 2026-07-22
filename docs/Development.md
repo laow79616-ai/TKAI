@@ -32,3 +32,7 @@ python -m ruff check .
 python -m black --check .
 python -m mypy src
 ```
+
+Provider tests must inject a transport or SDK fake. Do not add tests that call
+real provider endpoints or include a credential in source, fixture output, or
+an assertion message.

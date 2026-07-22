@@ -8,6 +8,7 @@ from __future__ import annotations
 import typer
 
 from tkai import __version__
+from tkai.commands.ai import app as ai_app
 from tkai.commands.doctor import app as doctor_app
 from tkai.commands.init import app as init_app
 from tkai.commands.new import app as new_app
@@ -48,6 +49,7 @@ app.add_typer(
 )
 
 app.add_typer(workflow_app, name="workflow")
+app.add_typer(ai_app, name="ai")
 
 
 @app.command()

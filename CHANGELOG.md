@@ -9,6 +9,8 @@
 - `tkai workflow checkpoint`, `resume`, and `doctor` commands, plus JSON/YAML
   run input and machine-readable result output.
 - `checkpoint-example` and `pause-resume-example` built-in workflows.
+- Provider-neutral chat, embedding, configuration, manager, and error APIs.
+- Offline-testable OpenAI-compatible and OpenRouter provider adapters.
 
 ### Changed
 

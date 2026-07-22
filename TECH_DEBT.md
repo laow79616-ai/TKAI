@@ -8,6 +8,8 @@
 - AI providers intentionally use injected transport clients. Official SDK
   adapters, streaming responses, tool calling, rate-limit handling, and secret
   storage remain future work.
+- Provider configuration construction from project YAML/JSON and environment
+  expansion is application-owned pending configuration schema consolidation.
 - Parallel workflows share one mutable context. Introduce immutable inputs or
   synchronization primitives before supporting writes from parallel tasks.
 - Workflow control and JSON checkpoint recovery are in-process only; durable
