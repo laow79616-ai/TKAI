@@ -5,7 +5,9 @@ from __future__ import annotations
 from tkai.ai import (
     ChatMessage,
     ChatRequest,
+    ClaudeProvider,
     EmbeddingRequest,
+    GeminiProvider,
     OpenAIProvider,
     OpenRouterProvider,
     ProviderConfig,
@@ -69,3 +71,24 @@ def test_openrouter_preserves_safe_custom_headers_and_manager_routes() -> None:
     assert manager.chat(ChatRequest((ChatMessage("user", "hello"),))).content == "ok"
     assert captured["HTTP-Referer"] == "https://example.test"
     assert "secret" not in repr(provider.config)
+
+
+def test_optional_sdk_adapters_support_injected_fakes_without_network() -> None:
+    class Fake:
+        def chat(self, request):
+            return {
+                "content": "fake",
+                "model": request.model,
+                "usage": {"input_tokens": 1},
+            }
+
+        def embed(self, values, model=None):
+            return {"embeddings": [[float(index)] for index, _ in enumerate(values)]}
+
+    request = ChatRequest(
+        (ChatMessage("system", "rules"), ChatMessage("user", "hi")), "fake-model"
+    )
+    assert ClaudeProvider(sdk_client=Fake()).chat(request).content == "fake"
+    assert GeminiProvider(sdk_client=Fake()).embed(
+        EmbeddingRequest(("one", "two"))
+    ).embeddings == ((0.0,), (1.0,))

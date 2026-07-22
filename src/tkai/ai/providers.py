@@ -208,8 +208,15 @@ class _OptionalSDKProvider(BaseAIProvider):
 
     dependency = ""
 
+    def __init__(
+        self, client: CompletionClient | None = None, *, sdk_client: Any = None
+    ) -> None:
+        super().__init__(client)
+        self.sdk_client = sdk_client
+        self._closed = False
+
     def validate_config(self) -> None:
-        if self.client is not None:
+        if self.client is not None or self.sdk_client is not None:
             return
         try:
             __import__(self.dependency)
@@ -218,6 +225,93 @@ class _OptionalSDKProvider(BaseAIProvider):
                 "Provider "
                 f"'{self.name}' requires optional dependency '{self.dependency}'"
             ) from exc
+
+    def _sdk_response(self, request: ChatRequest) -> Any:
+        if self.sdk_client is None:
+            self.validate_config()
+            raise ProviderConfigurationError(
+                f"Provider '{self.name}' has no SDK client"
+            )
+        if hasattr(self.sdk_client, "chat"):
+            return self.sdk_client.chat(request)
+        if hasattr(self.sdk_client, "messages") and hasattr(
+            self.sdk_client.messages, "create"
+        ):
+            return self.sdk_client.messages.create(
+                messages=request.messages, model=request.model
+            )
+        raise ProviderConfigurationError(
+            f"Provider '{self.name}' SDK client has no chat method"
+        )
+
+    def chat(self, request: ChatRequest) -> ChatResponse:
+        """Normalize an injected SDK/fake response without exposing SDK types."""
+        response = self._sdk_response(request)
+        if isinstance(response, dict):
+            content = response.get("content", "")
+            usage = response.get("usage", {})
+            model = response.get("model", request.model or self.default_model)
+            finish = response.get("stop_reason") or response.get("finish_reason")
+            tools = tuple(response.get("tool_calls") or response.get("tool_use") or ())
+            request_id = response.get("id") or response.get("request_id")
+        else:
+            content = getattr(response, "content", "")
+            usage = getattr(response, "usage", {})
+            model = getattr(response, "model", request.model or self.default_model)
+            finish = getattr(response, "stop_reason", None) or getattr(
+                response, "finish_reason", None
+            )
+            tools = tuple(getattr(response, "tool_calls", ()) or ())
+            request_id = getattr(response, "id", None)
+        if isinstance(usage, dict):
+            normalized_usage = Usage(
+                int(usage.get("input_tokens", usage.get("prompt_tokens", 0)) or 0),
+                int(usage.get("output_tokens", usage.get("completion_tokens", 0)) or 0),
+                int(usage.get("total_tokens", 0) or 0),
+            )
+        else:
+            normalized_usage = Usage()
+        return ChatResponse(
+            str(content),
+            str(model),
+            self.name,
+            finish,
+            normalized_usage,
+            tools,
+            response,
+            request_id,
+        )
+
+    def stream_chat(self, request: ChatRequest) -> Iterator[ChatResponse]:
+        """Normalize injected SDK stream chunks."""
+        if self.sdk_client is None or not hasattr(self.sdk_client, "stream_chat"):
+            raise ProviderConfigurationError(
+                f"Provider '{self.name}' SDK client has no streaming method"
+            )
+        for chunk in self.sdk_client.stream_chat(request):
+            if isinstance(chunk, dict):
+                yield ChatResponse(
+                    str(chunk.get("delta", chunk.get("content", "")) or ""),
+                    chunk.get("model", request.model or self.default_model),
+                    self.name,
+                    chunk.get("finish_reason"),
+                    raw_response=chunk,
+                    request_id=chunk.get("id"),
+                )
+            else:
+                yield ChatResponse(
+                    str(chunk), request.model or self.default_model, self.name
+                )
+
+    def close(self) -> None:
+        """Close an injected SDK client at most once."""
+        if (
+            not self._closed
+            and self.sdk_client is not None
+            and hasattr(self.sdk_client, "close")
+        ):
+            self.sdk_client.close()
+        self._closed = True
 
 
 class ClaudeProvider(_OptionalSDKProvider):
@@ -234,3 +328,21 @@ class GeminiProvider(_OptionalSDKProvider):
     name = "gemini"
     default_model = "gemini-pro"
     dependency = "google.generativeai"
+
+    def embed(self, request: EmbeddingRequest) -> EmbeddingResponse:
+        """Normalize injected Gemini embedding results."""
+        if self.sdk_client is None or not hasattr(self.sdk_client, "embed"):
+            raise ProviderConfigurationError(
+                "Gemini SDK client has no embedding method"
+            )
+        response = self.sdk_client.embed(list(request.input), model=request.model)
+        values = (
+            response.get("embeddings", response)
+            if isinstance(response, dict)
+            else response
+        )
+        return EmbeddingResponse(
+            tuple(tuple(item) for item in values),
+            request.model or self.default_model,
+            self.name,
+        )
