@@ -12,7 +12,7 @@ from tkai.ai import (
     load_provider_config,
     raise_for_status,
 )
-from tkai.ai.retry import retry_call
+from tkai.ai.retry import parse_retry_after, retry_call
 
 
 def test_config_expands_environment_and_rejects_missing(monkeypatch) -> None:
@@ -43,3 +43,5 @@ def test_http_mapping_and_retry_are_offline() -> None:
         return "ok"
 
     assert retry_call(operation, max_retries=1) == "ok"
+    assert parse_retry_after("15") == 15
+    assert parse_retry_after("invalid") is None

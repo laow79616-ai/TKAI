@@ -111,10 +111,31 @@ class ProviderManager:
             return self.registry.names()
 
     def chat(
-        self, request: ChatRequest, *, provider: str | None = None
+        self,
+        request: ChatRequest,
+        *,
+        provider: str | None = None,
+        model: str | None = None,
     ) -> ChatResponse:
         """Route a chat request."""
-        return self.get(provider).chat(request)
+        selected = provider
+        if selected is None and model and "/" in model:
+            prefix, _, remainder = model.partition("/")
+            if prefix in self.names():
+                selected, request = prefix, ChatRequest(
+                    request.messages, remainder, request.stream, request.options
+                )
+        return self.get(selected).chat(request)
+
+    def health(self) -> dict[str, bool]:
+        """Return provider health without mutating registrations."""
+        return {name: self.get(name).health_check() for name in self.names()}
+
+    def capabilities(self) -> dict[str, object]:
+        """Return advertised capabilities by provider."""
+        return {
+            name: getattr(self.get(name), "capabilities", None) for name in self.names()
+        }
 
     def embed(
         self, request: EmbeddingRequest, *, provider: str | None = None
