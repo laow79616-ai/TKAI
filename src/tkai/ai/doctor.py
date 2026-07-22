@@ -11,6 +11,7 @@ from dataclasses import asdict, dataclass, field
 from enum import Enum
 from typing import Any
 
+from tkai.cache import CacheManager
 from tkai.circuit_breaker import CircuitBreakerManager, CircuitState
 from tkai.configuration import ConfigurationManager
 from tkai.credentials import CredentialManager
@@ -139,6 +140,7 @@ class DoctorService:
         routing: RoutingManager | None = None,
         load: LoadManager | None = None,
         rate_limit: RateLimitManager | None = None,
+        cache: CacheManager | None = None,
     ) -> None:
         self.manager = manager
         self._transports = tuple(transports)
@@ -159,6 +161,7 @@ class DoctorService:
         self._routing = routing
         self._load = load
         self._rate_limit = rate_limit
+        self._cache = cache
 
     def run(self) -> DoctorReport:
         """Run every diagnostic once and return a complete immutable report."""
@@ -176,6 +179,7 @@ class DoctorService:
         checks.extend(self._routing_checks())
         checks.extend(self._load_checks())
         checks.extend(self._rate_limit_checks())
+        checks.extend(self._cache_checks())
         return DoctorReport(tuple(checks))
 
     def validate_config(self) -> DoctorReport:
@@ -967,6 +971,32 @@ class DoctorService:
                     "event_bus_available": self._rate_limit.event_bus is not None,
                     "routing_strategy_integration": strategy_attached,
                 },
+            ),
+        )
+
+    def _cache_checks(self) -> tuple[DoctorCheck, ...]:
+        """Inspect backend registry and local cache effectiveness without reads."""
+        if self._cache is None:
+            return (
+                DoctorCheck(
+                    "cache", DoctorStatus.WARNING, "No CacheManager was supplied"
+                ),
+            )
+        summaries = self._cache.summary()
+        if not summaries:
+            return (
+                DoctorCheck(
+                    "cache.registry",
+                    DoctorStatus.ERROR,
+                    "No cache backends are registered",
+                ),
+            )
+        return (
+            DoctorCheck(
+                "cache.registry",
+                DoctorStatus.PASS,
+                "Cache backend registry is available",
+                {"backends": summaries, "backend_count": len(summaries)},
             ),
         )
 

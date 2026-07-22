@@ -149,6 +149,12 @@ def rate_limit(as_json: bool = typer.Option(False, "--json")) -> None:
     _render(_call(_service.rate_limit_summary), as_json=as_json)
 
 
+@app.command("cache")
+def cache(as_json: bool = typer.Option(False, "--json")) -> None:
+    """Show safe local cache backend statistics without cached values."""
+    _render(_call(_service.cache_summary), as_json=as_json)
+
+
 @app.command("config")
 def config(
     as_json: bool = typer.Option(False, "--json"),

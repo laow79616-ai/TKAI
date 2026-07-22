@@ -7,6 +7,7 @@ from collections.abc import Iterable
 from typing import Any
 
 from tkai import __version__
+from tkai.cache import CacheManager
 from tkai.circuit_breaker import CircuitBreakerManager
 from tkai.configuration import ConfigurationManager
 from tkai.credentials import CredentialManager
@@ -55,6 +56,7 @@ class AICommandService:
         routing: RoutingManager | None = None,
         load: LoadManager | None = None,
         rate_limit: RateLimitManager | None = None,
+        cache: CacheManager | None = None,
     ) -> None:
         self.manager = manager or ProviderManager()
         self.fallback = fallback or FallbackEngine()
@@ -71,6 +73,11 @@ class AICommandService:
         self.routing = routing
         self.load = load
         self.rate_limit = rate_limit
+        self.cache = cache
+
+    def cache_summary(self) -> list[dict[str, object]]:
+        """Return safe local cache backend summaries without entry values."""
+        return self.cache.summary() if self.cache is not None else []
 
     def rate_limit_summary(self) -> list[dict[str, object]]:
         """Return stable JSON-ready local quota snapshots without provider calls."""
@@ -366,6 +373,7 @@ class AICommandService:
             routing=self.routing,
             load=self.load,
             rate_limit=self.rate_limit,
+            cache=self.cache,
         )
 
     def _fallback_policy(self) -> FallbackPolicy:
