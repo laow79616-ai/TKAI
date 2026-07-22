@@ -18,6 +18,7 @@ from tkai.observability import (
     MetricsAdapter,
     TraceAdapter,
 )
+from tkai.routing import RoutingManager
 
 from .doctor import DoctorReport, DoctorService
 from .fallback import FallbackCandidate, FallbackEngine, FallbackPolicy
@@ -49,6 +50,7 @@ class AICommandService:
         logger_adapter: LoggerAdapter | None = None,
         trace_adapter: TraceAdapter | None = None,
         circuit_breaker: CircuitBreakerManager | None = None,
+        routing: RoutingManager | None = None,
     ) -> None:
         self.manager = manager or ProviderManager()
         self.fallback = fallback or FallbackEngine()
@@ -62,12 +64,42 @@ class AICommandService:
         self.logger_adapter = logger_adapter
         self.trace_adapter = trace_adapter
         self.circuit_breaker = circuit_breaker
+        self.routing = routing
 
     def breaker_summary(self) -> list[dict[str, Any]]:
         """Return stable, safe circuit breaker snapshots for CLI rendering."""
         if self.circuit_breaker is None:
             return []
         return [snapshot.to_dict() for snapshot in self.circuit_breaker.list()]
+
+    def routing_summary(self) -> dict[str, Any]:
+        """Return routing metadata and a passive simulated current decision."""
+        if self.routing is None:
+            return {
+                "registered_providers": [],
+                "strategy": None,
+                "metadata": [],
+                "current_decision": None,
+            }
+        metadata = self.routing.list()
+        decision = self.routing.route()
+        return {
+            "registered_providers": [item.provider for item in metadata],
+            "strategy": type(self.routing.strategy).__name__,
+            "metadata": [
+                {
+                    "provider": item.provider,
+                    "priority": item.priority,
+                    "weight": item.weight,
+                    "prompt_cost_per_1k": item.prompt_cost_per_1k,
+                    "completion_cost_per_1k": item.completion_cost_per_1k,
+                    "capabilities": sorted(item.capabilities),
+                    "tags": sorted(item.tags),
+                }
+                for item in metadata
+            ],
+            "current_decision": decision.to_dict(),
+        }
 
     def observability_summary(self) -> dict[str, Any]:
         """Return safe EventBus, adapter, subscriber, and event metadata."""
@@ -313,6 +345,7 @@ class AICommandService:
             logger_adapter=self.logger_adapter,
             trace_adapter=self.trace_adapter,
             circuit_breaker=self.circuit_breaker,
+            routing=self.routing,
         )
 
     def _fallback_policy(self) -> FallbackPolicy:

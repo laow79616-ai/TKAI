@@ -23,6 +23,7 @@ from tkai.observability import (
     TraceAdapter,
 )
 from tkai.providers.http import AsyncHTTPTransport
+from tkai.routing import RoutingManager
 
 from .fallback import FallbackCandidate, FallbackEngine, FallbackPolicy
 from .manager import ProviderManager
@@ -133,6 +134,7 @@ class DoctorService:
         logger_adapter: LoggerAdapter | None = None,
         trace_adapter: TraceAdapter | None = None,
         circuit_breaker: CircuitBreakerManager | None = None,
+        routing: RoutingManager | None = None,
     ) -> None:
         self.manager = manager
         self._transports = tuple(transports)
@@ -150,6 +152,7 @@ class DoctorService:
         self._logger_adapter = logger_adapter
         self._trace_adapter = trace_adapter
         self._circuit_breaker = circuit_breaker
+        self._routing = routing
 
     def run(self) -> DoctorReport:
         """Run every diagnostic once and return a complete immutable report."""
@@ -164,6 +167,7 @@ class DoctorService:
         checks.extend(self._health_checks())
         checks.extend(self._observability_checks())
         checks.extend(self._circuit_breaker_checks())
+        checks.extend(self._routing_checks())
         return DoctorReport(tuple(checks))
 
     def validate_config(self) -> DoctorReport:
@@ -807,6 +811,53 @@ class DoctorService:
                     "states": states,
                     "open_providers": open_providers,
                     "strategy": type(self._circuit_breaker.strategy).__name__,
+                },
+            ),
+        )
+
+    def _routing_checks(self) -> tuple[DoctorCheck, ...]:
+        """Inspect routing metadata and passive integrations without provider calls."""
+        if self._routing is None:
+            return (
+                DoctorCheck(
+                    "routing",
+                    DoctorStatus.WARNING,
+                    "No RoutingManager was supplied",
+                ),
+            )
+        metadata = self._routing.list()
+        integration = {
+            "strategy": type(self._routing.strategy).__name__,
+            "health_integration": self._routing.router.health_registry is not None,
+            "breaker_integration": self._routing.router.breaker_registry is not None,
+        }
+        if not metadata:
+            return (
+                DoctorCheck(
+                    "routing.registry",
+                    DoctorStatus.WARNING,
+                    "No provider routing metadata is registered",
+                    integration,
+                ),
+            )
+        decision = self._routing.route()
+        status = (
+            DoctorStatus.PASS if decision.selected_provider else DoctorStatus.WARNING
+        )
+        return (
+            DoctorCheck(
+                "routing.registry",
+                status,
+                (
+                    "Routing metadata and passive integrations are available"
+                    if decision.selected_provider
+                    else "No provider currently satisfies routing filters"
+                ),
+                {
+                    **integration,
+                    "provider_count": len(metadata),
+                    "providers": [item.provider for item in metadata],
+                    "current_decision": decision.selected_provider,
                 },
             ),
         )

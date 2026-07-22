@@ -131,6 +131,12 @@ def breaker(as_json: bool = typer.Option(False, "--json")) -> None:
     _render(_call(_service.breaker_summary), as_json=as_json)
 
 
+@app.command("routing")
+def routing(as_json: bool = typer.Option(False, "--json")) -> None:
+    """Show registered routing metadata and a passive simulated decision."""
+    _render(_call(_service.routing_summary), as_json=as_json)
+
+
 @app.command("config")
 def config(
     as_json: bool = typer.Option(False, "--json"),
