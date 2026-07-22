@@ -1,0 +1,19 @@
+# TKAI Roadmap
+
+## Completed foundation
+
+- Core runtime, configuration, command, generator, and template services.
+- Plugin framework with discovery, registration, and lifecycle management.
+- Workflow engine with serial/parallel execution, conditions, loops, retries,
+  and events.
+- Provider-neutral AI framework.
+
+## Next milestones
+
+1. Add production SDK adapters and credential configuration for every AI
+   provider, while keeping the injected-client interface intact.
+2. Add persistent workflow scheduling, cancellation, timeouts, and durable
+   event delivery.
+3. Add plugin version constraints, dependency resolution, and isolation.
+4. Expand templates for React, Docker, PostgreSQL, Redis, and Playwright.
+5. Add end-to-end generated-project validation in CI.
