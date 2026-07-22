@@ -24,6 +24,7 @@ from tkai.observability import (
     TraceAdapter,
 )
 from tkai.providers.http import AsyncHTTPTransport
+from tkai.rate_limit import RateLimitAwareStrategy, RateLimitManager
 from tkai.routing import RoutingManager
 
 from .fallback import FallbackCandidate, FallbackEngine, FallbackPolicy
@@ -137,6 +138,7 @@ class DoctorService:
         circuit_breaker: CircuitBreakerManager | None = None,
         routing: RoutingManager | None = None,
         load: LoadManager | None = None,
+        rate_limit: RateLimitManager | None = None,
     ) -> None:
         self.manager = manager
         self._transports = tuple(transports)
@@ -156,6 +158,7 @@ class DoctorService:
         self._circuit_breaker = circuit_breaker
         self._routing = routing
         self._load = load
+        self._rate_limit = rate_limit
 
     def run(self) -> DoctorReport:
         """Run every diagnostic once and return a complete immutable report."""
@@ -172,6 +175,7 @@ class DoctorService:
         checks.extend(self._circuit_breaker_checks())
         checks.extend(self._routing_checks())
         checks.extend(self._load_checks())
+        checks.extend(self._rate_limit_checks())
         return DoctorReport(tuple(checks))
 
     def validate_config(self) -> DoctorReport:
@@ -915,6 +919,52 @@ class DoctorService:
                     "collector": type(self._load.collector).__name__,
                     "evaluator": type(self._load.evaluator).__name__,
                     "event_bus_subscribed": self._load.collector.event_bus is not None,
+                    "routing_strategy_integration": strategy_attached,
+                },
+            ),
+        )
+
+    def _rate_limit_checks(self) -> tuple[DoctorCheck, ...]:
+        """Inspect local quotas, EventBus, strategy, and routing composition."""
+        if self._rate_limit is None:
+            return (
+                DoctorCheck(
+                    "rate_limit",
+                    DoctorStatus.WARNING,
+                    "No RateLimitManager was supplied",
+                ),
+            )
+        snapshots = self._rate_limit.list()
+        exhausted = [
+            f"{item.provider}/{item.scope}"
+            for item in snapshots
+            if item.requests_per_minute and item.remaining_requests == 0
+        ]
+        routing_strategy = self._routing.strategy if self._routing is not None else None
+        strategy_attached = (
+            isinstance(routing_strategy, RateLimitAwareStrategy)
+            and routing_strategy.registry is self._rate_limit.registry
+            and routing_strategy.quota_strategy is self._rate_limit.strategy
+        )
+        if exhausted:
+            status = DoctorStatus.WARNING
+            message = "One or more local quotas are exhausted"
+        elif not snapshots:
+            status = DoctorStatus.WARNING
+            message = "No provider quotas are registered"
+        else:
+            status = DoctorStatus.PASS
+            message = "Local quota registry and strategy are available"
+        return (
+            DoctorCheck(
+                "rate_limit.registry",
+                status,
+                message,
+                {
+                    "provider_quota_count": len(snapshots),
+                    "exhausted_quotas": exhausted,
+                    "strategy": type(self._rate_limit.strategy).__name__,
+                    "event_bus_available": self._rate_limit.event_bus is not None,
                     "routing_strategy_integration": strategy_attached,
                 },
             ),

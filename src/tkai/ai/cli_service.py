@@ -19,6 +19,7 @@ from tkai.observability import (
     MetricsAdapter,
     TraceAdapter,
 )
+from tkai.rate_limit import RateLimitManager
 from tkai.routing import RoutingManager
 
 from .doctor import DoctorReport, DoctorService
@@ -53,6 +54,7 @@ class AICommandService:
         circuit_breaker: CircuitBreakerManager | None = None,
         routing: RoutingManager | None = None,
         load: LoadManager | None = None,
+        rate_limit: RateLimitManager | None = None,
     ) -> None:
         self.manager = manager or ProviderManager()
         self.fallback = fallback or FallbackEngine()
@@ -68,6 +70,13 @@ class AICommandService:
         self.circuit_breaker = circuit_breaker
         self.routing = routing
         self.load = load
+        self.rate_limit = rate_limit
+
+    def rate_limit_summary(self) -> list[dict[str, object]]:
+        """Return stable JSON-ready local quota snapshots without provider calls."""
+        if self.rate_limit is None:
+            return []
+        return [snapshot.to_dict() for snapshot in self.rate_limit.list()]
 
     def load_summary(self) -> list[dict[str, object]]:
         """Return stable JSON-ready local load snapshots without provider calls."""
@@ -356,6 +365,7 @@ class AICommandService:
             circuit_breaker=self.circuit_breaker,
             routing=self.routing,
             load=self.load,
+            rate_limit=self.rate_limit,
         )
 
     def _fallback_policy(self) -> FallbackPolicy:

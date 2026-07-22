@@ -143,6 +143,12 @@ def load(as_json: bool = typer.Option(False, "--json")) -> None:
     _render(_call(_service.load_summary), as_json=as_json)
 
 
+@app.command("rate-limit")
+def rate_limit(as_json: bool = typer.Option(False, "--json")) -> None:
+    """Show stable local provider quota snapshots without probing APIs."""
+    _render(_call(_service.rate_limit_summary), as_json=as_json)
+
+
 @app.command("config")
 def config(
     as_json: bool = typer.Option(False, "--json"),
