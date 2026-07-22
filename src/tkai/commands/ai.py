@@ -137,6 +137,12 @@ def routing(as_json: bool = typer.Option(False, "--json")) -> None:
     _render(_call(_service.routing_summary), as_json=as_json)
 
 
+@app.command("load")
+def load(as_json: bool = typer.Option(False, "--json")) -> None:
+    """Show stable process-local provider load snapshots without probing APIs."""
+    _render(_call(_service.load_summary), as_json=as_json)
+
+
 @app.command("config")
 def config(
     as_json: bool = typer.Option(False, "--json"),

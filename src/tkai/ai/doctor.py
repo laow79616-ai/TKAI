@@ -15,6 +15,7 @@ from tkai.circuit_breaker import CircuitBreakerManager, CircuitState
 from tkai.configuration import ConfigurationManager
 from tkai.credentials import CredentialManager
 from tkai.health import HealthManager, HealthStatus
+from tkai.load import LoadAwareStrategy, LoadManager, LoadStatus
 from tkai.observability import (
     EventBus,
     EventDispatcher,
@@ -135,6 +136,7 @@ class DoctorService:
         trace_adapter: TraceAdapter | None = None,
         circuit_breaker: CircuitBreakerManager | None = None,
         routing: RoutingManager | None = None,
+        load: LoadManager | None = None,
     ) -> None:
         self.manager = manager
         self._transports = tuple(transports)
@@ -153,6 +155,7 @@ class DoctorService:
         self._trace_adapter = trace_adapter
         self._circuit_breaker = circuit_breaker
         self._routing = routing
+        self._load = load
 
     def run(self) -> DoctorReport:
         """Run every diagnostic once and return a complete immutable report."""
@@ -168,6 +171,7 @@ class DoctorService:
         checks.extend(self._observability_checks())
         checks.extend(self._circuit_breaker_checks())
         checks.extend(self._routing_checks())
+        checks.extend(self._load_checks())
         return DoctorReport(tuple(checks))
 
     def validate_config(self) -> DoctorReport:
@@ -858,6 +862,60 @@ class DoctorService:
                     "provider_count": len(metadata),
                     "providers": [item.provider for item in metadata],
                     "current_decision": decision.selected_provider,
+                },
+            ),
+        )
+
+    def _load_checks(self) -> tuple[DoctorCheck, ...]:
+        """Inspect passive load collection and optional routing strategy wiring."""
+        if self._load is None:
+            return (
+                DoctorCheck(
+                    "load",
+                    DoctorStatus.WARNING,
+                    "No LoadManager was supplied",
+                ),
+            )
+        snapshots = self._load.list()
+        high = [
+            item.provider
+            for item in snapshots
+            if item.status in {LoadStatus.HIGH, LoadStatus.SATURATED}
+        ]
+        unknown = [
+            item.provider for item in snapshots if item.status is LoadStatus.UNKNOWN
+        ]
+        saturated = [
+            item.provider for item in snapshots if item.status is LoadStatus.SATURATED
+        ]
+        strategy_attached = (
+            self._routing is not None
+            and isinstance(self._routing.strategy, LoadAwareStrategy)
+            and self._routing.strategy.load_registry is self._load.registry
+        )
+        if saturated:
+            status = DoctorStatus.ERROR
+            message = "One or more providers are locally saturated"
+        elif high or unknown or not snapshots:
+            status = DoctorStatus.WARNING
+            message = "Load data is incomplete or has high local load"
+        else:
+            status = DoctorStatus.PASS
+            message = "Passive load collection is healthy"
+        return (
+            DoctorCheck(
+                "load.registry",
+                status,
+                message,
+                {
+                    "provider_count": len(snapshots),
+                    "high_providers": high,
+                    "saturated_providers": saturated,
+                    "unknown_providers": unknown,
+                    "collector": type(self._load.collector).__name__,
+                    "evaluator": type(self._load.evaluator).__name__,
+                    "event_bus_subscribed": self._load.collector.event_bus is not None,
+                    "routing_strategy_integration": strategy_attached,
                 },
             ),
         )

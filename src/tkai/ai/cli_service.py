@@ -11,6 +11,7 @@ from tkai.circuit_breaker import CircuitBreakerManager
 from tkai.configuration import ConfigurationManager
 from tkai.credentials import CredentialManager
 from tkai.health import HealthManager
+from tkai.load import LoadManager
 from tkai.observability import (
     EventBus,
     EventDispatcher,
@@ -51,6 +52,7 @@ class AICommandService:
         trace_adapter: TraceAdapter | None = None,
         circuit_breaker: CircuitBreakerManager | None = None,
         routing: RoutingManager | None = None,
+        load: LoadManager | None = None,
     ) -> None:
         self.manager = manager or ProviderManager()
         self.fallback = fallback or FallbackEngine()
@@ -65,6 +67,13 @@ class AICommandService:
         self.trace_adapter = trace_adapter
         self.circuit_breaker = circuit_breaker
         self.routing = routing
+        self.load = load
+
+    def load_summary(self) -> list[dict[str, object]]:
+        """Return stable JSON-ready local load snapshots without provider calls."""
+        if self.load is None:
+            return []
+        return [snapshot.to_dict() for snapshot in self.load.list()]
 
     def breaker_summary(self) -> list[dict[str, Any]]:
         """Return stable, safe circuit breaker snapshots for CLI rendering."""
@@ -346,6 +355,7 @@ class AICommandService:
             trace_adapter=self.trace_adapter,
             circuit_breaker=self.circuit_breaker,
             routing=self.routing,
+            load=self.load,
         )
 
     def _fallback_policy(self) -> FallbackPolicy:
