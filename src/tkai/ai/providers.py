@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable, Iterator
+from collections.abc import AsyncIterator, Callable, Iterator
 from typing import Any
 
 from .errors import ProviderConfigurationError, ProviderResponseError
@@ -16,7 +16,10 @@ from .models import (
     ProviderConfig,
     Usage,
 )
+from .openai_runtime_adapter import OpenAIProviderRuntimeAdapter
 from .provider import BaseAIProvider, CompletionClient
+from .runtime import OwnershipPolicy, ProviderRuntime
+from .transport_adapter import resolve_transport
 
 Transport = Callable[
     [str, dict[str, Any], dict[str, str]], dict[str, Any] | Iterator[dict[str, Any]]
@@ -40,6 +43,36 @@ class OpenAICompatibleProvider(BaseAIProvider):
         super().__init__(client)
         self.config = config or ProviderConfig(name=self.name, type=self.name)
         self.transport = transport
+        async_transport, owned = resolve_transport(
+            transport, timeout=self.config.timeout
+        )
+        self._runtime = ProviderRuntime(
+            async_transport,
+            ownership=(
+                OwnershipPolicy.RUNTIME_OWNED
+                if owned
+                else OwnershipPolicy.EXTERNALLY_OWNED
+            ),
+        )
+        self._adapter = OpenAIProviderRuntimeAdapter(
+            self._runtime,
+            provider=self.name,
+            model=self.config.model or self.default_model,
+            headers=self._headers(),
+        )
+
+    async def achat(self, request: ChatRequest) -> ChatResponse:
+        """Execute chat through the provider runtime adapter."""
+        return await self._adapter.chat(request)
+
+    async def astream_chat(self, request: ChatRequest) -> AsyncIterator[ChatResponse]:
+        """Yield normalized runtime adapter streaming responses."""
+        async for item in self._adapter.stream(request):
+            yield item
+
+    async def aclose(self) -> None:
+        """Close the provider runtime according to ownership policy."""
+        await self._runtime.close()
 
     def validate_config(self) -> None:
         """Validate injected transport or configured API credentials."""

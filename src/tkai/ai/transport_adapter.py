@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import asyncio
 from collections.abc import AsyncIterator, Callable
-from typing import Any
+from typing import Any, cast
+
+from tkai.providers.http import AsyncHTTPTransport
 
 from .runtime import AsyncTransport
 
@@ -37,3 +39,14 @@ class TransportAdapter(AsyncTransport):
 
     def health_check(self) -> bool:
         return not self._closed
+
+
+def resolve_transport(
+    transport: AsyncTransport | LegacyTransport | None, *, timeout: float
+) -> tuple[AsyncTransport, bool]:
+    """Return a uniform async transport and whether the caller owns it."""
+    if transport is None:
+        return cast(AsyncTransport, AsyncHTTPTransport(timeout=timeout)), True
+    if isinstance(transport, TransportAdapter) or hasattr(transport, "request"):
+        return transport, False  # type: ignore[return-value]
+    return TransportAdapter(transport), True
