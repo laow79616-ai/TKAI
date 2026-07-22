@@ -32,3 +32,18 @@ reverse dependency from commands into runtime control.
 The AI layer is independent of workflow runtime internals. `ProviderManager`
 routes normalized requests to provider adapters; adapters return TKAI models,
 not third-party SDK objects. Optional SDKs are lazy imports.
+
+The provider subsystem has one-way internal dependencies:
+
+```text
+tkai ai CLI → AICommandService → DoctorService / ProviderManager / FallbackEngine
+ProviderManager → ProviderRegistry → AIProvider
+OpenAI-compatible provider → RuntimeAdapter → ProviderRuntime → AsyncTransport
+```
+
+Capability routing lives in `ProviderManager` and consumes typed capability
+declarations held by `ProviderRegistry`; it does not depend on fallback.
+`FallbackEngine` consumes an already ordered, capability-filtered candidate
+list and has no dependency on the manager. `DoctorService` is read-only and
+inspects these layers without sending requests or changing lifecycle state.
+This separation keeps command imports from reversing runtime dependencies.

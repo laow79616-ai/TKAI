@@ -36,3 +36,11 @@ python -m mypy src
 Provider tests must inject a transport or SDK fake. Do not add tests that call
 real provider endpoints or include a credential in source, fixture output, or
 an assertion message.
+
+## AI release validation
+
+Before an AI release, run the full quality gate above and execute every module
+in `examples/ai/` using its local fake provider. Regression coverage must retain
+legacy `AIClient`, synchronous provider calls, async calls, streaming, manager
+routing, capability selection, fallback policy, Doctor reports, and `tkai ai`
+commands. See `docs/Release.md` for the release checklist.

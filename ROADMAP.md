@@ -14,6 +14,9 @@ The V1.0 framework foundation is stabilized as `1.0.0-rc.1`.
 - Workflow runtime release preparation: CLI lifecycle commands, built-in
   checkpoint/resume examples, recovery tests, and release documentation.
 - Provider-neutral AI foundation with offline-testable compatible adapters.
+- AI provider V1.0 RC validation: runtime compatibility, capability routing,
+  fallback policy, Doctor diagnostics, service-based CLI, offline examples,
+  release checklist, and version metadata.
 
 ## Next milestones
 

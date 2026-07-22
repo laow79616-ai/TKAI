@@ -11,11 +11,25 @@
 - `checkpoint-example` and `pause-resume-example` built-in workflows.
 - Provider-neutral chat, embedding, configuration, manager, and error APIs.
 - Offline-testable OpenAI-compatible and OpenRouter provider adapters.
+- Async provider runtime, SyncBridge compatibility layer, injectable async HTTP
+  transport, SSE/stream normalization, and transport adapter compatibility.
+- Provider registry aliases, async/sync/stream manager routing, typed
+  capability declarations, exact model capability overrides, and explanatory
+  no-match errors.
+- Independent provider fallback policy with ordered candidates, retry budgets,
+  blacklists, safe failure summaries, and pre-first-chunk stream failover.
+- Read-only AI Doctor reports with safe JSON/text output and `tkai ai` service
+  inspection commands for providers, capabilities, fallback, validation,
+  version, and framework information.
+- Offline executable AI examples, migration guidance, provider development,
+  Doctor, CLI, and V1.0 release-checklist documentation.
 
 ### Changed
 
 - Workflow release documentation now describes runtime architecture, state
   transitions, compatibility, and operational limitations.
+- V1.0 RC release validation now covers public AI compatibility, offline
+  examples, documentation, quality gates, and tag-ready metadata.
 
 ## 1.0.0-rc.1
 

@@ -5,9 +5,11 @@
 - Built-in plugin manifests currently provide lifecycle-compatible integration
   placeholders; production adapters for Docker, Git, messaging, and social
   services still need capability-specific commands and credential handling.
-- AI providers intentionally use injected transport clients. Official SDK
-  adapters, streaming responses, tool calling, rate-limit handling, and secret
-  storage remain future work.
+- AI providers support injected transports, async streaming normalization,
+  capability declarations, and offline fallback policy. Official SDK adapters,
+  durable secret storage, dynamic provider health probing, configurable
+  fallback policy loading, and production credential discovery remain future
+  work.
 - Provider configuration construction from project YAML/JSON and environment
   expansion is application-owned pending configuration schema consolidation.
 - Parallel workflows share one mutable context. Introduce immutable inputs or
