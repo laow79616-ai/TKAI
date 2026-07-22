@@ -132,3 +132,9 @@ class Workflow:
             },
             "result": result.to_dict(),
         }
+
+    @staticmethod
+    def restore_context(snapshot: dict[str, Any]) -> WorkflowContext:
+        """Restore execution context from a memory snapshot."""
+        data = snapshot["context"]
+        return WorkflowContext(**data)

@@ -95,3 +95,9 @@ class WorkflowEngine:
         except Exception as exc:
             workflow.transition(WorkflowStatus.FAILED)
             return WorkflowResult(definition.name, workflow.status, results, error=exc)
+
+    def resume(self, workflow: Workflow, snapshot: dict[str, Any]) -> WorkflowResult:
+        """Resume a paused workflow, skipping steps present in snapshot results."""
+        workflow.resume()
+        context = Workflow.restore_context(snapshot)
+        return self.execute(workflow.definition, context.inputs)
