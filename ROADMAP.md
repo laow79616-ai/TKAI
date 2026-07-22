@@ -1,5 +1,9 @@
 # TKAI Roadmap
 
+## V1.0 Release Candidate
+
+The V1.0 framework foundation is stabilized as `1.0.0-rc.1`.
+
 ## Completed foundation
 
 - Core runtime, configuration, command, generator, and template services.

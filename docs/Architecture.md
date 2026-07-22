@@ -1,0 +1,15 @@
+# TKAI V1.0 Architecture
+
+TKAI is organized as independent layers with one-way dependencies: commands
+call generators, templates, configuration, and framework services; framework
+services depend only on `tkai.core`. This prevents command/UI imports from
+forming runtime cycles with domain services.
+
+```text
+commands → generators/templates/config → core
+plugins, workflow, ai                → core
+```
+
+The public package APIs are exposed from each package's `__init__.py`; legacy
+paths such as `tkai.template_engine.TemplateManager` remain compatibility
+imports for the canonical template manager.
