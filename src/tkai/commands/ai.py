@@ -108,6 +108,17 @@ def credentials(as_json: bool = typer.Option(False, "--json")) -> None:
     _render(value, as_json=as_json)
 
 
+@app.command("config")
+def config(
+    as_json: bool = typer.Option(False, "--json"),
+    text: bool = typer.Option(False, "--text"),
+) -> None:
+    """Show resolved local configuration source and override metadata."""
+    if as_json and text:
+        _call(lambda: (_ for _ in ()).throw(ValueError("choose --json or --text")))
+    _render(_call(_service.configuration_summary), as_json=as_json)
+
+
 @app.command("validate-config")
 def validate_config(as_json: bool = typer.Option(False, "--json")) -> None:
     """Run registry, configuration, and capability diagnostics only."""

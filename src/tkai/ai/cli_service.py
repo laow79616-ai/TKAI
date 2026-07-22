@@ -7,6 +7,7 @@ from collections.abc import Iterable
 from typing import Any
 
 from tkai import __version__
+from tkai.configuration import ConfigurationManager
 from tkai.credentials import CredentialManager
 
 from .doctor import DoctorReport, DoctorService
@@ -31,11 +32,35 @@ class AICommandService:
         fallback: FallbackEngine | FallbackPolicy | None = None,
         fallback_candidates: Iterable[FallbackCandidate[object]] = (),
         credentials: CredentialManager | None = None,
+        configuration: ConfigurationManager | None = None,
     ) -> None:
         self.manager = manager or ProviderManager()
         self.fallback = fallback or FallbackEngine()
         self.fallback_candidates = tuple(fallback_candidates)
         self.credentials = credentials
+        self.configuration = configuration
+
+    def configuration_summary(self) -> dict[str, Any]:
+        """Return immutable resolved configuration metadata without secrets."""
+        if self.configuration is None:
+            return {
+                "source": "default",
+                "overrides": [],
+                "application": {},
+                "runtime": {},
+                "providers": {},
+            }
+        config = self.configuration.list()
+        return {
+            "source": config.source,
+            "overrides": list(config.overrides),
+            "application": config.get("application", {}),
+            "runtime": config.get("runtime", {}),
+            "providers": config.get("providers", config.get("provider", {})),
+            "loaded_files": [
+                item for item in config.overrides if item in {"workspace", "user"}
+            ],
+        }
 
     def credentials_summary(self) -> list[dict[str, object]]:
         """Return safe local credential metadata without API key values."""

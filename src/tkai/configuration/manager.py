@@ -39,3 +39,9 @@ class ConfigurationManager:
             self._configuration.source,
             self._configuration.overrides + ("memory",),
         )
+
+    def credential_defaults(self, provider: str) -> dict[str, Any]:
+        """Return non-secret provider defaults for credential-consuming callers."""
+        return dict(
+            self.get(f"providers.{provider}", self.get(f"provider.{provider}", {}))
+        )

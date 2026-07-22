@@ -18,7 +18,8 @@ class TOMLConfigurationLoader(ConfigurationLoader):
         if not self.path.exists():
             return {}
         toml = importlib.import_module("tomllib")
-        return cast(Mapping[str, Any], toml.loads(self.path.read_text(encoding="utf-8")))
+        contents = toml.loads(self.path.read_text(encoding="utf-8"))
+        return cast(Mapping[str, Any], contents)
 
     def identifier(self) -> str:
         return "workspace" if self.path.name.startswith(".") else "user"
