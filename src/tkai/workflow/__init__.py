@@ -1,5 +1,6 @@
 """Public workflow engine APIs."""
 
+from .checkpoint import Checkpoint, CheckpointManager
 from .engine import WorkflowEngine
 from .events import Event, EventBus
 from .examples import definitions
@@ -13,7 +14,9 @@ from .models import (
     WorkflowResult,
     WorkflowStatus,
 )
+from .recovery import RecoveryError, restore_runtime
 from .registry import WorkflowNotFoundError, WorkflowRegistry, WorkflowValidationError
+from .runtime import ExecutionContext, WorkflowRuntime
 from .scheduler import ScheduleMode, Scheduler
 from .task import Condition, RetryPolicy, Step, StepDependency, Task, TaskHandler
 
@@ -45,4 +48,10 @@ __all__ = (
     "WorkflowNotFoundError",
     "WorkflowValidationError",
     "definitions",
+    "Checkpoint",
+    "CheckpointManager",
+    "ExecutionContext",
+    "RecoveryError",
+    "WorkflowRuntime",
+    "restore_runtime",
 )

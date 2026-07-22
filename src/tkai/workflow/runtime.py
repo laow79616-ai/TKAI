@@ -16,6 +16,12 @@ class ExecutionContext:
     workflow: WorkflowContext = field(default_factory=WorkflowContext)
     state: ExecutionState = ExecutionState.PENDING
     completed: set[str] = field(default_factory=set)
+    running: set[str] = field(default_factory=set)
+    failed: set[str] = field(default_factory=set)
+    cancelled: set[str] = field(default_factory=set)
+    skipped: set[str] = field(default_factory=set)
+    retries: dict[str, int] = field(default_factory=dict)
+    step_results: dict[str, dict[str, Any]] = field(default_factory=dict)
 
     def pause(self) -> None:
         self.state = ExecutionState.PAUSED
@@ -48,3 +54,21 @@ class WorkflowRuntime:
 
     def cancel(self) -> None:
         self.context.cancel()
+
+    def restore(self, context: ExecutionContext, completed: set[str]) -> None:
+        """Restore state so dispatcher will not schedule completed steps again."""
+        self.context = context
+        self.context.completed = set(completed)
+        terminal = (
+            self.context.completed
+            | self.context.skipped
+            | self.context.failed
+            | self.context.cancelled
+        )
+        satisfied = self.context.completed | self.context.skipped
+        self.dispatcher.restore(terminal, satisfied)
+
+    @staticmethod
+    def step_name(step: Step) -> str:
+        """Return the stable public name used in queues and snapshots."""
+        return step.name or step.task.name
