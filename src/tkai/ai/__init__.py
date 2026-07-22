@@ -7,6 +7,7 @@ from .config import load_provider_config
 from .errors import (
     AuthenticationError,
     CapabilityNotSupportedError,
+    FallbackExhaustedError,
     ModelNotFoundError,
     NoCapableProviderError,
     ProviderConfigurationError,
@@ -16,6 +17,7 @@ from .errors import (
     ProviderTimeoutError,
     RateLimitError,
 )
+from .fallback import FailureKind, FallbackCandidate, FallbackEngine, FallbackPolicy
 from .manager import ProviderManager
 from .models import (
     AIRequest,
@@ -63,6 +65,11 @@ __all__ = (
     "DeepSeekProvider",
     "EmbeddingRequest",
     "EmbeddingResponse",
+    "FallbackCandidate",
+    "FallbackEngine",
+    "FallbackExhaustedError",
+    "FallbackPolicy",
+    "FailureKind",
     "GeminiProvider",
     "OpenAIProvider",
     "OpenAICompatibleProvider",

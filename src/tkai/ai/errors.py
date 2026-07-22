@@ -41,3 +41,21 @@ class CapabilityNotSupportedError(ProviderError):
 
 class NoCapableProviderError(ProviderError):
     """No registered provider satisfies the requested capability set."""
+
+
+class FallbackExhaustedError(ProviderError):
+    """Every eligible provider candidate failed within the configured budget."""
+
+    def __init__(
+        self,
+        attempted_providers: tuple[str, ...],
+        failure_summaries: tuple[str, ...],
+    ) -> None:
+        """Build a safe summary without including raw provider error content."""
+        self.attempted_providers = attempted_providers
+        self.failure_summaries = failure_summaries
+        attempts = ", ".join(attempted_providers) or "none"
+        details = "; ".join(failure_summaries) or "no eligible candidates"
+        super().__init__(
+            f"Provider fallback exhausted. Attempted: {attempts}. {details}"
+        )
