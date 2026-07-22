@@ -40,11 +40,7 @@ class AICommandService:
 
     def validate_config(self) -> DoctorReport:
         """Run only provider registry, configuration, and capability diagnostics."""
-        report = self.doctor()
-        prefixes = ("provider.", "configuration.", "capability.")
-        return DoctorReport(
-            tuple(check for check in report.checks if check.name.startswith(prefixes))
-        )
+        return self._doctor_service().validate_config()
 
     def providers(self) -> list[dict[str, Any]]:
         """Return safe provider summaries from the manager's registry metadata."""

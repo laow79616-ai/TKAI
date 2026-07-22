@@ -132,6 +132,12 @@ class DoctorService:
         checks.extend(self._fallback_checks())
         return DoctorReport(tuple(checks))
 
+    def validate_config(self) -> DoctorReport:
+        """Run only provider registry, configuration, and capability diagnostics."""
+        checks = [*self._provider_checks(), *self._configuration_checks()]
+        checks.extend(self._capability_checks())
+        return DoctorReport(tuple(checks))
+
     @staticmethod
     def _environment_checks() -> tuple[DoctorCheck, ...]:
         """Describe local interpreter, operating system, and loop availability."""

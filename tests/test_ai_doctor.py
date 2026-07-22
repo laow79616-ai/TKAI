@@ -156,3 +156,12 @@ def test_fallback_warnings_and_errors_are_reported() -> None:
 
     assert check(warning, "fallback").status is DoctorStatus.WARNING
     assert check(duplicate, "fallback").status is DoctorStatus.ERROR
+
+
+def test_validate_config_excludes_environment_runtime_transport_and_fallback() -> None:
+    report = DoctorService().validate_config()
+
+    assert all(
+        check.name.startswith(("provider.", "configuration.", "capability."))
+        for check in report.checks
+    )
