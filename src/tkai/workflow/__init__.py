@@ -1,6 +1,7 @@
 """Public workflow engine APIs."""
 
 from .checkpoint import Checkpoint, CheckpointManager
+from .control import ExecutionState, ExecutionTransitionError
 from .engine import WorkflowEngine
 from .events import Event, EventBus
 from .examples import definitions
@@ -50,7 +51,9 @@ __all__ = (
     "definitions",
     "Checkpoint",
     "CheckpointManager",
+    "ExecutionState",
     "ExecutionContext",
+    "ExecutionTransitionError",
     "RecoveryError",
     "WorkflowRuntime",
     "restore_runtime",

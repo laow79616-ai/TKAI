@@ -8,7 +8,8 @@ from typing import Any
 
 from tkai.core.exceptions import WorkflowError
 
-from .checkpoint import Checkpoint
+from .checkpoint import Checkpoint, CheckpointManager
+from .control import ExecutionState
 from .events import EventBus
 from .executor import Executor
 from .models import (
@@ -31,6 +32,34 @@ class WorkflowEngine:
         self.events = events or EventBus()
         self.executor = Executor(self.events)
         self.scheduler = Scheduler(self.executor)
+        self.checkpoints = CheckpointManager()
+        self.last_checkpoint: Checkpoint | None = None
+
+    def create_runtime(
+        self,
+        definition: WorkflowDefinition,
+        inputs: dict[str, Any] | None = None,
+    ) -> WorkflowRuntime:
+        """Create a controllable runtime without changing legacy execution APIs."""
+        runtime = WorkflowRuntime(definition.steps, inputs)
+        runtime.start()
+        return runtime
+
+    def pause(self, runtime: WorkflowRuntime, name: str = "workflow") -> Checkpoint:
+        """Request a pause and capture the resulting cooperative checkpoint."""
+        runtime.pause()
+        runtime.prepare_dispatch()
+        checkpoint = self.checkpoints.create_checkpoint(name, runtime)
+        self.last_checkpoint = checkpoint
+        return checkpoint
+
+    def cancel(self, runtime: WorkflowRuntime, name: str = "workflow") -> Checkpoint:
+        """Request cancellation and capture pending work before it is drained."""
+        runtime.cancel()
+        runtime.finish_cancel()
+        checkpoint = self.checkpoints.create_checkpoint(name, runtime)
+        self.last_checkpoint = checkpoint
+        return checkpoint
 
     def run(
         self,
@@ -50,12 +79,32 @@ class WorkflowEngine:
         fail_fast: bool = True,
     ) -> list[list[Any] | Exception]:
         """Execute independent steps with native asyncio concurrency."""
-        return await self.scheduler.run_async(
-            steps,
-            context or {},
+        runtime = WorkflowRuntime(steps, context)
+        runtime.start()
+        return await self.run_runtime_async(
+            runtime,
             max_parallelism=max_parallelism,
             fail_fast=fail_fast,
         )
+
+    async def run_runtime_async(
+        self,
+        runtime: WorkflowRuntime,
+        *,
+        max_parallelism: int = 4,
+        fail_fast: bool = True,
+    ) -> list[list[Any] | Exception]:
+        """Run an externally controllable runtime using asyncio dispatch."""
+        results = await self.scheduler.run_runtime_async(
+            runtime,
+            max_parallelism=max_parallelism,
+            fail_fast=fail_fast,
+        )
+        if runtime.context.state in (ExecutionState.PAUSED, ExecutionState.CANCELLED):
+            self.last_checkpoint = self.checkpoints.create_checkpoint(
+                "workflow", runtime
+            )
+        return results
 
     def execute(
         self, definition: WorkflowDefinition, inputs: dict[str, Any] | None = None
@@ -104,8 +153,9 @@ class WorkflowEngine:
     def resume(
         self,
         workflow: Workflow,
-        snapshot: dict[str, Any],
+        snapshot: dict[str, Any] | None = None,
         *,
+        runtime: WorkflowRuntime | None = None,
         mode: ScheduleMode = "serial",
         max_parallelism: int = 4,
         fail_fast: bool = True,
@@ -116,14 +166,18 @@ class WorkflowEngine:
         snapshots. Full checkpoints restore dispatcher state so terminal steps
         are never invoked again.
         """
-        checkpoint = self._checkpoint_from_snapshot(snapshot)
-        runtime = WorkflowRuntime(workflow.definition.steps)
-        restore_runtime(runtime, checkpoint)
+        if runtime is None:
+            if snapshot is None:
+                raise ValueError("A snapshot or paused runtime is required to resume")
+            checkpoint = self._checkpoint_from_snapshot(snapshot)
+            runtime = WorkflowRuntime(workflow.definition.steps)
+            restore_runtime(runtime, checkpoint)
         if workflow.status is WorkflowStatus.PAUSED:
             workflow.resume()
         elif workflow.status is not WorkflowStatus.RUNNING:
             raise ValueError("Only a running or paused workflow can be resumed")
-        runtime.resume()
+        if runtime.context.state is ExecutionState.PAUSED:
+            runtime.resume()
         return self._execute_runtime(
             workflow,
             runtime,
@@ -161,10 +215,45 @@ class WorkflowEngine:
         result_by_name = self._restored_results(runtime)
         try:
             while runtime.dispatcher.pending:
+                if runtime.cancel_requested:
+                    runtime.finish_cancel()
+                    if workflow.status in (
+                        WorkflowStatus.RUNNING,
+                        WorkflowStatus.PAUSED,
+                    ):
+                        workflow.cancel()
+                    checkpoint = self.checkpoints.create_checkpoint(
+                        workflow.definition.name, runtime
+                    )
+                    self.last_checkpoint = checkpoint
+                    return WorkflowResult(
+                        workflow.definition.name,
+                        workflow.status,
+                        self._ordered_results(workflow, result_by_name),
+                        runtime.context.workflow.previous_result,
+                    )
+                if not runtime.prepare_dispatch():
+                    if runtime.context.state is ExecutionState.PAUSED:
+                        if workflow.status is WorkflowStatus.RUNNING:
+                            workflow.pause()
+                        checkpoint = self.checkpoints.create_checkpoint(
+                            workflow.definition.name, runtime
+                        )
+                        self.last_checkpoint = checkpoint
+                        return WorkflowResult(
+                            workflow.definition.name,
+                            workflow.status,
+                            self._ordered_results(workflow, result_by_name),
+                            runtime.context.workflow.previous_result,
+                        )
+                    break
                 ready = runtime.dispatcher.next_ready()
                 if not ready:
                     raise WorkflowError("Circular or blocked step dependency detected")
                 batch = ready[:1] if mode == "serial" else ready[:max_parallelism]
+                for step in batch:
+                    runtime.dispatcher.claim(step)
+                    runtime.context.running.add(runtime.step_name(step))
                 context = runtime.context.workflow
                 if mode == "parallel" and len(batch) > 1:
                     execute_step = partial(
@@ -204,9 +293,32 @@ class WorkflowEngine:
                             runtime.dispatcher.completed.add(name)
                 if runtime.context.failed and fail_fast:
                     break
-            if runtime.context.failed:
+            runtime.prepare_dispatch()
+            if runtime.cancel_requested:
+                runtime.finish_cancel()
+            if runtime.context.state is ExecutionState.CANCELLED:
+                if workflow.status in (WorkflowStatus.RUNNING, WorkflowStatus.PAUSED):
+                    workflow.cancel()
+                self.last_checkpoint = self.checkpoints.create_checkpoint(
+                    workflow.definition.name, runtime
+                )
+                return WorkflowResult(
+                    workflow.definition.name,
+                    workflow.status,
+                    self._ordered_results(workflow, result_by_name),
+                    runtime.context.workflow.previous_result,
+                )
+            if runtime.context.state is ExecutionState.PAUSED:
+                if workflow.status is WorkflowStatus.RUNNING:
+                    workflow.pause()
+                self.last_checkpoint = self.checkpoints.create_checkpoint(
+                    workflow.definition.name, runtime
+                )
+            elif runtime.context.failed:
+                runtime.fail()
                 workflow.transition(WorkflowStatus.FAILED)
             else:
+                runtime.complete()
                 workflow.transition(WorkflowStatus.COMPLETED)
             return WorkflowResult(
                 workflow.definition.name,
@@ -215,6 +327,7 @@ class WorkflowEngine:
                 runtime.context.workflow.previous_result,
             )
         except Exception as exc:
+            runtime.fail()
             if workflow.status is WorkflowStatus.RUNNING:
                 workflow.transition(WorkflowStatus.FAILED)
             return WorkflowResult(

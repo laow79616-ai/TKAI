@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
-from .control import ExecutionState
+from .control import ExecutionState, validate_transition
 from .dispatch import Dispatcher
 from .models import WorkflowContext
 from .task import Step
@@ -24,16 +24,26 @@ class ExecutionContext:
     step_results: dict[str, dict[str, Any]] = field(default_factory=dict)
 
     def pause(self) -> None:
-        self.state = ExecutionState.PAUSED
+        self.transition(ExecutionState.PAUSING)
 
     def resume(self) -> None:
-        self.state = ExecutionState.RUNNING
+        self.transition(ExecutionState.RESUMING)
 
     def cancel(self) -> None:
-        self.state = ExecutionState.CANCELLED
+        target = (
+            ExecutionState.CANCELLED
+            if self.state is ExecutionState.PENDING
+            else ExecutionState.CANCELLING
+        )
+        self.transition(target)
 
     def can_dispatch(self) -> bool:
         return self.state is ExecutionState.RUNNING
+
+    def transition(self, target: ExecutionState) -> None:
+        """Apply one validated runtime state transition."""
+        validate_transition(self.state, target)
+        self.state = target
 
 
 class WorkflowRuntime:
@@ -44,16 +54,64 @@ class WorkflowRuntime:
         self.dispatcher = Dispatcher(steps, self.context.completed)
 
     def start(self) -> None:
-        self.context.resume()
+        self.context.transition(ExecutionState.RUNNING)
 
     def pause(self) -> None:
+        """Request a cooperative pause before the next dispatch decision."""
         self.context.pause()
 
     def resume(self) -> None:
+        """Request continued dispatch for a paused runtime."""
         self.context.resume()
 
     def cancel(self) -> None:
+        """Request cancellation and prevent any future dequeue operation."""
         self.context.cancel()
+
+    def checkpoint(self) -> bool:
+        """Return whether a handler may continue cooperative work.
+
+        It never forcibly interrupts a handler. A false value means pause or
+        cancellation was requested and the handler can safely return early.
+        """
+        return self.context.state is ExecutionState.RUNNING
+
+    @property
+    def pause_requested(self) -> bool:
+        """Whether dispatch must stop after current work completes."""
+        return self.context.state is ExecutionState.PAUSING
+
+    @property
+    def cancel_requested(self) -> bool:
+        """Whether dispatch must stop and pending work be cancelled."""
+        return self.context.state is ExecutionState.CANCELLING
+
+    def prepare_dispatch(self) -> bool:
+        """Resolve control requests at the only point new work may be claimed."""
+        if self.context.state is ExecutionState.RESUMING:
+            self.context.transition(ExecutionState.RUNNING)
+        if self.context.state is ExecutionState.PAUSING:
+            if not self.context.running:
+                self.context.transition(ExecutionState.PAUSED)
+            return False
+        return self.context.can_dispatch()
+
+    def complete(self) -> None:
+        """Mark a successfully drained runtime as completed."""
+        if self.context.state is ExecutionState.RUNNING:
+            self.context.transition(ExecutionState.COMPLETED)
+
+    def fail(self) -> None:
+        """Mark a running runtime as failed."""
+        if self.context.state is ExecutionState.RUNNING:
+            self.context.transition(ExecutionState.FAILED)
+
+    def finish_cancel(self) -> None:
+        """Mark queued steps cancelled and close a cancellation request."""
+        for step in self.dispatcher.cancel_waiting():
+            self.context.cancelled.add(self.step_name(step))
+        if self.context.state is ExecutionState.CANCELLING and not self.context.running:
+            self.context.transition(ExecutionState.CANCELLED)
 
     def restore(self, context: ExecutionContext, completed: set[str]) -> None:
         """Restore state so dispatcher will not schedule completed steps again."""

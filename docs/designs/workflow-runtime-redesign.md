@@ -50,6 +50,21 @@ running -> paused | completed | failed | cancelled
 paused  -> running | cancelled
 ```
 
+The implementation makes those user-facing transitions cooperative through an
+internal control state machine:
+
+```text
+pending -> running -> pausing -> paused -> resuming -> running
+                  \-> cancelling -> cancelled
+                  \-> completed | failed
+```
+
+Every edge is validated. A pause request stops dequeuing work only after any
+currently claimed step finishes; a cancel request closes the ready queue and,
+for native asyncio work, cancels active tasks. Synchronous and threaded
+handlers are never forcefully killed. They may call `runtime.checkpoint()` and
+return early when it reports a pause or cancellation request.
+
 The runtime additionally tracks each step as `pending`, `running`, `skipped`,
 `completed`, or `failed`. A transition is checked centrally before every
 dispatch decision. `pause` is a cooperative control signal: running steps may
@@ -70,6 +85,12 @@ even when completion order differs. With `fail_fast=true`, the first terminal
 failure cancels unscheduled and cancellable work. With `fail_fast=false`, the
 runtime records all failures and continues steps whose dependencies succeeded
 or explicitly allow continuation.
+
+`Dispatcher.claim()` records an in-flight step before a task is created. This
+prevents duplicate scheduling and gives the dispatcher one consistent control
+boundary for serial and parallel paths. Resume reconstructs terminal sets and
+then starts from the same ready queue; completed and skipped steps are never
+claimed again.
 
 ## Recovery model
 
