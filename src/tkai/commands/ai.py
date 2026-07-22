@@ -155,6 +155,12 @@ def cache(as_json: bool = typer.Option(False, "--json")) -> None:
     _render(_call(_service.cache_summary), as_json=as_json)
 
 
+@app.command("plugins")
+def plugins(as_json: bool = typer.Option(False, "--json")) -> None:
+    """Show loaded local plugin metadata without loading or running plugins."""
+    _render(_call(_service.plugins_summary), as_json=as_json)
+
+
 @app.command("config")
 def config(
     as_json: bool = typer.Option(False, "--json"),

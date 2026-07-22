@@ -20,6 +20,7 @@ from tkai.observability import (
     MetricsAdapter,
     TraceAdapter,
 )
+from tkai.plugins import PluginManager
 from tkai.rate_limit import RateLimitManager
 from tkai.routing import RoutingManager
 
@@ -57,6 +58,7 @@ class AICommandService:
         load: LoadManager | None = None,
         rate_limit: RateLimitManager | None = None,
         cache: CacheManager | None = None,
+        plugins: PluginManager | None = None,
     ) -> None:
         self.manager = manager or ProviderManager()
         self.fallback = fallback or FallbackEngine()
@@ -74,6 +76,19 @@ class AICommandService:
         self.load = load
         self.rate_limit = rate_limit
         self.cache = cache
+        self.plugins = plugins
+
+    def plugins_summary(self) -> list[dict[str, object]]:
+        """Return safe loaded plugin metadata and enabled state."""
+        if self.plugins is None:
+            return []
+        return [
+            {
+                **self.plugins.registry.metadata(name).to_dict(),
+                "enabled": self.plugins.registry.enabled(name),
+            }
+            for name in self.plugins.names()
+        ]
 
     def cache_summary(self) -> list[dict[str, object]]:
         """Return safe local cache backend summaries without entry values."""
@@ -374,6 +389,7 @@ class AICommandService:
             load=self.load,
             rate_limit=self.rate_limit,
             cache=self.cache,
+            plugins=self.plugins,
         )
 
     def _fallback_policy(self) -> FallbackPolicy:

@@ -24,6 +24,7 @@ from tkai.observability import (
     MetricsAdapter,
     TraceAdapter,
 )
+from tkai.plugins import PluginManager
 from tkai.providers.http import AsyncHTTPTransport
 from tkai.rate_limit import RateLimitAwareStrategy, RateLimitManager
 from tkai.routing import RoutingManager
@@ -141,6 +142,7 @@ class DoctorService:
         load: LoadManager | None = None,
         rate_limit: RateLimitManager | None = None,
         cache: CacheManager | None = None,
+        plugins: PluginManager | None = None,
     ) -> None:
         self.manager = manager
         self._transports = tuple(transports)
@@ -162,6 +164,7 @@ class DoctorService:
         self._load = load
         self._rate_limit = rate_limit
         self._cache = cache
+        self._plugins = plugins
 
     def run(self) -> DoctorReport:
         """Run every diagnostic once and return a complete immutable report."""
@@ -180,6 +183,7 @@ class DoctorService:
         checks.extend(self._load_checks())
         checks.extend(self._rate_limit_checks())
         checks.extend(self._cache_checks())
+        checks.extend(self._plugin_checks())
         return DoctorReport(tuple(checks))
 
     def validate_config(self) -> DoctorReport:
@@ -997,6 +1001,42 @@ class DoctorService:
                 DoctorStatus.PASS,
                 "Cache backend registry is available",
                 {"backends": summaries, "backend_count": len(summaries)},
+            ),
+        )
+
+    def _plugin_checks(self) -> tuple[DoctorCheck, ...]:
+        """Inspect loaded plugin metadata and hooks without invoking plugins."""
+        if self._plugins is None:
+            return (
+                DoctorCheck(
+                    "plugins", DoctorStatus.WARNING, "No PluginManager was supplied"
+                ),
+            )
+        names = self._plugins.names()
+        enabled = [name for name in names if self._plugins.registry.enabled(name)]
+        disabled = [name for name in names if name not in enabled]
+        failed = [
+            event.plugin
+            for event in self._plugins.events
+            if event.name == "PluginFailed"
+        ]
+        status = (
+            DoctorStatus.ERROR
+            if failed
+            else (DoctorStatus.PASS if names else DoctorStatus.WARNING)
+        )
+        return (
+            DoctorCheck(
+                "plugins.registry",
+                status,
+                "Plugin registry is available" if names else "No plugins are loaded",
+                {
+                    "loaded": names,
+                    "enabled": enabled,
+                    "disabled": disabled,
+                    "failed": failed,
+                    "hook_count": len(names),
+                },
             ),
         )
 
