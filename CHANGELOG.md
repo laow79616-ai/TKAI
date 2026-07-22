@@ -4,6 +4,13 @@
 
 ### Added
 
+- V1.1 RC-1 public-API inventory, compatibility/import regression coverage,
+  serialization safety checks, CLI/Doctor smoke validation, and release
+  checklist documentation.
+- Optional V1.1 local foundations for credential discovery, persistent
+  configuration, passive health, observability, circuit breaking, cost/load
+  routing, rate limiting, cache, and the Plugin SDK.
+
 - Workflow runtime checkpoints, recovery, cooperative pause/resume/cancel,
   and native asyncio control boundaries.
 - `tkai workflow checkpoint`, `resume`, and `doctor` commands, plus JSON/YAML
@@ -30,6 +37,15 @@
   transitions, compatibility, and operational limitations.
 - V1.0 RC release validation now covers public AI compatibility, offline
   examples, documentation, quality gates, and tag-ready metadata.
+- V1.1 additive foundations remain opt-in and preserve the V1 provider,
+  configuration, CLI, and legacy plugin lifecycle behaviour.
+
+### Known limitations
+
+- V1.1 foundations are single-process and in-memory; they do not provide Redis,
+  distributed synchronization, active health probes, OpenTelemetry/Prometheus
+  exporters, automatic ProviderManager adoption, adaptive routing, remote
+  plugins, hot reload, plugin sandboxing, or a plugin marketplace.
 
 ## 1.0.0-rc.1
 

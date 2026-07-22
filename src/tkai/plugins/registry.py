@@ -104,10 +104,11 @@ class PluginRegistry:
 
     def manifest(self, name: str) -> PluginManifest:
         """Return the manifest for a registered plugin."""
-        try:
-            return self._manifests[name]
-        except KeyError as exc:
-            raise PluginError(f"Plugin '{name}' is not registered") from exc
+        with self._lock:
+            try:
+                return self._manifests[name]
+            except KeyError as exc:
+                raise PluginError(f"Plugin '{name}' is not registered") from exc
 
     def names(self) -> list[str]:
         """Return registered plugin names in stable order."""
