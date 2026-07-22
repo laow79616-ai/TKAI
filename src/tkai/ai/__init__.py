@@ -3,6 +3,7 @@
 from tkai.core.exceptions import AIProviderError
 
 from .client import AIClient
+from .config import load_provider_config
 from .errors import (
     AuthenticationError,
     ModelNotFoundError,
@@ -38,6 +39,7 @@ from .providers import (
     QwenProvider,
 )
 from .registry import ProviderRegistry
+from .transport import HTTPResponse, raise_for_status
 
 __all__ = (
     "AIClient",
@@ -45,6 +47,7 @@ __all__ = (
     "AIProviderError",
     "AIRequest",
     "AIResponse",
+    "HTTPResponse",
     "AuthenticationError",
     "BaseAIProvider",
     "ClaudeProvider",
@@ -73,4 +76,6 @@ __all__ = (
     "ModelInfo",
     "ModelNotFoundError",
     "Usage",
+    "load_provider_config",
+    "raise_for_status",
 )
