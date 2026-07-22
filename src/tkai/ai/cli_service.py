@@ -7,6 +7,7 @@ from collections.abc import Iterable
 from typing import Any
 
 from tkai import __version__
+from tkai.credentials import CredentialManager
 
 from .doctor import DoctorReport, DoctorService
 from .fallback import FallbackCandidate, FallbackEngine, FallbackPolicy
@@ -29,10 +30,26 @@ class AICommandService:
         *,
         fallback: FallbackEngine | FallbackPolicy | None = None,
         fallback_candidates: Iterable[FallbackCandidate[object]] = (),
+        credentials: CredentialManager | None = None,
     ) -> None:
         self.manager = manager or ProviderManager()
         self.fallback = fallback or FallbackEngine()
         self.fallback_candidates = tuple(fallback_candidates)
+        self.credentials = credentials
+
+    def credentials_summary(self) -> list[dict[str, object]]:
+        """Return safe local credential metadata without API key values."""
+        if self.credentials is None:
+            return []
+        return [
+            {
+                "provider": item.provider,
+                "configured": True,
+                "source": item.source,
+                "masked": item.masked(),
+            }
+            for item in self.credentials.list()
+        ]
 
     def doctor(self) -> DoctorReport:
         """Run the complete read-only diagnostic suite."""
@@ -178,6 +195,7 @@ class AICommandService:
             self.manager,
             fallback=self.fallback,
             fallback_candidates=self.fallback_candidates,
+            credentials=self.credentials,
         )
 
     def _fallback_policy(self) -> FallbackPolicy:

@@ -101,6 +101,13 @@ def fallback(as_json: bool = typer.Option(False, "--json")) -> None:
     _render(_call(_service.fallback_summary), as_json=as_json)
 
 
+@app.command("credentials")
+def credentials(as_json: bool = typer.Option(False, "--json")) -> None:
+    """Show safe local credential source and masking metadata."""
+    value = _call(_service.credentials_summary)
+    _render(value, as_json=as_json)
+
+
 @app.command("validate-config")
 def validate_config(as_json: bool = typer.Option(False, "--json")) -> None:
     """Run registry, configuration, and capability diagnostics only."""

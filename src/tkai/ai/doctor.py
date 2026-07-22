@@ -11,6 +11,7 @@ from dataclasses import asdict, dataclass, field
 from enum import Enum
 from typing import Any
 
+from tkai.credentials import CredentialManager
 from tkai.providers.http import AsyncHTTPTransport
 
 from .fallback import FallbackCandidate, FallbackEngine, FallbackPolicy
@@ -113,6 +114,7 @@ class DoctorService:
         bridges: Iterable[SyncBridge] = (),
         fallback: FallbackEngine | FallbackPolicy | None = None,
         fallback_candidates: Sequence[FallbackCandidate[object]] = (),
+        credentials: CredentialManager | None = None,
     ) -> None:
         self.manager = manager
         self._transports = tuple(transports)
@@ -121,6 +123,7 @@ class DoctorService:
         self._bridges = tuple(bridges)
         self._fallback = fallback
         self._fallback_candidates = tuple(fallback_candidates)
+        self._credentials = credentials
 
     def run(self) -> DoctorReport:
         """Run every diagnostic once and return a complete immutable report."""
@@ -130,6 +133,7 @@ class DoctorService:
         checks.extend(self._transport_checks())
         checks.extend(self._runtime_checks())
         checks.extend(self._fallback_checks())
+        checks.extend(self._credential_checks())
         return DoctorReport(tuple(checks))
 
     def validate_config(self) -> DoctorReport:
@@ -521,6 +525,55 @@ class DoctorService:
         if isinstance(self._fallback, FallbackPolicy):
             return self._fallback
         return None
+
+    def _credential_checks(self) -> tuple[DoctorCheck, ...]:
+        """Inspect configured local credentials without rendering key material."""
+        if self._credentials is None:
+            return (
+                DoctorCheck(
+                    "credentials",
+                    DoctorStatus.WARNING,
+                    "No CredentialManager was supplied",
+                ),
+            )
+        checks: list[DoctorCheck] = []
+        for provider in self._credentials.resolver.providers():
+            sources = self._credentials.resolver.sources_for(provider)
+            try:
+                credential = self._credentials.get(provider)
+            except Exception as error:
+                checks.append(
+                    DoctorCheck(
+                        f"credentials.{provider}",
+                        DoctorStatus.ERROR,
+                        f"Credential resolution failed: {type(error).__name__}",
+                    )
+                )
+                continue
+            status = DoctorStatus.WARNING if len(sources) > 1 else DoctorStatus.PASS
+            message = (
+                "Duplicate credential sources detected"
+                if len(sources) > 1
+                else "Credential is configured"
+            )
+            checks.append(
+                DoctorCheck(
+                    f"credentials.{provider}",
+                    status,
+                    message,
+                    {
+                        "source": credential.source,
+                        "configured": True,
+                        "masked": credential.masked(),
+                        "sources": sources,
+                    },
+                )
+            )
+        return tuple(checks) or (
+            DoctorCheck(
+                "credentials", DoctorStatus.WARNING, "No credentials are configured"
+            ),
+        )
 
     @staticmethod
     def _unique_objects(values: Iterable[object]) -> tuple[object, ...]:
