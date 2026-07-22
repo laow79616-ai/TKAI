@@ -1,24 +1,11 @@
 """
-TKAI
+TKAI package.
 """
 
-# 必须最先定义
+from __future__ import annotations
+
 __version__ = "0.2.1"
 
-from .core import (
-    Context,
-    Lifecycle,
-    Project,
-    Registry,
-    Settings,
-    Workspace,
+__all__ = (
+    "__version__",
 )
-
-__all__ = [
-    "Context",
-    "Lifecycle",
-    "Project",
-    "Registry",
-    "Settings",
-    "Workspace",
-]

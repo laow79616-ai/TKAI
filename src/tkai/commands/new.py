@@ -1,24 +1,75 @@
 """
-New Project Command
+TKAI New Project Command
 """
 
-from tkai.generators import ProjectGenerator
+from __future__ import annotations
+
+from pathlib import Path
+from types import SimpleNamespace
+
+import typer
+
+from tkai.generators import GeneratorEngine
+
+app = typer.Typer(
+    help="Create a new project from a template.",
+)
 
 
-def run(args):
+def run(args) -> None:
+    """
+    Compatibility entry for argparse CLI.
+    """
 
-    if not args.project_name:
-        print("Usage:")
-        print()
-        print("    tkai new <project_name>")
-        print()
-        print("Example:")
-        print("    tkai new Demo")
-        return
+    namespace = SimpleNamespace(
+        project=getattr(args, "project_name", None),
+        template=getattr(args, "template", "default"),
+    )
 
-    generator = ProjectGenerator()
+    if not namespace.project:
+        raise SystemExit("Project name is required.")
 
-    generator.create(
-        project_name=args.project_name,
-        template=args.template,
+    create(
+        project=namespace.project,
+        template=namespace.template,
+    )
+
+
+@app.command(name="new")
+def create(
+    project: str = typer.Argument(
+        ...,
+        help="Project name.",
+    ),
+    template: str = typer.Option(
+        "default",
+        "--template",
+        "-t",
+        help="Template name.",
+    ),
+) -> None:
+    """
+    Create a new project.
+    """
+
+    template_dir = (
+        Path(__file__).parent.parent
+        / "templates"
+        / template
+    )
+
+    output = Path.cwd() / project
+
+    engine = GeneratorEngine(template_dir)
+
+    engine.generate(
+        output=output,
+        variables={
+            "project_name": project,
+        },
+    )
+
+    typer.secho(
+        f"✔ Project created: {output}",
+        fg=typer.colors.GREEN,
     )

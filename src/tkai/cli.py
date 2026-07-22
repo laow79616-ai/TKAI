@@ -3,130 +3,61 @@ TKAI CLI
 AI Software Factory Command Line Interface
 """
 
-import argparse
+from __future__ import annotations
 
-from tkai.commands import doctor
-from tkai.commands import version
-from tkai.commands import new
-from tkai.commands import init
-from tkai.commands import template
+import typer
 
+from tkai import __version__
+from tkai.commands.new import app as new_app
+from tkai.commands.template import app as template_app
+from tkai.commands.version import app as version_app
+from tkai.commands.doctor import app as doctor_app
+from tkai.commands.init import app as init_app
 
-def show_banner():
-    print()
-    print("=" * 60)
-    print("TKAI AI Software Factory")
-    print("=" * 60)
-    print()
+app = typer.Typer(
+    name="tkai",
+    help="TKAI AI Software Factory",
+    add_completion=False,
+    no_args_is_help=True,
+)
 
+app.add_typer(
+    new_app,
+    name="new",
+)
 
-COMMANDS = {
-    "doctor": doctor.run,
-    "new": new.run,
-    "init": init.run,
-    "template": template.run,
-}
+app.add_typer(
+    template_app,
+    name="template",
+)
 
+app.add_typer(
+    version_app,
+    name="version",
+)
 
-def build_parser():
-    parser = argparse.ArgumentParser(
-        prog="tkai",
-        description="TKAI AI Software Factory"
-    )
+app.add_typer(
+    doctor_app,
+    name="doctor",
+)
 
-    parser.add_argument(
-        "--version",
-        action="store_true",
-        help="Show TKAI version"
-    )
-
-    subparsers = parser.add_subparsers(
-        dest="command",
-        metavar="<command>"
-    )
-
-    # doctor
-    subparsers.add_parser(
-        "doctor",
-        help="Check development environment"
-    )
-
-    # new
-    new_parser = subparsers.add_parser(
-        "new",
-        help="Create a new project"
-    )
-
-    new_parser.add_argument(
-        "project_name",
-        nargs="?",
-        help="Project name"
-    )
-
-    new_parser.add_argument(
-        "--template",
-        default="fastapi",
-        help="Project template"
-    )
-
-    # init
-    subparsers.add_parser(
-        "init",
-        help="Initialize TKAI configuration"
-    )
-
-    # template
-    template_parser = subparsers.add_parser(
-        "template",
-        help="Template management"
-    )
-
-    template_sub = template_parser.add_subparsers(
-        dest="action",
-        required=True
-    )
-
-    # template list
-    template_sub.add_parser(
-        "list",
-        help="List templates"
-    )
-
-    # template info
-    info_parser = template_sub.add_parser(
-        "info",
-        help="Show template information"
-    )
-
-    info_parser.add_argument(
-        "template_name",
-        help="Template name"
-    )
-
-    # template validate
-    template_sub.add_parser(
-        "validate",
-        help="Validate all templates"
-    )
-
-    return parser
+app.add_typer(
+    init_app,
+    name="init",
+)
 
 
-def main():
-    parser = build_parser()
+@app.command()
+def info() -> None:
+    """
+    Show TKAI information.
+    """
 
-    args = parser.parse_args()
+    typer.echo(f"TKAI v{__version__}")
 
-    if args.version:
-        version.run(args)
-        return
 
-    if args.command in COMMANDS:
-        COMMANDS[args.command](args)
-        return
-
-    show_banner()
-    parser.print_help()
+def main() -> None:
+    app()
 
 
 if __name__ == "__main__":

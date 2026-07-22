@@ -1,0 +1,13 @@
+{
+  "name": "fastapi",
+  "display_name": "FastAPI Enterprise",
+  "version": "1.0.0",
+  "author": "TKAI",
+  "python": ">=3.12",
+  "description": "Enterprise FastAPI Template",
+  "tags": [
+    "fastapi",
+    "backend",
+    "api"
+  ]
+}

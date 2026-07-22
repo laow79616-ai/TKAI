@@ -2,82 +2,112 @@
 TKAI Template Command
 """
 
+from __future__ import annotations
+
+from pathlib import Path
+
+import typer
+
 from tkai.template_engine import TemplateManager
 
+app = typer.Typer(
+    help="Template management.",
+)
 
-def run(args):
-    manager = TemplateManager()
 
-    if args.action == "list":
-        templates = manager.list_templates()
+def get_manager() -> TemplateManager:
+    """
+    Return template manager.
+    """
 
-        print()
-        print("=" * 50)
-        print("Available Templates")
-        print("=" * 50)
-        print()
+    template_root = (
+        Path(__file__).resolve().parent.parent
+        / "templates"
+    )
 
-        for item in templates:
-            print(f"✓ {item['name']}")
-            print(f"  {item.get('description', 'No description')}")
-            print()
+    return TemplateManager(template_root)
 
-    elif args.action == "info":
 
-        info = manager.get_template(args.template_name)
+@app.command("list")
+def list_templates() -> None:
+    """
+    List all templates.
+    """
 
-        print()
-        print("=" * 50)
-        print("Template Information")
-        print("=" * 50)
-        print()
+    manager = get_manager()
 
-        print(f"Name        : {info['name']}")
-        print(f"Display     : {info.get('display_name', '-')}")
-        print(f"Version     : {info.get('version', '-')}")
-        print(f"Author      : {info.get('author', '-')}")
-        print(f"Python      : {info.get('python', '-')}")
-        print()
+    typer.echo("")
+    typer.echo("=" * 60)
+    typer.echo("Available Templates")
+    typer.echo("=" * 60)
 
-        print("Description")
-        print("-" * 50)
-        print(info.get("description", ""))
-        print()
+    for name in manager.list():
+        typer.echo(f"• {name}")
 
-        print("Tags")
-        print("-" * 50)
-        print(", ".join(info.get("tags", [])))
-        print()
 
-    elif args.action == "validate":
+@app.command("info")
+def info(
+    template: str = typer.Argument(
+        ...,
+        help="Template name.",
+    ),
+) -> None:
+    """
+    Show template information.
+    """
 
-        results = manager.validate_all()
+    manager = get_manager()
 
-        print()
-        print("=" * 50)
-        print("Checking Templates")
-        print("=" * 50)
-        print()
+    manifest = manager.manifest(template)
 
-        passed = 0
-        failed = 0
+    typer.echo("")
+    typer.echo("=" * 60)
+    typer.echo("Template Information")
+    typer.echo("=" * 60)
 
-        for result in results:
+    typer.echo(f"Name        : {manifest.name}")
+    typer.echo(f"Version     : {manifest.version}")
+    typer.echo(f"Author      : {manifest.author}")
+    typer.echo(f"Description : {manifest.description}")
+    typer.echo(f"License     : {manifest.license}")
+    typer.echo(f"Homepage    : {manifest.homepage}")
 
-            if result["valid"]:
-                print(f"✓ {result['name']}")
-                passed += 1
 
-            else:
-                print(f"✗ {result['name']}")
-                for error in result["errors"]:
-                    print(f"  - {error}")
-                failed += 1
+@app.command("validate")
+def validate() -> None:
+    """
+    Validate templates.
+    """
 
-            print()
+    manager = get_manager()
 
-        print("-" * 50)
-        print(f"Templates : {len(results)}")
-        print(f"Passed    : {passed}")
-        print(f"Failed    : {failed}")
-        print()
+    failed = False
+
+    for template in manager.list():
+        try:
+            manager.manifest(template)
+            typer.secho(
+                f"✓ {template}",
+                fg=typer.colors.GREEN,
+            )
+        except Exception as exc:
+            failed = True
+            typer.secho(
+                f"✗ {template}: {exc}",
+                fg=typer.colors.RED,
+            )
+
+    if failed:
+        raise typer.Exit(code=1)
+
+
+@app.callback(invoke_without_command=True)
+def callback(
+    ctx: typer.Context,
+) -> None:
+    """
+    Default template command.
+    """
+
+    if ctx.invoked_subcommand is None:
+        typer.echo(ctx.get_help())
