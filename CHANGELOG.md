@@ -10,6 +10,8 @@
 - V1.1 RC-2 offline benchmark runner, routing/cache/rate-limit/EventBus/plugin
   benchmark scripts, concurrent stress tests, 100,000-iteration soak checks,
   and performance/reliability release documentation.
+- V1.1 RC-3 local wheel/sdist artifact validation, isolated-environment install
+  checks, offline cache/plugin/custom-routing examples, and release notes.
 - Optional V1.1 local foundations for credential discovery, persistent
   configuration, passive health, observability, circuit breaking, cost/load
   routing, rate limiting, cache, and the Plugin SDK.

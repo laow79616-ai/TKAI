@@ -19,100 +19,46 @@ Dynamic: license-file
 
 # TKAI
 
-> AI Software Factory
+TKAI is a typed, offline-testable Python framework for project scaffolding,
+plugins, workflows, and provider-neutral AI integrations.
 
-## Overview
+Current release candidate: **1.0.0rc1**.
 
-TKAI（Toolkit AI）是一个 AI 软件工厂，用于统一管理 AI 软件开发流程。
+## AI provider framework
 
-本项目不负责具体业务，而是负责：
+The public AI layer keeps legacy `AIClient.generate()` available while adding
+normalized chat, streaming, embeddings, async calls, capability routing,
+fallback policy, diagnostics, and a thin `tkai ai` CLI. Provider transports
+are injectable, so tests and examples never require credentials or network
+access.
 
-- 项目模板（Templates）
-- AI Prompt 库（Prompts）
-- 开发规范（Standards）
-- 产品文档（Docs）
-- Sprint 与任务管理（Tasks）
-- AI 协作规则（CLAUDE.md）
-
----
-
-# Project Structure
-
-```
-TKAI/
-├── docs
-├── prompts
-├── standards
-├── tasks
-├── templates
+```bash
+python -m pip install -e '.[dev]'
+tkai ai doctor
+tkai ai providers --json
+tkai ai capabilities --json
+tkai ai fallback --json
 ```
 
----
+See [AI framework](docs/AI.md), [provider development](docs/Providers.md),
+[CLI guide](docs/CLI.md), [Doctor guide](docs/Doctor.md), and the
+[release checklist](docs/Release.md).
 
-# Development Workflow
+## Compatibility
 
-Requirement
+`AIClient`, `AIProvider`, `ProviderManager`, `OpenAICompatibleProvider`, and
+existing synchronous CLI commands remain supported. Async provider methods and
+the `tkai ai` inspection commands are additive. Details are in the
+[migration guide](docs/Migration.md).
 
-↓
+## Development validation
 
-Architecture
+```bash
+python -m pytest
+python -m ruff check .
+python -m black --check .
+python -m mypy src
+```
 
-↓
-
-Database
-
-↓
-
-API
-
-↓
-
-Implementation
-
-↓
-
-Review
-
-↓
-
-Testing
-
-↓
-
-Release
-
----
-
-# Tech Stack
-
-Backend
-
-- Python
-- FastAPI
-
-Frontend
-
-- React
-- TypeScript
-
-Database
-
-- PostgreSQL
-
-Automation
-
-- Playwright
-
-Container
-
-- Docker
-
-CI/CD
-
-- GitHub Actions
-
----
-
-Version
-
-v1.0.0-rc.1
+All executable AI examples are under `examples/ai/` and intentionally use
+local fakes only.
