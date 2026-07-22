@@ -7,6 +7,9 @@
 - V1.1 RC-1 public-API inventory, compatibility/import regression coverage,
   serialization safety checks, CLI/Doctor smoke validation, and release
   checklist documentation.
+- V1.1 RC-2 offline benchmark runner, routing/cache/rate-limit/EventBus/plugin
+  benchmark scripts, concurrent stress tests, 100,000-iteration soak checks,
+  and performance/reliability release documentation.
 - Optional V1.1 local foundations for credential discovery, persistent
   configuration, passive health, observability, circuit breaking, cost/load
   routing, rate limiting, cache, and the Plugin SDK.
@@ -39,6 +42,8 @@
   examples, documentation, quality gates, and tag-ready metadata.
 - V1.1 additive foundations remain opt-in and preserve the V1 provider,
   configuration, CLI, and legacy plugin lifecycle behaviour.
+- EventBus and RateLimitManager now protect their local concurrent state
+  transitions during publish and quota consumption.
 
 ### Known limitations
 

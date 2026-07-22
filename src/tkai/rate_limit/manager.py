@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from threading import RLock
+
 from tkai.observability import EventBus
 
 from .events import QuotaConsumed, QuotaReset, RateLimitEvent, RateLimitExceeded
@@ -26,6 +28,7 @@ class RateLimitManager:
         self.limiter = RateLimiter(self.registry, self.strategy)
         self.event_bus = event_bus
         self.events: list[RateLimitEvent] = []
+        self._lock = RLock()
 
     def register(self, snapshot: RateLimitSnapshot) -> None:
         """Register one immutable provider/scope quota."""
@@ -38,45 +41,50 @@ class RateLimitManager:
 
     def allow(self, provider: str, *, scope: str = "provider", tokens: int = 0) -> bool:
         """Check a quota without consuming capacity or publishing an event."""
-        return self.limiter.allow(provider, scope=scope, tokens=tokens)
+        with self._lock:
+            return self.limiter.allow(provider, scope=scope, tokens=tokens)
 
     def consume(
         self, provider: str, *, scope: str = "provider", tokens: int = 0
     ) -> bool:
         """Consume local capacity and publish a safe quota decision event."""
-        allowed, snapshot = self.limiter.consume(provider, scope=scope, tokens=tokens)
-        event_type: type[RateLimitEvent] = (
-            QuotaConsumed if allowed else RateLimitExceeded
-        )
-        self._publish(
-            event_type(
-                provider=provider,
-                scope=scope,
-                snapshot=snapshot,
-                data={
-                    "provider": provider,
-                    "scope": scope,
-                    "snapshot": snapshot.to_dict(),
-                },
+        with self._lock:
+            allowed, snapshot = self.limiter.consume(
+                provider, scope=scope, tokens=tokens
             )
-        )
+            event_type: type[RateLimitEvent] = (
+                QuotaConsumed if allowed else RateLimitExceeded
+            )
+            self._publish(
+                event_type(
+                    provider=provider,
+                    scope=scope,
+                    snapshot=snapshot,
+                    data={
+                        "provider": provider,
+                        "scope": scope,
+                        "snapshot": snapshot.to_dict(),
+                    },
+                )
+            )
         return allowed
 
     def reset(self, provider: str, *, scope: str = "provider") -> RateLimitSnapshot:
         """Reset one local quota and publish a safe reset event."""
-        snapshot = self.limiter.reset(provider, scope=scope)
-        self._publish(
-            QuotaReset(
-                provider=provider,
-                scope=scope,
-                snapshot=snapshot,
-                data={
-                    "provider": provider,
-                    "scope": scope,
-                    "snapshot": snapshot.to_dict(),
-                },
+        with self._lock:
+            snapshot = self.limiter.reset(provider, scope=scope)
+            self._publish(
+                QuotaReset(
+                    provider=provider,
+                    scope=scope,
+                    snapshot=snapshot,
+                    data={
+                        "provider": provider,
+                        "scope": scope,
+                        "snapshot": snapshot.to_dict(),
+                    },
+                )
             )
-        )
         return snapshot
 
     def _publish(self, event: RateLimitEvent) -> None:
