@@ -23,9 +23,7 @@ class ProjectGenerator:
         target = Path.cwd() / project_name
 
         if target.exists():
-            raise FileExistsError(
-                f"Project '{project_name}' already exists."
-            )
+            raise FileExistsError(f"Project '{project_name}' already exists.")
 
         self.engine.render(
             template=template,

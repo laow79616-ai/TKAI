@@ -1,4 +1,3 @@
-
 from tkai.core.settings import Settings
 
 

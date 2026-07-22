@@ -7,7 +7,7 @@ Project domain model.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -24,9 +24,7 @@ class Project:
     author: str | None = None
     description: str | None = None
 
-    created_at: datetime = field(
-        default_factory=lambda: datetime.now(UTC)
-    )
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     metadata: dict[str, Any] = field(default_factory=dict)
 
     @property
@@ -41,11 +39,7 @@ class Project:
 
     def validate(self) -> bool:
         """Validate project."""
-        return (
-            bool(self.name)
-            and self.root.exists()
-            and self.root.is_dir()
-        )
+        return bool(self.name) and self.root.exists() and self.root.is_dir()
 
     def to_dict(self) -> dict[str, Any]:
         """Serialize project."""
@@ -71,9 +65,9 @@ class Project:
 
             # 兼容旧版本（没有 tzinfo 的 ISO 时间）
             if created.tzinfo is None:
-                created = created.replace(tzinfo=UTC)
+                created = created.replace(tzinfo=timezone.utc)
         else:
-            created = datetime.now(UTC)
+            created = datetime.now(timezone.utc)
 
         return cls(
             name=data["name"],

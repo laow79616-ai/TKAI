@@ -20,10 +20,7 @@ def get_manager() -> TemplateManager:
     Return template manager.
     """
 
-    template_root = (
-        Path(__file__).resolve().parent.parent
-        / "templates"
-    )
+    template_root = Path(__file__).resolve().parent.parent / "templates"
 
     return TemplateManager(template_root)
 

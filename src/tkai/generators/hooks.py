@@ -58,9 +58,7 @@ class HookManager:
         results = []
 
         for hook in self._hooks.get(event, []):
-            results.append(
-                hook(*args, **kwargs)
-            )
+            results.append(hook(*args, **kwargs))
 
         return results
 

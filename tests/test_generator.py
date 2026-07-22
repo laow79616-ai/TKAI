@@ -56,10 +56,13 @@ def test_generate():
 
     manager.register(gen)
 
-    assert manager.generate(
-        "DemoGenerator",
-        name="tkai",
-    ) == "tkai"
+    assert (
+        manager.generate(
+            "DemoGenerator",
+            name="tkai",
+        )
+        == "tkai"
+    )
 
 
 def test_unregister():

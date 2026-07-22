@@ -9,6 +9,8 @@ Requires-Dist: jinja2>=3.1
 Requires-Dist: PyYAML>=6.0
 Requires-Dist: typer>=0.12
 Provides-Extra: dev
+Requires-Dist: black>=24.0; extra == "dev"
+Requires-Dist: mypy>=1.10; extra == "dev"
 Requires-Dist: pytest>=8.0; extra == "dev"
 Requires-Dist: ruff>=0.6; extra == "dev"
 Dynamic: license-file

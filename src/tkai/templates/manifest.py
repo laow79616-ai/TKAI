@@ -34,8 +34,7 @@ class TemplateManifest:
             data = json.loads(json_manifest.read_text(encoding="utf-8"))
         else:
             raise FileNotFoundError(
-                "Template manifest not found: "
-                f"{yaml_manifest} or {json_manifest}"
+                "Template manifest not found: " f"{yaml_manifest} or {json_manifest}"
             )
 
         if not isinstance(data, dict):

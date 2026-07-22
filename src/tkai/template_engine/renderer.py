@@ -31,9 +31,7 @@ class TemplateRenderer:
         variables: dict[str, Any],
     ) -> Path:
 
-        text = source.read_text(
-            encoding="utf-8"
-        )
+        text = source.read_text(encoding="utf-8")
 
         text = self.render_text(
             text,

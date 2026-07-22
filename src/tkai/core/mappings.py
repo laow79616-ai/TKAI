@@ -7,9 +7,7 @@ from copy import deepcopy
 from typing import Any
 
 
-def deep_merge(
-    target: MutableMapping[str, Any], source: Mapping[str, Any]
-) -> None:
+def deep_merge(target: MutableMapping[str, Any], source: Mapping[str, Any]) -> None:
     """Merge ``source`` into ``target`` without sharing mutable values."""
     for key, value in source.items():
         current = target.get(key)
@@ -19,9 +17,7 @@ def deep_merge(
             target[key] = deepcopy(value)
 
 
-def get_dotted(
-    values: Mapping[str, Any], key: str, default: Any = None
-) -> Any:
+def get_dotted(values: Mapping[str, Any], key: str, default: Any = None) -> Any:
     """Return a dotted-path value, or ``default`` when the path is absent."""
     current: Any = values
     for part in key.split("."):
@@ -31,9 +27,7 @@ def get_dotted(
     return current
 
 
-def set_dotted(
-    values: MutableMapping[str, Any], key: str, value: Any
-) -> None:
+def set_dotted(values: MutableMapping[str, Any], key: str, value: Any) -> None:
     """Set a dotted-path value, creating intermediate mappings as needed."""
     parts = key.split(".")
     current: MutableMapping[str, Any] = values

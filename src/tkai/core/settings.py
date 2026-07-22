@@ -47,6 +47,6 @@ class Settings:
         for key, value in os.environ.items():
             if key.startswith(prefix):
                 self.set(
-                    key[len(prefix):].lower().replace("_", "."),
+                    key[len(prefix) :].lower().replace("_", "."),
                     value,
                 )

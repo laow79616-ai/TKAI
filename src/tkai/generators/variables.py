@@ -80,7 +80,7 @@ class VariableManager:
             if not key.startswith(prefix):
                 continue
 
-            name = key[len(prefix):].lower()
+            name = key[len(prefix) :].lower()
 
             self._variables[name] = value
 

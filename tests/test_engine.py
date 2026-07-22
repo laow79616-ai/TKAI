@@ -25,9 +25,7 @@ def test_engine_generate(tmp_path: Path):
 
     assert result.exists()
     assert (output / "README.md").exists()
-    assert (
-        output / "README.md"
-    ).read_text(encoding="utf-8") == "# TKAI"
+    assert (output / "README.md").read_text(encoding="utf-8") == "# TKAI"
 
 
 def test_engine_hooks(tmp_path: Path):

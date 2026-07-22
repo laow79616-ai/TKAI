@@ -8,7 +8,7 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from jinja2 import Environment, FileSystemLoader, StrictUndefined, Template
+from jinja2 import Environment, FileSystemLoader, StrictUndefined, Template, Undefined
 
 
 class TemplateRenderer:
@@ -21,10 +21,8 @@ class TemplateRenderer:
         strict: bool = True,
     ) -> None:
         self._env = Environment(
-            loader=FileSystemLoader(str(template_dir))
-            if template_dir
-            else None,
-            undefined=StrictUndefined if strict else None,
+            loader=FileSystemLoader(str(template_dir)) if template_dir else None,
+            undefined=StrictUndefined if strict else Undefined,
             keep_trailing_newline=True,
             autoescape=False,
             trim_blocks=True,

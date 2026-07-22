@@ -1,9 +1,11 @@
 from tkai.config.manager import ConfigManager
+from tkai.core.settings import Settings
 
 
 def test_load_default():
     cfg = ConfigManager()
 
+    assert isinstance(cfg, Settings)
     assert cfg.get("language") == "zh-CN"
     assert cfg.get("template") == "fastapi"
     assert cfg.get("workspace") == "~/Projects"

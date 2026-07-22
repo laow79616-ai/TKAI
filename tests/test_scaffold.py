@@ -33,10 +33,6 @@ def test_generate_project(tmp_path: Path):
     assert (output / "README.md").exists()
     assert (output / "demo.txt").exists()
 
-    assert (
-        output / "README.md"
-    ).read_text() == "# TKAI"
+    assert (output / "README.md").read_text() == "# TKAI"
 
-    assert (
-        output / "demo.txt"
-    ).read_text() == "wang"
+    assert (output / "demo.txt").read_text() == "wang"
