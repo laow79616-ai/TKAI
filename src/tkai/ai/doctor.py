@@ -13,6 +13,7 @@ from typing import Any
 
 from tkai.configuration import ConfigurationManager
 from tkai.credentials import CredentialManager
+from tkai.health import HealthManager, HealthStatus
 from tkai.providers.http import AsyncHTTPTransport
 
 from .fallback import FallbackCandidate, FallbackEngine, FallbackPolicy
@@ -117,6 +118,7 @@ class DoctorService:
         fallback_candidates: Sequence[FallbackCandidate[object]] = (),
         credentials: CredentialManager | None = None,
         persistent_configuration: ConfigurationManager | None = None,
+        health: HealthManager | None = None,
     ) -> None:
         self.manager = manager
         self._transports = tuple(transports)
@@ -127,6 +129,7 @@ class DoctorService:
         self._fallback_candidates = tuple(fallback_candidates)
         self._credentials = credentials
         self._persistent_configuration = persistent_configuration
+        self._health = health
 
     def run(self) -> DoctorReport:
         """Run every diagnostic once and return a complete immutable report."""
@@ -138,6 +141,7 @@ class DoctorService:
         checks.extend(self._fallback_checks())
         checks.extend(self._credential_checks())
         checks.extend(self._persistent_configuration_checks())
+        checks.extend(self._health_checks())
         return DoctorReport(tuple(checks))
 
     def validate_config(self) -> DoctorReport:
@@ -625,6 +629,48 @@ class DoctorService:
                     ],
                 },
             ),
+        )
+
+    def _health_checks(self) -> tuple[DoctorCheck, ...]:
+        """Report passive health snapshots without probing any provider."""
+        if self._health is None:
+            return (
+                DoctorCheck(
+                    "health", DoctorStatus.WARNING, "No HealthManager was supplied"
+                ),
+            )
+        checks: list[DoctorCheck] = []
+        for snapshot in self._health.registry.list():
+            status = (
+                DoctorStatus.PASS
+                if snapshot.status is HealthStatus.HEALTHY
+                else (
+                    DoctorStatus.WARNING
+                    if snapshot.status in {HealthStatus.UNKNOWN, HealthStatus.DEGRADED}
+                    else DoctorStatus.ERROR
+                )
+            )
+            checks.append(
+                DoctorCheck(
+                    f"health.{snapshot.provider}",
+                    status,
+                    snapshot.status.value,
+                    {
+                        "requests": snapshot.statistics.requests,
+                        "success": snapshot.statistics.success,
+                        "failure": snapshot.statistics.failure,
+                        "timeout": snapshot.statistics.timeout,
+                        "consecutive_failures": snapshot.consecutive_failures,
+                        "recent_events": [
+                            event.event
+                            for event in self._health.collector.events[-5:]
+                            if event.provider == snapshot.provider
+                        ],
+                    },
+                )
+            )
+        return tuple(checks) or (
+            DoctorCheck("health", DoctorStatus.WARNING, "No passive health records"),
         )
 
     @staticmethod

@@ -9,6 +9,7 @@ from typing import Any
 from tkai import __version__
 from tkai.configuration import ConfigurationManager
 from tkai.credentials import CredentialManager
+from tkai.health import HealthManager
 
 from .doctor import DoctorReport, DoctorService
 from .fallback import FallbackCandidate, FallbackEngine, FallbackPolicy
@@ -33,12 +34,40 @@ class AICommandService:
         fallback_candidates: Iterable[FallbackCandidate[object]] = (),
         credentials: CredentialManager | None = None,
         configuration: ConfigurationManager | None = None,
+        health: HealthManager | None = None,
     ) -> None:
         self.manager = manager or ProviderManager()
         self.fallback = fallback or FallbackEngine()
         self.fallback_candidates = tuple(fallback_candidates)
         self.credentials = credentials
         self.configuration = configuration
+        self.health = health
+
+    def health_summary(self) -> list[dict[str, Any]]:
+        """Return passive health snapshots and their most recent event safely."""
+        if self.health is None:
+            return []
+        events = self.health.collector.events
+        return [
+            {
+                "provider": item.provider,
+                "status": item.status.value,
+                "requests": item.statistics.requests,
+                "success": item.statistics.success,
+                "failure": item.statistics.failure,
+                "timeout": item.statistics.timeout,
+                "consecutive_failures": item.consecutive_failures,
+                "recent_event": next(
+                    (
+                        event.event
+                        for event in reversed(events)
+                        if event.provider == item.provider
+                    ),
+                    None,
+                ),
+            }
+            for item in self.health.registry.list()
+        ]
 
     def configuration_summary(self) -> dict[str, Any]:
         """Return immutable resolved configuration metadata without secrets."""
@@ -222,6 +251,7 @@ class AICommandService:
             fallback_candidates=self.fallback_candidates,
             credentials=self.credentials,
             persistent_configuration=self.configuration,
+            health=self.health,
         )
 
     def _fallback_policy(self) -> FallbackPolicy:

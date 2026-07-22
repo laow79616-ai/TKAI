@@ -108,6 +108,12 @@ def credentials(as_json: bool = typer.Option(False, "--json")) -> None:
     _render(value, as_json=as_json)
 
 
+@app.command("health")
+def health(as_json: bool = typer.Option(False, "--json")) -> None:
+    """Show passively collected provider health snapshots."""
+    _render(_call(_service.health_summary), as_json=as_json)
+
+
 @app.command("config")
 def config(
     as_json: bool = typer.Option(False, "--json"),

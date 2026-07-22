@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 
 from .evaluator import HealthEvaluator
 from .events import HealthEvent
+from .models import HealthStatus
 from .registry import HealthRegistry
 
 
@@ -43,6 +44,16 @@ class PassiveHealthCollector:
         snapshot = replace(snapshot, status=self.evaluator.evaluate(snapshot))
         self.registry.update(snapshot)
         if old.status != snapshot.status:
+            event = "HealthChanged"
+            if (
+                snapshot.status is HealthStatus.HEALTHY
+                and old.status is not HealthStatus.UNKNOWN
+            ):
+                event = "ProviderRecovered"
+            elif snapshot.status is HealthStatus.DEGRADED:
+                event = "ProviderDegraded"
+            elif snapshot.status is HealthStatus.UNHEALTHY:
+                event = "ProviderUnhealthy"
             self.events.append(
-                HealthEvent(provider, "HealthChanged", snapshot.status, now)
+                HealthEvent(provider, event, old.status, snapshot.status, now)
             )

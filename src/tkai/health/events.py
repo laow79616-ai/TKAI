@@ -10,7 +10,11 @@ from .models import HealthStatus
 
 @dataclass(frozen=True, slots=True)
 class HealthEvent:
+    """Immutable passive health state transition event."""
+
     provider: str
     event: str
-    status: HealthStatus
+    old_status: HealthStatus
+    new_status: HealthStatus
     timestamp: datetime
+    reason: str | None = None
