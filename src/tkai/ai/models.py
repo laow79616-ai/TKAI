@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
+from enum import Enum
 from typing import Any
 
 
@@ -44,13 +45,57 @@ class ModelInfo:
     supports_embeddings: bool = False
 
 
+class Capability(str, Enum):
+    """Provider-neutral operations used for type-safe capability routing."""
+
+    CHAT = "chat"
+    STREAMING = "streaming"
+    EMBEDDINGS = "embeddings"
+    TOOLS = "tools"
+    VISION = "vision"
+    JSON_MODE = "json_mode"
+    ASYNC = "async"
+
+
 @dataclass(frozen=True, slots=True)
 class ProviderCapabilities:
-    """Operations a provider can safely advertise."""
+    """Immutable declaration of a provider or model's supported operations.
+
+    A model-level declaration replaces its provider's default declaration. This
+    allows a model to add, remove, or otherwise override capabilities without
+    putting provider-specific conditions in routing code.
+    """
 
     chat: bool = True
     streaming: bool = False
     embeddings: bool = False
+    tools: bool = False
+    vision: bool = False
+    json_mode: bool = False
+    async_: bool = False
+
+    def supported(self) -> frozenset[Capability]:
+        """Return the explicitly advertised capabilities as enum values."""
+        values = {
+            Capability.CHAT: self.chat,
+            Capability.STREAMING: self.streaming,
+            Capability.EMBEDDINGS: self.embeddings,
+            Capability.TOOLS: self.tools,
+            Capability.VISION: self.vision,
+            Capability.JSON_MODE: self.json_mode,
+            Capability.ASYNC: self.async_,
+        }
+        return frozenset(
+            capability for capability, enabled in values.items() if enabled
+        )
+
+    def supports(self, required: frozenset[Capability]) -> bool:
+        """Return whether every requested capability is explicitly supported."""
+        return required.issubset(self.supported())
+
+    def missing(self, required: frozenset[Capability]) -> frozenset[Capability]:
+        """Return required capabilities absent from this declaration."""
+        return required.difference(self.supported())
 
 
 @dataclass(frozen=True, slots=True)

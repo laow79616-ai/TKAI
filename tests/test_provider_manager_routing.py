@@ -11,9 +11,15 @@ import pytest
 from tkai.ai import (
     AIResponse,
     BaseAIProvider,
+    Capability,
+    CapabilityNotSupportedError,
     ChatMessage,
     ChatRequest,
     ChatResponse,
+    EmbeddingRequest,
+    EmbeddingResponse,
+    NoCapableProviderError,
+    ProviderCapabilities,
     ProviderManager,
     ProviderNotFoundError,
 )
@@ -22,10 +28,13 @@ from tkai.ai import (
 class RoutingProvider(BaseAIProvider):
     """Offline provider that records all normalized manager calls."""
 
-    def __init__(self, name: str) -> None:
+    def __init__(
+        self, name: str, capabilities: ProviderCapabilities | None = None
+    ) -> None:
         super().__init__()
         self.name = name
         self.default_model = f"{name}-default"
+        self.capabilities = capabilities or ProviderCapabilities()
         self.calls: list[tuple[str, str | None]] = []
         self.closed = False
         self.async_closed = False
@@ -64,6 +73,14 @@ class RoutingProvider(BaseAIProvider):
 
     async def aclose(self) -> None:
         self.async_closed = True
+
+    def embed(self, request: EmbeddingRequest) -> EmbeddingResponse:
+        self.calls.append(("embed", request.model))
+        return EmbeddingResponse(
+            embeddings=((1.0,),),
+            model=request.model or "",
+            provider=self.name,
+        )
 
 
 def request(model: str | None = None) -> ChatRequest:
@@ -142,3 +159,167 @@ def test_sync_close_unregisters_each_provider_once() -> None:
 
     assert first.closed and second.closed
     assert manager.names() == []
+
+
+def test_empty_capability_request_preserves_default_routing() -> None:
+    manager = ProviderManager()
+    manager.register(RoutingProvider("backup"))
+    manager.register(RoutingProvider("primary"), default=True)
+
+    assert manager.chat(request()).provider == "primary"
+
+
+def test_explicit_provider_must_support_every_required_capability() -> None:
+    manager = ProviderManager()
+    manager.register(
+        RoutingProvider("primary", ProviderCapabilities(chat=True, tools=True)),
+        default=True,
+    )
+
+    assert (
+        manager.chat(
+            request(), provider="primary", required_capabilities=(Capability.TOOLS,)
+        ).provider
+        == "primary"
+    )
+    with pytest.raises(CapabilityNotSupportedError, match="vision"):
+        manager.chat(
+            request(), provider="primary", required_capabilities=(Capability.VISION,)
+        )
+
+
+def test_alias_and_prefixed_model_validate_capabilities() -> None:
+    manager = ProviderManager()
+    provider = RoutingProvider("primary")
+    manager.register(
+        provider,
+        aliases=("openrouter",),
+        model_capabilities={
+            "vision-model": ProviderCapabilities(chat=True, vision=True),
+        },
+    )
+
+    assert (
+        manager.chat(
+            request(),
+            model="openrouter/vision-model",
+            required_capabilities=(Capability.VISION,),
+        ).provider
+        == "primary"
+    )
+    assert provider.calls == [("chat", "vision-model")]
+    with pytest.raises(CapabilityNotSupportedError, match="vision"):
+        manager.chat(
+            request(), provider="openrouter", required_capabilities=(Capability.VISION,)
+        )
+
+
+def test_model_capability_override_can_add_or_remove_provider_capabilities() -> None:
+    manager = ProviderManager()
+    manager.register(
+        RoutingProvider("primary"),
+        default=True,
+        capabilities=ProviderCapabilities(chat=True, streaming=True),
+        model_capabilities={
+            "vision-model": ProviderCapabilities(chat=True, vision=True),
+        },
+    )
+
+    assert manager.model_capabilities("primary")["vision-model"].vision
+    with pytest.raises(NoCapableProviderError, match="streaming"):
+        list(
+            manager.stream_chat(
+                request("vision-model"),
+                required_capabilities=(Capability.STREAMING,),
+            )
+        )
+    assert (
+        manager.chat(
+            request("vision-model"), required_capabilities=(Capability.VISION,)
+        ).provider
+        == "primary"
+    )
+
+
+def test_multi_capability_routing_uses_stable_default_first_order() -> None:
+    manager = ProviderManager()
+    manager.register(
+        RoutingProvider("alpha", ProviderCapabilities(chat=True, tools=True)),
+    )
+    manager.register(
+        RoutingProvider("default", ProviderCapabilities(chat=True, tools=True)),
+        default=True,
+    )
+    manager.register(
+        RoutingProvider("zulu", ProviderCapabilities(chat=True, tools=True)),
+    )
+
+    response = manager.chat(
+        request(), required_capabilities=(Capability.CHAT, Capability.TOOLS)
+    )
+    assert response.provider == "default"
+
+
+def test_no_capable_provider_reports_requirements_candidates_and_reasons() -> None:
+    manager = ProviderManager()
+    manager.register(RoutingProvider("primary"), default=True)
+    manager.register(RoutingProvider("backup", ProviderCapabilities(chat=False)))
+
+    with pytest.raises(NoCapableProviderError) as error:
+        manager.chat(request(), required_capabilities=(Capability.TOOLS,))
+
+    message = str(error.value)
+    assert "tools" in message
+    assert "primary" in message
+    assert "backup" in message
+    assert "missing" in message
+
+
+def test_capability_routing_is_shared_by_async_and_streaming_calls() -> None:
+    async def run() -> None:
+        capabilities = ProviderCapabilities(chat=True, streaming=True, async_=True)
+        manager = ProviderManager()
+        provider = RoutingProvider("primary", capabilities)
+        manager.register(provider, default=True)
+
+        assert (
+            await manager.achat(request(), required_capabilities=(Capability.ASYNC,))
+        ).provider == "primary"
+        assert [
+            response.content
+            async for response in manager.astream_chat(
+                request(), required_capabilities=(Capability.ASYNC,)
+            )
+        ] == ["primary"]
+        assert [
+            response.content
+            for response in manager.stream_chat(
+                request(), required_capabilities=(Capability.ASYNC,)
+            )
+        ] == ["primary"]
+
+    asyncio.run(run())
+
+
+def test_embeddings_require_explicit_embedding_capability() -> None:
+    manager = ProviderManager()
+    manager.register(
+        RoutingProvider("primary", ProviderCapabilities(chat=True, embeddings=True)),
+        default=True,
+        model_capabilities={"other": ProviderCapabilities(chat=True)},
+    )
+
+    assert (
+        manager.embed(
+            EmbeddingRequest(("hello",), "embed"),
+            required_capabilities=(Capability.EMBEDDINGS,),
+        ).provider
+        == "primary"
+    )
+    with pytest.raises(CapabilityNotSupportedError, match="embeddings"):
+        manager.embed(
+            EmbeddingRequest(("hello",)),
+            provider="primary",
+            model="other",
+            required_capabilities=(Capability.EMBEDDINGS,),
+        )

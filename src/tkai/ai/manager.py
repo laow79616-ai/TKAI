@@ -4,18 +4,25 @@ from __future__ import annotations
 
 import asyncio
 import inspect
-from collections.abc import AsyncIterator, Awaitable, Iterable, Iterator
+from collections.abc import AsyncIterator, Awaitable, Iterable, Iterator, Mapping
 from dataclasses import replace
 from threading import RLock
 from typing import cast
 
 from .config import load_provider_config
-from .errors import ProviderConfigurationError, ProviderNotFoundError
+from .errors import (
+    CapabilityNotSupportedError,
+    NoCapableProviderError,
+    ProviderConfigurationError,
+    ProviderNotFoundError,
+)
 from .models import (
+    Capability,
     ChatRequest,
     ChatResponse,
     EmbeddingRequest,
     EmbeddingResponse,
+    ProviderCapabilities,
 )
 from .provider import AIProvider
 from .registry import ProviderRegistry
@@ -35,12 +42,18 @@ class ProviderManager:
         *,
         default: bool = False,
         aliases: Iterable[str] = (),
+        capabilities: ProviderCapabilities | None = None,
+        model_capabilities: Mapping[str, ProviderCapabilities] | None = None,
     ) -> None:
-        """Register and initialize one provider."""
+        """Register a cached provider with optional default and model capabilities."""
         provider.validate_config()
         provider.initialize()
         with self._lock:
-            self.registry.register(provider)
+            self.registry.register(
+                provider,
+                capabilities=capabilities,
+                model_capabilities=model_capabilities,
+            )
             self.registry.register_aliases(provider.name, aliases)
             if default or self.default_provider is None:
                 self.default_provider = provider.name
@@ -143,13 +156,82 @@ class ProviderManager:
         with self._lock:
             return self.registry.aliases()
 
+    @staticmethod
+    def _required_capabilities(
+        required_capabilities: Iterable[Capability],
+    ) -> frozenset[Capability]:
+        """Validate and normalize a capability request without string matching."""
+        capabilities = frozenset(required_capabilities)
+        invalid = capabilities.difference(Capability)
+        if invalid:
+            raise ProviderConfigurationError(
+                "Capabilities must use Capability enum values"
+            )
+        return capabilities
+
+    def _candidate_names(self) -> list[str]:
+        """Return a stable preference order with the default provider first."""
+        names = self.names()
+        if self.default_provider in names:
+            names.remove(cast(str, self.default_provider))
+            names.insert(0, cast(str, self.default_provider))
+        return names
+
+    @staticmethod
+    def _capability_names(capabilities: Iterable[Capability]) -> str:
+        """Render a stable, secret-free capability list for errors."""
+        return ", ".join(sorted(capability.value for capability in capabilities))
+
+    def _check_capabilities(
+        self,
+        provider: AIProvider,
+        model: str | None,
+        required: frozenset[Capability],
+        *,
+        explicit: bool,
+    ) -> None:
+        """Raise a contextual error when a selected provider cannot satisfy a call."""
+        declared = self.registry.capabilities_for(provider.name, model)
+        missing = declared.missing(required)
+        if not missing:
+            return
+        message = (
+            f"Provider '{provider.name}'"
+            f"{f' model {model!r}' if model else ''} does not support: "
+            f"{self._capability_names(missing)}; required: "
+            f"{self._capability_names(required)}"
+        )
+        if explicit:
+            raise CapabilityNotSupportedError(message)
+        raise NoCapableProviderError(message)
+
+    def _select_by_capabilities(
+        self,
+        model: str | None,
+        required: frozenset[Capability],
+    ) -> AIProvider:
+        """Select the first stable capable provider or explain all rejections."""
+        rejected: list[str] = []
+        for name in self._candidate_names():
+            declared = self.registry.capabilities_for(name, model)
+            missing = declared.missing(required)
+            if not missing:
+                return self.registry.get(name)
+            rejected.append(f"{name}: missing {self._capability_names(missing)}")
+        raise NoCapableProviderError(
+            f"No provider supports required capabilities "
+            f"[{self._capability_names(required)}]. Checked: {'; '.join(rejected)}"
+        )
+
     def _route(
         self,
         request: ChatRequest,
         provider: str | None,
         model: str | None,
+        required_capabilities: Iterable[Capability] = (),
     ) -> tuple[AIProvider, ChatRequest]:
-        """Resolve a provider and preserve a provider-prefixed model suffix."""
+        """Resolve provider/model priority and validate every requested capability."""
+        required = self._required_capabilities(required_capabilities)
         selected = provider
         selected_model = model or request.model
         if selected is None and selected_model and "/" in selected_model:
@@ -164,7 +246,19 @@ class ProviderManager:
                 selected_model = remainder
         if selected_model != request.model:
             request = replace(request, model=selected_model)
-        return self.get(selected), request
+        if selected is not None:
+            selected_provider = self.get(selected)
+            self._check_capabilities(
+                selected_provider,
+                selected_model,
+                required,
+                explicit=True,
+            )
+            return selected_provider, request
+        if not required:
+            return self.get(), request
+        selected_provider = self._select_by_capabilities(selected_model, required)
+        return selected_provider, request
 
     def chat(
         self,
@@ -172,9 +266,12 @@ class ProviderManager:
         *,
         provider: str | None = None,
         model: str | None = None,
+        required_capabilities: Iterable[Capability] = (),
     ) -> ChatResponse:
-        """Route a chat request."""
-        selected_provider, selected_request = self._route(request, provider, model)
+        """Route chat, selecting only a provider that meets required capabilities."""
+        selected_provider, selected_request = self._route(
+            request, provider, model, required_capabilities
+        )
         return selected_provider.chat(selected_request)
 
     async def achat(
@@ -183,9 +280,12 @@ class ProviderManager:
         *,
         provider: str | None = None,
         model: str | None = None,
+        required_capabilities: Iterable[Capability] = (),
     ) -> ChatResponse:
         """Route chat through a provider's async API when it is available."""
-        selected_provider, selected_request = self._route(request, provider, model)
+        selected_provider, selected_request = self._route(
+            request, provider, model, required_capabilities
+        )
         method = getattr(selected_provider, "achat", None)
         if method is None:
             return await asyncio.to_thread(selected_provider.chat, selected_request)
@@ -203,9 +303,12 @@ class ProviderManager:
         *,
         provider: str | None = None,
         model: str | None = None,
+        required_capabilities: Iterable[Capability] = (),
     ) -> Iterator[ChatResponse]:
         """Route a synchronous chat stream without exposing provider internals."""
-        selected_provider, selected_request = self._route(request, provider, model)
+        selected_provider, selected_request = self._route(
+            request, provider, model, required_capabilities
+        )
         return selected_provider.stream_chat(selected_request)
 
     async def astream_chat(
@@ -214,9 +317,12 @@ class ProviderManager:
         *,
         provider: str | None = None,
         model: str | None = None,
+        required_capabilities: Iterable[Capability] = (),
     ) -> AsyncIterator[ChatResponse]:
         """Route an asynchronous stream through the selected provider."""
-        selected_provider, selected_request = self._route(request, provider, model)
+        selected_provider, selected_request = self._route(
+            request, provider, model, required_capabilities
+        )
         async for response in selected_provider.astream_chat(selected_request):
             yield response
 
@@ -224,17 +330,30 @@ class ProviderManager:
         """Return provider health without mutating registrations."""
         return {name: self.get(name).health_check() for name in self.names()}
 
-    def capabilities(self) -> dict[str, object]:
+    def capabilities(self) -> dict[str, ProviderCapabilities]:
         """Return advertised capabilities by provider."""
-        return {
-            name: getattr(self.get(name), "capabilities", None) for name in self.names()
-        }
+        return {name: self.registry.capabilities_for(name) for name in self.names()}
+
+    def model_capabilities(self, provider: str) -> dict[str, ProviderCapabilities]:
+        """Return the registered model-level capability overrides for a provider."""
+        return self.registry.model_capabilities_for(provider)
 
     def embed(
-        self, request: EmbeddingRequest, *, provider: str | None = None
+        self,
+        request: EmbeddingRequest,
+        *,
+        provider: str | None = None,
+        model: str | None = None,
+        required_capabilities: Iterable[Capability] = (),
     ) -> EmbeddingResponse:
-        """Route an embedding request."""
-        return self.get(provider).embed(request)
+        """Route embeddings, applying capability checks only when requested."""
+        chat_request = ChatRequest(messages=(), model=request.model)
+        selected_provider, selected_request = self._route(
+            chat_request, provider, model, required_capabilities
+        )
+        if selected_request.model != request.model:
+            request = replace(request, model=selected_request.model)
+        return selected_provider.embed(request)
 
     def close(self) -> None:
         """Close all providers once."""

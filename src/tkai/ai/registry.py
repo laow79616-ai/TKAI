@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterable
+from collections.abc import Iterable, Mapping
 
 from tkai.core.exceptions import AIProviderError
 
 from .errors import ProviderNotFoundError
+from .models import ProviderCapabilities
 from .provider import AIProvider
 
 
@@ -16,12 +17,24 @@ class ProviderRegistry:
     def __init__(self) -> None:
         self._providers: dict[str, AIProvider] = {}
         self._aliases: dict[str, str] = {}
+        self._capabilities: dict[str, ProviderCapabilities] = {}
+        self._model_capabilities: dict[str, dict[str, ProviderCapabilities]] = {}
 
-    def register(self, provider: AIProvider, *, overwrite: bool = False) -> None:
+    def register(
+        self,
+        provider: AIProvider,
+        *,
+        overwrite: bool = False,
+        capabilities: ProviderCapabilities | None = None,
+        model_capabilities: Mapping[str, ProviderCapabilities] | None = None,
+    ) -> None:
         """Register a provider, rejecting accidental duplicates."""
         if provider.name in self._providers and not overwrite:
             raise AIProviderError(f"Provider '{provider.name}' already registered")
         self._providers[provider.name] = provider
+        declared = capabilities or getattr(provider, "capabilities", None)
+        self._capabilities[provider.name] = declared or ProviderCapabilities(chat=False)
+        self._model_capabilities[provider.name] = dict(model_capabilities or {})
 
     def register_alias(self, alias: str, provider_name: str) -> None:
         """Bind ``alias`` to a registered provider name.
@@ -73,6 +86,8 @@ class ProviderRegistry:
             for alias, target in self._aliases.items()
             if target != canonical_name
         }
+        self._capabilities.pop(canonical_name, None)
+        self._model_capabilities.pop(canonical_name, None)
         return provider
 
     def names(self) -> list[str]:
@@ -82,3 +97,24 @@ class ProviderRegistry:
     def aliases(self) -> dict[str, str]:
         """Return aliases and their canonical provider names in stable order."""
         return {name: self._aliases[name] for name in sorted(self._aliases)}
+
+    def capabilities_for(
+        self, name: str, model: str | None = None
+    ) -> ProviderCapabilities:
+        """Return provider defaults or the exact configured model override."""
+        canonical_name = self.resolve(name)
+        try:
+            if model is not None and model in self._model_capabilities[canonical_name]:
+                return self._model_capabilities[canonical_name][model]
+            return self._capabilities[canonical_name]
+        except KeyError as exc:
+            raise ProviderNotFoundError(f"Provider '{name}' is not registered") from exc
+
+    def model_capabilities_for(self, name: str) -> dict[str, ProviderCapabilities]:
+        """Return model-specific capability overrides in stable name order."""
+        canonical_name = self.resolve(name)
+        try:
+            models = self._model_capabilities[canonical_name]
+        except KeyError as exc:
+            raise ProviderNotFoundError(f"Provider '{name}' is not registered") from exc
+        return {model: models[model] for model in sorted(models)}

@@ -33,3 +33,11 @@ class ProviderTimeoutError(ProviderError):
 
 class ProviderResponseError(ProviderError):
     """Provider returned an invalid or server-error response."""
+
+
+class CapabilityNotSupportedError(ProviderError):
+    """An explicit provider or model does not meet a required capability set."""
+
+
+class NoCapableProviderError(ProviderError):
+    """No registered provider satisfies the requested capability set."""

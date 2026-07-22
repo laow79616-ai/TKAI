@@ -6,7 +6,9 @@ from .client import AIClient
 from .config import load_provider_config
 from .errors import (
     AuthenticationError,
+    CapabilityNotSupportedError,
     ModelNotFoundError,
+    NoCapableProviderError,
     ProviderConfigurationError,
     ProviderError,
     ProviderNotFoundError,
@@ -18,6 +20,7 @@ from .manager import ProviderManager
 from .models import (
     AIRequest,
     AIResponse,
+    Capability,
     ChatMessage,
     ChatRequest,
     ChatResponse,
@@ -49,6 +52,8 @@ __all__ = (
     "AIResponse",
     "HTTPResponse",
     "AuthenticationError",
+    "Capability",
+    "CapabilityNotSupportedError",
     "BaseAIProvider",
     "ClaudeProvider",
     "ChatMessage",
@@ -75,6 +80,7 @@ __all__ = (
     "RateLimitError",
     "ModelInfo",
     "ModelNotFoundError",
+    "NoCapableProviderError",
     "Usage",
     "load_provider_config",
     "raise_for_status",
