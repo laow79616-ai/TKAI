@@ -2,6 +2,7 @@
 
 from .engine import WorkflowEngine
 from .events import Event, EventBus
+from .examples import definitions
 from .executor import ExecutionError, Executor, RetryError, StepError, WorkflowExecutor
 from .models import (
     StepResult,
@@ -43,4 +44,5 @@ __all__ = (
     "WorkflowRegistry",
     "WorkflowNotFoundError",
     "WorkflowValidationError",
+    "definitions",
 )
