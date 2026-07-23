@@ -20,11 +20,18 @@ class TraceRegistry:
         *,
         parent: TraceContext | None = None,
         attributes: dict[str, object] | None = None,
+        trace_id: str | None = None,
+        span_id: str | None = None,
+        parent_span_id: str | None = None,
     ) -> TraceContext:
         trace = TraceContext(
-            parent.trace_id if parent else uuid4().hex,
-            uuid4().hex,
-            parent.span_id if parent else None,
+            trace_id or (parent.trace_id if parent else uuid4().hex),
+            span_id or uuid4().hex,
+            (
+                parent_span_id
+                if parent_span_id is not None
+                else (parent.span_id if parent else None)
+            ),
             operation,
             datetime.now(timezone.utc),
             attributes={} if attributes is None else dict(attributes),

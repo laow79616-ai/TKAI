@@ -35,6 +35,7 @@ class TelemetryLoggingAdapter:
         *,
         context: CorrelationContext | None = None,
         attributes: dict[str, Any] | None = None,
+        span_id: str | None = None,
     ) -> StructuredLog:
         safe = _redact(attributes or {})
         record = StructuredLog(
@@ -44,6 +45,7 @@ class TelemetryLoggingAdapter:
             context.trace_id if context else None,
             context.correlation_id if context else None,
             safe,
+            span_id,
         )
         with self._lock:
             self.records.append(record)

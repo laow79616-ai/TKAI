@@ -24,11 +24,14 @@ from .logging import TelemetryLoggingAdapter
 from .metrics import MetricsRegistry
 from .models import Metric, StructuredLog, TraceContext
 from .registry import TelemetryRegistry
+from .sampling import Sampler
 from .tracing import TraceRegistry
 
 
 class TelemetryManager:
-    def __init__(self, *, event_bus: EventBus | None = None) -> None:
+    def __init__(
+        self, *, event_bus: EventBus | None = None, sampler: Sampler | None = None
+    ) -> None:
         self.registry = TelemetryRegistry()
         self.metrics = MetricsRegistry()
         self.traces = TraceRegistry()
@@ -37,6 +40,9 @@ class TelemetryManager:
         self.events: list[TelemetryEvent] = []
         self._lock = RLock()
         self.registry.register("local", LocalExporter())
+        from .platform import TelemetryPlatform
+
+        self.platform = TelemetryPlatform(self, sampler=sampler)
 
     def start(self, name: str = "local") -> None:
         self.registry.get(name).start()
@@ -66,17 +72,25 @@ class TelemetryManager:
         *,
         parent: TraceContext | None = None,
         attributes: dict[str, object] | None = None,
+        trace_id: str | None = None,
+        span_id: str | None = None,
+        parent_span_id: str | None = None,
     ) -> TraceContext:
         trace = self.traces.begin_span(
             operation,
             parent=parent,
             attributes=attributes,
+            trace_id=trace_id,
+            span_id=span_id,
+            parent_span_id=parent_span_id,
         )
         self._publish(TraceStarted(subject=trace.operation))
         return trace
 
-    def end_span(self, trace: TraceContext, *, exporter: str = "local") -> TraceContext:
-        finished = self.traces.end_span(trace)
+    def end_span(
+        self, trace: TraceContext, *, exporter: str = "local", status: str = "ok"
+    ) -> TraceContext:
+        finished = self.traces.end_span(trace, status=status)
         self._export(exporter, lambda item: item.export_trace(finished))
         self._publish(TraceFinished(subject=finished.operation))
         return finished
@@ -89,12 +103,14 @@ class TelemetryManager:
         context: CorrelationContext | None = None,
         attributes: dict[str, Any] | None = None,
         exporter: str = "local",
+        span_id: str | None = None,
     ) -> StructuredLog:
         record = self.logging.log(
             level,
             message,
             context=context,
             attributes=attributes,
+            span_id=span_id,
         )
         self._export(exporter, lambda item: item.export_log(record))
         return record

@@ -18,6 +18,9 @@
 - Optional service discovery with immutable TTL-based service instances,
   thread-safe local registry, optional Redis-backed registry, metadata filters,
   explicit cleanup lifecycle, and BackendFactory selection.
+- Provider-neutral telemetry platform abstraction with spans, context
+  propagation, metrics instruments, structured logging, deterministic sampling,
+  local exporters, and explicit EventBus/runtime/retry/failover/discovery adapters.
 
 ## 1.2.0
 

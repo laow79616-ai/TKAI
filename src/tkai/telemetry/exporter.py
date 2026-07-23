@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import json
+from collections.abc import Callable
 from threading import RLock
 from typing import Protocol
 
@@ -73,3 +75,39 @@ class LocalExporter:
 
     async def async_export_log(self, log: StructuredLog) -> None:
         self.export_log(log)
+
+
+class InMemoryExporter(LocalExporter):
+    """Named compatibility-friendly exporter for deterministic offline inspection."""
+
+
+class ConsoleExporter(InMemoryExporter):
+    """Render telemetry JSON to an injected sink without binding logging libraries."""
+
+    def __init__(self, sink: Callable[[str], None] | None = None) -> None:
+        super().__init__()
+        self.sink = sink
+
+    def export_metric(self, metric: Metric) -> None:
+        super().export_metric(metric)
+        self._emit({"metric": metric.to_dict()})
+
+    def export_trace(self, trace: TraceContext) -> None:
+        super().export_trace(trace)
+        self._emit({"trace": trace.to_dict()})
+
+    def export_log(self, log: StructuredLog) -> None:
+        super().export_log(log)
+        self._emit({"log": log.to_dict()})
+
+    def _emit(self, payload: dict[str, object]) -> None:
+        if self.sink is not None and self.health():
+            self.sink(json.dumps(payload, ensure_ascii=False, sort_keys=True))
+
+
+class PrometheusExporter(TelemetryExporter, Protocol):
+    """Extension point for a future Prometheus exporter implementation."""
+
+
+class OTLPExporter(TelemetryExporter, Protocol):
+    """Extension point for a future OpenTelemetry Protocol exporter implementation."""

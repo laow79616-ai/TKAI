@@ -3,13 +3,16 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Literal
+from typing import TYPE_CHECKING, Literal
 
 from .backend import DistributedBackend, LocalBackend
 from .discovery import LocalServiceRegistry, RedisServiceRegistry, ServiceRegistry
 from .failover import FailoverBackend, FailoverConfig, FailoverManager
 from .health import BackendHealthChecker, HealthProbeConfig, ProbeableBackend
 from .redis import RedisBackend, RedisClient
+
+if TYPE_CHECKING:
+    from tkai.telemetry import TelemetryManager
 
 
 @dataclass(frozen=True, slots=True)
@@ -104,6 +107,13 @@ class BackendFactory:
                 selected, cleanup_interval_seconds=cleanup_interval_seconds
             )
         return LocalServiceRegistry(cleanup_interval_seconds=cleanup_interval_seconds)
+
+    @staticmethod
+    def create_telemetry_manager() -> TelemetryManager:
+        """Create an explicit local manager without changing backend behavior."""
+        from tkai.telemetry import TelemetryManager
+
+        return TelemetryManager()
 
 
 def create_backend(

@@ -60,6 +60,7 @@ class StructuredLog:
     trace_id: str | None = None
     correlation_id: str | None = None
     attributes: dict[str, Any] = field(default_factory=dict)
+    span_id: str | None = None
 
     def to_dict(self) -> dict[str, object]:
         data = asdict(self)

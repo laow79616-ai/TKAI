@@ -1,4 +1,25 @@
-# Telemetry Foundation
+# Telemetry Platform
+
+## Provider-neutral platform
+
+The V1.3 `TelemetryPlatform` is an explicit abstraction over the existing
+local `TelemetryManager`. It provides trace/span creation, parent-child context
+propagation, counters, gauges, histograms, timers, structured logs, and stable
+sampling. It has no dependency on OpenTelemetry, Prometheus, or a collector.
+
+`AlwaysOnSampler`, `AlwaysOffSampler`, and deterministic
+`ProbabilitySampler` select trace recording. Metrics and structured logs remain
+available regardless of trace sampling. `TelemetryContext` is propagated through
+an explicit ContextVar scope and includes trace, span, and correlation IDs.
+
+## Exporters and integrations
+
+`InMemoryExporter` and `ConsoleExporter` are local offline implementations.
+`PrometheusExporter` and `OTLPExporter` are protocols reserved for future
+adapters. `TelemetryIntegration` can explicitly attach an EventBus or record
+runtime, retry, failover, and service-discovery signals; it does not alter their
+execution. `BackendFactory.create_telemetry_manager()` creates a separate local
+manager and does not auto-enable telemetry for a backend.
 
 `tkai.telemetry` is an optional, process-local telemetry foundation. It offers
 typed metrics, spans, correlation context, and structured logs without adding a
