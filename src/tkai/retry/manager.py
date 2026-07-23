@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from threading import RLock
 from typing import TypeVar
 
 from tkai.observability import EventBus
@@ -27,6 +28,7 @@ class RetryManager:
         self.registry = registry or RetryRegistry()
         self.event_bus = event_bus
         self.events: list[RetryEvent] = []
+        self._lock = RLock()
 
     def register(self, policy: RetryPolicy) -> None:
         """Register one retry policy for explicit lookup."""
@@ -85,7 +87,8 @@ class RetryManager:
         ]
 
     def _publish(self, event: RetryEvent) -> None:
-        self.events.append(event)
+        with self._lock:
+            self.events.append(event)
         if self.event_bus is not None:
             try:
                 self.event_bus.publish(event)

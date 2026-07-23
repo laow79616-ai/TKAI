@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from threading import RLock
+
 from tkai.observability import EventBus
 
 from .events import PolicyEvent, PolicyExecuted, PolicyFailed, PolicySkipped
@@ -21,6 +23,7 @@ class PolicyEngine:
         self.registry = registry or PolicyRegistry()
         self.event_bus = event_bus
         self.events: list[PolicyEvent] = []
+        self._lock = RLock()
 
     def execute(self, context: PolicyContext) -> tuple[PolicyExecution, ...]:
         """Evaluate policies in stable order and isolate each policy failure."""
@@ -86,7 +89,8 @@ class PolicyEngine:
                 )
 
     def _publish(self, event: PolicyEvent) -> None:
-        self.events.append(event)
+        with self._lock:
+            self.events.append(event)
         if self.event_bus is not None:
             try:
                 self.event_bus.publish(event)
