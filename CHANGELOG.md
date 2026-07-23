@@ -13,6 +13,8 @@
 - Optional V1.2 Distributed Runtime foundation with LocalBackend, membership,
   cooperative heartbeat, local locks, explicit Runtime/Policy adapters,
   EventBus events, Doctor diagnostics, and `tkai ai distributed` inspection.
+- Optional V1.2 Telemetry foundation with LocalExporter, metrics, traces,
+  correlation context, safe structured logs, explicit adapters, Doctor, and CLI.
 
 - V1.1 RC-1 public-API inventory, compatibility/import regression coverage,
   serialization safety checks, CLI/Doctor smoke validation, and release

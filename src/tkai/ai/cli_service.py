@@ -26,6 +26,7 @@ from tkai.policy import PolicyManager
 from tkai.rate_limit import RateLimitManager
 from tkai.retry import RetryManager
 from tkai.routing import RoutingManager
+from tkai.telemetry import TelemetryManager
 
 from .doctor import DoctorReport, DoctorService
 from .fallback import FallbackCandidate, FallbackEngine, FallbackPolicy
@@ -65,6 +66,7 @@ class AICommandService:
         policies: PolicyManager | None = None,
         retries: RetryManager | None = None,
         distributed: DistributedCoordinator | None = None,
+        telemetry: TelemetryManager | None = None,
     ) -> None:
         self.manager = manager or ProviderManager()
         self.fallback = fallback or FallbackEngine()
@@ -86,6 +88,12 @@ class AICommandService:
         self.policies = policies
         self.retries = retries
         self.distributed = distributed
+        self.telemetry = telemetry
+
+    def telemetry_summary(self) -> dict[str, object]:
+        if self.telemetry is not None:
+            return self.telemetry.summary()
+        return {"exporters": [], "metrics": 0, "traces": 0, "logs": 0}
 
     def distributed_summary(self) -> dict[str, object]:
         """Return local distributed metadata without starting or probing anything."""
@@ -423,6 +431,7 @@ class AICommandService:
             policies=self.policies,
             retries=self.retries,
             distributed=self.distributed,
+            telemetry=self.telemetry,
         )
 
     def _fallback_policy(self) -> FallbackPolicy:

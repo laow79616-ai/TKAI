@@ -179,6 +179,12 @@ def distributed(as_json: bool = typer.Option(False, "--json")) -> None:
     _render(_call(_service.distributed_summary), as_json=as_json)
 
 
+@app.command("telemetry")
+def telemetry(as_json: bool = typer.Option(False, "--json")) -> None:
+    """Show local telemetry metadata without enabling export."""
+    _render(_call(_service.telemetry_summary), as_json=as_json)
+
+
 @app.command("config")
 def config(
     as_json: bool = typer.Option(False, "--json"),

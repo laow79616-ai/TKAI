@@ -31,6 +31,7 @@ from tkai.providers.http import AsyncHTTPTransport
 from tkai.rate_limit import RateLimitAwareStrategy, RateLimitManager
 from tkai.retry import RetryManager
 from tkai.routing import RoutingManager
+from tkai.telemetry import TelemetryManager
 
 from .fallback import FallbackCandidate, FallbackEngine, FallbackPolicy
 from .manager import ProviderManager
@@ -149,6 +150,7 @@ class DoctorService:
         policies: PolicyManager | None = None,
         retries: RetryManager | None = None,
         distributed: DistributedCoordinator | None = None,
+        telemetry: TelemetryManager | None = None,
     ) -> None:
         self.manager = manager
         self._transports = tuple(transports)
@@ -174,6 +176,7 @@ class DoctorService:
         self._policies = policies
         self._retries = retries
         self._distributed = distributed
+        self._telemetry = telemetry
 
     def run(self) -> DoctorReport:
         """Run every diagnostic once and return a complete immutable report."""
@@ -196,6 +199,7 @@ class DoctorService:
         checks.extend(self._policy_checks())
         checks.extend(self._retry_checks())
         checks.extend(self._distributed_checks())
+        checks.extend(self._telemetry_checks())
         return DoctorReport(tuple(checks))
 
     def validate_config(self) -> DoctorReport:
@@ -1130,6 +1134,25 @@ class DoctorService:
                     "heartbeat": summary["heartbeat"],
                     "resources": summary["resources"],
                 },
+            ),
+        )
+
+    def _telemetry_checks(self) -> tuple[DoctorCheck, ...]:
+        if self._telemetry is None:
+            return (
+                DoctorCheck(
+                    "telemetry",
+                    DoctorStatus.WARNING,
+                    "No TelemetryManager was supplied",
+                ),
+            )
+        summary = self._telemetry.summary()
+        return (
+            DoctorCheck(
+                "telemetry.registry",
+                DoctorStatus.PASS,
+                "Telemetry registry is available",
+                summary,
             ),
         )
 
