@@ -12,7 +12,14 @@ def test_frontend_declares_vite_react_routes_and_frozen_api_endpoints() -> None:
     pages = (root / "src" / "pages.ts").read_text(encoding="utf-8")
 
     assert "vite" in package and "react" in package and "typecheck" in package
-    for endpoint in ("/projects", "/workflows", "/executions", "/health", "/system", "/version"):
+    for endpoint in (
+        "/projects",
+        "/workflows",
+        "/executions",
+        "/health",
+        "/system",
+        "/version",
+    ):
         assert endpoint in api
     for page in ("dashboard", "projects", "workflow", "execution", "logs"):
         assert page in pages
