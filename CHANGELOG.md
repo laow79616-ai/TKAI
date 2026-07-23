@@ -23,6 +23,9 @@
   local exporters, and explicit EventBus/runtime/retry/failover/discovery adapters.
 - Explicit adaptive runtime scheduler with stable provider scoring, local policy
   selection, sticky sessions, and reuse of the existing circuit-breaker model.
+- V1.3 RC-1 adds offline integration, lifecycle, concurrency, configuration,
+  CLI, Doctor, and failure-isolation regression validation for the optional
+  distributed, telemetry, scheduler, policy, and retry components.
 
 ## 1.2.0
 
