@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 1.3.0
+
 ### Added
 
 - V1.3 RC-2 establishes the `1.3.0rc1` package-version baseline with offline
