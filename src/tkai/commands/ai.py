@@ -167,6 +167,12 @@ def policy(as_json: bool = typer.Option(False, "--json")) -> None:
     _render(_call(_service.policy_summary), as_json=as_json)
 
 
+@app.command("retry")
+def retry(as_json: bool = typer.Option(False, "--json")) -> None:
+    """Show explicit retry policy metadata without running a retry operation."""
+    _render(_call(_service.retry_summary), as_json=as_json)
+
+
 @app.command("config")
 def config(
     as_json: bool = typer.Option(False, "--json"),

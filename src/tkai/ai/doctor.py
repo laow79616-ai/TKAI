@@ -28,6 +28,7 @@ from tkai.plugins import PluginManager
 from tkai.policy import PolicyManager
 from tkai.providers.http import AsyncHTTPTransport
 from tkai.rate_limit import RateLimitAwareStrategy, RateLimitManager
+from tkai.retry import RetryManager
 from tkai.routing import RoutingManager
 
 from .fallback import FallbackCandidate, FallbackEngine, FallbackPolicy
@@ -145,6 +146,7 @@ class DoctorService:
         cache: CacheManager | None = None,
         plugins: PluginManager | None = None,
         policies: PolicyManager | None = None,
+        retries: RetryManager | None = None,
     ) -> None:
         self.manager = manager
         self._transports = tuple(transports)
@@ -168,6 +170,7 @@ class DoctorService:
         self._cache = cache
         self._plugins = plugins
         self._policies = policies
+        self._retries = retries
 
     def run(self) -> DoctorReport:
         """Run every diagnostic once and return a complete immutable report."""
@@ -188,6 +191,7 @@ class DoctorService:
         checks.extend(self._cache_checks())
         checks.extend(self._plugin_checks())
         checks.extend(self._policy_checks())
+        checks.extend(self._retry_checks())
         return DoctorReport(tuple(checks))
 
     def validate_config(self) -> DoctorReport:
@@ -1069,6 +1073,28 @@ class DoctorService:
                         item["name"] for item in policies if not item["enabled"]
                     ],
                 },
+            ),
+        )
+
+    def _retry_checks(self) -> tuple[DoctorCheck, ...]:
+        """Inspect explicit retry configuration without invoking any operation."""
+        if self._retries is None:
+            return (
+                DoctorCheck(
+                    "retry", DoctorStatus.WARNING, "No RetryManager was supplied"
+                ),
+            )
+        policies = self._retries.summary()
+        return (
+            DoctorCheck(
+                "retry.registry",
+                DoctorStatus.PASS if policies else DoctorStatus.WARNING,
+                (
+                    "Retry registry is available"
+                    if policies
+                    else "No retry policies are registered"
+                ),
+                {"policy_count": len(policies), "policies": policies},
             ),
         )
 

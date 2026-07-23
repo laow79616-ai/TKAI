@@ -7,6 +7,9 @@
 - Optional V1.2 Policy Engine foundation with explicit pipeline stages,
   stable priority ordering, failure isolation, compatibility adapters,
   EventBus events, Doctor diagnostics, and `tkai ai policy` inspection.
+- Optional V1.2 Retry Framework foundation with explicit local budgets,
+  deterministic backoff, exception classification, Policy Engine adapter,
+  EventBus events, Doctor diagnostics, and `tkai ai retry` inspection.
 
 - V1.1 RC-1 public-API inventory, compatibility/import regression coverage,
   serialization safety checks, CLI/Doctor smoke validation, and release

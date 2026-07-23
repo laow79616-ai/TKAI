@@ -23,6 +23,7 @@ from tkai.observability import (
 from tkai.plugins import PluginManager
 from tkai.policy import PolicyManager
 from tkai.rate_limit import RateLimitManager
+from tkai.retry import RetryManager
 from tkai.routing import RoutingManager
 
 from .doctor import DoctorReport, DoctorService
@@ -61,6 +62,7 @@ class AICommandService:
         cache: CacheManager | None = None,
         plugins: PluginManager | None = None,
         policies: PolicyManager | None = None,
+        retries: RetryManager | None = None,
     ) -> None:
         self.manager = manager or ProviderManager()
         self.fallback = fallback or FallbackEngine()
@@ -80,6 +82,11 @@ class AICommandService:
         self.cache = cache
         self.plugins = plugins
         self.policies = policies
+        self.retries = retries
+
+    def retry_summary(self) -> list[dict[str, object]]:
+        """Return retry policy metadata without executing any operation."""
+        return self.retries.summary() if self.retries is not None else []
 
     def policy_summary(self) -> list[dict[str, object]]:
         """Return safe registered-policy metadata without executing policies."""
@@ -398,6 +405,7 @@ class AICommandService:
             cache=self.cache,
             plugins=self.plugins,
             policies=self.policies,
+            retries=self.retries,
         )
 
     def _fallback_policy(self) -> FallbackPolicy:
