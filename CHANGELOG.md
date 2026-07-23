@@ -12,6 +12,9 @@
   snapshots, healthy/degraded/unhealthy status, synchronous/asynchronous
   checks, bounded retries, configurable periodic lifecycle, and offline Redis
   client coverage. Existing passive backend health behavior is unchanged.
+- Optional explicit distributed failover manager with thresholded primary to
+  local-memory fallback, recovery detection, manual failback, immutable metrics
+  and snapshots, isolated EventBus events, and no automatic Runtime takeover.
 
 ## 1.2.0
 

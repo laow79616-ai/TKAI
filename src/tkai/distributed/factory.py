@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from typing import Literal
 
 from .backend import DistributedBackend, LocalBackend
+from .failover import FailoverBackend, FailoverConfig, FailoverManager
 from .health import BackendHealthChecker, HealthProbeConfig, ProbeableBackend
 from .redis import RedisBackend, RedisClient
 
@@ -73,6 +74,16 @@ class BackendFactory:
                 retries=settings.health_probe_retries,
             ),
         )
+
+    @staticmethod
+    def create_failover_manager(
+        primary: FailoverBackend,
+        secondary: FailoverBackend | None = None,
+        *,
+        config: FailoverConfig | None = None,
+    ) -> FailoverManager:
+        """Create an explicit failover manager with local memory as fallback."""
+        return FailoverManager(primary, secondary, config=config)
 
 
 def create_backend(

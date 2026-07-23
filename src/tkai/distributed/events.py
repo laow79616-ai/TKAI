@@ -47,3 +47,24 @@ class CoordinatorStarted(DistributedEvent):
 @dataclass(frozen=True, slots=True)
 class CoordinatorStopped(DistributedEvent):
     name: str = field(default="CoordinatorStopped", init=False)
+
+
+@dataclass(frozen=True, slots=True)
+class BackendFailedOver(DistributedEvent):
+    """Published when an explicit manager activates its secondary backend."""
+
+    name: str = field(default="BackendFailedOver", init=False)
+
+
+@dataclass(frozen=True, slots=True)
+class PrimaryBackendRecovered(DistributedEvent):
+    """Published after the primary reaches its configured recovery threshold."""
+
+    name: str = field(default="PrimaryBackendRecovered", init=False)
+
+
+@dataclass(frozen=True, slots=True)
+class BackendFailedBack(DistributedEvent):
+    """Published after an explicit manual failback activates the primary."""
+
+    name: str = field(default="BackendFailedBack", init=False)

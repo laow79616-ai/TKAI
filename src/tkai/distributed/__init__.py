@@ -5,6 +5,7 @@ from .coordinator import DistributedCoordinator, LocalCoordinator
 from .errors import (
     DistributedError,
     DistributedLockError,
+    FailoverStateError,
     NodeNotFoundError,
     RedisBackendConnectionError,
     RedisBackendError,
@@ -12,6 +13,8 @@ from .errors import (
     RedisBackendUnavailableError,
 )
 from .events import (
+    BackendFailedBack,
+    BackendFailedOver,
     CoordinatorStarted,
     CoordinatorStopped,
     DistributedEvent,
@@ -20,8 +23,18 @@ from .events import (
     LockReleased,
     NodeJoined,
     NodeLeft,
+    PrimaryBackendRecovered,
 )
 from .factory import BackendConfig, BackendFactory, create_backend
+from .failover import (
+    BackendPriority,
+    FailoverBackend,
+    FailoverConfig,
+    FailoverManager,
+    FailoverMetrics,
+    FailoverSnapshot,
+    FailoverState,
+)
 from .health import (
     BackendHealthChecker,
     BackendHealthSnapshot,
@@ -41,9 +54,12 @@ from .runtime_adapter import DistributedPolicyAdapter, DistributedRuntimeAdapter
 __all__ = (
     "BackendConfig",
     "BackendFactory",
+    "BackendFailedBack",
+    "BackendFailedOver",
     "BackendHealthChecker",
     "BackendHealthSnapshot",
     "BackendHealthStatus",
+    "BackendPriority",
     "CoordinatorStarted",
     "CoordinatorStopped",
     "DistributedBackend",
@@ -55,6 +71,13 @@ __all__ = (
     "DistributedPolicyAdapter",
     "DistributedRegistry",
     "DistributedRuntimeAdapter",
+    "FailoverBackend",
+    "FailoverConfig",
+    "FailoverManager",
+    "FailoverMetrics",
+    "FailoverSnapshot",
+    "FailoverState",
+    "FailoverStateError",
     "Heartbeat",
     "HeartbeatSnapshot",
     "HeartbeatUpdated",
@@ -74,6 +97,7 @@ __all__ = (
     "HealthChecker",
     "HealthProbeConfig",
     "ProbeableBackend",
+    "PrimaryBackendRecovered",
     "RedisBackend",
     "RedisBackendConnectionError",
     "RedisBackendError",

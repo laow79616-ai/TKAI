@@ -27,3 +27,7 @@ class RedisBackendConnectionError(RedisBackendError):
 
 class RedisBackendOperationError(RedisBackendError):
     """Raised when a Redis backend operation cannot complete safely."""
+
+
+class FailoverStateError(DistributedError):
+    """Raised when a failback is requested from an invalid failover state."""

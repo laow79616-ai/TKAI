@@ -38,6 +38,23 @@ cooperative timeout, immediate bounded retry count, and status thresholds.
 `BackendConfig`. Probes are opt-in and never alter ProviderManager or Runtime
 default behavior.
 
+## Automatic failover
+
+`FailoverManager` is an explicit opt-in layer above health probes. It uses a
+configured primary and a secondary backend, defaulting the secondary to a new
+`LocalMemoryBackend`. Reaching `FailoverConfig.failure_threshold` consecutive
+non-healthy primary probes activates the secondary. While the secondary is
+active, reaching `recovery_threshold` healthy primary probes changes the state
+to `primary_recovered`; callers must invoke `manual_failback()` to reactivate
+the primary. This avoids automatic switch-back flapping.
+
+The state machine is `primary_active`, `secondary_active`, and
+`primary_recovered`. Its snapshots include priority, counters, health, metrics,
+and transition time. Optional EventBus notifications are published for failover,
+recovery detection, and failback, but subscriber errors are isolated. Starting
+the manager enables periodic checks; stopping it releases only its worker and
+never closes caller-owned backends.
+
 ## Architecture
 
 `DistributedCoordinator` owns an explicit backend, local `Membership`, a
