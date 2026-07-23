@@ -64,6 +64,7 @@ their public APIs. Future adapters may explicitly use existing provider,
 workflow, configuration, plugin, or distributed services.
 
 Provider contracts are documented separately in [Provider SDK](ProviderSDK.md).
+Memory contracts are documented separately in [Memory SDK](MemorySDK.md).
 
 ## Current scope
 
