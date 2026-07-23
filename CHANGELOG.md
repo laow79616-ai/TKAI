@@ -10,6 +10,9 @@
 - Optional V1.2 Retry Framework foundation with explicit local budgets,
   deterministic backoff, exception classification, Policy Engine adapter,
   EventBus events, Doctor diagnostics, and `tkai ai retry` inspection.
+- Optional V1.2 Distributed Runtime foundation with LocalBackend, membership,
+  cooperative heartbeat, local locks, explicit Runtime/Policy adapters,
+  EventBus events, Doctor diagnostics, and `tkai ai distributed` inspection.
 
 - V1.1 RC-1 public-API inventory, compatibility/import regression coverage,
   serialization safety checks, CLI/Doctor smoke validation, and release

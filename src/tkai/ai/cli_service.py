@@ -11,6 +11,7 @@ from tkai.cache import CacheManager
 from tkai.circuit_breaker import CircuitBreakerManager
 from tkai.configuration import ConfigurationManager
 from tkai.credentials import CredentialManager
+from tkai.distributed import DistributedCoordinator
 from tkai.health import HealthManager
 from tkai.load import LoadManager
 from tkai.observability import (
@@ -63,6 +64,7 @@ class AICommandService:
         plugins: PluginManager | None = None,
         policies: PolicyManager | None = None,
         retries: RetryManager | None = None,
+        distributed: DistributedCoordinator | None = None,
     ) -> None:
         self.manager = manager or ProviderManager()
         self.fallback = fallback or FallbackEngine()
@@ -83,6 +85,20 @@ class AICommandService:
         self.plugins = plugins
         self.policies = policies
         self.retries = retries
+        self.distributed = distributed
+
+    def distributed_summary(self) -> dict[str, object]:
+        """Return local distributed metadata without starting or probing anything."""
+        if self.distributed is None:
+            return {
+                "backend": "LocalBackend",
+                "started": False,
+                "healthy": False,
+                "nodes": [],
+                "heartbeat": None,
+                "resources": [],
+            }
+        return self.distributed.summary()
 
     def retry_summary(self) -> list[dict[str, object]]:
         """Return retry policy metadata without executing any operation."""
@@ -406,6 +422,7 @@ class AICommandService:
             plugins=self.plugins,
             policies=self.policies,
             retries=self.retries,
+            distributed=self.distributed,
         )
 
     def _fallback_policy(self) -> FallbackPolicy:

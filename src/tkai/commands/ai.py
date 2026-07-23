@@ -173,6 +173,12 @@ def retry(as_json: bool = typer.Option(False, "--json")) -> None:
     _render(_call(_service.retry_summary), as_json=as_json)
 
 
+@app.command("distributed")
+def distributed(as_json: bool = typer.Option(False, "--json")) -> None:
+    """Show explicit local distributed runtime metadata without starting it."""
+    _render(_call(_service.distributed_summary), as_json=as_json)
+
+
 @app.command("config")
 def config(
     as_json: bool = typer.Option(False, "--json"),

@@ -15,6 +15,7 @@ from tkai.cache import CacheManager
 from tkai.circuit_breaker import CircuitBreakerManager, CircuitState
 from tkai.configuration import ConfigurationManager
 from tkai.credentials import CredentialManager
+from tkai.distributed import DistributedCoordinator
 from tkai.health import HealthManager, HealthStatus
 from tkai.load import LoadAwareStrategy, LoadManager, LoadStatus
 from tkai.observability import (
@@ -147,6 +148,7 @@ class DoctorService:
         plugins: PluginManager | None = None,
         policies: PolicyManager | None = None,
         retries: RetryManager | None = None,
+        distributed: DistributedCoordinator | None = None,
     ) -> None:
         self.manager = manager
         self._transports = tuple(transports)
@@ -171,6 +173,7 @@ class DoctorService:
         self._plugins = plugins
         self._policies = policies
         self._retries = retries
+        self._distributed = distributed
 
     def run(self) -> DoctorReport:
         """Run every diagnostic once and return a complete immutable report."""
@@ -192,6 +195,7 @@ class DoctorService:
         checks.extend(self._plugin_checks())
         checks.extend(self._policy_checks())
         checks.extend(self._retry_checks())
+        checks.extend(self._distributed_checks())
         return DoctorReport(tuple(checks))
 
     def validate_config(self) -> DoctorReport:
@@ -1095,6 +1099,37 @@ class DoctorService:
                     else "No retry policies are registered"
                 ),
                 {"policy_count": len(policies), "policies": policies},
+            ),
+        )
+
+    def _distributed_checks(self) -> tuple[DoctorCheck, ...]:
+        """Inspect an explicit local coordinator without start, stop, or probes."""
+        if self._distributed is None:
+            return (
+                DoctorCheck(
+                    "distributed",
+                    DoctorStatus.WARNING,
+                    "No DistributedCoordinator was supplied",
+                ),
+            )
+        summary = self._distributed.summary()
+        nodes = summary["nodes"]
+        status = DoctorStatus.PASS if summary["healthy"] else DoctorStatus.WARNING
+        return (
+            DoctorCheck(
+                "distributed.coordinator",
+                status,
+                (
+                    "Local coordinator is connected"
+                    if summary["healthy"]
+                    else "Local coordinator is stopped"
+                ),
+                {
+                    "backend": summary["backend"],
+                    "node_count": len(nodes) if isinstance(nodes, list) else 0,
+                    "heartbeat": summary["heartbeat"],
+                    "resources": summary["resources"],
+                },
             ),
         )
 
