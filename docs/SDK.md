@@ -63,8 +63,10 @@ requests raise `InvalidRequestError` before reaching the provider.
 their public APIs. Future adapters may explicitly use existing provider,
 workflow, configuration, plugin, or distributed services.
 
-## Next sprint
+Provider contracts are documented separately in [Provider SDK](ProviderSDK.md).
 
-Implement V1.x runtime adapters and in-memory reference implementations behind
-these contracts, then add end-to-end SDK examples. Web UI, Studio, and
-Enterprise capabilities remain out of scope.
+## Current scope
+
+V1.x runtime adapters and in-memory reference implementations are available
+through explicit dependency injection. Workflow execution, production provider
+adapters, Web UI, Studio, and Enterprise capabilities remain out of scope.
