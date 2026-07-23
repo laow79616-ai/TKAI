@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import sys
 
 from .models import BenchmarkResult
 
@@ -39,3 +40,13 @@ class BenchmarkReport:
             sort_keys=True,
             separators=(",", ":"),
         )
+
+    @classmethod
+    def emit(cls, module: str, result: BenchmarkResult) -> None:
+        """Print Markdown by default or stable JSON when ``--json`` is requested."""
+        output = (
+            cls.to_json(module, result)
+            if "--json" in sys.argv
+            else cls.to_markdown(module, result)
+        )
+        print(output)

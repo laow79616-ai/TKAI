@@ -29,7 +29,10 @@ class EventBus:
             self.events.append(event)
             handlers = tuple(self._handlers)
         for handler in handlers:
-            handler(event)
+            try:
+                handler(event)
+            except Exception:
+                continue
 
     def clear(self) -> None:
         with self._lock:
