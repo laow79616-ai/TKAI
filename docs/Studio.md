@@ -45,3 +45,28 @@ Sprint 1 provides architecture and contracts only: no authentication provider,
 session storage, database, running FastAPI server, WebSocket server, React
 rendering, drag-and-drop, Studio persistence, Studio deployment, or Enterprise
 capability is implemented.
+
+## Sprint 2 backend foundation
+
+`create_studio_app()` builds an optional FastAPI host from one explicit
+`StudioDependencies` container. The container wires settings, an injected
+`SDKStudioGateway`, local reference repositories, and Project, Workflow,
+Execution, Health, and System services. It creates no provider, V1.x Runtime,
+credential, network connection, or background worker.
+
+`StudioSettings.from_mapping()` accepts only declared application metadata,
+environment, host/port, debug/docs flags, API prefix, CORS origins,
+request/execution timeouts, reference storage mode, log level, and session TTL.
+It does not read the process environment or `.env` files. The built-in reference
+repository mode is `memory` only.
+
+The REST foundation mounts `GET /health`, `GET /system`, project CRUD,
+workflow CRUD, and execution create/list/get below `api_prefix`. Handlers use a
+small JSON-compatible controller layer. The lifespan closes a gateway only when
+the container explicitly owns it; shutdown is idempotent.
+
+FastAPI and Uvicorn remain Studio-host dependencies, not TKAI core
+dependencies. After explicitly installing them, `python -m studio.backend`
+starts Uvicorn; imports and tests never start a server. No authentication
+business logic, database, WebSocket execution, frontend API integration, real
+external Provider, or queue is implemented.

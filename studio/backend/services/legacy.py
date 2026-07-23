@@ -12,7 +12,7 @@ from studio.shared.models import (
 )
 from tkai.sdk.workflow import ExecutionContext, WorkflowState
 
-from .gateway import SDKStudioGateway
+from ..gateway import SDKStudioGateway
 
 
 class StudioService:

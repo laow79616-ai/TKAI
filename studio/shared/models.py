@@ -99,6 +99,7 @@ class ExecutionRecord:
     execution_id: str
     workflow_id: str
     status: ExecutionStatus
+    project_id: str | None = None
     output: object | None = None
     error: str | None = None
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))

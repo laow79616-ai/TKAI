@@ -18,9 +18,19 @@ class SDKStudioGateway:
         *,
         agent: Agent | None = None,
         workflow_runtime: WorkflowRuntime | None = None,
+        owns_agent: bool = False,
+        owns_workflow_runtime: bool = False,
     ) -> None:
         self._agent = agent
         self._workflow_runtime = workflow_runtime
+        self._owns_agent = owns_agent
+        self._owns_workflow_runtime = owns_workflow_runtime
+        self._closed = False
+
+    @property
+    def ready(self) -> bool:
+        """Report whether workflow execution has been explicitly configured."""
+        return not self._closed and self._workflow_runtime is not None
 
     def chat(self, message: object, **options: object) -> AgentResponse:
         """Delegate chat through the public Agent SDK facade."""
@@ -37,3 +47,20 @@ class SDKStudioGateway:
                 "Studio execution requires an explicit SDK WorkflowRuntime."
             )
         return self._workflow_runtime.execute(context)
+
+    def close(self) -> None:
+        """Close only explicitly owned SDK objects; repeated calls are safe."""
+        if self._closed:
+            return
+        for resource, owned in (
+            (self._agent, self._owns_agent),
+            (self._workflow_runtime, self._owns_workflow_runtime),
+        ):
+            if owned and resource is not None:
+                close = getattr(resource, "close", None)
+                if callable(close):
+                    close()
+                shutdown = getattr(resource, "shutdown", None)
+                if callable(shutdown):
+                    shutdown()
+        self._closed = True
