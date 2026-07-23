@@ -2,6 +2,7 @@ Metadata-Version: 2.4
 Name: tkai
 Version: 1.2.0rc3
 Summary: TKAI AI Software Factory
+License: MIT
 Requires-Python: >=3.10
 Description-Content-Type: text/markdown
 License-File: LICENSE
@@ -62,3 +63,7 @@ python -m mypy src
 
 All executable AI examples are under `examples/ai/` and intentionally use
 local fakes only.
+
+## License
+
+TKAI is released under the [MIT License](LICENSE).

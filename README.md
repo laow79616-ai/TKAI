@@ -43,3 +43,7 @@ python -m mypy src
 
 All executable AI examples are under `examples/ai/` and intentionally use
 local fakes only.
+
+## License
+
+TKAI is released under the [MIT License](LICENSE).
