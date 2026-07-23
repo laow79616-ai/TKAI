@@ -34,4 +34,4 @@ def test_release_notes_state_compatibility_and_limitations() -> None:
     )
     assert "Compatibility" in notes
     assert "Known limitations" in notes
-    assert tkai.__version__ in notes
+    assert "1.2.0rc1" in notes

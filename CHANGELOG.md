@@ -1,12 +1,15 @@
 # Changelog
 
-## 1.2.0rc1
+## 1.2.0rc3
 
 ### Added
 
 - RC-2 release validation adds offline module benchmark manifests, bounded
   concurrency stress coverage, lifecycle/memory/snapshot/recovery validation,
   and a release checklist. These checks add no runtime integration or API.
+- RC-3 packaging validation adds package-data coverage for the built-in default
+  template manifest and README, plus offline wheel-install, import, CLI, and
+  Doctor release smoke checks.
 
 - Optional multi-region routing foundation with immutable region metadata,
   explicit topology and adapters, local diagnostics, CLI support, and EventBus
