@@ -1,0 +1,16 @@
+{
+  "name": "@tkai/studio-frontend",
+  "private": true,
+  "version": "0.0.0",
+  "description": "TKAI Studio React and TypeScript architecture scaffold",
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "devDependencies": {
+    "typescript": ">=5.0.0"
+  }
+}
