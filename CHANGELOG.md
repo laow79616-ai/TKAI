@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.2.0rc3
+## 1.2.0
 
 ### Added
 
@@ -10,6 +10,20 @@
 - RC-3 packaging validation adds package-data coverage for the built-in default
   template manifest and README, plus offline wheel-install, import, CLI, and
   Doctor release smoke checks.
+
+### General availability validation
+
+- Final GA validation covers the optional Policy Engine, Retry Framework,
+  EventBus/Telemetry, Local Distributed Backend, Adaptive Routing, and
+  Multi-region foundations without changing V1 public APIs.
+- Offline benchmark infrastructure, bounded stress validation, and lifecycle,
+  snapshot, cleanup, failure-injection, and recovery validation are included in
+  the release gate.
+- EventBus subscriber isolation and concurrent Policy/Retry event-recording
+  locking are covered by regression tests.
+- Package-data validation includes the default template manifest and README;
+  fresh wheel installation, CLI, Doctor, and import smoke checks are offline.
+- The distribution is licensed under the MIT License.
 
 - Optional multi-region routing foundation with immutable region metadata,
   explicit topology and adapters, local diagnostics, CLI support, and EventBus
@@ -78,10 +92,12 @@
 
 ### Known limitations
 
-- V1.1 foundations are single-process and in-memory; they do not provide Redis,
-  distributed synchronization, active health probes, OpenTelemetry/Prometheus
-  exporters, automatic ProviderManager adoption, adaptive routing, remote
-  plugins, hot reload, plugin sandboxing, or a plugin marketplace.
+- Local-memory implementations only; no Redis backend or real distributed
+  synchronization.
+- No automatic failover, active health probing, traffic migration, ML routing,
+  or OpenTelemetry SDK integration.
+- The V1.2 foundations are opt-in and do not automatically take over existing
+  ProviderManager, Runtime, or AIClient behavior.
 
 ## 1.0.0-rc.1
 

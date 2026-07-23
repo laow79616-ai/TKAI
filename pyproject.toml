@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tkai"
-version = "1.2.0rc3"
+version = "1.2.0"
 description = "TKAI AI Software Factory"
 readme = "README.md"
 license = { text = "MIT" }

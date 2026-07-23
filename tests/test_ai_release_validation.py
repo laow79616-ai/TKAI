@@ -70,7 +70,7 @@ def test_release_documentation_and_version_metadata_are_present() -> None:
     """Verify release documents cover the V1.0 RC public handoff."""
     root = Path(__file__).resolve().parents[1]
     required = {
-        "README.md": "1.2.0rc3",
+        "README.md": "1.2.0",
         "docs/Architecture.md": "AI providers",
         "docs/Migration.md": "Async migration",
         "docs/Providers.md": "Provider Development Guide",
