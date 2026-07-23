@@ -15,6 +15,7 @@ from tkai.credentials import CredentialManager
 from tkai.distributed import DistributedCoordinator
 from tkai.health import HealthManager
 from tkai.load import LoadManager
+from tkai.multiregion import MultiRegionManager
 from tkai.observability import (
     EventBus,
     EventDispatcher,
@@ -69,6 +70,7 @@ class AICommandService:
         distributed: DistributedCoordinator | None = None,
         telemetry: TelemetryManager | None = None,
         adaptive: AdaptiveRoutingManager | None = None,
+        multiregion: MultiRegionManager | None = None,
     ) -> None:
         self.manager = manager or ProviderManager()
         self.fallback = fallback or FallbackEngine()
@@ -92,6 +94,15 @@ class AICommandService:
         self.distributed = distributed
         self.telemetry = telemetry
         self.adaptive = adaptive
+        self.multiregion = multiregion
+
+    def multiregion_summary(self) -> dict[str, object]:
+        """Return local region state without performing a region selection."""
+        return (
+            self.multiregion.snapshot()
+            if self.multiregion is not None
+            else {"enabled": False, "regions": [], "topology": {}, "selected": None}
+        )
 
     def adaptive_summary(self) -> dict[str, object]:
         """Return safe local adaptive state without selecting a provider."""
@@ -444,6 +455,7 @@ class AICommandService:
             distributed=self.distributed,
             telemetry=self.telemetry,
             adaptive=self.adaptive,
+            multiregion=self.multiregion,
         )
 
     def _fallback_policy(self) -> FallbackPolicy:

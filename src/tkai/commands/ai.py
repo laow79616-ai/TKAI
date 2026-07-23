@@ -191,6 +191,12 @@ def adaptive_routing(as_json: bool = typer.Option(False, "--json")) -> None:
     _render(_call(_service.adaptive_summary), as_json=as_json)
 
 
+@app.command("multiregion")
+def multiregion(as_json: bool = typer.Option(False, "--json")) -> None:
+    """Show optional local region metadata without selecting or probing regions."""
+    _render(_call(_service.multiregion_summary), as_json=as_json)
+
+
 @app.command("config")
 def config(
     as_json: bool = typer.Option(False, "--json"),

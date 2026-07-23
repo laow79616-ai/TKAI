@@ -4,6 +4,9 @@
 
 ### Added
 
+- Optional multi-region routing foundation with immutable region metadata,
+  explicit topology and adapters, local diagnostics, CLI support, and EventBus
+  events. It retains single-region defaults and performs no network failover.
 - Optional adaptive routing foundation with bounded local signal history,
   deterministic scoring, explicit Runtime and Policy adapters, Doctor support,
   CLI diagnostics, and EventBus events. It does not enable multi-region routing

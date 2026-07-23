@@ -20,6 +20,8 @@ from tkai.credentials import CredentialManager
 from tkai.distributed import DistributedCoordinator
 from tkai.health import HealthManager, HealthStatus
 from tkai.load import LoadAwareStrategy, LoadManager, LoadStatus
+from tkai.multiregion import MultiRegionManager
+from tkai.multiregion import diagnose as diagnose_multiregion
 from tkai.observability import (
     EventBus,
     EventDispatcher,
@@ -154,6 +156,7 @@ class DoctorService:
         distributed: DistributedCoordinator | None = None,
         telemetry: TelemetryManager | None = None,
         adaptive: AdaptiveRoutingManager | None = None,
+        multiregion: MultiRegionManager | None = None,
     ) -> None:
         self.manager = manager
         self._transports = tuple(transports)
@@ -181,6 +184,7 @@ class DoctorService:
         self._distributed = distributed
         self._telemetry = telemetry
         self._adaptive = adaptive
+        self._multiregion = multiregion
 
     def run(self) -> DoctorReport:
         """Run every diagnostic once and return a complete immutable report."""
@@ -205,6 +209,7 @@ class DoctorService:
         checks.extend(self._distributed_checks())
         checks.extend(self._telemetry_checks())
         checks.extend(self._adaptive_checks())
+        checks.extend(self._multiregion_checks())
         return DoctorReport(tuple(checks))
 
     def validate_config(self) -> DoctorReport:
@@ -1169,6 +1174,18 @@ class DoctorService:
             DoctorCheck(
                 "adaptive_routing",
                 status,
+                diagnostic.message,
+                diagnostic.detail,
+            ),
+        )
+
+    def _multiregion_checks(self) -> tuple[DoctorCheck, ...]:
+        """Describe optional region wiring without selecting any region."""
+        diagnostic = diagnose_multiregion(self._multiregion)
+        return (
+            DoctorCheck(
+                "multiregion",
+                DoctorStatus(diagnostic.status),
                 diagnostic.message,
                 diagnostic.detail,
             ),
