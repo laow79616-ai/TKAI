@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- TKAI 2.0 RC-3 validates the additive SDK reference layers in offline wheel
+  and sdist artifacts, a fresh local wheel installation, CLI/Doctor smoke
+  paths, packaged template data, and SDK examples. No SDK public API or runtime
+  behavior changes are included.
+
 ## 1.3.0
 
 ### Added

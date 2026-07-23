@@ -50,7 +50,7 @@ local fakes only.
 The additive SDK reference layers provide explicit Agent adapters, local
 Provider, Memory, Workflow, Tool, and Plugin contracts for offline development.
 They do not modify V1.x Runtime behavior or enable external services. See the
-[SDK guide](docs/SDK.md) and the [TKAI 2.0 RC-1 baseline](docs/release/tkai-2.0-rc1.md).
+[SDK guide](docs/SDK.md) and the [TKAI 2.0 RC-3 release validation](docs/release/tkai-2.0-rc3.md).
 
 ## License
 
