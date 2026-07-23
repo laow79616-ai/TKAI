@@ -1,5 +1,15 @@
 # Workflow Runtime
 
+## Adaptive runtime scheduler
+
+`RuntimeScheduler` is an explicit, local provider-name scheduler. It does not
+invoke providers or take over ProviderManager. Registered metadata and observed
+result signals support round-robin, weighted round-robin, least latency, least
+error, lowest cost, highest score, sticky-session, and adaptive selection.
+It reuses the existing CircuitBreaker states and records optional Telemetry
+metrics. Health, retry, service-discovery, and failover integrations remain
+caller-controlled adapters; no network probes or service calls are started.
+
 ## Runtime architecture
 
 `WorkflowEngine` is the compatibility facade. `WorkflowRuntime` owns mutable

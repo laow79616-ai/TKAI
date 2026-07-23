@@ -21,6 +21,8 @@
 - Provider-neutral telemetry platform abstraction with spans, context
   propagation, metrics instruments, structured logging, deterministic sampling,
   local exporters, and explicit EventBus/runtime/retry/failover/discovery adapters.
+- Explicit adaptive runtime scheduler with stable provider scoring, local policy
+  selection, sticky sessions, and reuse of the existing circuit-breaker model.
 
 ## 1.2.0
 
