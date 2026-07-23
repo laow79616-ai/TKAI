@@ -161,6 +161,12 @@ def plugins(as_json: bool = typer.Option(False, "--json")) -> None:
     _render(_call(_service.plugins_summary), as_json=as_json)
 
 
+@app.command("policy")
+def policy(as_json: bool = typer.Option(False, "--json")) -> None:
+    """Show optional policy registry metadata without evaluating policies."""
+    _render(_call(_service.policy_summary), as_json=as_json)
+
+
 @app.command("config")
 def config(
     as_json: bool = typer.Option(False, "--json"),

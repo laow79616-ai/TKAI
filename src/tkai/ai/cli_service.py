@@ -21,6 +21,7 @@ from tkai.observability import (
     TraceAdapter,
 )
 from tkai.plugins import PluginManager
+from tkai.policy import PolicyManager
 from tkai.rate_limit import RateLimitManager
 from tkai.routing import RoutingManager
 
@@ -59,6 +60,7 @@ class AICommandService:
         rate_limit: RateLimitManager | None = None,
         cache: CacheManager | None = None,
         plugins: PluginManager | None = None,
+        policies: PolicyManager | None = None,
     ) -> None:
         self.manager = manager or ProviderManager()
         self.fallback = fallback or FallbackEngine()
@@ -77,6 +79,11 @@ class AICommandService:
         self.rate_limit = rate_limit
         self.cache = cache
         self.plugins = plugins
+        self.policies = policies
+
+    def policy_summary(self) -> list[dict[str, object]]:
+        """Return safe registered-policy metadata without executing policies."""
+        return self.policies.summary() if self.policies is not None else []
 
     def plugins_summary(self) -> list[dict[str, object]]:
         """Return safe loaded plugin metadata and enabled state."""
@@ -390,6 +397,7 @@ class AICommandService:
             rate_limit=self.rate_limit,
             cache=self.cache,
             plugins=self.plugins,
+            policies=self.policies,
         )
 
     def _fallback_policy(self) -> FallbackPolicy:

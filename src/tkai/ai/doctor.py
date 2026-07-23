@@ -25,6 +25,7 @@ from tkai.observability import (
     TraceAdapter,
 )
 from tkai.plugins import PluginManager
+from tkai.policy import PolicyManager
 from tkai.providers.http import AsyncHTTPTransport
 from tkai.rate_limit import RateLimitAwareStrategy, RateLimitManager
 from tkai.routing import RoutingManager
@@ -143,6 +144,7 @@ class DoctorService:
         rate_limit: RateLimitManager | None = None,
         cache: CacheManager | None = None,
         plugins: PluginManager | None = None,
+        policies: PolicyManager | None = None,
     ) -> None:
         self.manager = manager
         self._transports = tuple(transports)
@@ -165,6 +167,7 @@ class DoctorService:
         self._rate_limit = rate_limit
         self._cache = cache
         self._plugins = plugins
+        self._policies = policies
 
     def run(self) -> DoctorReport:
         """Run every diagnostic once and return a complete immutable report."""
@@ -184,6 +187,7 @@ class DoctorService:
         checks.extend(self._rate_limit_checks())
         checks.extend(self._cache_checks())
         checks.extend(self._plugin_checks())
+        checks.extend(self._policy_checks())
         return DoctorReport(tuple(checks))
 
     def validate_config(self) -> DoctorReport:
@@ -1036,6 +1040,34 @@ class DoctorService:
                     "disabled": disabled,
                     "failed": failed,
                     "hook_count": len(names),
+                },
+            ),
+        )
+
+    def _policy_checks(self) -> tuple[DoctorCheck, ...]:
+        """Inspect optional policy registration without evaluating any policy."""
+        if self._policies is None:
+            return (
+                DoctorCheck(
+                    "policy", DoctorStatus.WARNING, "No PolicyManager was supplied"
+                ),
+            )
+        policies = self._policies.summary()
+        return (
+            DoctorCheck(
+                "policy.registry",
+                DoctorStatus.PASS if policies else DoctorStatus.WARNING,
+                (
+                    "Policy registry is available"
+                    if policies
+                    else "No policies are registered"
+                ),
+                {
+                    "policy_count": len(policies),
+                    "enabled": [item["name"] for item in policies if item["enabled"]],
+                    "disabled": [
+                        item["name"] for item in policies if not item["enabled"]
+                    ],
                 },
             ),
         )
