@@ -66,6 +66,7 @@ workflow, configuration, plugin, or distributed services.
 Provider contracts are documented separately in [Provider SDK](ProviderSDK.md).
 Memory contracts are documented separately in [Memory SDK](MemorySDK.md).
 Reference execution is documented separately in [Workflow SDK](WorkflowSDK.md).
+Reference tools are documented separately in [Tool SDK](ToolSDK.md).
 
 ## Current scope
 
