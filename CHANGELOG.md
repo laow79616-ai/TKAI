@@ -4,6 +4,15 @@
 
 ### Added
 
+- Optional adaptive routing foundation with bounded local signal history,
+  deterministic scoring, explicit Runtime and Policy adapters, Doctor support,
+  CLI diagnostics, and EventBus events. It does not enable multi-region routing
+  or replace existing routing defaults.
+
+## Unreleased
+
+### Added
+
 - Optional V1.2 Policy Engine foundation with explicit pipeline stages,
   stable priority ordering, failure isolation, compatibility adapters,
   EventBus events, Doctor diagnostics, and `tkai ai policy` inspection.

@@ -7,6 +7,7 @@ from collections.abc import Iterable
 from typing import Any
 
 from tkai import __version__
+from tkai.adaptive import AdaptiveRoutingManager
 from tkai.cache import CacheManager
 from tkai.circuit_breaker import CircuitBreakerManager
 from tkai.configuration import ConfigurationManager
@@ -67,6 +68,7 @@ class AICommandService:
         retries: RetryManager | None = None,
         distributed: DistributedCoordinator | None = None,
         telemetry: TelemetryManager | None = None,
+        adaptive: AdaptiveRoutingManager | None = None,
     ) -> None:
         self.manager = manager or ProviderManager()
         self.fallback = fallback or FallbackEngine()
@@ -89,6 +91,15 @@ class AICommandService:
         self.retries = retries
         self.distributed = distributed
         self.telemetry = telemetry
+        self.adaptive = adaptive
+
+    def adaptive_summary(self) -> dict[str, object]:
+        """Return safe local adaptive state without selecting a provider."""
+        return (
+            self.adaptive.snapshot()
+            if self.adaptive is not None
+            else {"enabled": False, "routers": [], "weights": {}, "statistics": []}
+        )
 
     def telemetry_summary(self) -> dict[str, object]:
         if self.telemetry is not None:
@@ -432,6 +443,7 @@ class AICommandService:
             retries=self.retries,
             distributed=self.distributed,
             telemetry=self.telemetry,
+            adaptive=self.adaptive,
         )
 
     def _fallback_policy(self) -> FallbackPolicy:

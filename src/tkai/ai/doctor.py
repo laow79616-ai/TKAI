@@ -11,6 +11,8 @@ from dataclasses import asdict, dataclass, field
 from enum import Enum
 from typing import Any
 
+from tkai.adaptive import AdaptiveRoutingManager
+from tkai.adaptive import diagnose as diagnose_adaptive
 from tkai.cache import CacheManager
 from tkai.circuit_breaker import CircuitBreakerManager, CircuitState
 from tkai.configuration import ConfigurationManager
@@ -151,6 +153,7 @@ class DoctorService:
         retries: RetryManager | None = None,
         distributed: DistributedCoordinator | None = None,
         telemetry: TelemetryManager | None = None,
+        adaptive: AdaptiveRoutingManager | None = None,
     ) -> None:
         self.manager = manager
         self._transports = tuple(transports)
@@ -177,6 +180,7 @@ class DoctorService:
         self._retries = retries
         self._distributed = distributed
         self._telemetry = telemetry
+        self._adaptive = adaptive
 
     def run(self) -> DoctorReport:
         """Run every diagnostic once and return a complete immutable report."""
@@ -200,6 +204,7 @@ class DoctorService:
         checks.extend(self._retry_checks())
         checks.extend(self._distributed_checks())
         checks.extend(self._telemetry_checks())
+        checks.extend(self._adaptive_checks())
         return DoctorReport(tuple(checks))
 
     def validate_config(self) -> DoctorReport:
@@ -1153,6 +1158,19 @@ class DoctorService:
                 DoctorStatus.PASS,
                 "Telemetry registry is available",
                 summary,
+            ),
+        )
+
+    def _adaptive_checks(self) -> tuple[DoctorCheck, ...]:
+        """Report optional adaptive history without selecting a provider."""
+        diagnostic = diagnose_adaptive(self._adaptive)
+        status = DoctorStatus(diagnostic.status)
+        return (
+            DoctorCheck(
+                "adaptive_routing",
+                status,
+                diagnostic.message,
+                diagnostic.detail,
             ),
         )
 

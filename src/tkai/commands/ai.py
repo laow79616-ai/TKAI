@@ -185,6 +185,12 @@ def telemetry(as_json: bool = typer.Option(False, "--json")) -> None:
     _render(_call(_service.telemetry_summary), as_json=as_json)
 
 
+@app.command("adaptive-routing")
+def adaptive_routing(as_json: bool = typer.Option(False, "--json")) -> None:
+    """Show optional local adaptive-routing history and score configuration."""
+    _render(_call(_service.adaptive_summary), as_json=as_json)
+
+
 @app.command("config")
 def config(
     as_json: bool = typer.Option(False, "--json"),
