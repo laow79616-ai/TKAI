@@ -4,6 +4,10 @@
 
 ### Added
 
+- V1.3 RC-2 establishes the `1.3.0rc1` package-version baseline with offline
+  benchmarks, bounded concurrency stress coverage, failure isolation, and
+  lifecycle/cleanup validation for the optional distributed runtime additions.
+
 - Optional explicit Redis distributed backend with lazy dependency loading,
   JSON-safe values, bounded reconnect attempts, lifecycle ownership, backend
   factory configuration, and offline injected-client coverage. `LocalBackend`
