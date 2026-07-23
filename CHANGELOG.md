@@ -7,6 +7,9 @@
 - V1.3 RC-2 establishes the `1.3.0rc1` package-version baseline with offline
   benchmarks, bounded concurrency stress coverage, failure isolation, and
   lifecycle/cleanup validation for the optional distributed runtime additions.
+- V1.3 RC-3 validates the offline wheel and sdist artifacts, package metadata,
+  distribution contents, and an isolated local wheel installation without
+  altering runtime behavior or public APIs.
 
 - Optional explicit Redis distributed backend with lazy dependency loading,
   JSON-safe values, bounded reconnect attempts, lifecycle ownership, backend
