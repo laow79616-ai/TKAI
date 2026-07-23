@@ -10,15 +10,30 @@ def test_designer_models_validation_json_rest_mapping_and_components_exist() -> 
     workflow = (root / "workflow.ts").read_text(encoding="utf-8")
     components = (root / "designer-components.tsx").read_text(encoding="utf-8")
     for token in (
-        "grid", "zoom", "pan", "selection", "connect", "disconnect",
-        "validate", "snapshot", "restore", "exportJson", "importJson",
-        "toWorkflowPayload", "referenceWorkflow",
+        "grid",
+        "zoom",
+        "pan",
+        "selection",
+        "connect",
+        "disconnect",
+        "validate",
+        "snapshot",
+        "restore",
+        "exportJson",
+        "importJson",
+        "toWorkflowPayload",
+        "referenceWorkflow",
     ):
         assert token in workflow
     for node in ("task", "condition", "loop", "retry", "parallel", "branch", "end"):
         assert f'"{node}"' in workflow
     for component in (
-        "WorkflowCanvas", "WorkflowNode", "WorkflowEdge", "WorkflowToolbar",
-        "PropertyPanel", "ValidationPanel", "MiniMap",
+        "WorkflowCanvas",
+        "WorkflowNode",
+        "WorkflowEdge",
+        "WorkflowToolbar",
+        "PropertyPanel",
+        "ValidationPanel",
+        "MiniMap",
     ):
         assert component in components
