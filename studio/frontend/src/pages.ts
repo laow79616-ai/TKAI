@@ -4,6 +4,7 @@ export type StudioPage =
   | "dashboard"
   | "projects"
   | "workflow"
+  | "execution"
   | "agents"
   | "providers"
   | "memory"
@@ -16,6 +17,7 @@ export const studioPages: readonly StudioPage[] = [
   "dashboard",
   "projects",
   "workflow",
+  "execution",
   "agents",
   "providers",
   "memory",
