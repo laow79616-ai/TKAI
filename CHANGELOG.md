@@ -4,6 +4,10 @@
 
 ### Added
 
+- RC-2 release validation adds offline module benchmark manifests, bounded
+  concurrency stress coverage, lifecycle/memory/snapshot/recovery validation,
+  and a release checklist. These checks add no runtime integration or API.
+
 - Optional multi-region routing foundation with immutable region metadata,
   explicit topology and adapters, local diagnostics, CLI support, and EventBus
   events. It retains single-region defaults and performs no network failover.
