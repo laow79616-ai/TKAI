@@ -115,3 +115,8 @@ class LocalBackend:
 
     async def adelete(self, key: str) -> bool:
         return self.delete(key)
+
+
+# Keep the original LocalBackend import path and name stable while making the
+# default implementation explicit in backend-factory documentation.
+LocalMemoryBackend = LocalBackend

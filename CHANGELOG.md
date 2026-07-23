@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- Optional explicit Redis distributed backend with lazy dependency loading,
+  JSON-safe values, bounded reconnect attempts, lifecycle ownership, backend
+  factory configuration, and offline injected-client coverage. `LocalBackend`
+  remains the unchanged default implementation.
+
 ## 1.2.0
 
 ### Added

@@ -1,9 +1,25 @@
 # Distributed Runtime Foundation
 
-`tkai.distributed` is an optional, local Distributed Runtime foundation. Its
-default `LocalBackend` is thread-safe, in-memory, synchronous, and supports
-async wrapper methods for future backends. It makes no network calls and is not
-enabled by ProviderManager, AIClient, or Provider Runtime.
+`tkai.distributed` is an optional Distributed Runtime foundation. Its default
+`LocalBackend` (also exported as `LocalMemoryBackend`) is thread-safe,
+in-memory, synchronous, and supports async wrapper methods. It makes no
+network calls and is not enabled by ProviderManager, AIClient, or Provider
+Runtime.
+
+## Redis backend
+
+`RedisBackend` is an explicit, optional backend. Install its dependency with
+`pip install tkai[redis]`, then construct it through `BackendFactory` or
+`create_backend(BackendConfig(kind="redis"))`. Redis is imported lazily, so
+using the default local backend never requires it. The backend has explicit
+`connect`/`disconnect` lifecycle methods, bounded immediate reconnect attempts,
+configurable connection timeout, JSON-only values, namespaced keys, and async
+wrappers for its synchronous client.
+
+Applications may inject a compatible Redis client for tests or client ownership.
+Injected clients are never closed by TKAI; clients created internally are closed
+on disconnect. The existing `subscribe` callback contract remains in-process;
+remote Redis pub/sub consumer loops are deliberately not started implicitly.
 
 ## Architecture
 
@@ -35,6 +51,7 @@ coordinator, nodes, heartbeat, and resource metadata in text or JSON.
 
 ## Known limitations
 
-This foundation has no Redis, Etcd, Consul, ZooKeeper, gossip protocol, leader
-election, multi-region routing, distributed lease semantics, or automatic
-ProviderManager takeover. All state is single-process and in-memory.
+This foundation has no Etcd, Consul, ZooKeeper, gossip protocol, leader
+election, remote Redis pub/sub consumer loop, atomic Redis lock compare/delete,
+multi-region routing, distributed lease semantics, or automatic ProviderManager
+takeover. The default remains single-process and in-memory.
