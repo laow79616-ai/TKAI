@@ -8,6 +8,10 @@
   JSON-safe values, bounded reconnect attempts, lifecycle ownership, backend
   factory configuration, and offline injected-client coverage. `LocalBackend`
   remains the unchanged default implementation.
+- Optional explicit distributed backend health probes with immutable cached
+  snapshots, healthy/degraded/unhealthy status, synchronous/asynchronous
+  checks, bounded retries, configurable periodic lifecycle, and offline Redis
+  client coverage. Existing passive backend health behavior is unchanged.
 
 ## 1.2.0
 

@@ -182,6 +182,19 @@ class RedisBackend:
         with self._lock:
             return self._connected
 
+    def probe_health(self, *, timeout_seconds: float | None = None) -> bool:
+        """Explicitly ping Redis through the existing bounded reconnect path.
+
+        ``timeout_seconds`` is validated for a common checker interface. Redis
+        client socket timeouts are configured at construction time, so callers
+        should use :class:`BackendConfig` when a different client timeout is
+        required.
+        """
+        if timeout_seconds is not None and timeout_seconds <= 0:
+            raise ValueError("Health probe timeout_seconds must be greater than zero.")
+        self.connect()
+        return bool(self._execute(lambda client: client.ping(), "health probe"))
+
     async def aconnect(self) -> None:
         """Connect through a worker thread for async callers using sync clients."""
         await asyncio.to_thread(self.connect)

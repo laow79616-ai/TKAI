@@ -22,6 +22,14 @@ from .events import (
     NodeLeft,
 )
 from .factory import BackendConfig, BackendFactory, create_backend
+from .health import (
+    BackendHealthChecker,
+    BackendHealthSnapshot,
+    BackendHealthStatus,
+    HealthChecker,
+    HealthProbeConfig,
+    ProbeableBackend,
+)
 from .heartbeat import Heartbeat
 from .locks import DistributedLock, LocalLock
 from .membership import Membership
@@ -33,6 +41,9 @@ from .runtime_adapter import DistributedPolicyAdapter, DistributedRuntimeAdapter
 __all__ = (
     "BackendConfig",
     "BackendFactory",
+    "BackendHealthChecker",
+    "BackendHealthSnapshot",
+    "BackendHealthStatus",
     "CoordinatorStarted",
     "CoordinatorStopped",
     "DistributedBackend",
@@ -60,6 +71,9 @@ __all__ = (
     "NodeLeft",
     "NodeNotFoundError",
     "NodeStatus",
+    "HealthChecker",
+    "HealthProbeConfig",
+    "ProbeableBackend",
     "RedisBackend",
     "RedisBackendConnectionError",
     "RedisBackendError",

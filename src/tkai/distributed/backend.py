@@ -101,6 +101,12 @@ class LocalBackend:
         with self._lock:
             return self._connected
 
+    def probe_health(self, *, timeout_seconds: float | None = None) -> bool:
+        """Perform the local backend's explicit, network-free availability probe."""
+        if timeout_seconds is not None and timeout_seconds <= 0:
+            raise ValueError("Health probe timeout_seconds must be greater than zero.")
+        return self.health()
+
     async def aconnect(self) -> None:
         self.connect()
 

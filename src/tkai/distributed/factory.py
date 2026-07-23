@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from typing import Literal
 
 from .backend import DistributedBackend, LocalBackend
+from .health import BackendHealthChecker, HealthProbeConfig, ProbeableBackend
 from .redis import RedisBackend, RedisClient
 
 
@@ -18,6 +19,9 @@ class BackendConfig:
     namespace: str = "tkai"
     timeout_seconds: float = 5.0
     reconnect_attempts: int = 1
+    health_probe_interval_seconds: float = 30.0
+    health_probe_timeout_seconds: float = 5.0
+    health_probe_retries: int = 1
 
     def __post_init__(self) -> None:
         """Reject malformed settings before any optional client is created."""
@@ -29,6 +33,11 @@ class BackendConfig:
             raise ValueError("Backend timeout_seconds must be greater than zero.")
         if self.reconnect_attempts < 0:
             raise ValueError("Backend reconnect_attempts must not be negative.")
+        HealthProbeConfig(
+            interval_seconds=self.health_probe_interval_seconds,
+            timeout_seconds=self.health_probe_timeout_seconds,
+            retries=self.health_probe_retries,
+        )
 
 
 class BackendFactory:
@@ -48,6 +57,21 @@ class BackendFactory:
             timeout_seconds=settings.timeout_seconds,
             reconnect_attempts=settings.reconnect_attempts,
             client=client,
+        )
+
+    @staticmethod
+    def create_health_checker(
+        backend: ProbeableBackend, config: BackendConfig | None = None
+    ) -> BackendHealthChecker:
+        """Create an explicit checker without changing backend default behavior."""
+        settings = config or BackendConfig()
+        return BackendHealthChecker(
+            backend,
+            config=HealthProbeConfig(
+                interval_seconds=settings.health_probe_interval_seconds,
+                timeout_seconds=settings.health_probe_timeout_seconds,
+                retries=settings.health_probe_retries,
+            ),
         )
 
 

@@ -21,6 +21,23 @@ Injected clients are never closed by TKAI; clients created internally are closed
 on disconnect. The existing `subscribe` callback contract remains in-process;
 remote Redis pub/sub consumer loops are deliberately not started implicitly.
 
+## Active health probes
+
+The optional `BackendHealthChecker` runs explicit active probes for
+`LocalBackend`/`LocalMemoryBackend` and `RedisBackend`. It caches immutable
+`BackendHealthSnapshot` values with `healthy`, `degraded`, or `unhealthy`
+status, the last probe timestamp, a safe error type, and a failure count.
+Existing `backend.health()` methods remain passive lifecycle checks and do not
+start probing.
+
+Use `checker.probe()` or `await checker.aprobe()` for one check. `start()`
+enables a single periodic daemon worker; `stop()`/`close()` stops and joins it
+without closing the caller-owned backend. `HealthProbeConfig` controls interval,
+cooperative timeout, immediate bounded retry count, and status thresholds.
+`BackendFactory.create_health_checker()` derives these settings from
+`BackendConfig`. Probes are opt-in and never alter ProviderManager or Runtime
+default behavior.
+
 ## Architecture
 
 `DistributedCoordinator` owns an explicit backend, local `Membership`, a
