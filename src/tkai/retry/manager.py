@@ -87,4 +87,7 @@ class RetryManager:
     def _publish(self, event: RetryEvent) -> None:
         self.events.append(event)
         if self.event_bus is not None:
-            self.event_bus.publish(event)
+            try:
+                self.event_bus.publish(event)
+            except Exception:
+                return

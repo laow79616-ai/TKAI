@@ -114,7 +114,10 @@ class TelemetryManager:
         with self._lock:
             self.events.append(event)
         if self.event_bus is not None:
-            self.event_bus.publish(event)
+            try:
+                self.event_bus.publish(event)
+            except Exception:
+                return
 
     def _export(
         self,

@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.2.0rc1
 
 ### Added
 
@@ -11,8 +11,6 @@
   deterministic scoring, explicit Runtime and Policy adapters, Doctor support,
   CLI diagnostics, and EventBus events. It does not enable multi-region routing
   or replace existing routing defaults.
-
-## Unreleased
 
 ### Added
 

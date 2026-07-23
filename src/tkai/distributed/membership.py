@@ -89,4 +89,7 @@ class Membership:
 
     def _publish(self, event: NodeJoined | NodeLeft | HeartbeatUpdated) -> None:
         if self.event_bus is not None:
-            self.event_bus.publish(event)
+            try:
+                self.event_bus.publish(event)
+            except Exception:
+                return

@@ -29,7 +29,9 @@ def test_documented_offline_release_examples_run() -> None:
 def test_release_notes_state_compatibility_and_limitations() -> None:
     """Ensure users can discover compatibility, version, and upgrade guidance."""
     root = Path(__file__).resolve().parents[1]
-    notes = (root / "docs/release/v1.1-release-notes.md").read_text(encoding="utf-8")
-    assert "no intended breaking changes" in notes
-    assert "Upgrade guidance" in notes
+    notes = (root / "docs/release/v1.2-rc1-integration-baseline.md").read_text(
+        encoding="utf-8"
+    )
+    assert "Compatibility" in notes
+    assert "Known limitations" in notes
     assert tkai.__version__ in notes

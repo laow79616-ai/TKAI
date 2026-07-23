@@ -79,7 +79,10 @@ class DistributedCoordinator:
 
     def _publish(self, event: CoordinatorStarted | CoordinatorStopped) -> None:
         if self.event_bus is not None:
-            self.event_bus.publish(event)
+            try:
+                self.event_bus.publish(event)
+            except Exception:
+                return
 
 
 LocalCoordinator = DistributedCoordinator

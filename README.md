@@ -3,7 +3,7 @@
 TKAI is a typed, offline-testable Python framework for project scaffolding,
 plugins, workflows, and provider-neutral AI integrations.
 
-Current release candidate: **1.0.0rc1**.
+Current release candidate: **1.2.0rc1**.
 
 ## AI provider framework
 
