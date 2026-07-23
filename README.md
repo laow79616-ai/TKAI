@@ -45,6 +45,13 @@ python -m mypy src
 All executable AI examples are under `examples/ai/` and intentionally use
 local fakes only.
 
+## TKAI 2.0 SDK reference layers
+
+The additive SDK reference layers provide explicit Agent adapters, local
+Provider, Memory, Workflow, Tool, and Plugin contracts for offline development.
+They do not modify V1.x Runtime behavior or enable external services. See the
+[SDK guide](docs/SDK.md) and the [TKAI 2.0 RC-1 baseline](docs/release/tkai-2.0-rc1.md).
+
 ## License
 
 TKAI is released under the [MIT License](LICENSE).
