@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from collections.abc import Mapping
+from dataclasses import dataclass, field
 from enum import Enum
 from typing import Protocol
 
@@ -23,6 +24,7 @@ class MemoryRecord:
     key: str
     value: object
     kind: MemoryKind = MemoryKind.SHORT
+    metadata: Mapping[str, object] = field(default_factory=dict)
 
 
 class Memory(Protocol):

@@ -38,6 +38,25 @@ workflow = (
 `Agent()` can be constructed without configuration but raises a clear SDK error
 when execution is requested before an explicit runtime adapter is supplied.
 
+## Reference implementations
+
+`V1RuntimeAdapter` composes an explicitly supplied `ProviderAdapter` and
+optional `InMemoryMemory`. `InMemoryProvider` is a deterministic local provider
+for examples and tests only: it never reads credentials, environment variables,
+or network state. `InMemoryMemory` is bounded, thread-safe, namespace-aware,
+and process-local; it is not Redis, vector, or production persistence.
+
+Configuration loaders are explicit. `MappingConfigurationLoader` reads a passed
+mapping, `EnvironmentConfigurationLoader` reads only an injected mapping and
+prefix, and `CompositeConfigurationLoader` applies later source precedence.
+
+## Streaming and errors
+
+`Agent.stream()` forwards a synchronous provider iterator directly: it starts no
+threads, does not buffer unbounded data, and preserves upstream failures as
+`ProviderExecutionError` with the original exception as its cause. Invalid
+requests raise `InvalidRequestError` before reaching the provider.
+
 ## Compatibility
 
 `tkai.sdk` is isolated from V1.x runtime implementations and does not alter

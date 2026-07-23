@@ -78,3 +78,51 @@ class ConfigurationLoader:
         for source in self.sources:
             merged.update(source.load())
         return Configuration(merged)
+
+
+@dataclass(frozen=True, slots=True)
+class MappingConfigurationLoader:
+    """Named loader facade for an explicit mapping; never mutates its input."""
+
+    values: Mapping[str, object]
+
+    def load(self) -> Configuration:
+        """Return one immutable configuration snapshot."""
+        return Configuration(self.values)
+
+
+@dataclass(frozen=True, slots=True)
+class EnvironmentConfigurationLoader:
+    """Read only an injected environment mapping and selected explicit prefix."""
+
+    prefix: str = "TKAI_"
+    environment: Mapping[str, str] = field(default_factory=dict)
+
+    def load(self) -> Configuration:
+        """Return a local immutable snapshot without reading process environment."""
+        return Configuration(
+            {
+                key.removeprefix(self.prefix).lower(): value
+                for key, value in self.environment.items()
+                if key.startswith(self.prefix)
+            }
+        )
+
+
+class CompositeConfigurationLoader:
+    """Merge named loaders in order, with later explicit loaders taking precedence."""
+
+    def __init__(
+        self,
+        loaders: tuple[
+            MappingConfigurationLoader | EnvironmentConfigurationLoader, ...
+        ],
+    ) -> None:
+        self.loaders = loaders
+
+    def load(self) -> Configuration:
+        """Combine immutable loader snapshots without modifying source mappings."""
+        values: dict[str, object] = {}
+        for loader in self.loaders:
+            values.update(loader.load().values)
+        return Configuration(values)

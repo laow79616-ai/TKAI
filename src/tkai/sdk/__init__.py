@@ -2,10 +2,13 @@
 
 from .agent import Agent, AgentRequest, AgentResponse, AgentRuntime
 from .configuration import (
+    CompositeConfigurationLoader,
     Configuration,
     ConfigurationLoader,
     ConfigurationSource,
+    EnvironmentConfigurationLoader,
     EnvironmentConfigurationSource,
+    MappingConfigurationLoader,
     MappingConfigurationSource,
     PythonConfigurationSource,
 )
@@ -20,12 +23,15 @@ __all__ = (
     "AgentResponse",
     "AgentRuntime",
     "Configuration",
+    "CompositeConfigurationLoader",
     "ConfigurationLoader",
     "ConfigurationSource",
     "EnvironmentConfigurationSource",
+    "EnvironmentConfigurationLoader",
     "ExtensionKind",
     "ExtensionRegistry",
     "MappingConfigurationSource",
+    "MappingConfigurationLoader",
     "Memory",
     "MemoryKind",
     "MemoryRecord",
