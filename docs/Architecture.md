@@ -1,5 +1,11 @@
 # TKAI V1.0 Architecture
 
+## TKAI 2.0 Developer Platform
+
+The additive `tkai.sdk` package provides declarative developer interfaces above
+the V1.x Runtime. See [SDK architecture](SDK.md). It does not modify or replace
+the established Runtime, ProviderManager, workflow engine, or backend defaults.
+
 TKAI is organized as independent layers with one-way dependencies: commands
 call generators, templates, configuration, and framework services; framework
 services depend only on `tkai.core`. This prevents command/UI imports from
