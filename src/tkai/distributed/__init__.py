@@ -2,6 +2,12 @@
 
 from .backend import DistributedBackend, LocalBackend, LocalMemoryBackend
 from .coordinator import DistributedCoordinator, LocalCoordinator
+from .discovery import (
+    LocalServiceRegistry,
+    RedisServiceRegistry,
+    ServiceInstance,
+    ServiceRegistry,
+)
 from .errors import (
     DistributedError,
     DistributedLockError,
@@ -11,6 +17,8 @@ from .errors import (
     RedisBackendError,
     RedisBackendOperationError,
     RedisBackendUnavailableError,
+    ServiceInstanceNotFoundError,
+    ServiceRegistryError,
 )
 from .events import (
     BackendFailedBack,
@@ -83,6 +91,7 @@ __all__ = (
     "HeartbeatUpdated",
     "LocalBackend",
     "LocalMemoryBackend",
+    "LocalServiceRegistry",
     "LocalCoordinator",
     "LocalLock",
     "LockAcquired",
@@ -104,5 +113,10 @@ __all__ = (
     "RedisBackendOperationError",
     "RedisBackendUnavailableError",
     "RedisClient",
+    "RedisServiceRegistry",
+    "ServiceInstance",
+    "ServiceInstanceNotFoundError",
+    "ServiceRegistry",
+    "ServiceRegistryError",
     "create_backend",
 )

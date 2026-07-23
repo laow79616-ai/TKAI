@@ -31,3 +31,11 @@ class RedisBackendOperationError(RedisBackendError):
 
 class FailoverStateError(DistributedError):
     """Raised when a failback is requested from an invalid failover state."""
+
+
+class ServiceRegistryError(DistributedError):
+    """Base error raised by explicit service discovery registries."""
+
+
+class ServiceInstanceNotFoundError(ServiceRegistryError):
+    """Raised when a requested service instance cannot be renewed."""

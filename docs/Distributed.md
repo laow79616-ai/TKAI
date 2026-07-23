@@ -55,6 +55,23 @@ recovery detection, and failback, but subscriber errors are isolated. Starting
 the manager enables periodic checks; stopping it releases only its worker and
 never closes caller-owned backends.
 
+## Service discovery
+
+`LocalServiceRegistry` is the default explicit service-discovery implementation.
+It stores immutable `ServiceInstance` snapshots with endpoint, version, region,
+tags, metadata, registration time, and TTL expiration. Register, deregister,
+renew, lookup, list, cleanup, and snapshot calls are thread-safe. Lookups apply
+stable ordering and can filter by version, region, required tags, and metadata.
+Periodic expiration cleanup is optional and starts only after `start()`.
+
+`RedisServiceRegistry` is an optional implementation over an explicit
+`RedisBackend`, with service indexes and JSON-compatible instance records. It
+works with injected offline fake clients and never owns the backend lifecycle.
+`BackendFactory.create_service_registry()` chooses Redis only when supplied a
+Redis backend (or a currently Redis-backed failover manager); otherwise it
+returns the local registry. Existing health/failover behavior remains unchanged,
+and records are not migrated automatically when a manager later switches.
+
 ## Architecture
 
 `DistributedCoordinator` owns an explicit backend, local `Membership`, a

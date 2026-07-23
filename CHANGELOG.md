@@ -15,6 +15,9 @@
 - Optional explicit distributed failover manager with thresholded primary to
   local-memory fallback, recovery detection, manual failback, immutable metrics
   and snapshots, isolated EventBus events, and no automatic Runtime takeover.
+- Optional service discovery with immutable TTL-based service instances,
+  thread-safe local registry, optional Redis-backed registry, metadata filters,
+  explicit cleanup lifecycle, and BackendFactory selection.
 
 ## 1.2.0
 

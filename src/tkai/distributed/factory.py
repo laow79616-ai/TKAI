@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from typing import Literal
 
 from .backend import DistributedBackend, LocalBackend
+from .discovery import LocalServiceRegistry, RedisServiceRegistry, ServiceRegistry
 from .failover import FailoverBackend, FailoverConfig, FailoverManager
 from .health import BackendHealthChecker, HealthProbeConfig, ProbeableBackend
 from .redis import RedisBackend, RedisClient
@@ -84,6 +85,25 @@ class BackendFactory:
     ) -> FailoverManager:
         """Create an explicit failover manager with local memory as fallback."""
         return FailoverManager(primary, secondary, config=config)
+
+    @staticmethod
+    def create_service_registry(
+        *,
+        backend: DistributedBackend | None = None,
+        failover_manager: FailoverManager | None = None,
+        cleanup_interval_seconds: float = 30.0,
+    ) -> ServiceRegistry:
+        """Create an explicit registry for a supplied backend or current fallback.
+
+        A manager is sampled only during construction; a later failover never
+        silently migrates discovery records or changes this registry's backend.
+        """
+        selected = failover_manager.active_backend if failover_manager else backend
+        if isinstance(selected, RedisBackend):
+            return RedisServiceRegistry(
+                selected, cleanup_interval_seconds=cleanup_interval_seconds
+            )
+        return LocalServiceRegistry(cleanup_interval_seconds=cleanup_interval_seconds)
 
 
 def create_backend(
