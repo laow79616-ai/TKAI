@@ -68,6 +68,7 @@ def _register_routes(app: Any, api: StudioAPI, prefix: str) -> None:
     base = prefix.rstrip("/")
     app.add_api_route(f"{base}/health", api.health, methods=["GET"])
     app.add_api_route(f"{base}/system", api.system, methods=["GET"])
+    app.add_api_route(f"{base}/version", api.version, methods=["GET"])
     app.add_api_route(f"{base}/projects", api.create_project, methods=["POST"])
     app.add_api_route(f"{base}/projects", api.list_projects, methods=["GET"])
     app.add_api_route(

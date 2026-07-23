@@ -23,6 +23,11 @@ class StudioAPI:
         """Return safe Studio and TKAI system metadata."""
         return self._dependencies.system_service.report()
 
+    def version(self) -> dict[str, object]:
+        """Return the frozen Studio and TKAI version subset."""
+        system = self.system()
+        return {"studio": system["studio"], "tkai_version": system["tkai_version"]}
+
     def create_project(self, payload: Mapping[str, object]) -> dict[str, object]:
         """Create a project from a small JSON-compatible payload."""
         name = _required_string(payload, "name")

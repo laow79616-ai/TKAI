@@ -31,5 +31,5 @@ def test_app_factory_registers_rest_routes_with_explicit_dependencies() -> None:
 
     assert isinstance(app, FakeFastAPI)
     assert app.state.studio_dependencies is dependencies
-    assert len(app.routes) == 15
+    assert len(app.routes) == 16
     assert app.metadata["title"] == "TKAI Studio"
