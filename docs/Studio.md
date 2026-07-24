@@ -15,16 +15,20 @@ can supply its own implementation.
 public SDK `Agent` and/or `WorkflowRuntime`; it never creates a provider,
 runtime, credential, thread, or network connection implicitly.
 
-The initial REST inventory contains Project, Workflow, Execution, Health, and
+The frozen REST inventory contains Project, Workflow, Execution, Health, and
 System endpoints. The WebSocket protocol reserves asynchronous execution-event
-delivery, without starting a server or socket loop.
+delivery, without starting a server or socket loop. See
+[REST_API.md](REST_API.md) for the frozen contract.
 
 ## Frontend
 
 `studio/frontend` contains a React + TypeScript scaffold with a typed page
 inventory for Dashboard, Projects, Workflow, Agents, Providers, Memory, Tools,
-Plugins, Settings, and Logs. It includes no build output, dependency lockfile,
-or implemented drag-and-drop designer.
+Plugins, Settings, and Logs. It includes no build output or dependency lockfile.
+The reference product contracts are documented in
+[WorkflowDesigner.md](WorkflowDesigner.md),
+[ExecutionMonitor.md](ExecutionMonitor.md), and [AgentChat.md](AgentChat.md).
+They do not alter the frozen REST API or execute a Runtime directly.
 
 ## Workflow designer model
 
