@@ -74,6 +74,10 @@ Attribute-based access control is intentionally reserved as an extension point;
 there is no ABAC evaluator, implicit policy engine connection, or enforcement
 in this architecture phase.
 
+The Authorization Foundation now provides explicit descriptors, policy
+contracts, and reference-only evaluators. See [Authorization Foundation](Authorization.md).
+It does not install Runtime hooks, SDK hooks, Studio middleware, or enforcement.
+
 ## Audit
 
 `AuditEvent` and `AuditLogService` establish an append/query contract for a
