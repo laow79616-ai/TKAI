@@ -73,11 +73,13 @@ studio = ["frontend/**", "assets/**", "docs/**"]
     "docs/server/PackageFoundation.md",
     "docs/server/VersionFoundation.md",
     "docs/server/SearchFoundation.md",
+    "docs/server/StatisticsFoundation.md",
     "docs/server/RegistryService.md",
     "docs/server/PublisherService.md",
     "docs/server/PackageService.md",
     "docs/server/VersionService.md",
     "docs/server/SearchService.md",
+    "docs/server/StatisticsService.md",
     "docs/server/ReleaseService.md",
     "docs/server/HealthService.md",
 ]

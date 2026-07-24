@@ -50,3 +50,15 @@ Sprint-6 adds an isolated, reference-only unified query domain under
 `SearchStorage` protocol and a thread-safe `ReferenceSearchStorage`. It accepts
 only caller-supplied local entries and never builds an index, uses a search
 engine, accesses a database, network, or HTTP service, or mutates other domains.
+
+## Statistics Foundation
+
+Sprint-7 adds an isolated, reference-only Statistics domain under
+`server.statistics`. It uses immutable caller-supplied sources, metrics, and
+records with an explicit `StatisticsStorage` protocol and a thread-safe
+`ReferenceStatisticsStorage`. Source types are descriptive only: the service
+does not discover, query, or collect from Registry, Publisher, Package,
+Version, Search, Release, or Health. It provides deterministic local queries,
+on-demand aggregation, immutable events, counters, and snapshots without an
+exporter, collector, HTTP service, database, network, background worker, or
+global state.

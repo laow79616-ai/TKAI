@@ -28,11 +28,13 @@ include docs/server/PublisherFoundation.md
 include docs/server/PackageFoundation.md
 include docs/server/VersionFoundation.md
 include docs/server/SearchFoundation.md
+include docs/server/StatisticsFoundation.md
 include docs/server/RegistryService.md
 include docs/server/PublisherService.md
 include docs/server/PackageService.md
 include docs/server/VersionService.md
 include docs/server/SearchService.md
+include docs/server/StatisticsService.md
 include docs/server/ReleaseService.md
 include docs/server/HealthService.md
 include docs/benchmarks/verification.md
