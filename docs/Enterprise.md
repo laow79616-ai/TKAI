@@ -50,6 +50,11 @@ request limiter, database isolation, or tenant provisioning occurs here.
 `TenantDirectory` is the future lookup boundary. Callers must explicitly pass
 tenant context to future adapters rather than relying on hidden global state.
 
+The Tenant Boundary Foundation is architecture-level and reference-only. See
+[Tenant Foundation](Tenant.md). It does not add actual tenant isolation,
+database partitioning, authentication, authorization enforcement, billing,
+quota limiting, automatic routing, or data migration.
+
 ## Authentication
 
 The architecture recognizes OIDC, OAuth2, SAML, LDAP, and JWT as
