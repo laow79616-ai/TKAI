@@ -62,3 +62,13 @@ Version, Search, Release, or Health. It provides deterministic local queries,
 on-demand aggregation, immutable events, counters, and snapshots without an
 exporter, collector, HTTP service, database, network, background worker, or
 global state.
+
+## Health Foundation
+
+Sprint-8 extends the existing `server.health` compatibility module with an
+isolated, reference-only Health Foundation. Its explicit `HealthStorage`
+protocol and thread-safe `ReferenceHealthStorage` accept caller-registered
+checks and caller-supplied results only. The Foundation does not read or probe
+Registry, Publisher, Package, Version, Search, or Statistics, and it adds no
+HTTP endpoint, automatic monitor, network/database/filesystem probe, exporter,
+background worker, scheduler, or global state.

@@ -37,6 +37,7 @@ include docs/server/SearchService.md
 include docs/server/StatisticsService.md
 include docs/server/ReleaseService.md
 include docs/server/HealthService.md
+include docs/server/HealthFoundation.md
 include docs/benchmarks/verification.md
 include docs/benchmarks/verification.json
 include docs/benchmarks/resolver.md
