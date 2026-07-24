@@ -63,6 +63,10 @@ caller-supplied accepted publication snapshots. It preserves the original
 `marketplace.registry.MarketplaceRegistry` API and has no remote, install, or
 catalog-write behavior.
 
+The [Dependency Resolver Foundation](Resolver.md) consumes explicit Registry
+snapshots to produce deterministic local dependency diagnostics and ordering.
+It never downloads, installs, or mutates Marketplace Foundation state.
+
 ## API and extension boundaries
 
 `MarketplaceAPI`, `PackageInstaller`, `SignatureVerifier`, and
