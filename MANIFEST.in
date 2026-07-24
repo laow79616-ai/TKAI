@@ -8,6 +8,7 @@ include docs/Storage.md
 include docs/Execution.md
 include docs/PlatformGateway.md
 include docs/Marketplace.md
+include docs/Publisher.md
 include docs/release/cloud-v4-rc1.md
 include docs/release/cloud-v4-rc2.md
 include docs/release/cloud-v4-rc3.md

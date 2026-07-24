@@ -15,6 +15,19 @@ from .models import (
     PackageVersion,
     PublisherDescriptor,
 )
+from .publisher import (
+    Publisher,
+    PublisherCapability,
+    PublisherFactory,
+    PublisherOrganization,
+    PublisherPolicy,
+    PublisherProfile,
+    PublisherRegistry,
+    PublisherTier,
+    PublisherTrust,
+    PublisherVerification,
+    ReferencePublisherService,
+)
 from .reference import ReferenceMarketplace
 from .registry import MarketplaceRegistry
 
@@ -29,7 +42,18 @@ __all__ = (
     "PackageKind",
     "PackageVersion",
     "PlatformGateway",
+    "Publisher",
+    "PublisherCapability",
     "PublisherDescriptor",
+    "PublisherFactory",
+    "PublisherOrganization",
+    "PublisherPolicy",
+    "PublisherProfile",
+    "PublisherRegistry",
+    "PublisherTier",
+    "PublisherTrust",
+    "PublisherVerification",
     "ReferenceMarketplace",
+    "ReferencePublisherService",
     "SignatureVerifier",
 )
