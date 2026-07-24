@@ -65,11 +65,15 @@ studio = ["frontend/**", "assets/**", "docs/**"]
     "docs/benchmarks/resolver.json",
     "docs/benchmarks/installer.md",
     "docs/benchmarks/installer.json",
+    "docs/benchmarks/server.md",
+    "docs/benchmarks/server.json",
 ]
 "share/doc/tkai/server" = [
     "docs/server/Architecture.md",
     "docs/server/ArchitectureReview.md",
     "docs/server/RC1IntegrationValidation.md",
+    "docs/server/AcceleratedReleaseValidation.md",
+    "docs/server/ReleaseNotes.md",
     "docs/server/RegistryFoundation.md",
     "docs/server/PublisherFoundation.md",
     "docs/server/PackageFoundation.md",

@@ -25,6 +25,8 @@ include docs/release/marketplace-v5-ga.md
 include docs/server/Architecture.md
 include docs/server/ArchitectureReview.md
 include docs/server/RC1IntegrationValidation.md
+include docs/server/AcceleratedReleaseValidation.md
+include docs/server/ReleaseNotes.md
 include docs/server/RegistryFoundation.md
 include docs/server/PublisherFoundation.md
 include docs/server/PackageFoundation.md
@@ -46,6 +48,8 @@ include docs/benchmarks/resolver.md
 include docs/benchmarks/resolver.json
 include docs/benchmarks/installer.md
 include docs/benchmarks/installer.json
+include docs/benchmarks/server.md
+include docs/benchmarks/server.json
 include docs/release/cloud-v4-rc1.md
 include docs/release/cloud-v4-rc2.md
 include docs/release/cloud-v4-rc3.md

@@ -1,0 +1,1 @@
+{"module":"benchmarks.server","scenarios":["server.registry.create","server.registry.list_search","server.publisher.create_search","server.package.create_search","server.version.create_search","server.search.unified","server.statistics.record_query_aggregate","server.health.update_snapshot"],"timings":"generated locally by benchmarks.server.reports"}
