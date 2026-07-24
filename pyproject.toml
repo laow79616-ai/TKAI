@@ -38,6 +38,34 @@ exclude = ["tests*", "benchmarks*"]
 tkai = ["templates/default/README.md", "templates/default/template.json"]
 studio = ["frontend/**", "assets/**", "docs/**"]
 
+[tool.setuptools.data-files]
+"share/doc/tkai/marketplace" = [
+    "docs/Marketplace.md",
+    "docs/Publisher.md",
+    "docs/PackageCatalog.md",
+    "docs/Publication.md",
+    "docs/Registry.md",
+    "docs/Resolver.md",
+    "docs/Installer.md",
+    "docs/InstallerReliability.md",
+    "docs/Verification.md",
+    "docs/Trust.md",
+    "docs/ArchitectureReview.md",
+]
+"share/doc/tkai/marketplace/release" = [
+    "docs/release/marketplace-v5-rc1.md",
+    "docs/release/marketplace-v5-rc2.md",
+    "docs/release/marketplace-v5-rc3.md",
+]
+"share/doc/tkai/marketplace/benchmarks" = [
+    "docs/benchmarks/verification.md",
+    "docs/benchmarks/verification.json",
+    "docs/benchmarks/resolver.md",
+    "docs/benchmarks/resolver.json",
+    "docs/benchmarks/installer.md",
+    "docs/benchmarks/installer.json",
+]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
