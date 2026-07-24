@@ -54,6 +54,9 @@ in-memory reference registry.
 See [Deployment Foundation](Deployment.md) for reference-only deployment plans,
 targets, lifecycle declarations, and local test service.
 
+See [Storage Foundation](Storage.md) for in-memory storage descriptors and
+reference bucket/object lifecycle contracts.
+
 ## Current limitations
 
 - No Cloud server, REST transport, database, queue, object store, or Kubernetes

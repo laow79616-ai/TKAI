@@ -4,3 +4,4 @@ include docs/Cloud.md
 include docs/Workspace.md
 include docs/Project.md
 include docs/Deployment.md
+include docs/Storage.md
