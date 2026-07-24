@@ -60,6 +60,9 @@ reference bucket/object lifecycle contracts.
 See [Execution Foundation](Execution.md) for reference execution descriptors,
 history, lifecycle validation, and in-memory service contracts.
 
+See [Platform Gateway](PlatformGateway.md) for explicit Cloud-to-Platform
+adapter contracts and reference capability/version/health descriptors.
+
 ## Current limitations
 
 - No Cloud server, REST transport, database, queue, object store, or Kubernetes

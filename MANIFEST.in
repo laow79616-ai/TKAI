@@ -6,3 +6,4 @@ include docs/Project.md
 include docs/Deployment.md
 include docs/Storage.md
 include docs/Execution.md
+include docs/PlatformGateway.md
