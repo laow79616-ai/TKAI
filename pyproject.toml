@@ -68,6 +68,7 @@ studio = ["frontend/**", "assets/**", "docs/**"]
 ]
 "share/doc/tkai/server" = [
     "docs/server/Architecture.md",
+    "docs/server/ArchitectureReview.md",
     "docs/server/RegistryFoundation.md",
     "docs/server/PublisherFoundation.md",
     "docs/server/PackageFoundation.md",

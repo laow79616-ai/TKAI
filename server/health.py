@@ -14,6 +14,27 @@ from threading import RLock
 from types import MappingProxyType
 from typing import Protocol
 
+__all__ = (
+    "HealthCheck",
+    "HealthCheckId",
+    "HealthClosedError",
+    "HealthConflictError",
+    "HealthError",
+    "HealthEvent",
+    "HealthEventType",
+    "HealthNotFoundError",
+    "HealthReport",
+    "HealthResult",
+    "HealthSeverity",
+    "HealthSnapshot",
+    "HealthStatistics",
+    "HealthStatus",
+    "HealthStorage",
+    "HealthValidationError",
+    "ReferenceHealthService",
+    "ReferenceHealthStorage",
+)
+
 
 def _metadata(values: Mapping[str, object]) -> Mapping[str, object]:
     """Create a stable defensive metadata mapping."""

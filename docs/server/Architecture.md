@@ -72,3 +72,13 @@ checks and caller-supplied results only. The Foundation does not read or probe
 Registry, Publisher, Package, Version, Search, or Statistics, and it adds no
 HTTP endpoint, automatic monitor, network/database/filesystem probe, exporter,
 background worker, scheduler, or global state.
+
+## Architecture Review
+
+The completed Foundation architecture review confirms stable public exports,
+explicit domain boundaries, immutable models, deterministic events and
+snapshots, local thread safety, and package documentation inclusion. The
+Health Foundation intentionally remains `server/health.py` to preserve its
+Sprint-1 public import compatibility; this accepted structural difference
+avoids shadowing it with a same-named package. See
+[ArchitectureReview.md](ArchitectureReview.md) for findings and limits.
