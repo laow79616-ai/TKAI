@@ -1,6 +1,7 @@
 """Offline, reference-only Marketplace Installer Foundation."""
 
 from .models import *  # noqa: F403
+from .reliability import *  # noqa: F403
 from .service import ReferenceInstallationStore as ReferenceInstallationStore
 from .service import ReferenceInstallerService as ReferenceInstallerService
 from .source import (

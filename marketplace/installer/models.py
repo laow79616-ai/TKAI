@@ -66,7 +66,7 @@ class InstallationEventType(str, Enum):
     PLANNED = "planned"
     STARTED = "started"
     STEP_COMPLETED = "step_completed"
-    SUCCEEDED = "succeeded"
+    SUCCEEDED = "completed"
     FAILED = "failed"
     CANCELLED = "cancelled"
     ROLLBACK_STARTED = "rollback_started"
@@ -158,10 +158,15 @@ class InstallationEvent:
     sequence: int
     event_type: InstallationEventType
     installation_id: InstallationId
+    coordinate: InstallationCoordinate | None = None
 
 
 @dataclass(frozen=True, slots=True)
 class InstallationSnapshot:
     sessions: tuple[InstallationSession, ...] = ()
     installed_records: tuple[InstalledPackageRecord, ...] = ()
+    events: tuple[InstallationEvent, ...] = ()
+    transactions: tuple[object, ...] = ()
+    rollback_history: tuple[object, ...] = ()
+    statistics: object | None = None
     closed: bool = False

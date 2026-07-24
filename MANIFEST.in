@@ -14,6 +14,7 @@ include docs/Publication.md
 include docs/Registry.md
 include docs/Resolver.md
 include docs/Installer.md
+include docs/InstallerReliability.md
 include docs/release/cloud-v4-rc1.md
 include docs/release/cloud-v4-rc2.md
 include docs/release/cloud-v4-rc3.md

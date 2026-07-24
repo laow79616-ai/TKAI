@@ -70,6 +70,10 @@ It never downloads, installs, or mutates Marketplace Foundation state.
 The [Installer Core Foundation](Installer.md) records only in-memory,
 descriptive installation state from explicit resolved results.
 
+The [Installer Reliability Foundation](InstallerReliability.md) adds local
+transaction, rollback, verification, event, and snapshot diagnostics without
+real package installation or external side effects.
+
 ## API and extension boundaries
 
 `MarketplaceAPI`, `PackageInstaller`, `SignatureVerifier`, and

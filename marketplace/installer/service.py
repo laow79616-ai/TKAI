@@ -20,6 +20,15 @@ from .models import (
     InstallationStrategy,
     InstalledPackageRecord,
 )
+from .reliability import (
+    InstallationStatistics,
+    InstallationTransaction,
+    InstallationTransactionState,
+    ReferenceInstallationVerifier,
+    RollbackPlan,
+    RollbackResult,
+    RollbackState,
+)
 from .source import ReferenceResolutionInstallationSource
 
 
@@ -82,6 +91,10 @@ class ReferenceInstallerService:
         self._sessions: dict[str, InstallationSession] = {}
         self._closed = False
         self._lifecycle = InstallationLifecycle()
+        self._transactions: dict[str, InstallationTransaction] = {}
+        self._rollbacks: list[RollbackResult] = []
+        self._events = []
+        self._verifier = ReferenceInstallationVerifier()
 
     def plan(self, r: InstallationRequest) -> InstallationPlan:
         self._open()
@@ -108,6 +121,11 @@ class ReferenceInstallerService:
     def install(self, r: InstallationRequest) -> InstallationResult:
         with self._lock:
             p = self.plan(r)
+            self._emit("planned", r.installation_id)
+            self._emit("started", r.installation_id)
+            self._transactions[str(r.installation_id)] = InstallationTransaction(
+                r.installation_id, InstallationTransactionState.CREATED
+            )
             records = tuple(
                 InstalledPackageRecord(c, r.installation_id) for c in p.dependency_order
             )
@@ -118,9 +136,25 @@ class ReferenceInstallerService:
                     and not r.allow_reinstall
                 ):
                     raise InstallerConflictError("Package is already installed.")
-                for x in records:
-                    if x.coordinate not in existing:
-                        self.store.add(x)
+                self._transactions[str(r.installation_id)] = InstallationTransaction(
+                    r.installation_id, InstallationTransactionState.PREPARED
+                )
+                added = []
+                try:
+                    for x in records:
+                        if x.coordinate not in existing:
+                            self.store.add(x)
+                            added.append(x.coordinate)
+                except Exception:
+                    for coordinate in added:
+                        self.store.remove(coordinate)
+                    self._transactions[str(r.installation_id)] = (
+                        InstallationTransaction(
+                            r.installation_id, InstallationTransactionState.ABORTED
+                        )
+                    )
+                    self._emit("failed", r.installation_id)
+                    raise
             self._lifecycle.transition(
                 InstallationStatus.PENDING, InstallationStatus.PLANNED
             )
@@ -129,7 +163,40 @@ class ReferenceInstallerService:
             )
             s = InstallationSession(r.installation_id, InstallationStatus.SUCCEEDED, p)
             self._sessions[str(r.installation_id)] = s
+            if not self._verifier.verify(p, InstallationResult(s, records), records):
+                self._transactions[str(r.installation_id)] = InstallationTransaction(
+                    r.installation_id, InstallationTransactionState.ABORTED
+                )
+                raise RuntimeError("Installation verification failed.")
+            self._transactions[str(r.installation_id)] = InstallationTransaction(
+                r.installation_id, InstallationTransactionState.COMMITTED
+            )
+            self._emit("completed", r.installation_id)
             return InstallationResult(s, records)
+
+    def rollback(self, i: InstallationId | str) -> RollbackResult:
+        with self._lock:
+            self._open()
+            session = self.get(i)
+            records = tuple(
+                InstalledPackageRecord(c, session.installation_id)
+                for c in session.plan.dependency_order
+            )
+            plan = RollbackPlan(session.installation_id, records)
+            self._emit("rollback_started", session.installation_id)
+            for record in records:
+                if self.store.exists(record.coordinate):
+                    self.store.remove(record.coordinate)
+            self._sessions[str(i)] = InstallationSession(
+                session.installation_id, InstallationStatus.ROLLED_BACK, session.plan
+            )
+            result = RollbackResult(plan, RollbackState.COMPLETED)
+            self._rollbacks.append(result)
+            self._transactions[str(i)] = InstallationTransaction(
+                session.installation_id, InstallationTransactionState.ROLLED_BACK
+            )
+            self._emit("rolled_back", session.installation_id)
+            return result
 
     def cancel(self, i: InstallationId | str) -> InstallationSession:
         with self._lock:
@@ -156,9 +223,15 @@ class ReferenceInstallerService:
         return tuple(self._sessions[key] for key in sorted(self._sessions))
 
     def snapshot(self) -> InstallationSnapshot:
+        sessions = tuple(self._sessions[k] for k in sorted(self._sessions))
+        records = self.store.list()
         return InstallationSnapshot(
-            tuple(self._sessions[k] for k in sorted(self._sessions)),
-            self.store.list(),
+            sessions,
+            records,
+            tuple(self._events),
+            tuple(self._transactions[k] for k in sorted(self._transactions)),
+            tuple(self._rollbacks),
+            self._statistics(sessions, records),
             self._closed,
         )
 
@@ -169,7 +242,36 @@ class ReferenceInstallerService:
 
     def close(self) -> None:
         self._closed = True
+        self._emit("closed", InstallationId("service"))
 
     def _open(self) -> None:
         if self._closed:
             raise InstallerClosedError("Installer service is closed.")
+
+    def _emit(self, event_type: str, installation_id: InstallationId) -> None:
+        from .models import InstallationEvent, InstallationEventType
+
+        self._events.append(
+            InstallationEvent(
+                len(self._events) + 1,
+                InstallationEventType(event_type),
+                installation_id,
+            )
+        )
+
+    @staticmethod
+    def _statistics(sessions, records):
+        counts = {
+            status: sum(item.status is status for item in sessions)
+            for status in InstallationStatus
+        }
+        return InstallationStatistics(
+            len(sessions),
+            counts[InstallationStatus.SUCCEEDED],
+            counts[InstallationStatus.FAILED],
+            counts[InstallationStatus.CANCELLED],
+            counts[InstallationStatus.ROLLED_BACK],
+            len(records),
+            len({x.coordinate.publisher_id for x in records}),
+            len({str(x.coordinate.version) for x in records}),
+        )

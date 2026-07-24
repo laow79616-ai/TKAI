@@ -7,5 +7,6 @@ subprocess, or modify site-packages. Plans are deterministic and dependency
 first: validate, prepare, install, finalize.
 
 `ReferenceInstallationStore` is isolated and thread-safe. The Installer has no
-automatic resolver invocation or registry mutation. Transactions and rollback
-are intentionally not implemented until Sprint-7B.
+automatic resolver invocation or registry mutation. The Reliability Foundation
+adds pure-memory transactions and rollback records; it does not alter a real
+Python environment.
