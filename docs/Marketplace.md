@@ -67,6 +67,9 @@ The [Dependency Resolver Foundation](Resolver.md) consumes explicit Registry
 snapshots to produce deterministic local dependency diagnostics and ordering.
 It never downloads, installs, or mutates Marketplace Foundation state.
 
+The [Installer Core Foundation](Installer.md) records only in-memory,
+descriptive installation state from explicit resolved results.
+
 ## API and extension boundaries
 
 `MarketplaceAPI`, `PackageInstaller`, `SignatureVerifier`, and
