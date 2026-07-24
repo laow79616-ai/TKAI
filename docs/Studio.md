@@ -76,6 +76,8 @@ in [studio-v2.1-rc1.md](release/studio-v2.1-rc1.md). RC-2 adds bounded local
 benchmark, stress, reliability, lifecycle, and cleanup validation in
 [studio-v2.1-rc2.md](release/studio-v2.1-rc2.md). Neither release validation
 stage changes the Studio product contract or starts a server.
+The packaging and fresh-install audit is recorded in
+[studio-v2.1-rc3.md](release/studio-v2.1-rc3.md).
 
 FastAPI and Uvicorn remain Studio-host dependencies, not TKAI core
 dependencies. After explicitly installing them, `python -m studio.backend`
