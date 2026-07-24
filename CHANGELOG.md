@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Platform 1.0.0 general-availability preparation documents the compatible
+  Runtime 1.3.0, SDK 2.0, and Studio 2.1 layers, with unified architecture,
+  installation, developer, administrator, operations, release, checklist, and
+  roadmap guidance. No Runtime, SDK, Studio, REST, Workflow, or Agent feature
+  behavior changes are included.
 - TKAI 2.0 RC-3 validates the additive SDK reference layers in offline wheel
   and sdist artifacts, a fresh local wheel installation, CLI/Doctor smoke
   paths, packaged template data, and SDK examples. No SDK public API or runtime

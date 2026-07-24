@@ -72,5 +72,7 @@ Plugin composition is documented separately in [Plugin Runtime](PluginSDK.md).
 ## Current scope
 
 V1.x runtime adapters and in-memory reference implementations are available
-through explicit dependency injection. Workflow execution, production provider
-adapters, Web UI, Studio, and Enterprise capabilities remain out of scope.
+through explicit dependency injection. Production provider adapters and
+Enterprise capabilities remain out of scope. Studio 2.1 is a separate optional
+product layer that consumes public SDK boundaries; its reference frontend and
+backend contracts are documented in [Studio.md](Studio.md).

@@ -1,4 +1,22 @@
-# TKAI V1.0 Architecture
+# TKAI Platform 1.0 Architecture
+
+Platform 1.0 documents the stable composition of Runtime 1.3.0, SDK 2.0, and
+Studio 2.1. Dependencies flow downward: Studio consumes public SDK contracts;
+SDK adapters compose Runtime capabilities; Runtime owns core and optional
+infrastructure foundations. None of these layers requires a reverse dependency.
+
+```mermaid
+flowchart TD
+    Platform["Platform 1.0"] --> Studio["Studio 2.1"]
+    Studio --> SDK["SDK 2.0"]
+    SDK --> Runtime["Runtime 1.3.0"]
+    Runtime --> Infra["Core · Configuration · Local Infrastructure"]
+```
+
+Studio's frozen REST contract is an independent product boundary. Runtime stays
+backward compatible whether SDK and Studio are present or not. See
+[Platform.md](Platform.md) for release/version mapping and [Studio.md](Studio.md)
+for Studio-specific boundaries.
 
 ## TKAI 2.0 Developer Platform
 

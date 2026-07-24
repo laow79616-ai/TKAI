@@ -6,6 +6,14 @@ plugins, workflows, and provider-neutral AI integrations.
 Current release: **1.3.0**.
 Previous general availability release: **1.2.0**.
 
+## TKAI Platform 1.0
+
+Platform 1.0 documents the compatible Runtime 1.3.0, SDK 2.0, and Studio 2.1
+layers. It does not introduce a second Python package version; the published
+`tkai` distribution remains **1.3.0**. See the [platform overview](docs/Platform.md),
+[installation guide](docs/Installation.md), [release notes](docs/ReleaseNotes.md),
+and [release checklist](docs/ReleaseChecklist.md).
+
 ## AI provider framework
 
 The public AI layer keeps legacy `AIClient.generate()` available while adding
