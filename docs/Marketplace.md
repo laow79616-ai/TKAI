@@ -58,6 +58,11 @@ The [Publication Contracts Foundation](Publication.md) adds an isolated,
 offline proposal lifecycle. Accepted publication snapshots do not register or
 install packages.
 
+The [Registry Foundation](Registry.md) adds a separate, local index for
+caller-supplied accepted publication snapshots. It preserves the original
+`marketplace.registry.MarketplaceRegistry` API and has no remote, install, or
+catalog-write behavior.
+
 ## API and extension boundaries
 
 `MarketplaceAPI`, `PackageInstaller`, `SignatureVerifier`, and

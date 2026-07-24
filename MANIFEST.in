@@ -11,6 +11,7 @@ include docs/Marketplace.md
 include docs/Publisher.md
 include docs/PackageCatalog.md
 include docs/Publication.md
+include docs/Registry.md
 include docs/release/cloud-v4-rc1.md
 include docs/release/cloud-v4-rc2.md
 include docs/release/cloud-v4-rc3.md
