@@ -18,6 +18,7 @@ include docs/InstallerReliability.md
 include docs/Verification.md
 include docs/Trust.md
 include docs/ArchitectureReview.md
+include docs/release/marketplace-v5-rc1.md
 include docs/release/cloud-v4-rc1.md
 include docs/release/cloud-v4-rc2.md
 include docs/release/cloud-v4-rc3.md
