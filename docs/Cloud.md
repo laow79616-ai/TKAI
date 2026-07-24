@@ -51,6 +51,9 @@ See [Project Foundation](Project.md) for immutable project descriptors,
 workspace/project bindings, project-local membership declarations, and the
 in-memory reference registry.
 
+See [Deployment Foundation](Deployment.md) for reference-only deployment plans,
+targets, lifecycle declarations, and local test service.
+
 ## Current limitations
 
 - No Cloud server, REST transport, database, queue, object store, or Kubernetes

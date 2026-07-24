@@ -20,10 +20,15 @@ class DeploymentStatus(str, Enum):
     """Declarative deployment state; no deployment action is performed."""
 
     DRAFT = "draft"
+    PLANNED = "planned"
+    DEPLOYING = "deploying"
     READY = "ready"
     DEPLOYED = "deployed"
+    ACTIVE = "active"
+    DEGRADED = "degraded"
     FAILED = "failed"
     STOPPED = "stopped"
+    ARCHIVED = "archived"
 
 
 class ExecutionStatus(str, Enum):
@@ -131,11 +136,23 @@ class Deployment:
     name: str
     status: DeploymentStatus = DeploymentStatus.DRAFT
     configuration: Mapping[str, CloudValue] = field(default_factory=dict)
+    workspace_id: str | None = None
+    version: str = "1"
+    target: str | None = None
+    strategy: str = "manual"
+    metadata: Mapping[str, CloudValue] = field(default_factory=dict)
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def __post_init__(self) -> None:
         if not self.deployment_id or not self.project_id or not self.name:
             raise ValueError("Deployment id, project id, and name must not be empty.")
+        if self.created_at.tzinfo is None or self.updated_at.tzinfo is None:
+            raise ValueError("Deployment timestamps must be timezone-aware.")
         object.__setattr__(self, "configuration", snapshot(self.configuration))
+        object.__setattr__(self, "metadata", snapshot(self.metadata))
+        object.__setattr__(self, "created_at", self.created_at.astimezone(timezone.utc))
+        object.__setattr__(self, "updated_at", self.updated_at.astimezone(timezone.utc))
 
 
 @dataclass(frozen=True, slots=True)

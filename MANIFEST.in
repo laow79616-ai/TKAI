@@ -3,3 +3,4 @@ include docs/release/enterprise-v3-rc3.md
 include docs/Cloud.md
 include docs/Workspace.md
 include docs/Project.md
+include docs/Deployment.md
