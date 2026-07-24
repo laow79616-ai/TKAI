@@ -69,6 +69,14 @@ workflow CRUD, and execution create/list/get below `api_prefix`. Handlers use a
 small JSON-compatible controller layer. The lifespan closes a gateway only when
 the container explicitly owns it; shutdown is idempotent.
 
+## Release validation
+
+The Studio RC-1 baseline documents offline integration and compatibility checks
+in [studio-v2.1-rc1.md](release/studio-v2.1-rc1.md). RC-2 adds bounded local
+benchmark, stress, reliability, lifecycle, and cleanup validation in
+[studio-v2.1-rc2.md](release/studio-v2.1-rc2.md). Neither release validation
+stage changes the Studio product contract or starts a server.
+
 FastAPI and Uvicorn remain Studio-host dependencies, not TKAI core
 dependencies. After explicitly installing them, `python -m studio.backend`
 starts Uvicorn; imports and tests never start a server. No authentication
