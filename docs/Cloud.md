@@ -57,6 +57,9 @@ targets, lifecycle declarations, and local test service.
 See [Storage Foundation](Storage.md) for in-memory storage descriptors and
 reference bucket/object lifecycle contracts.
 
+See [Execution Foundation](Execution.md) for reference execution descriptors,
+history, lifecycle validation, and in-memory service contracts.
+
 ## Current limitations
 
 - No Cloud server, REST transport, database, queue, object store, or Kubernetes
