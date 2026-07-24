@@ -50,6 +50,10 @@ metadata. It contains no executable artifact, credential, token, or payload.
 missing or cyclic required dependencies. It does not resolve remote versions,
 download artifacts, or install anything.
 
+The [Package Catalog Foundation](PackageCatalog.md) adds a separate,
+catalog-oriented manifest and local search namespace while preserving the
+original Marketplace architecture imports unchanged.
+
 ## API and extension boundaries
 
 `MarketplaceAPI`, `PackageInstaller`, `SignatureVerifier`, and
