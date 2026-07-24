@@ -42,8 +42,9 @@ the supplied in-memory entries. It starts no worker and builds no index.
 immutable sequence events for searched, suggested, cleared, and closed actions.
 Events have no timestamp or EventBus publication. Statistics count queries,
 suggestions, current target kinds, accumulated returned results, and closed
-state. Snapshots preserve the most recent result entries, events, statistics,
-and close state.
+state. `events()` exposes the immutable local sequence for read-only validation.
+Snapshots preserve the most recent result entries, events, statistics, and
+close state.
 
 ## Lifecycle and failure isolation
 

@@ -47,6 +47,11 @@ class ReferenceSearchService:
         with self._lock:
             return self._storage.statistics()
 
+    def events(self) -> tuple[SearchEvent, ...]:
+        """Return stable sequence-ordered local events, including after close."""
+        with self._lock:
+            return tuple(self._events)
+
     def snapshot(self) -> SearchSnapshot:
         """Return the final immutable local result snapshot, including after close."""
         with self._lock:

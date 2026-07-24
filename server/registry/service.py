@@ -122,19 +122,18 @@ class ReferenceRegistryService:
     def snapshot(self) -> RegistrySnapshot:
         """Return a stable immutable snapshot and its deterministic snapshot event."""
         with self._lock:
-            self._ensure_open()
-            self._record(RegistryEventType.SNAPSHOT)
+            if not self._closed:
+                self._record(RegistryEventType.SNAPSHOT)
             return RegistrySnapshot(
                 entries=self._storage.snapshot(),
                 events=tuple(self._events),
                 statistics=self._storage.statistics(),
-                closed=False,
+                closed=self._closed,
             )
 
     def statistics(self) -> RegistryStatistics:
         """Calculate fresh count-only statistics from reference storage."""
         with self._lock:
-            self._ensure_open()
             return self._storage.statistics()
 
     def events(self) -> tuple[RegistryEvent, ...]:

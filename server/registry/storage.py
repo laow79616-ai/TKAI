@@ -101,25 +101,33 @@ class ReferenceRegistryStorage:
     def list(self) -> tuple[RegistryEntry, ...]:
         with self._lock:
             self._ensure_open()
-            return tuple(self._entries[key] for key in sorted(self._entries))
+            return self._entries_in_order()
 
     def snapshot(self) -> tuple[RegistryEntry, ...]:
-        return self.list()
+        """Return a stable final view, including after the storage is closed."""
+        with self._lock:
+            return self._entries_in_order()
 
     def statistics(self) -> RegistryStatistics:
-        entries = self.list()
-        return RegistryStatistics(
-            entries=len(entries),
-            active=sum(item.status is RegistryStatus.ACTIVE for item in entries),
-            deprecated=sum(
-                item.status is RegistryStatus.DEPRECATED for item in entries
-            ),
-            withdrawn=sum(item.status is RegistryStatus.WITHDRAWN for item in entries),
-            deleted=sum(item.status is RegistryStatus.DELETED for item in entries),
-            publishers=len({item.descriptor.coordinate.publisher for item in entries}),
-            packages=len({item.descriptor.coordinate.package for item in entries}),
-            versions=len({item.descriptor.coordinate.version for item in entries}),
-        )
+        """Calculate final count-only statistics without reopening the storage."""
+        with self._lock:
+            entries = self._entries_in_order()
+            return RegistryStatistics(
+                entries=len(entries),
+                active=sum(item.status is RegistryStatus.ACTIVE for item in entries),
+                deprecated=sum(
+                    item.status is RegistryStatus.DEPRECATED for item in entries
+                ),
+                withdrawn=sum(
+                    item.status is RegistryStatus.WITHDRAWN for item in entries
+                ),
+                deleted=sum(item.status is RegistryStatus.DELETED for item in entries),
+                publishers=len(
+                    {item.descriptor.coordinate.publisher for item in entries}
+                ),
+                packages=len({item.descriptor.coordinate.package for item in entries}),
+                versions=len({item.descriptor.coordinate.version for item in entries}),
+            )
 
     def close(self) -> None:
         with self._lock:
@@ -128,3 +136,6 @@ class ReferenceRegistryStorage:
     def _ensure_open(self) -> None:
         if self._closed:
             raise RegistryClosedError("Reference registry storage is closed.")
+
+    def _entries_in_order(self) -> tuple[RegistryEntry, ...]:
+        return tuple(self._entries[key] for key in sorted(self._entries))
