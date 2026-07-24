@@ -33,3 +33,12 @@ Sprint-4 adds an isolated, reference-only Package domain under
 injected `ReferencePackageService`. It is independent of Server Registry,
 Server Publisher, and `marketplace.package_catalog`, with no HTTP, network,
 database, artifact, account, or worker behavior.
+
+## Version Foundation
+
+Sprint-5 adds an isolated, reference-only Version domain under
+`server.version`. It uses immutable Version contracts, an explicit
+`VersionStorage` protocol, thread-safe `ReferenceVersionStorage`, and an
+injected `ReferenceVersionService`. It retains Package and Publisher references
+as explicit strings and does not import or access Registry, Publisher, or
+Package services.
