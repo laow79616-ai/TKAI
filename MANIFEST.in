@@ -25,6 +25,7 @@ include docs/release/marketplace-v5-ga.md
 include docs/server/Architecture.md
 include docs/server/RegistryFoundation.md
 include docs/server/PublisherFoundation.md
+include docs/server/PackageFoundation.md
 include docs/server/RegistryService.md
 include docs/server/PublisherService.md
 include docs/server/PackageService.md

@@ -24,3 +24,12 @@ injected `ReferencePublisherService`. It is independent of both
 `server.registry` and `marketplace.publisher`, and introduces no account,
 authentication, authorization, HTTP, network, database, artifact, or worker
 behavior.
+
+## Package Foundation
+
+Sprint-4 adds an isolated, reference-only Package domain under
+`server.package`. It uses immutable Package contracts, an explicit
+`PackageStorage` protocol, thread-safe `ReferencePackageStorage`, and an
+injected `ReferencePackageService`. It is independent of Server Registry,
+Server Publisher, and `marketplace.package_catalog`, with no HTTP, network,
+database, artifact, account, or worker behavior.
