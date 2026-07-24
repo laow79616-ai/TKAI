@@ -31,7 +31,7 @@ tkai = "tkai.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src", "."]
-include = ["tkai*", "studio*", "enterprise*"]
+include = ["tkai*", "studio*", "enterprise*", "cloud*"]
 exclude = ["tests*", "benchmarks*"]
 
 [tool.setuptools.package-data]
