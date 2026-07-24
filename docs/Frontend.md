@@ -16,6 +16,10 @@ also has an offline, prop-driven monitor model documented in
 [ExecutionMonitor.md](ExecutionMonitor.md); it consumes only the existing
 Execution REST contract and adds no backend endpoint or polling.
 
+Agent Chat is also a local, reference-only frontend layer documented in
+[AgentChat.md](AgentChat.md). Its host injects an SDK Agent bridge explicitly;
+it never calls the Runtime, creates Providers, or adds a REST endpoint.
+
 Run `npm install` and `npm run dev` in `studio/frontend` in a local Node 18+
 environment. This repository validation environment has no Node/npm, so Vite
 lint and typecheck must run in the frontend build environment.
