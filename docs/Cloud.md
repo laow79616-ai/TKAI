@@ -47,6 +47,10 @@ statuses describe external lifecycle state but never cause lifecycle actions.
 See [Workspace Foundation](Workspace.md) for the additive local workspace,
 membership, invitation, registry, and graph reference contracts.
 
+See [Project Foundation](Project.md) for immutable project descriptors,
+workspace/project bindings, project-local membership declarations, and the
+in-memory reference registry.
+
 ## Current limitations
 
 - No Cloud server, REST transport, database, queue, object store, or Kubernetes

@@ -16,6 +16,7 @@ from .models import (
     Execution,
     ExecutionStatus,
     Project,
+    ProjectStatus,
     StorageDescriptor,
     Workspace,
 )
@@ -34,6 +35,7 @@ __all__ = (
     "OrganizationService",
     "PlatformGateway",
     "Project",
+    "ProjectStatus",
     "StorageDescriptor",
     "Workspace",
 )
