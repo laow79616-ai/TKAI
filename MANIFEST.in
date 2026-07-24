@@ -23,6 +23,7 @@ include docs/release/marketplace-v5-rc2.md
 include docs/release/marketplace-v5-rc3.md
 include docs/release/marketplace-v5-ga.md
 include docs/server/Architecture.md
+include docs/server/RegistryFoundation.md
 include docs/server/RegistryService.md
 include docs/server/PublisherService.md
 include docs/server/PackageService.md
