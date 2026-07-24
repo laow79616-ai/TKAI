@@ -8,6 +8,13 @@ from .contracts import (
     OrganizationDirectory,
     TenantDirectory,
 )
+from .identity import (
+    IdentityContext,
+    IdentityDescriptor,
+    IdentityKind,
+    IdentityPrincipal,
+    IdentityRegistry,
+)
 from .models import (
     AuditEvent,
     DeploymentProfile,
@@ -24,6 +31,11 @@ __all__ = (
     "AuthorizationService",
     "DeploymentProfile",
     "IdentityProvider",
+    "IdentityContext",
+    "IdentityDescriptor",
+    "IdentityKind",
+    "IdentityPrincipal",
+    "IdentityRegistry",
     "LicenseDescriptor",
     "LicenseService",
     "Organization",
