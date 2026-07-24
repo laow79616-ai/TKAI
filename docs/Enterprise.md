@@ -87,6 +87,11 @@ an explicit UTC timestamp and optional metadata.
 There is no audit database, retention worker, compliance export, or history
 storage in this Sprint.
 
+The Audit Foundation now provides reference-only event, query, redaction,
+retention, and integrity descriptors. See [Audit Foundation](Audit.md). It has
+no persistence, SIEM/exporter, tamper-proof storage, signature, key management,
+or automatic audit interception.
+
 ## License
 
 `LicenseEdition` documents Community, Professional, and Enterprise editions.
