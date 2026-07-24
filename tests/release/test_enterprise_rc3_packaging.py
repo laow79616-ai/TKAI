@@ -13,9 +13,9 @@ def test_distribution_configuration_includes_enterprise_reference_packages() -> 
     manifest = (root / "MANIFEST.in").read_text(encoding="utf-8")
 
     assert (
-        'include = ["tkai*", "studio*", "enterprise*", "cloud*", "marketplace*"]'
-        in pyproject
-    )
+        'include = ["tkai*", "studio*", "enterprise*", "cloud*", '
+        '"marketplace*", "server*"]'
+    ) in pyproject
     assert "include docs/Enterprise.md" in manifest
     assert "include docs/release/enterprise-v3-rc3.md" in manifest
     for module in (

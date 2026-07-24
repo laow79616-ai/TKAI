@@ -24,9 +24,9 @@ def test_cloud_foundations_are_discovered_as_package_content() -> None:
     """Project package discovery continues to include the additive Cloud layer."""
     configuration = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
     assert (
-        'include = ["tkai*", "studio*", "enterprise*", "cloud*", "marketplace*"]'
-        in configuration
-    )
+        'include = ["tkai*", "studio*", "enterprise*", "cloud*", '
+        '"marketplace*", "server*"]'
+    ) in configuration
     for package in (
         "workspace",
         "project",

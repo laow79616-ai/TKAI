@@ -31,7 +31,7 @@ tkai = "tkai.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src", "."]
-include = ["tkai*", "studio*", "enterprise*", "cloud*", "marketplace*"]
+include = ["tkai*", "studio*", "enterprise*", "cloud*", "marketplace*", "server*"]
 exclude = ["tests*", "benchmarks*"]
 
 [tool.setuptools.package-data]
@@ -65,6 +65,16 @@ studio = ["frontend/**", "assets/**", "docs/**"]
     "docs/benchmarks/resolver.json",
     "docs/benchmarks/installer.md",
     "docs/benchmarks/installer.json",
+]
+"share/doc/tkai/server" = [
+    "docs/server/Architecture.md",
+    "docs/server/RegistryService.md",
+    "docs/server/PublisherService.md",
+    "docs/server/PackageService.md",
+    "docs/server/VersionService.md",
+    "docs/server/SearchService.md",
+    "docs/server/ReleaseService.md",
+    "docs/server/HealthService.md",
 ]
 
 [tool.pytest.ini_options]
