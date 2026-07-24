@@ -44,6 +44,9 @@ for a future host; it performs no environment-variable loading.
 `StorageDescriptor` are frozen, defensive descriptors. Deployment and execution
 statuses describe external lifecycle state but never cause lifecycle actions.
 
+See [Workspace Foundation](Workspace.md) for the additive local workspace,
+membership, invitation, registry, and graph reference contracts.
+
 ## Current limitations
 
 - No Cloud server, REST transport, database, queue, object store, or Kubernetes
