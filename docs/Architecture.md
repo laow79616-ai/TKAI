@@ -1,22 +1,33 @@
 # TKAI Platform 1.0 Architecture
 
-Platform 1.0 documents the stable composition of Runtime 1.3.0, SDK 2.0, and
-Studio 2.1. Dependencies flow downward: Studio consumes public SDK contracts;
-SDK adapters compose Runtime capabilities; Runtime owns core and optional
-infrastructure foundations. None of these layers requires a reverse dependency.
+Platform Enterprise 1.0 documents the stable composition of Runtime 1.3.0, SDK
+2.0, Studio 2.1, and Enterprise 3.0 reference foundations. Dependencies flow
+downward: Studio consumes public SDK contracts; SDK adapters compose Runtime
+capabilities; Runtime owns core and optional infrastructure foundations.
+Enterprise remains explicit and never creates a reverse dependency.
 
 ```mermaid
 flowchart TD
-    Platform["Platform 1.0"] --> Studio["Studio 2.1"]
+    Platform["Platform Enterprise 1.0"] --> Enterprise["Enterprise 3.0"]
+    Platform --> Studio["Studio 2.1"]
     Studio --> SDK["SDK 2.0"]
     SDK --> Runtime["Runtime 1.3.0"]
+    Enterprise -. explicit adapters only .-> Studio
+    Enterprise -. explicit adapters only .-> SDK
     Runtime --> Infra["Core · Configuration · Local Infrastructure"]
 ```
 
 Studio's frozen REST contract is an independent product boundary. Runtime stays
-backward compatible whether SDK and Studio are present or not. See
+backward compatible whether SDK, Studio, or Enterprise are present or not. See
 [Platform.md](Platform.md) for release/version mapping and [Studio.md](Studio.md)
 for Studio-specific boundaries.
+
+## Enterprise reference foundations
+
+Enterprise 3.0 packages offline contracts for identity, organization, tenant,
+authorization, audit, and licensing. These are reference foundations only:
+they have no authentication flow, storage, enforcement, cloud dependency, or
+automatic Runtime/SDK/Studio integration. See [Enterprise.md](Enterprise.md).
 
 ## TKAI 2.0 Developer Platform
 

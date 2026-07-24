@@ -30,3 +30,11 @@ Use the documented health, execution, and Doctor views for local inspection.
 Do not place credentials in logs, snapshots, reference fixtures, or Studio
 metadata. Production monitoring/exporter configuration is a host responsibility
 until a separately approved platform capability is released.
+
+## Enterprise administration boundary
+
+Enterprise 3.0 provides offline reference descriptors and local reference
+services only. It does not manage users, logins, sessions, tenant data,
+authorization enforcement, audit retention, or license activation. Host
+operators remain responsible for access control, data retention, and compliance
+controls until separately released integrations are available.

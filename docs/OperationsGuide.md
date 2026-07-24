@@ -32,3 +32,10 @@ Roll back by restoring the previously pinned package and host configuration.
 Because Platform 1.0 introduces no automatic migrations or persisted Studio
 state, rollback does not include a TKAI-managed data migration. Validate the
 previous environment with the same Doctor and smoke checks before resuming use.
+
+## Enterprise reference operations
+
+Enterprise reference registries and services are process-local and carry no
+durable state. Restarting a host clears their reference data. There is no
+Enterprise database migration, backup, restoration, authentication service,
+license server, or cloud control plane in this release.

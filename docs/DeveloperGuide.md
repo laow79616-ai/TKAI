@@ -35,3 +35,11 @@ Studio is a consumer of the SDK, not a replacement Runtime. Its backend uses
 `SDKStudioGateway`, while Workflow Designer, Execution Monitor, and Agent Chat
 are reference product contracts. Do not bypass the frozen Studio REST contract
 or import Runtime internals from Studio code.
+
+## Enterprise reference foundations
+
+Use Enterprise descriptors and reference services through explicit dependency
+injection. They describe identity, organization, tenant, authorization, audit,
+and license boundaries but do not authenticate users, persist data, or enforce
+decisions. Do not add Runtime, SDK, or Studio hooks merely by importing an
+Enterprise package.

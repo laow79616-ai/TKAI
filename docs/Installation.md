@@ -39,6 +39,14 @@ frontend environment, install the declared frontend dependencies and run the
 project's configured typecheck, lint, and build commands. No frontend build
 output is distributed by Platform 1.0.
 
+## Enterprise reference foundations
+
+Enterprise 3.0 reference contracts ship in the same `tkai` distribution and
+need no additional dependency or configuration for offline import. They are
+explicitly constructed by the host; installation does not enable
+authentication, persistence, authorization enforcement, audit export, or
+license enforcement. See [Enterprise](Enterprise.md).
+
 ## Optional integrations
 
 Redis support is optional and remains explicit:

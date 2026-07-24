@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Platform Enterprise 1.0.0 general-availability preparation consolidates
+  Runtime 1.3.0, SDK 2.0, Studio 2.1, and Enterprise 3.0 reference-foundation
+  release documentation, installation, operations, upgrade/rollback, and final
+  release checks. It introduces no functional, API, or default-behavior change.
 - Enterprise V3.0 RC-3 validates packaging of the additive offline Enterprise
   reference foundations, including wheel/sdist contents and fresh-install
   imports. No authentication, persistence, enforcement, or runtime behavior is
