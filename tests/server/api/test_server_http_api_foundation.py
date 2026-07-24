@@ -1,0 +1,106 @@
+"""Offline contract tests for the optional Marketplace Server FastAPI host."""
+
+from __future__ import annotations
+
+from types import SimpleNamespace
+
+import pytest
+
+from server import ApiRequest, Pagination
+from server.api import ApiDependencies, create_app
+from server.api.errors import map_error
+from server.health import HealthCheck, HealthError, HealthStatus, ReferenceHealthService
+
+
+class FakeFastAPI:
+    """In-process FastAPI-compatible recorder that never opens a socket."""
+
+    def __init__(self, **metadata: object) -> None:
+        self.metadata = metadata
+        self.state = SimpleNamespace()
+        self.routes: list[tuple[str, tuple[str, ...], object, tuple[str, ...]]] = []
+        self.middleware: list[object] = []
+        self.exception_handlers: list[object] = []
+
+    def add_api_route(
+        self,
+        path: str,
+        endpoint: object,
+        *,
+        methods: list[str],
+        tags: list[str],
+    ) -> None:
+        self.routes.append((path, tuple(methods), endpoint, tuple(tags)))
+
+    def add_middleware(self, middleware: object) -> None:
+        self.middleware.append(middleware)
+
+    def add_exception_handler(self, error: object, handler: object) -> None:
+        self.exception_handlers.append((error, handler))
+
+
+def fake_factory(**kwargs: object) -> FakeFastAPI:
+    """Inject a test host without importing FastAPI."""
+    return FakeFastAPI(**kwargs)
+
+
+def _routes(app: FakeFastAPI) -> dict[str, object]:
+    return {path: endpoint for path, _methods, endpoint, _tags in app.routes}
+
+
+def test_create_app_registers_read_only_routes_openapi_and_middleware() -> None:
+    """One app instance has its own dependencies and no write endpoints."""
+    dependencies = ApiDependencies.create()
+    app = create_app(dependencies=dependencies, app_factory=fake_factory)
+
+    assert isinstance(app, FakeFastAPI)
+    assert app.state.api_dependencies is dependencies
+    assert app.metadata["docs_url"] == "/docs"
+    assert app.metadata["openapi_url"] == "/openapi.json"
+    assert {route[0] for route in app.routes} == {"/health", "/version", "/metadata"}
+    assert all(route[1] == ("GET",) for route in app.routes)
+    assert len(app.middleware) == 2
+    assert app.exception_handlers
+
+
+def test_read_only_endpoints_delegate_to_explicit_reference_dependencies() -> None:
+    """Endpoints return only supplied local Foundation state and metadata."""
+    health = ReferenceHealthService()
+    health.register_check(HealthCheck("reference", HealthStatus.HEALTHY))
+    dependencies = ApiDependencies(health)
+    app = create_app(dependencies=dependencies, app_factory=fake_factory)
+    routes = _routes(app)
+
+    health_data = routes["/health"]()
+    version_data = routes["/version"]()
+    metadata_data = routes["/metadata"]()
+
+    assert health_data["checks"][0]["name"] == "reference"
+    assert version_data["server_version"] == "6.0"
+    assert version_data["framework_version"] == "1.3.0"
+    assert metadata_data["server_name"] == "tkai-marketplace-server"
+    assert metadata_data["supported_modules"] == list(dependencies.supported_modules)
+
+
+def test_multiple_apps_are_isolated_and_legacy_api_contracts_remain_available() -> None:
+    """Application composition creates no singleton state and preserves V6 contracts."""
+    first = ApiDependencies.create()
+    first.health_service.register_check(HealthCheck("one", HealthStatus.HEALTHY))
+    second = ApiDependencies.create()
+
+    one = create_app(dependencies=first, app_factory=fake_factory)
+    two = create_app(dependencies=second, app_factory=fake_factory)
+
+    assert _routes(one)["/health"]()["checks"][0]["name"] == "one"
+    assert _routes(two)["/health"]()["checks"] == []
+    assert ApiRequest(pagination=Pagination(limit=1)).pagination.limit == 1
+
+
+def test_error_mapping_is_stable_and_real_host_requires_optional_fastapi() -> None:
+    """Known Foundation errors map safely while FastAPI remains optional."""
+    mapped = map_error(HealthError("offline failure"))
+    assert mapped.status_code == 400
+    assert mapped.error.code == "HealthError"
+
+    with pytest.raises(RuntimeError, match="FastAPI is required"):
+        create_app()
