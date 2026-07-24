@@ -56,6 +56,7 @@ studio = ["frontend/**", "assets/**", "docs/**"]
     "docs/release/marketplace-v5-rc1.md",
     "docs/release/marketplace-v5-rc2.md",
     "docs/release/marketplace-v5-rc3.md",
+    "docs/release/marketplace-v5-ga.md",
 ]
 "share/doc/tkai/marketplace/benchmarks" = [
     "docs/benchmarks/verification.md",
