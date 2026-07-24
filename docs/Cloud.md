@@ -1,4 +1,4 @@
-# TKAI Cloud Platform 2.0 Architecture
+# TKAI Cloud V4 Architecture
 
 ## Scope
 
