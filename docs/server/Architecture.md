@@ -14,3 +14,13 @@ protocol, a thread-safe `ReferenceRegistryStorage`, and an explicitly injected
 `ReferenceRegistryService`. The foundation records deterministic sequence-based
 events and performs no HTTP, network, filesystem, database, artifact, or
 background-worker activity.
+
+## Publisher Foundation
+
+Sprint-3 adds an isolated, reference-only Publisher domain under
+`server.publisher`. It uses immutable Publisher contracts, an explicit
+`PublisherStorage` protocol, thread-safe `ReferencePublisherStorage`, and an
+injected `ReferencePublisherService`. It is independent of both
+`server.registry` and `marketplace.publisher`, and introduces no account,
+authentication, authorization, HTTP, network, database, artifact, or worker
+behavior.
