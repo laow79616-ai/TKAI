@@ -18,7 +18,7 @@ dependencies = [
 
 [project.optional-dependencies]
 redis = ["redis>=5.0"]
-server = ["fastapi>=0.110"]
+server = ["fastapi>=0.110", "pydantic>=2.0"]
 dev = [
     "black>=24.0",
     "mypy>=1.10",
@@ -91,6 +91,7 @@ studio = ["frontend/**", "assets/**", "docs/**"]
     "docs/server/HealthService.md",
     "docs/server/HealthFoundation.md",
     "docs/server/APIFoundation.md",
+    "docs/server/ResourceAPI.md",
 ]
 
 [tool.pytest.ini_options]

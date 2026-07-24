@@ -2,14 +2,42 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
 from types import SimpleNamespace
 
 import pytest
 
 from server import ApiRequest, Pagination
 from server.api import ApiDependencies, create_app
-from server.api.errors import map_error
+from server.api.errors import ApiValidationError, map_error
 from server.health import HealthCheck, HealthError, HealthStatus, ReferenceHealthService
+from server.package import (
+    PackageCategory,
+    PackageDescriptor,
+    PackageId,
+    PackageManifest,
+    PackageRecord,
+    PackageVersionRef,
+)
+from server.publisher import (
+    PublisherDescriptor,
+    PublisherId,
+    PublisherProfile,
+    PublisherRecord,
+)
+from server.registry import (
+    RegistryCoordinate,
+    RegistryDescriptor,
+    RegistryEntry,
+    RegistryId,
+)
+from server.search import (
+    ReferenceSearchService,
+    ReferenceSearchStorage,
+    SearchEntry,
+    SearchTarget,
+)
+from server.version import VersionDescriptor, VersionId, VersionManifest, VersionRecord
 
 
 class FakeFastAPI:
@@ -29,6 +57,7 @@ class FakeFastAPI:
         *,
         methods: list[str],
         tags: list[str],
+        **_metadata: object,
     ) -> None:
         self.routes.append((path, tuple(methods), endpoint, tuple(tags)))
 
@@ -57,7 +86,21 @@ def test_create_app_registers_read_only_routes_openapi_and_middleware() -> None:
     assert app.state.api_dependencies is dependencies
     assert app.metadata["docs_url"] == "/docs"
     assert app.metadata["openapi_url"] == "/openapi.json"
-    assert {route[0] for route in app.routes} == {"/health", "/version", "/metadata"}
+    assert {route[0] for route in app.routes} == {
+        "/health",
+        "/version",
+        "/metadata",
+        "/registry",
+        "/registry/{registry_id}",
+        "/publishers",
+        "/publishers/{publisher_id}",
+        "/packages",
+        "/packages/{package_id}",
+        "/versions",
+        "/versions/{version_id}",
+        "/search",
+        "/statistics",
+    }
     assert all(route[1] == ("GET",) for route in app.routes)
     assert len(app.middleware) == 2
     assert app.exception_handlers
@@ -67,7 +110,7 @@ def test_read_only_endpoints_delegate_to_explicit_reference_dependencies() -> No
     """Endpoints return only supplied local Foundation state and metadata."""
     health = ReferenceHealthService()
     health.register_check(HealthCheck("reference", HealthStatus.HEALTHY))
-    dependencies = ApiDependencies(health)
+    dependencies = replace(ApiDependencies.create(), health_service=health)
     app = create_app(dependencies=dependencies, app_factory=fake_factory)
     routes = _routes(app)
 
@@ -104,3 +147,89 @@ def test_error_mapping_is_stable_and_real_host_requires_optional_fastapi() -> No
 
     with pytest.raises(RuntimeError, match="FastAPI is required"):
         create_app()
+
+
+def test_resource_routes_use_reference_services_only_and_return_json_models() -> None:
+    """Resource list/get routes delegate through the injected Reference Services."""
+    dependencies = ApiDependencies.create()
+    dependencies.registry_service.create(
+        RegistryEntry(
+            RegistryId("registry-1"),
+            RegistryDescriptor(RegistryCoordinate("publisher-1", "package-1", "1.0")),
+        )
+    )
+    dependencies.publisher_service.create(
+        PublisherRecord(
+            PublisherId("publisher-1"), PublisherDescriptor(PublisherProfile("One"))
+        )
+    )
+    dependencies.package_service.create(
+        PackageRecord(
+            PackageId("package-1"),
+            PackageManifest(
+                PackageDescriptor("publisher-1", "One", PackageCategory.TOOL),
+                PackageVersionRef("1.0"),
+            ),
+        )
+    )
+    dependencies.version_service.create(
+        VersionRecord(
+            VersionId("version-1"),
+            VersionManifest(VersionDescriptor("package-1", "publisher-1", "1.0")),
+        )
+    )
+    dependencies = replace(
+        dependencies,
+        search_service=ReferenceSearchService(
+            ReferenceSearchStorage(
+                (
+                    SearchEntry(
+                        "search-1",
+                        SearchTarget.PACKAGE,
+                        "One",
+                        publisher="publisher-1",
+                        package="package-1",
+                        category="tool",
+                    ),
+                )
+            )
+        ),
+    )
+    routes = _routes(create_app(dependencies=dependencies, app_factory=fake_factory))
+
+    assert routes["/registry"]()["total"] == 1
+    assert (
+        routes["/registry/{registry_id}"]("registry-1")["data"]["registry_id"]
+        == "registry-1"
+    )
+    assert routes["/publishers"]()["total"] == 1
+    assert (
+        routes["/publishers/{publisher_id}"]("publisher-1")["data"]["publisher_id"]
+        == "publisher-1"
+    )
+    assert routes["/packages"]()["total"] == 1
+    assert (
+        routes["/packages/{package_id}"]("package-1")["data"]["package_id"]
+        == "package-1"
+    )
+    assert routes["/versions"]()["total"] == 1
+    assert (
+        routes["/versions/{version_id}"]("version-1")["data"]["version_id"]
+        == "version-1"
+    )
+    assert routes["/search"](keyword="one", target="package")["total"] == 1
+    assert routes["/statistics"]()["data"]["counters"]["total_sources"] == 0
+
+
+def test_search_query_validation_maps_to_a_safe_http_contract() -> None:
+    """Invalid query values are rejected without touching Foundation state."""
+    routes = _routes(
+        create_app(dependencies=ApiDependencies.create(), app_factory=fake_factory)
+    )
+
+    with pytest.raises(ApiValidationError):
+        routes["/search"](target="invalid")
+    assert (
+        map_error(ApiValidationError("Invalid search query parameters.")).status_code
+        == 400
+    )

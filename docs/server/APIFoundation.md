@@ -22,6 +22,10 @@ The first API surface has only read endpoints:
 - `GET /metadata` — descriptive Server Foundation capability metadata.
 - `GET /openapi.json` and `GET /docs` — FastAPI-provided OpenAPI and Swagger UI.
 
+Sprint-2 adds Resource APIs for Registry, Publisher, Package, Version, unified
+Search, and Statistics. See [Resource APIs](ResourceAPI.md) for their GET-only
+contract and Pydantic query validation.
+
 ## Middleware and errors
 
 `RequestIdMiddleware` attaches one request-scoped ID and returns it as the

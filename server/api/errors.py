@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from importlib import import_module
 from typing import TypeAlias
 
-from .models import ApiError
+from .models import ApiError, ApiValidationError
 
 
 @dataclass(frozen=True, slots=True)
@@ -43,6 +43,8 @@ def foundation_error_types() -> tuple[FoundationErrorType, ...]:
 
 def map_error(error: Exception) -> ApiException:
     """Map known Foundation errors without exposing implementation details."""
+    if isinstance(error, ApiValidationError):
+        return ApiException(400, ApiError("validation_error", str(error)))
     if isinstance(error, foundation_error_types()):
         return ApiException(400, ApiError(type(error).__name__, str(error)))
     return ApiException(500, ApiError("internal_error", "Internal server error."))

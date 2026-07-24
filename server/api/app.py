@@ -9,8 +9,23 @@ from typing import Any, cast
 from .dependencies import ApiDependencies
 from .errors import foundation_error_types, foundation_exception_handler
 from .middleware import ExceptionMiddleware, RequestIdMiddleware
+from .models import ApiListResponse, ApiResourceResponse
 from .openapi import openapi_metadata
-from .routers import health_endpoint, metadata_endpoint, version_endpoint
+from .routers import (
+    get_package_endpoint,
+    get_publisher_endpoint,
+    get_registry_endpoint,
+    get_version_endpoint,
+    health_endpoint,
+    list_package_endpoint,
+    list_publisher_endpoint,
+    list_registry_endpoint,
+    list_version_endpoint,
+    metadata_endpoint,
+    search_endpoint,
+    statistics_endpoint,
+    version_endpoint,
+)
 
 
 def create_app(
@@ -44,6 +59,71 @@ def create_app(
     )
     app.add_api_route(
         "/metadata", metadata_endpoint(selected), methods=["GET"], tags=["server"]
+    )
+    app.add_api_route(
+        "/registry",
+        list_registry_endpoint(selected),
+        methods=["GET"],
+        tags=["registry"],
+        response_model=ApiListResponse,
+    )
+    app.add_api_route(
+        "/registry/{registry_id}",
+        get_registry_endpoint(selected),
+        methods=["GET"],
+        tags=["registry"],
+        response_model=ApiResourceResponse,
+    )
+    app.add_api_route(
+        "/publishers",
+        list_publisher_endpoint(selected),
+        methods=["GET"],
+        tags=["publisher"],
+        response_model=ApiListResponse,
+    )
+    app.add_api_route(
+        "/publishers/{publisher_id}",
+        get_publisher_endpoint(selected),
+        methods=["GET"],
+        tags=["publisher"],
+        response_model=ApiResourceResponse,
+    )
+    app.add_api_route(
+        "/packages",
+        list_package_endpoint(selected),
+        methods=["GET"],
+        tags=["package"],
+        response_model=ApiListResponse,
+    )
+    app.add_api_route(
+        "/packages/{package_id}",
+        get_package_endpoint(selected),
+        methods=["GET"],
+        tags=["package"],
+        response_model=ApiResourceResponse,
+    )
+    app.add_api_route(
+        "/versions",
+        list_version_endpoint(selected),
+        methods=["GET"],
+        tags=["version"],
+        response_model=ApiListResponse,
+    )
+    app.add_api_route(
+        "/versions/{version_id}",
+        get_version_endpoint(selected),
+        methods=["GET"],
+        tags=["version"],
+        response_model=ApiResourceResponse,
+    )
+    app.add_api_route(
+        "/search", search_endpoint(selected), methods=["GET"], tags=["search"]
+    )
+    app.add_api_route(
+        "/statistics",
+        statistics_endpoint(selected),
+        methods=["GET"],
+        tags=["statistics"],
     )
     return app
 
