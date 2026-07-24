@@ -10,9 +10,11 @@ sidebar, top-level layout, and reference components for cards, tables, forms,
 dialogs, status, notifications, and loading.
 
 Pages are Dashboard, Projects, Workflow, Execution, Agents, Providers, Memory,
-Tools, Plugins, Settings, and Logs. They are navigation placeholders only; no
-Workflow Designer, execution monitor, Agent chat, or backend API changes are
-included.
+Tools, Plugins, Settings, and Logs. The reference Workflow Designer model is
+documented in [WorkflowDesigner.md](WorkflowDesigner.md). The Execution page
+also has an offline, prop-driven monitor model documented in
+[ExecutionMonitor.md](ExecutionMonitor.md); it consumes only the existing
+Execution REST contract and adds no backend endpoint or polling.
 
 Run `npm install` and `npm run dev` in `studio/frontend` in a local Node 18+
 environment. This repository validation environment has no Node/npm, so Vite

@@ -16,6 +16,8 @@ export class StudioApiClient {
   projects() { return this.request<Project[]>("/projects"); }
   workflows() { return this.request<Workflow[]>("/workflows"); }
   executions() { return this.request<Execution[]>("/executions"); }
+  execution(executionId: string) { return this.request<Execution>(`/executions/${executionId}`); }
+  createExecution(workflowId: string) { return this.request<Execution>("/executions", { method: "POST", body: JSON.stringify({ workflow_id: workflowId }) }); }
   health() { return this.request<Record<string, unknown>>("/health"); }
   system() { return this.request<Record<string, unknown>>("/system"); }
   version() { return this.request<Record<string, unknown>>("/version"); }
