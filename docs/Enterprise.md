@@ -99,6 +99,10 @@ or automatic audit interception.
 validate entitlements, restrict functionality, contact a license server, or
 change current Platform behavior.
 
+The License Foundation provides offline entitlement descriptors and a
+reference-only service. See [License Foundation](License.md). It does not
+activate, validate signatures, read license files, or enforce features.
+
 ## Deployment
 
 `DeploymentProfile` declares supported target topology names:
