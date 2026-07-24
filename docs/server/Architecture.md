@@ -42,3 +42,11 @@ Sprint-5 adds an isolated, reference-only Version domain under
 injected `ReferenceVersionService`. It retains Package and Publisher references
 as explicit strings and does not import or access Registry, Publisher, or
 Package services.
+
+## Search Foundation
+
+Sprint-6 adds an isolated, reference-only unified query domain under
+`server.search`. It layers immutable Search models over an explicit
+`SearchStorage` protocol and a thread-safe `ReferenceSearchStorage`. It accepts
+only caller-supplied local entries and never builds an index, uses a search
+engine, accesses a database, network, or HTTP service, or mutates other domains.
