@@ -10,7 +10,7 @@ def test_distribution_configuration_includes_studio_and_frontend_sources() -> No
     root = Path(__file__).resolve().parents[2]
     pyproject = (root / "pyproject.toml").read_text(encoding="utf-8")
     assert 'where = ["src", "."]' in pyproject
-    assert 'include = ["tkai*", "studio*"]' in pyproject
+    assert 'include = ["tkai*", "studio*", "enterprise*"]' in pyproject
     assert 'studio = ["frontend/**", "assets/**", "docs/**"]' in pyproject
     for path in (
         root / "studio" / "__init__.py",

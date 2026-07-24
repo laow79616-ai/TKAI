@@ -2,15 +2,16 @@
 
 ## Scope
 
-TKAI Enterprise is the future product layer above TKAI Platform 1.0. This
-Sprint establishes only immutable domain descriptors and service contracts in
-the top-level `enterprise` architecture package. It does not change the
-Runtime, SDK, Studio, Studio REST API, or any existing public API.
+TKAI Enterprise is an additive reference product layer above TKAI Platform
+1.0. This release establishes immutable domain descriptors and service
+contracts in the top-level `enterprise` package, which is included in the
+`tkai` distribution. It does not change the Runtime, SDK, Studio, Studio REST
+API, or any existing public API.
 
 No database, login flow, JWT validation, cloud service, marketplace, network
 client, or deployment automation is implemented in this phase. The package is
-deliberately architecture-only and is not part of the current distributable
-`tkai` public package surface.
+deliberately reference-only and exposes no automatic integration with the
+existing `tkai` public package surface.
 
 ## Architecture
 

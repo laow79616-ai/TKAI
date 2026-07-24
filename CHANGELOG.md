@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Enterprise V3.0 RC-3 validates packaging of the additive offline Enterprise
+  reference foundations, including wheel/sdist contents and fresh-install
+  imports. No authentication, persistence, enforcement, or runtime behavior is
+  introduced.
 - Platform 1.0.0 general-availability preparation documents the compatible
   Runtime 1.3.0, SDK 2.0, and Studio 2.1 layers, with unified architecture,
   installation, developer, administrator, operations, release, checklist, and

@@ -60,6 +60,14 @@ Provider, Memory, Workflow, Tool, and Plugin contracts for offline development.
 They do not modify V1.x Runtime behavior or enable external services. See the
 [SDK guide](docs/SDK.md) and the [TKAI 2.0 RC-3 release validation](docs/release/tkai-2.0-rc3.md).
 
+## TKAI Enterprise V3.0 reference foundations
+
+The distributable package also includes additive, offline Enterprise reference
+contracts for identity, organization, tenant, authorization, audit, and
+licensing. They do not enable authentication, persistence, authorization
+enforcement, or cloud services. See the [Enterprise guide](docs/Enterprise.md)
+and [Enterprise RC-3 validation](docs/release/enterprise-v3-rc3.md).
+
 ## License
 
 TKAI is released under the [MIT License](LICENSE).
