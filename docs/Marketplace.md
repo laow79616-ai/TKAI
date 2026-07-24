@@ -54,6 +54,10 @@ The [Package Catalog Foundation](PackageCatalog.md) adds a separate,
 catalog-oriented manifest and local search namespace while preserving the
 original Marketplace architecture imports unchanged.
 
+The [Publication Contracts Foundation](Publication.md) adds an isolated,
+offline proposal lifecycle. Accepted publication snapshots do not register or
+install packages.
+
 ## API and extension boundaries
 
 `MarketplaceAPI`, `PackageInstaller`, `SignatureVerifier`, and
