@@ -14,35 +14,43 @@ def _compose() -> dict[str, object]:
     return yaml.safe_load((ROOT / "docker-compose.yml").read_text(encoding="utf-8"))
 
 
-def test_only_gateway_profiles_publish_host_ports() -> None:
+def _production_override() -> dict[str, object]:
+    return yaml.safe_load(
+        (ROOT / "docker-compose.production.yml").read_text(encoding="utf-8")
+    )
+
+
+def test_default_compose_registers_nginx_and_only_it_publishes_ports() -> None:
     services = _compose()["services"]
 
+    assert list(services) == ["postgres", "api", "dashboard", "nginx"]
     assert "ports" not in services["postgres"]
     assert "ports" not in services["api"]
     assert "ports" not in services["dashboard"]
-    assert services["gateway"]["profiles"] == ["development"]
-    assert services["gateway-https"]["profiles"] == ["production"]
-    assert services["gateway"]["ports"] == ["${HTTP_PORT:-80}:80"]
-    assert "${HTTPS_PORT:-443}:443" in services["gateway-https"]["ports"]
+    assert "profiles" not in services["nginx"]
+    assert services["nginx"]["ports"] == ["${HTTP_PORT:-80}:80"]
 
 
-def test_gateways_wait_for_upstreams_and_have_health_checks() -> None:
+def test_nginx_waits_for_upstreams_and_has_a_health_check() -> None:
     services = _compose()["services"]
+    service = services["nginx"]
 
-    for name in ("gateway", "gateway-https"):
-        service = services[name]
-        assert set(service["depends_on"]) == {"api", "dashboard"}
-        assert all(
-            dependency["condition"] == "service_healthy"
-            for dependency in service["depends_on"].values()
-        )
-        assert "/nginx-health" in " ".join(service["healthcheck"]["test"])
+    assert set(service["depends_on"]) == {"api", "dashboard"}
+    assert all(
+        dependency["condition"] == "service_healthy"
+        for dependency in service["depends_on"].values()
+    )
+    assert "/nginx-health" in " ".join(service["healthcheck"]["test"])
 
 
 def test_production_gateway_mounts_operator_tls_files_read_only() -> None:
-    production = _compose()["services"]["gateway-https"]
+    production = _production_override()["services"]["nginx"]
     mounts = "\n".join(production["volumes"])
 
+    assert production["ports"] == [
+        "${HTTP_PORT:-80}:80",
+        "${HTTPS_PORT:-443}:443",
+    ]
     assert "TLS_CERTIFICATE_PATH" in mounts
     assert "TLS_PRIVATE_KEY_PATH" in mounts
     assert "/etc/nginx/tls/tls.crt:ro" in mounts
@@ -103,5 +111,5 @@ def test_gateway_environment_and_documentation_cover_both_modes() -> None:
         "TLS_PRIVATE_KEY_PATH",
     ):
         assert f"{variable}=" in environment
-    assert "--profile development" in documentation
-    assert "--profile production" in documentation
+    assert "docker compose up --build" in documentation
+    assert "docker-compose.production.yml" in documentation

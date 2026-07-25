@@ -1,13 +1,13 @@
 .PHONY: dev-up dev-down dev-logs dev-reset
 
 dev-up:
-	docker compose --profile development up --build
+	docker compose up --build
 
 dev-down:
-	docker compose --profile development down
+	docker compose down
 
 dev-logs:
-	docker compose --profile development logs -f
+	docker compose logs -f
 
 dev-reset:
-	docker compose --profile development down -v --remove-orphans
+	docker compose down -v --remove-orphans

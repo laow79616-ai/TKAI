@@ -28,8 +28,9 @@ jobs:
       - name: Validate Compose configuration
         run: |
           docker compose config --quiet
-          docker compose --profile development config --quiet
-          docker compose --profile production config --quiet
+          test "$(docker compose config --services)" = "$(printf 'postgres\napi\ndashboard\nnginx')"
+          docker compose -f docker-compose.yml -f docker-compose.production.yml config --quiet
+          test "$(docker compose -f docker-compose.yml -f docker-compose.production.yml config --services)" = "$(printf 'postgres\napi\ndashboard\nnginx')"
 
   images:
     name: Build ${{ matrix.name }} image
