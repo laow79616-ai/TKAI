@@ -131,6 +131,20 @@ def test_loki_retention_and_alloy_log_scope_are_explicit() -> None:
         assert f'target_label  = "{sensitive}"' not in alloy
 
 
+def test_loki_healthcheck_uses_native_binary_and_readiness_endpoint() -> None:
+    compose = _yaml(ROOT / "docker-compose.observability.yml")
+    healthcheck = compose["services"]["loki"]["healthcheck"]["test"]
+
+    assert healthcheck == [
+        "CMD",
+        "/usr/bin/loki",
+        "-health",
+        "-health.url=http://localhost:3100/ready",
+    ]
+    assert "/bin/sh" not in healthcheck
+    assert "wget" not in healthcheck
+
+
 def test_monitoring_ports_are_localhost_only_and_credentials_are_external() -> None:
     compose = _yaml(ROOT / "docker-compose.observability.yml")
     services = compose["services"]

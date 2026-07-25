@@ -69,7 +69,11 @@ services:
     networks:
       - observability
     healthcheck:
-      test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost:3100/ready"]
+      test:
+        - CMD
+        - /usr/bin/loki
+        - -health
+        - -health.url=http://localhost:3100/ready
       interval: 10s
       timeout: 3s
       retries: 6
