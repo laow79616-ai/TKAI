@@ -105,6 +105,23 @@ server = ["persistence/*.ini"]
     "docs/dashboard/EnterprisePages.md",
     "docs/dashboard/Architecture.md",
 ]
+"share/tkai/dashboard/frontend" = [
+    "dashboard/frontend/index.html",
+    "dashboard/frontend/package.json",
+    "dashboard/frontend/postcss.config.cjs",
+    "dashboard/frontend/tailwind.config.ts",
+    "dashboard/frontend/tsconfig.json",
+    "dashboard/frontend/vite.config.ts",
+    "dashboard/frontend/src/App.tsx",
+    "dashboard/frontend/src/api.ts",
+    "dashboard/frontend/src/auth.tsx",
+    "dashboard/frontend/src/components.tsx",
+    "dashboard/frontend/src/main.tsx",
+    "dashboard/frontend/src/pages.tsx",
+    "dashboard/frontend/src/styles.css",
+    "dashboard/frontend/src/vite-env.d.ts",
+]
+"share/doc/tkai/release" = ["docs/ReleaseValidation.md"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
