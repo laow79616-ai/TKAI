@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from collections.abc import AsyncIterator, Iterator
+from collections.abc import Iterator
 from dataclasses import dataclass
 from typing import Protocol
 
@@ -24,9 +24,11 @@ class StreamingResponse(Iterator[StreamChunk], Protocol):
     def close(self) -> None: ...
 
 
-class AsyncStreamingResponse(AsyncIterator[StreamChunk], Protocol):
+class AsyncStreamingResponse(Protocol):
     """Reserved async-stream contract; no background task is created by the SDK."""
 
+    def __aiter__(self) -> AsyncStreamingResponse: ...
+    async def __anext__(self) -> StreamChunk: ...
     async def cancel(self) -> None: ...
     async def aclose(self) -> None: ...
 
