@@ -5,3 +5,20 @@ __pycache__/
 venv/
 .vscode/
 .idea/
+
+# Local environment
+.env
+
+# Frontend dependencies and build output
+node_modules/
+dist/
+
+# Test/cache files
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# macOS
+.DS_Store
