@@ -92,6 +92,7 @@ studio = ["frontend/**", "assets/**", "docs/**"]
     "docs/server/HealthFoundation.md",
     "docs/server/APIFoundation.md",
     "docs/server/ResourceAPI.md",
+    "docs/server/AuthenticationFoundation.md",
 ]
 
 [tool.pytest.ini_options]

@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 from server.models import ServerConfig
 
 if TYPE_CHECKING:
+    from server.api.auth import ReferenceAuthenticationService
     from server.health import ReferenceHealthService
     from server.package import ReferencePackageService
     from server.publisher import ReferencePublisherService
@@ -22,6 +23,7 @@ class ApiDependencies:
     """Reference services explicitly injected into one application instance."""
 
     health_service: ReferenceHealthService
+    authentication_service: ReferenceAuthenticationService
     registry_service: ReferenceRegistryService
     publisher_service: ReferencePublisherService
     package_service: ReferencePackageService
@@ -42,6 +44,7 @@ class ApiDependencies:
     @classmethod
     def create(cls) -> ApiDependencies:
         """Create isolated in-memory defaults without accessing storage directly."""
+        from server.api.auth import ReferenceAuthenticationService
         from server.health import ReferenceHealthService
         from server.package import ReferencePackageService
         from server.publisher import ReferencePublisherService
@@ -52,6 +55,7 @@ class ApiDependencies:
 
         return cls(
             health_service=ReferenceHealthService(),
+            authentication_service=ReferenceAuthenticationService(),
             registry_service=ReferenceRegistryService(),
             publisher_service=ReferencePublisherService(),
             package_service=ReferencePackageService(),

@@ -100,8 +100,15 @@ def test_create_app_registers_read_only_routes_openapi_and_middleware() -> None:
         "/versions/{version_id}",
         "/search",
         "/statistics",
+        "/auth/login",
+        "/auth/me",
+        "/auth/logout",
     }
-    assert all(route[1] == ("GET",) for route in app.routes)
+    assert all(
+        route[1] == ("GET",)
+        for route in app.routes
+        if not route[0].startswith("/auth/")
+    )
     assert len(app.middleware) == 2
     assert app.exception_handlers
 

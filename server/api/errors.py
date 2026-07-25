@@ -41,10 +41,19 @@ def foundation_error_types() -> tuple[FoundationErrorType, ...]:
     return tuple(types)
 
 
+def authentication_error_type() -> FoundationErrorType:
+    """Resolve the API authentication error without introducing global state."""
+    from .auth import AuthenticationError
+
+    return AuthenticationError
+
+
 def map_error(error: Exception) -> ApiException:
     """Map known Foundation errors without exposing implementation details."""
     if isinstance(error, ApiValidationError):
         return ApiException(400, ApiError("validation_error", str(error)))
+    if isinstance(error, authentication_error_type()):
+        return ApiException(401, ApiError("authentication_error", str(error)))
     if isinstance(error, foundation_error_types()):
         return ApiException(400, ApiError(type(error).__name__, str(error)))
     return ApiException(500, ApiError("internal_error", "Internal server error."))

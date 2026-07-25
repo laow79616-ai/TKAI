@@ -4,10 +4,16 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from importlib import import_module
+from types import ModuleType
 from typing import Any, cast
 
+from .auth.router import register_routes as register_auth_routes
 from .dependencies import ApiDependencies
-from .errors import foundation_error_types, foundation_exception_handler
+from .errors import (
+    authentication_error_type,
+    foundation_error_types,
+    foundation_exception_handler,
+)
 from .middleware import ExceptionMiddleware, RequestIdMiddleware
 from .models import ApiListResponse, ApiResourceResponse
 from .openapi import openapi_metadata
@@ -40,7 +46,14 @@ def create_app(
     network I/O.
     """
     selected = dependencies or ApiDependencies.create()
-    factory = app_factory or _fastapi_factory()
+    fastapi_module = _fastapi_module() if app_factory is None else None
+    factory = (
+        cast(Callable[..., Any], fastapi_module.FastAPI)
+        if fastapi_module is not None
+        else app_factory
+    )
+    if factory is None:
+        raise RuntimeError("An HTTP application factory is required.")
     app = factory(
         **openapi_metadata(selected.server_config),
         docs_url="/docs",
@@ -49,8 +62,13 @@ def create_app(
     _attach_dependencies(app, selected)
     app.add_middleware(ExceptionMiddleware)
     app.add_middleware(RequestIdMiddleware)
-    for error_type in foundation_error_types():
+    for error_type in (*foundation_error_types(), authentication_error_type()):
         app.add_exception_handler(error_type, foundation_exception_handler)
+    register_auth_routes(
+        app,
+        selected.authentication_service,
+        fastapi_module=fastapi_module,
+    )
     app.add_api_route(
         "/health", health_endpoint(selected), methods=["GET"], tags=["health"]
     )
@@ -128,11 +146,10 @@ def create_app(
     return app
 
 
-def _fastapi_factory() -> Callable[..., Any]:
+def _fastapi_module() -> ModuleType:
     """Load FastAPI only when a real HTTP application is explicitly requested."""
     try:
-        module = import_module("fastapi")
-        return cast(Callable[..., Any], module.FastAPI)
+        return cast(ModuleType, import_module("fastapi"))
     except ModuleNotFoundError as error:
         raise RuntimeError(
             "FastAPI is required to create the Marketplace Server HTTP application."
