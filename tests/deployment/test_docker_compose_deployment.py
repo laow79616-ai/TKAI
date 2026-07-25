@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
+from server.deployment import startup
 from server.deployment.startup import (
     DeploymentStartupError,
     database_url,
@@ -107,3 +109,22 @@ def test_startup_url_is_explicit_and_readiness_is_bounded() -> None:
             interval_seconds=0,
             connect=lambda _: (_ for _ in ()).throw(ConnectionError("offline")),
         )
+
+
+def test_default_readiness_connector_uses_psycopg_compatible_dsn(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    received: list[str] = []
+    connection = SimpleNamespace(close=lambda: None)
+    psycopg = SimpleNamespace(
+        connect=lambda dsn: received.append(dsn) or connection,
+    )
+    monkeypatch.setattr(startup, "import_module", lambda _: psycopg)
+
+    wait_for_database(
+        "postgresql+psycopg://user:p%40ss@postgres:5432/tkai",
+        attempts=1,
+        interval_seconds=0,
+    )
+
+    assert received == ["postgresql://user:p%40ss@postgres:5432/tkai"]

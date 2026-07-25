@@ -100,7 +100,8 @@ def main() -> None:
 
 def _connect(url: str) -> DatabaseConnection:
     psycopg = import_module("psycopg")
-    return cast(DatabaseConnection, psycopg.connect(url))
+    dsn = url.replace("postgresql+psycopg://", "postgresql://", 1)
+    return cast(DatabaseConnection, psycopg.connect(dsn))
 
 
 if __name__ == "__main__":
