@@ -93,6 +93,7 @@ studio = ["frontend/**", "assets/**", "docs/**"]
     "docs/server/APIFoundation.md",
     "docs/server/ResourceAPI.md",
     "docs/server/AuthenticationFoundation.md",
+    "docs/dashboard/Architecture.md",
 ]
 
 [tool.pytest.ini_options]
