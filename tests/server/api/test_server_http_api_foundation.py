@@ -61,7 +61,7 @@ class FakeFastAPI:
     ) -> None:
         self.routes.append((path, tuple(methods), endpoint, tuple(tags)))
 
-    def add_middleware(self, middleware: object) -> None:
+    def add_middleware(self, middleware: object, **_kwargs: object) -> None:
         self.middleware.append(middleware)
 
     def add_exception_handler(self, error: object, handler: object) -> None:
@@ -88,6 +88,9 @@ def test_create_app_registers_read_only_routes_openapi_and_middleware() -> None:
     assert app.metadata["openapi_url"] == "/openapi.json"
     assert {route[0] for route in app.routes} == {
         "/health",
+        "/health/live",
+        "/health/ready",
+        "/health/startup",
         "/version",
         "/metadata",
         "/registry",
@@ -109,7 +112,7 @@ def test_create_app_registers_read_only_routes_openapi_and_middleware() -> None:
         for route in app.routes
         if not route[0].startswith("/auth/")
     )
-    assert len(app.middleware) == 2
+    assert len(app.middleware) == 5
     assert app.exception_handlers
 
 

@@ -97,6 +97,7 @@ server = ["persistence/*.ini"]
     "docs/server/AuthenticationFoundation.md",
     "docs/server/PostgreSQLPersistence.md",
     "docs/deployment/DockerCompose.md",
+    "docs/deployment/ProductionHardening.md",
     "docs/dashboard/Architecture.md",
 ]
 

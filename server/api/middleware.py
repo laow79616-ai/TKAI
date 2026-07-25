@@ -6,6 +6,8 @@ import json
 from collections.abc import Awaitable, Callable
 from uuid import uuid4
 
+from server.production.runtime import ProductionRuntime
+
 from .errors import map_error
 
 AsgiMessage = dict[str, object]
@@ -86,3 +88,119 @@ class ExceptionMiddleware:
                 }
             )
             await send({"type": "http.response.body", "body": payload})
+
+
+class SecurityHeadersMiddleware:
+    """Append a small, deterministic set of browser hardening headers."""
+
+    _headers = (
+        (b"x-content-type-options", b"nosniff"),
+        (b"x-frame-options", b"DENY"),
+        (b"referrer-policy", b"strict-origin-when-cross-origin"),
+        (
+            b"content-security-policy",
+            b"default-src 'self'; frame-ancestors 'none'; base-uri 'self'",
+        ),
+    )
+
+    def __init__(self, app: AsgiApp, runtime: ProductionRuntime) -> None:
+        self._app = app
+        self._runtime = runtime
+
+    async def __call__(
+        self, scope: AsgiScope, receive: AsgiReceive, send: AsgiSend
+    ) -> None:
+        async def send_with_security_headers(message: AsgiMessage) -> None:
+            if (
+                self._runtime.configuration.security_headers_enabled
+                and message.get("type") == "http.response.start"
+            ):
+                source_headers = message.get("headers", ())
+                headers = (
+                    list(source_headers)
+                    if isinstance(source_headers, (list, tuple))
+                    else []
+                )
+                headers.extend(self._headers)
+                message = {**message, "headers": headers}
+            await send(message)
+
+        await self._app(scope, receive, send_with_security_headers)
+
+
+class RateLimitMiddleware:
+    """Apply an injected single-process limiter without storing request bodies."""
+
+    def __init__(self, app: AsgiApp, runtime: ProductionRuntime) -> None:
+        self._app = app
+        self._runtime = runtime
+
+    async def __call__(
+        self, scope: AsgiScope, receive: AsgiReceive, send: AsgiSend
+    ) -> None:
+        if scope.get("type") != "http":
+            await self._app(scope, receive, send)
+            return
+        decision = self._runtime.rate_limiter.allow(_client_key(scope))
+        if decision.allowed:
+            await self._app(scope, receive, send)
+            return
+        self._runtime.metrics.increment("http.rate_limited")
+        payload = b'{"error":{"code":"rate_limited","message":"Rate limit exceeded."}}'
+        await send(
+            {
+                "type": "http.response.start",
+                "status": 429,
+                "headers": [
+                    (b"content-type", b"application/json"),
+                    (b"content-length", str(len(payload)).encode("ascii")),
+                ],
+            }
+        )
+        await send({"type": "http.response.body", "body": payload})
+
+
+class ObservabilityMiddleware:
+    """Emit sanitized request outcome entries and count local request metrics."""
+
+    def __init__(self, app: AsgiApp, runtime: ProductionRuntime) -> None:
+        self._app = app
+        self._runtime = runtime
+
+    async def __call__(
+        self, scope: AsgiScope, receive: AsgiReceive, send: AsgiSend
+    ) -> None:
+        if scope.get("type") != "http":
+            await self._app(scope, receive, send)
+            return
+        status = 500
+
+        async def capture_status(message: AsgiMessage) -> None:
+            nonlocal status
+            if message.get("type") == "http.response.start":
+                candidate = message.get("status")
+                if isinstance(candidate, int):
+                    status = candidate
+            await send(message)
+
+        try:
+            await self._app(scope, receive, capture_status)
+        finally:
+            self._runtime.metrics.increment("http.requests")
+            self._runtime.metrics.increment(f"http.status.{status}")
+            self._runtime.logger.log(
+                "INFO",
+                "http.request",
+                request_id=_request_id(scope),
+                method=scope.get("method", ""),
+                path=scope.get("path", ""),
+                status=status,
+            )
+
+
+def _client_key(scope: AsgiScope) -> str:
+    """Derive a local limiter key from ASGI client information only."""
+    client = scope.get("client")
+    if isinstance(client, tuple) and client and isinstance(client[0], str):
+        return client[0]
+    return "unknown"

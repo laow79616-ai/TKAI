@@ -30,7 +30,7 @@ class FakeFastAPI:
     def add_api_route(self, path: str, endpoint: object, **_metadata: object) -> None:
         self.routes[path] = endpoint
 
-    def add_middleware(self, _middleware: object) -> None:
+    def add_middleware(self, _middleware: object, **_kwargs: object) -> None:
         pass
 
     def add_exception_handler(self, _error: object, _handler: object) -> None:
