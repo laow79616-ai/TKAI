@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import tomllib
 from typer.testing import CliRunner
 
 import tkai
+from tests.toml_compat import tomllib
 from tkai.cli import app
 
 

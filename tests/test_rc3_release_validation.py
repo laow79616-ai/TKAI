@@ -4,10 +4,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import tomllib
-
 import tkai
 from examples.ai import cache, chat, custom_router, multi_provider, plugin
+from tests.toml_compat import tomllib
 
 
 def test_release_version_sources_agree() -> None:
