@@ -13,5 +13,4 @@ node_modules
 dashboard/frontend/node_modules
 dashboard/frontend/dist
 tests
-docs/benchmarks/*.json
 .env
