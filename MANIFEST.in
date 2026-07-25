@@ -45,6 +45,8 @@ include docs/server/HealthFoundation.md
 include docs/server/APIFoundation.md
 include docs/server/ResourceAPI.md
 include docs/server/AuthenticationFoundation.md
+include docs/server/PostgreSQLPersistence.md
+recursive-include server/persistence *.ini *.py
 include docs/dashboard/Architecture.md
 recursive-include dashboard/frontend *.cjs *.css *.html *.json *.ts *.tsx
 include docs/benchmarks/verification.md

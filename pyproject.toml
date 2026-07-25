@@ -19,6 +19,7 @@ dependencies = [
 [project.optional-dependencies]
 redis = ["redis>=5.0"]
 server = ["fastapi>=0.110", "pydantic>=2.0"]
+postgres = ["SQLAlchemy>=2.0", "alembic>=1.13", "psycopg[binary]>=3.1"]
 dev = [
     "black>=24.0",
     "mypy>=1.10",
@@ -38,6 +39,7 @@ exclude = ["tests*", "benchmarks*"]
 [tool.setuptools.package-data]
 tkai = ["templates/default/README.md", "templates/default/template.json"]
 studio = ["frontend/**", "assets/**", "docs/**"]
+server = ["persistence/*.ini"]
 
 [tool.setuptools.data-files]
 "share/doc/tkai/marketplace" = [
@@ -93,6 +95,7 @@ studio = ["frontend/**", "assets/**", "docs/**"]
     "docs/server/APIFoundation.md",
     "docs/server/ResourceAPI.md",
     "docs/server/AuthenticationFoundation.md",
+    "docs/server/PostgreSQLPersistence.md",
     "docs/dashboard/Architecture.md",
 ]
 
