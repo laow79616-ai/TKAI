@@ -101,6 +101,7 @@ server = ["persistence/*.ini"]
     "docs/deployment/ProductionHardening.md",
     "docs/deployment/GAEnvironmentSetup.md",
     "docs/deployment/NginxGateway.md",
+    "docs/deployment/Observability.md",
     "docs/server/EnterpriseFeatures.md",
     "docs/server/RBAC.md",
     "docs/server/APIKeys.md",

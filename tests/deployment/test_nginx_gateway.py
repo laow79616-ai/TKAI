@@ -43,6 +43,17 @@ def test_nginx_waits_for_upstreams_and_has_a_health_check() -> None:
     assert "/nginx-health" in " ".join(service["healthcheck"]["test"])
 
 
+def test_nginx_metrics_endpoint_is_private_to_the_container_network() -> None:
+    common = (NGINX / "gateway-common.conf").read_text(encoding="utf-8")
+    https = (NGINX / "https.conf").read_text(encoding="utf-8")
+
+    for config in (common, https):
+        assert "location = /nginx-status" in config
+        assert "stub_status;" in config
+        assert "allow 172.16.0.0/12;" in config
+        assert "deny all;" in config
+
+
 def test_production_gateway_mounts_operator_tls_files_read_only() -> None:
     production = _production_override()["services"]["nginx"]
     mounts = "\n".join(production["volumes"])

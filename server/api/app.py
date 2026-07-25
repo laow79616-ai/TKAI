@@ -26,6 +26,7 @@ from .middleware import (
 )
 from .models import ApiListResponse, ApiResourceResponse
 from .openapi import openapi_metadata
+from .prometheus import prometheus_endpoint
 from .routers import (
     get_package_endpoint,
     get_publisher_endpoint,
@@ -111,6 +112,13 @@ def create_app(
         lambda: runtime.health.snapshot().to_dict(),
         methods=["GET"],
         tags=["health"],
+    )
+    app.add_api_route(
+        "/metrics",
+        prometheus_endpoint(runtime),
+        methods=["GET"],
+        tags=["operations"],
+        include_in_schema=False,
     )
     app.add_api_route(
         "/version", version_endpoint(selected), methods=["GET"], tags=["server"]

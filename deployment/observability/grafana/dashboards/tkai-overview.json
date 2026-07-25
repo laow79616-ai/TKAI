@@ -1,0 +1,75 @@
+{
+  "annotations": {"list": []},
+  "editable": false,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "type": "stat",
+      "title": "Service availability",
+      "description": "Current Prometheus scrape availability for TKAI services.",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "targets": [{"expr": "up{job=~\"api|postgres|nginx\"}", "legendFormat": "{{job}}"}],
+      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 0}
+    },
+    {
+      "type": "timeseries",
+      "title": "API request rate",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "targets": [{"expr": "sum(rate(tkai_http_requests_total[5m]))", "legendFormat": "requests/s"}],
+      "gridPos": {"h": 8, "w": 8, "x": 8, "y": 0}
+    },
+    {
+      "type": "text",
+      "title": "API latency",
+      "description": "The API currently exposes count-only metrics; no latency histogram is available.",
+      "options": {"mode": "markdown", "content": "Latency is not graphed because the current API metrics do not expose a duration histogram. No synthetic query is used."},
+      "gridPos": {"h": 8, "w": 8, "x": 16, "y": 0}
+    },
+    {
+      "type": "timeseries",
+      "title": "API error rate",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "targets": [{"expr": "sum(rate(tkai_http_responses_total{status=~\"5..\"}[5m])) / clamp_min(sum(rate(tkai_http_requests_total[5m])), 0.001)", "legendFormat": "5xx ratio"}],
+      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 8}
+    },
+    {
+      "type": "stat",
+      "title": "PostgreSQL health",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "targets": [{"expr": "pg_up", "legendFormat": "PostgreSQL"}],
+      "gridPos": {"h": 8, "w": 5, "x": 8, "y": 8}
+    },
+    {
+      "type": "stat",
+      "title": "Nginx health",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "targets": [{"expr": "nginx_up", "legendFormat": "Nginx"}],
+      "gridPos": {"h": 8, "w": 5, "x": 13, "y": 8}
+    },
+    {
+      "type": "stat",
+      "title": "Prometheus target health",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "targets": [{"expr": "sum(up)", "legendFormat": "targets up"}, {"expr": "count(up)", "legendFormat": "targets total"}],
+      "gridPos": {"h": 8, "w": 6, "x": 18, "y": 8}
+    },
+    {
+      "type": "logs",
+      "title": "TKAI service logs",
+      "datasource": {"type": "loki", "uid": "loki"},
+      "targets": [{"expr": "{stack=\"tkai\"}", "refId": "A"}],
+      "gridPos": {"h": 10, "w": 24, "x": 0, "y": 16}
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 41,
+  "tags": ["tkai", "operations"],
+  "templating": {"list": []},
+  "time": {"from": "now-6h", "to": "now"},
+  "timezone": "browser",
+  "title": "TKAI Overview",
+  "uid": "tkai-overview",
+  "version": 1
+}
