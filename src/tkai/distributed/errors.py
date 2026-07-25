@@ -1,0 +1,41 @@
+"""Explicit errors for the optional local Distributed Runtime foundation."""
+
+
+class DistributedError(RuntimeError):
+    """Base error for distributed backend, membership, and lock operations."""
+
+
+class DistributedLockError(DistributedError):
+    """Raised when a local distributed lock cannot be acquired or released."""
+
+
+class NodeNotFoundError(DistributedError):
+    """Raised when a membership node is absent."""
+
+
+class RedisBackendError(DistributedError):
+    """Base error raised by the optional Redis distributed backend."""
+
+
+class RedisBackendUnavailableError(RedisBackendError):
+    """Raised when Redis support is requested without its optional dependency."""
+
+
+class RedisBackendConnectionError(RedisBackendError):
+    """Raised when the Redis backend cannot establish a usable connection."""
+
+
+class RedisBackendOperationError(RedisBackendError):
+    """Raised when a Redis backend operation cannot complete safely."""
+
+
+class FailoverStateError(DistributedError):
+    """Raised when a failback is requested from an invalid failover state."""
+
+
+class ServiceRegistryError(DistributedError):
+    """Base error raised by explicit service discovery registries."""
+
+
+class ServiceInstanceNotFoundError(ServiceRegistryError):
+    """Raised when a requested service instance cannot be renewed."""

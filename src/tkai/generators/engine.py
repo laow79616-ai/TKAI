@@ -4,6 +4,7 @@ TKAI Generator Engine
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
@@ -33,14 +34,14 @@ class GeneratorEngine:
     def register_hook(
         self,
         event: str,
-        func,
+        func: Callable[..., Any],
     ) -> None:
         self.hooks.register(event, func)
 
     def unregister_hook(
         self,
         event: str,
-        func,
+        func: Callable[..., Any],
     ) -> None:
         self.hooks.unregister(event, func)
 
@@ -49,6 +50,7 @@ class GeneratorEngine:
         output: str | Path,
         variables: dict[str, Any] | None = None,
     ) -> Path:
+        """Generate a project, running pre- and post-generation hooks."""
         if variables:
             self.variables.merge(variables)
 

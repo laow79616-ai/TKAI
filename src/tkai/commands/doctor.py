@@ -16,14 +16,17 @@ app = typer.Typer(
 
 
 def _check_python() -> str:
+    """Return the active Python version."""
     return platform.python_version()
 
 
 def _check_platform() -> str:
+    """Return the active operating-system description."""
     return platform.platform()
 
 
 def _check_workspace() -> str:
+    """Return the current workspace path."""
     return str(Path.cwd())
 
 

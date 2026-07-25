@@ -1,0 +1,2 @@
+class ObservabilityError(RuntimeError):
+    pass

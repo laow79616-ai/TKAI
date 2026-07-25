@@ -1,0 +1,27 @@
+{
+  "benchmark_result_fields": [
+    "operations",
+    "elapsed_seconds",
+    "ops_per_second",
+    "mean_latency_ms",
+    "p50_latency_ms",
+    "p95_latency_ms",
+    "p99_latency_ms",
+    "min_latency_ms",
+    "max_latency_ms"
+  ],
+  "machine_performance_values_published": false,
+  "modules": [
+    {"default_operations": 10, "module": "policy", "scenarios": ["allowed", "rejected", "default"]},
+    {"default_operations": 10, "module": "retry", "scenarios": ["retryable", "non_retryable", "budget_limit", "manager_path"]},
+    {"default_operations": 10, "module": "eventbus", "scenarios": ["publish", "subscribe_cycle", "exception_isolation"]},
+    {"default_operations": 10, "module": "telemetry", "scenarios": ["enabled_metric", "disabled_metric", "trace", "structured_log", "snapshot"]},
+    {"default_operations": 10, "module": "distributed", "scenarios": ["local_backend", "local_lock", "membership_snapshot"]},
+    {"default_operations": 10, "module": "adaptive_routing", "scenarios": ["signal_record", "rank", "cold_start"]},
+    {"default_operations": 10, "module": "multiregion", "scenarios": ["register", "rank", "select", "unavailable"]},
+    {"default_operations": 5, "module": "combined_runtime", "scenarios": ["local_composed_request"]}
+  ],
+  "network_access": false,
+  "report_formats": ["markdown", "json"],
+  "version": "1.2.0rc3"
+}

@@ -12,16 +12,18 @@ from .variables import build_variables
 class TemplateEngine:
     """Render a project template into a target directory."""
 
-    def __init__(self):
-        self.loader = TemplateLoader()
+    def __init__(self, template_root: str | Path | None = None) -> None:
+        self.loader = TemplateLoader(template_root)
         self.renderer = TemplateRenderer()
 
     def render(
         self,
         template: str,
         project_name: str,
-        output_dir: Path,
-    ):
+        output_dir: str | Path,
+    ) -> Path:
+        """Render ``template`` into ``output_dir`` and return its path."""
+        output_dir = Path(output_dir)
 
         template_dir = self.loader.load(template)
 
@@ -48,3 +50,5 @@ class TemplateEngine:
                 target,
                 variables,
             )
+
+        return output_dir

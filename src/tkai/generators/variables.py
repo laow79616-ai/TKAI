@@ -80,7 +80,7 @@ class VariableManager:
             if not key.startswith(prefix):
                 continue
 
-            name = key[len(prefix):].lower()
+            name = key[len(prefix) :].lower()
 
             self._variables[name] = value
 
@@ -111,7 +111,7 @@ class VariableManager:
     def from_dict(
         cls,
         data: dict[str, Any],
-    ) -> "VariableManager":
+    ) -> VariableManager:
         """Deserialize variables."""
 
         manager = cls()

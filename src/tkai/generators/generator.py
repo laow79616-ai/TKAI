@@ -6,7 +6,9 @@ Generator registry and dispatcher.
 
 from __future__ import annotations
 
-from typing import Any, Iterator
+import builtins
+from collections.abc import Iterator
+from typing import Any
 
 from tkai.core.context import Context
 from tkai.core.exceptions import GeneratorError
@@ -33,9 +35,7 @@ class GeneratorManager:
         generator_name = generator.name
 
         if generator_name in self._generators and not overwrite:
-            raise GeneratorError(
-                f"Generator '{generator_name}' already registered."
-            )
+            raise GeneratorError(f"Generator '{generator_name}' already registered.")
 
         self._generators[generator_name] = generator
 
@@ -44,9 +44,7 @@ class GeneratorManager:
         Remove a generator.
         """
         if generator_name not in self._generators:
-            raise GeneratorError(
-                f"Generator '{generator_name}' not found."
-            )
+            raise GeneratorError(f"Generator '{generator_name}' not found.")
 
         return self._generators.pop(generator_name)
 
@@ -55,9 +53,7 @@ class GeneratorManager:
         Get a registered generator.
         """
         if generator_name not in self._generators:
-            raise GeneratorError(
-                f"Generator '{generator_name}' not found."
-            )
+            raise GeneratorError(f"Generator '{generator_name}' not found.")
 
         return self._generators[generator_name]
 
@@ -85,13 +81,13 @@ class GeneratorManager:
         """
         return sorted(self._generators.keys())
 
-    def values(self) -> list[BaseGenerator]:
+    def values(self) -> builtins.list[BaseGenerator]:
         """
         Return generator instances.
         """
         return list(self._generators.values())
 
-    def items(self) -> list[tuple[str, BaseGenerator]]:
+    def items(self) -> builtins.list[tuple[str, BaseGenerator]]:
         """
         Return registry items.
         """

@@ -4,4 +4,5 @@ TKAI Entry Point
 
 from tkai.cli import main
 
-main()
+if __name__ == "__main__":
+    main()

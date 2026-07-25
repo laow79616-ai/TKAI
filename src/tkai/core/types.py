@@ -9,6 +9,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any, Protocol, TypeAlias, TypedDict
 
+from typing_extensions import Self
 
 # ----------------------------------------------------------------------
 # Common Aliases
@@ -24,6 +25,7 @@ JsonList: TypeAlias = list[Any]
 # ----------------------------------------------------------------------
 # TypedDict
 # ----------------------------------------------------------------------
+
 
 class ProjectData(TypedDict, total=False):
     name: str
@@ -45,19 +47,17 @@ class WorkspaceData(TypedDict, total=False):
 # Protocols
 # ----------------------------------------------------------------------
 
+
 class Serializable(Protocol):
     """Objects that can be serialized."""
 
-    def to_dict(self) -> JsonDict:
-        ...
+    def to_dict(self) -> JsonDict: ...
 
     @classmethod
-    def from_dict(cls, data: JsonDict):
-        ...
+    def from_dict(cls, data: JsonDict) -> Self: ...
 
 
 class Validatable(Protocol):
     """Objects that support validation."""
 
-    def validate(self) -> bool:
-        ...
+    def validate(self) -> bool: ...

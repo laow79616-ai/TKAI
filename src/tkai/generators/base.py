@@ -26,19 +26,23 @@ class BaseGenerator(ABC):
         self.name = name or self.__class__.__name__
 
     @property
-    def workspace(self):
+    def workspace(self) -> Any | None:
+        """Return the context workspace, when one has been configured."""
         return self.context.workspace
 
     @property
-    def project(self):
+    def project(self) -> Any | None:
+        """Return the context project, when one has been configured."""
         return self.context.project
 
     @property
-    def settings(self):
+    def settings(self) -> Any | None:
+        """Return the context settings, when one has been configured."""
         return self.context.settings
 
     @property
-    def registry(self):
+    def registry(self) -> Any:
+        """Return the context registry."""
         return self.context.registry
 
     def exists(self, path: Path) -> bool:

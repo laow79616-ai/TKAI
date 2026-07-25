@@ -1,10 +1,4 @@
-﻿from .engine import TemplateEngine
-
-__all__ = [
-    "TemplateEngine",
-]
+from .engine import TemplateEngine
 from .manager import TemplateManager
 
-__all__ = [
-    "TemplateManager",
-]
+__all__ = ("TemplateEngine", "TemplateManager")

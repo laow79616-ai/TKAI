@@ -1,4 +1,9 @@
 from tkai.template_engine.manager import TemplateManager
+from tkai.templates.manager import TemplateManager as CatalogTemplateManager
+
+
+def test_template_manager_uses_unified_api():
+    assert TemplateManager is CatalogTemplateManager
 
 
 def test_validate_template_success():

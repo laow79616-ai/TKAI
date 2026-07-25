@@ -1,0 +1,63 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - marketplace-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 5s
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_MIGRATE: ${POSTGRES_MIGRATE:-true}
+      POSTGRES_WAIT_ATTEMPTS: ${POSTGRES_WAIT_ATTEMPTS:-30}
+      POSTGRES_WAIT_INTERVAL_SECONDS: ${POSTGRES_WAIT_INTERVAL_SECONDS:-1}
+      API_HOST: ${API_HOST:-0.0.0.0}
+      API_PORT: ${API_PORT:-8000}
+    ports:
+      - "${API_PORT:-8000}:${API_PORT:-8000}"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"from urllib.request import urlopen; from os import environ; urlopen('http://localhost:' + environ['API_PORT'] + '/health')\""]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+      start_period: 15s
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile.dashboard
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:${API_PORT:-8000}}
+    ports:
+      - "${DASHBOARD_PORT:-4173}:4173"
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:4173').then(() => process.exit(0)).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+      start_period: 10s
+
+volumes:
+  marketplace-postgres-data:

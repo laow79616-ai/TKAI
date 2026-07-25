@@ -10,6 +10,8 @@ import os
 from copy import deepcopy
 from typing import Any
 
+from .mappings import deep_merge, get_dotted, set_dotted
+
 
 class Settings:
     """Application settings manager."""
@@ -29,50 +31,22 @@ class Settings:
 
     def get(self, key: str, default: Any = None) -> Any:
         """Get value by dotted key."""
-        current: Any = self._values
-
-        for part in key.split("."):
-            if not isinstance(current, dict):
-                return default
-
-            if part not in current:
-                return default
-
-            current = current[part]
-
-        return current
+        return get_dotted(self._values, key, default)
 
     def set(self, key: str, value: Any) -> None:
         """Set value by dotted key."""
-        current = self._values
-        parts = key.split(".")
-
-        for part in parts[:-1]:
-            current = current.setdefault(part, {})
-
-        current[parts[-1]] = value
+        set_dotted(self._values, key, value)
 
     def merge(self, values: dict[str, Any]) -> None:
         """Deep merge settings."""
 
-        def merge_dict(dst: dict[str, Any], src: dict[str, Any]) -> None:
-            for key, value in src.items():
-                if (
-                    key in dst
-                    and isinstance(dst[key], dict)
-                    and isinstance(value, dict)
-                ):
-                    merge_dict(dst[key], value)
-                else:
-                    dst[key] = deepcopy(value)
-
-        merge_dict(self._values, values)
+        deep_merge(self._values, values)
 
     def load_environment(self, prefix: str = "TKAI_") -> None:
         """Load environment variables."""
         for key, value in os.environ.items():
             if key.startswith(prefix):
                 self.set(
-                    key[len(prefix):].lower().replace("_", "."),
+                    key[len(prefix) :].lower().replace("_", "."),
                     value,
                 )

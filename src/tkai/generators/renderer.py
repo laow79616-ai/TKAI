@@ -4,13 +4,11 @@ TKAI Template Renderer
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from jinja2 import Environment
-from jinja2 import FileSystemLoader
-from jinja2 import StrictUndefined
-from jinja2 import Template
+from jinja2 import Environment, FileSystemLoader, StrictUndefined, Template, Undefined
 
 
 class TemplateRenderer:
@@ -23,10 +21,8 @@ class TemplateRenderer:
         strict: bool = True,
     ) -> None:
         self._env = Environment(
-            loader=FileSystemLoader(str(template_dir))
-            if template_dir
-            else None,
-            undefined=StrictUndefined if strict else None,
+            loader=FileSystemLoader(str(template_dir)) if template_dir else None,
+            undefined=StrictUndefined if strict else Undefined,
             keep_trailing_newline=True,
             autoescape=False,
             trim_blocks=True,
@@ -74,7 +70,7 @@ class TemplateRenderer:
     def add_filter(
         self,
         name: str,
-        func,
+        func: Callable[..., Any],
     ) -> None:
         self._env.filters[name] = func
 

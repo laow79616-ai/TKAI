@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import shutil
 from pathlib import Path
+from typing import Any
 
 from .renderer import TemplateRenderer
 
@@ -20,7 +21,7 @@ class Scaffold:
     def generate(
         self,
         output_dir: str | Path,
-        variables: dict,
+        variables: dict[str, Any],
     ) -> Path:
         output_dir = Path(output_dir)
         output_dir.mkdir(parents=True, exist_ok=True)
@@ -54,6 +55,8 @@ class Scaffold:
                     variables,
                 )
 
+                # Only the template marker is removed; names such as
+                # ``README.md.j2`` therefore remain ``README.md``.
                 destination = destination.with_suffix("")
 
                 destination.write_text(
