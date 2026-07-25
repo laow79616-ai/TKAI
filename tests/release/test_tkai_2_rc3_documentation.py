@@ -5,7 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import tkai
-from tests.toml_compat import tomllib
+from tkai._compat import tomllib
 
 
 def test_tkai_2_rc3_report_records_packaging_validation_and_version_source() -> None:

@@ -1,4 +1,4 @@
-"""TOML parser compatibility for the supported Python test matrix."""
+"""Compatibility imports for supported Python versions."""
 
 from __future__ import annotations
 

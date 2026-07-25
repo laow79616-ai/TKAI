@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from tests.toml_compat import tomllib
+from tkai._compat import tomllib
 
 
 def test_mit_license_metadata_and_readme_are_consistent() -> None:

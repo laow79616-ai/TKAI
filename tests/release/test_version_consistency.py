@@ -7,7 +7,7 @@ from pathlib import Path
 from typer.testing import CliRunner
 
 import tkai
-from tests.toml_compat import tomllib
+from tkai._compat import tomllib
 from tkai.cli import app
 
 

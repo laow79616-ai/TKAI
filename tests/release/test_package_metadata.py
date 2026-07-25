@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from tests.toml_compat import tomllib
+from tkai._compat import tomllib
 
 
 def test_project_metadata_declares_build_runtime_and_cli_contracts() -> None:
