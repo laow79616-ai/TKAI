@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import { type ApiListResponse, type SearchEntry } from "./api";
+import { type ApiListResponse, type EnterpriseRecord, type SearchEntry } from "./api";
 import { useAuth } from "./auth";
 import { Card, Loading, SearchBar, Table } from "./components";
 
-export const dashboardPages = ["dashboard", "registry", "publishers", "packages", "versions", "search", "statistics", "health"] as const;
+export const dashboardPages = ["dashboard", "registry", "publishers", "packages", "versions", "search", "statistics", "health", "users", "organizations", "teams", "roles", "api-keys", "audit"] as const;
 
 function useRequest<T>(load: () => Promise<T>) {
   const [value, setValue] = useState<T | null>(null);
@@ -42,4 +42,5 @@ export function SearchPage() {
 
 export function StatisticsPage() { const { client } = useAuth(); const state = useRequest(() => client.statistics()); return <Card><h1>Statistics</h1>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value.data.counters, null, 2)}</pre> : <Loading />}</Card>; }
 export function HealthPage() { const { client } = useAuth(); const state = useRequest(() => client.health()); return <Card><h1>Health</h1>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value.statistics, null, 2)}</pre> : <Loading />}</Card>; }
+export function EnterprisePage({ title, load }: { title: string; load(): Promise<ApiListResponse<EnterpriseRecord>> }) { const state = useRequest(load); return <Card><h1>{title}</h1>{state.error && <p role="alert">Unauthorized or unavailable: {state.error}</p>}{!state.value && !state.error && <Loading />}{state.value && (state.value.total ? <Table><tbody>{state.value.data.map((item,index) => <tr key={index}><td>{JSON.stringify(item)}</td></tr>)}</tbody></Table> : <p>No records.</p>)}</Card>; }
 export function NotFoundPage() { return <Card><h1>404</h1><p>Page not found.</p></Card>; }

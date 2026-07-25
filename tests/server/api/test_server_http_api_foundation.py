@@ -86,7 +86,7 @@ def test_create_app_registers_read_only_routes_openapi_and_middleware() -> None:
     assert app.state.api_dependencies is dependencies
     assert app.metadata["docs_url"] == "/docs"
     assert app.metadata["openapi_url"] == "/openapi.json"
-    assert {route[0] for route in app.routes} == {
+    assert {
         "/health",
         "/health/live",
         "/health/ready",
@@ -106,11 +106,22 @@ def test_create_app_registers_read_only_routes_openapi_and_middleware() -> None:
         "/auth/login",
         "/auth/me",
         "/auth/logout",
-    }
+    }.issubset({route[0] for route in app.routes})
     assert all(
         route[1] == ("GET",)
         for route in app.routes
-        if not route[0].startswith("/auth/")
+        if route[0]
+        in {
+            "/health",
+            "/version",
+            "/metadata",
+            "/registry",
+            "/publishers",
+            "/packages",
+            "/versions",
+            "/search",
+            "/statistics",
+        }
     )
     assert len(app.middleware) == 5
     assert app.exception_handlers

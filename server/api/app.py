@@ -41,6 +41,7 @@ from .routers import (
     statistics_endpoint,
     version_endpoint,
 )
+from .routers.enterprise import register_routes as register_enterprise_routes
 
 
 def create_app(
@@ -86,6 +87,9 @@ def create_app(
         app,
         selected.authentication_service,
         fastapi_module=fastapi_module,
+    )
+    register_enterprise_routes(
+        app, selected.enterprise_service, selected.authentication_service
     )
     app.add_api_route(
         "/health", health_endpoint(selected), methods=["GET"], tags=["health"]

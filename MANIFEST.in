@@ -48,6 +48,11 @@ include docs/server/AuthenticationFoundation.md
 include docs/server/PostgreSQLPersistence.md
 include docs/deployment/DockerCompose.md
 include docs/deployment/ProductionHardening.md
+include docs/server/EnterpriseFeatures.md
+include docs/server/RBAC.md
+include docs/server/APIKeys.md
+include docs/server/AuditLog.md
+include docs/dashboard/EnterprisePages.md
 recursive-include server/persistence *.ini *.py
 include docs/dashboard/Architecture.md
 recursive-include dashboard/frontend *.cjs *.css *.html *.json *.ts *.tsx

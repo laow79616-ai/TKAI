@@ -9,6 +9,7 @@ from server.models import ServerConfig
 
 if TYPE_CHECKING:
     from server.api.auth import ReferenceAuthenticationService
+    from server.enterprise import ReferenceEnterpriseService
     from server.health import ReferenceHealthService
     from server.package import ReferencePackageService
     from server.publisher import ReferencePublisherService
@@ -30,6 +31,11 @@ class ApiDependencies:
     version_service: ReferenceVersionService
     search_service: ReferenceSearchService
     statistics_service: ReferenceStatisticsService
+    enterprise_service: ReferenceEnterpriseService = field(
+        default_factory=lambda: __import__(
+            "server.enterprise", fromlist=["ReferenceEnterpriseService"]
+        ).ReferenceEnterpriseService()
+    )
     server_config: ServerConfig = field(default_factory=ServerConfig)
     supported_modules: tuple[str, ...] = (
         "registry",
@@ -45,6 +51,7 @@ class ApiDependencies:
     def create(cls) -> ApiDependencies:
         """Create isolated in-memory defaults without accessing storage directly."""
         from server.api.auth import ReferenceAuthenticationService
+        from server.enterprise import ReferenceEnterpriseService
         from server.health import ReferenceHealthService
         from server.package import ReferencePackageService
         from server.publisher import ReferencePublisherService
@@ -62,4 +69,5 @@ class ApiDependencies:
             version_service=ReferenceVersionService(),
             search_service=ReferenceSearchService(),
             statistics_service=ReferenceStatisticsService(),
+            enterprise_service=ReferenceEnterpriseService(),
         )

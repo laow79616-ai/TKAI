@@ -14,6 +14,7 @@ export interface SearchEntry { identifier: string; target: string; name: string;
 export interface HealthSnapshot { checks: unknown[]; statistics: Record<string, number | boolean>; closed: boolean; }
 export interface StatisticsSnapshot { counters: Record<string, number>; closed: boolean; }
 export interface ServerVersion { server_version: string; framework_version: string; build_metadata: Record<string, unknown>; }
+export interface EnterpriseRecord { [key: string]: unknown; }
 
 export class ApiClientError extends Error {
   constructor(public readonly status: number, message: string) { super(message); }
@@ -57,4 +58,10 @@ export class MarketplaceApiClient {
     const suffix = query.size ? `?${query}` : "";
     return this.request<ApiListResponse<SearchEntry>>(`/search${suffix}`);
   }
+  users() { return this.request<ApiListResponse<EnterpriseRecord>>("/users"); }
+  organizations() { return this.request<ApiListResponse<EnterpriseRecord>>("/organizations"); }
+  teams() { return this.request<ApiListResponse<EnterpriseRecord>>("/teams"); }
+  roles() { return this.request<ApiListResponse<EnterpriseRecord>>("/roles"); }
+  apiKeys() { return this.request<ApiListResponse<EnterpriseRecord>>("/api-keys"); }
+  audit() { return this.request<ApiListResponse<EnterpriseRecord>>("/audit"); }
 }
