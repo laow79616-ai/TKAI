@@ -79,8 +79,11 @@ def run_migrations(url: str) -> None:
     """Run the packaged Alembic migration chain for one explicitly selected database."""
     alembic_config = import_module("alembic.config")
     command = import_module("alembic.command")
-    configuration_path = resources.files("server.persistence").joinpath("alembic.ini")
+    persistence_resources = resources.files("server.persistence")
+    configuration_path = persistence_resources.joinpath("alembic.ini")
+    migration_path = persistence_resources.joinpath("migrations")
     configuration = alembic_config.Config(str(configuration_path))
+    configuration.set_main_option("script_location", str(migration_path))
     configuration.set_main_option("sqlalchemy.url", url)
     command.upgrade(configuration, "head")
 

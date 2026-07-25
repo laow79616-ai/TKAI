@@ -128,3 +128,36 @@ def test_default_readiness_connector_uses_psycopg_compatible_dsn(
     )
 
     assert received == ["postgresql://user:p%40ss@postgres:5432/tkai"]
+
+
+def test_migrations_use_packaged_script_location(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    configured: dict[str, str] = {}
+    upgraded: list[tuple[object, str]] = []
+
+    class Configuration:
+        def __init__(self, path: str) -> None:
+            configured["configuration"] = path
+
+        def set_main_option(self, name: str, value: str) -> None:
+            configured[name] = value
+
+    modules = {
+        "alembic.config": SimpleNamespace(Config=Configuration),
+        "alembic.command": SimpleNamespace(
+            upgrade=lambda configuration, revision: upgraded.append(
+                (configuration, revision)
+            )
+        ),
+    }
+    monkeypatch.setattr(startup, "import_module", modules.__getitem__)
+
+    startup.run_migrations("postgresql+psycopg://example")
+
+    persistence = Path(startup.__file__).parents[1] / "persistence"
+    assert Path(configured["configuration"]) == persistence / "alembic.ini"
+    assert Path(configured["script_location"]) == persistence / "migrations"
+    assert configured["sqlalchemy.url"] == "postgresql+psycopg://example"
+    assert len(upgraded) == 1
+    assert upgraded[0][1] == "head"
