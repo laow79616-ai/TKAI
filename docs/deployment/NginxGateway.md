@@ -7,10 +7,10 @@ Docker Compose network.
 ## Development (HTTP)
 
 Copy `.env.example` to `.env`, set the PostgreSQL credentials, and start the
-development profile:
+default HTTP deployment:
 
 ```console
-docker compose --profile development up --build
+docker compose up --build
 ```
 
 Open `http://localhost` (or the port selected with `HTTP_PORT`). The Dashboard
@@ -29,18 +29,20 @@ TLS_CERTIFICATE_PATH=/absolute/path/to/fullchain.pem
 TLS_PRIVATE_KEY_PATH=/absolute/path/to/private-key.pem
 ```
 
-Start the production profile:
+Start the production deployment by merging the HTTPS override into the base
+Compose file:
 
 ```console
-docker compose --profile production up --build -d
+docker compose -f docker-compose.yml -f docker-compose.production.yml up --build -d
 ```
 
 The production gateway serves HTTPS and permanently redirects every public
 HTTP request to its HTTPS equivalent. `/nginx-health` remains available over
 the container's loopback HTTP listener for the Docker health check.
 
-Use exactly one gateway profile at a time. Running both profiles would attempt
-to bind the same public HTTP port.
+Both modes register the same `nginx` service. The override replaces its HTTP
+configuration with the HTTPS configuration and adds the TLS certificate mounts
+and public HTTPS port.
 
 ## Routing
 
@@ -59,8 +61,8 @@ Replace the certificate files atomically at their configured host paths, then
 validate and reload Nginx:
 
 ```console
-docker compose --profile production exec gateway-https nginx -t
-docker compose --profile production exec gateway-https nginx -s reload
+docker compose -f docker-compose.yml -f docker-compose.production.yml exec nginx nginx -t
+docker compose -f docker-compose.yml -f docker-compose.production.yml exec nginx nginx -s reload
 ```
 
 Do not commit certificates, keys, or `.env`. Restrict private-key permissions
@@ -71,10 +73,15 @@ to the deployment operator.
 Validate the complete model without starting containers:
 
 ```console
-docker compose --profile development config --quiet
-docker compose --profile production config --quiet
+docker compose config --quiet
+docker compose config --services
+docker compose -f docker-compose.yml -f docker-compose.production.yml config --quiet
+docker compose -f docker-compose.yml -f docker-compose.production.yml config --services
 ```
 
-Inspect `docker compose ps` and gateway logs when a health check fails. A
+Both service-list commands must print `postgres`, `api`, `dashboard`, and
+`nginx`.
+
+Inspect `docker compose ps` and Nginx logs when a health check fails. A
 gateway that is healthy while public routes return `502` usually indicates
 that the API or Dashboard is unavailable; inspect their health and logs next.
