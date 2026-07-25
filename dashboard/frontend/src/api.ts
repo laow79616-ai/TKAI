@@ -19,8 +19,10 @@ export class ApiClientError extends Error {
   constructor(public readonly status: number, message: string) { super(message); }
 }
 
+const configuredBaseUrl = import.meta.env.VITE_API_BASE_URL ?? "/api";
+
 export class MarketplaceApiClient {
-  constructor(private readonly baseUrl = "/api", private readonly token?: string) {}
+  constructor(private readonly baseUrl = configuredBaseUrl, private readonly token?: string) {}
 
   withToken(token: string | undefined): MarketplaceApiClient { return new MarketplaceApiClient(this.baseUrl, token); }
 
