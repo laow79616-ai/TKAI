@@ -98,6 +98,7 @@ server = ["persistence/*.ini"]
     "docs/server/PostgreSQLPersistence.md",
     "docs/deployment/DockerCompose.md",
     "docs/deployment/ProductionHardening.md",
+    "docs/deployment/GAEnvironmentSetup.md",
     "docs/server/EnterpriseFeatures.md",
     "docs/server/RBAC.md",
     "docs/server/APIKeys.md",
