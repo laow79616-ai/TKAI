@@ -1,0 +1,10 @@
+services:
+  nginx:
+    ports:
+      - "${HTTP_PORT:-80}:80"
+      - "${HTTPS_PORT:-443}:443"
+    volumes:
+      - ./deployment/nginx:/etc/nginx/tkai:ro
+      - ./deployment/nginx/https.conf:/etc/nginx/conf.d/default.conf:ro
+      - ${TLS_CERTIFICATE_PATH:-./certs/tls.crt}:/etc/nginx/tls/tls.crt:ro
+      - ${TLS_PRIVATE_KEY_PATH:-./certs/tls.key}:/etc/nginx/tls/tls.key:ro

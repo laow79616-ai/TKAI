@@ -2,14 +2,14 @@
 
 ## Scope
 
-This is a local, three-service development deployment for Marketplace Server:
-PostgreSQL, the FastAPI API, and the Dashboard. It does not introduce
-Kubernetes, HTTPS, reverse proxies, queues, Redis, or cloud deployment.
+This is the local development deployment for Marketplace Server: PostgreSQL,
+the FastAPI API, the Dashboard, and an HTTP Nginx gateway. PostgreSQL, API, and
+Dashboard remain internal; Nginx is the only published service.
 
 ## Requirements
 
 - Docker Engine with Docker Compose v2
-- An available local port `8000` for the API and `4173` for the Dashboard
+- An available local port `80` (or configure `HTTP_PORT`)
 
 ## First Start
 
@@ -24,9 +24,9 @@ API. The API performs a bounded readiness probe (30 attempts by default) and
 runs the packaged Alembic migration when `POSTGRES_MIGRATE=true`. The Dashboard
 starts after the API health check passes.
 
-The Dashboard receives `VITE_API_BASE_URL` at build time. Compose defaults it
-to `http://localhost:${API_PORT}`; direct dashboard development still defaults
-to `/api` when the variable is absent.
+The Dashboard receives `VITE_API_BASE_URL=/api` at build time so browser
+traffic stays on the gateway origin. See [NginxGateway.md](NginxGateway.md) for
+production HTTPS, routing, certificate rotation, and validation.
 
 ## Operations
 
@@ -45,8 +45,8 @@ volume and requires an explicit operator command.
 | --- | --- |
 | `POSTGRES_HOST`, `POSTGRES_PORT` | PostgreSQL service location |
 | `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD` | Explicit database credentials |
-| `API_HOST`, `API_PORT` | API bind address and exposed host/container port |
-| `DASHBOARD_PORT` | Dashboard host port |
+| `API_HOST`, `API_PORT` | Internal API bind address and port |
+| `HTTP_PORT`, `HTTPS_PORT` | Public gateway ports |
 | `POSTGRES_MIGRATE` | Enables migration during API startup |
 | `POSTGRES_WAIT_ATTEMPTS` | Bounded database connection attempts |
 | `POSTGRES_WAIT_INTERVAL_SECONDS` | Delay between attempts |
@@ -64,8 +64,7 @@ volume and requires an explicit operator command.
 
 ## Known Limitations
 
-- This compose file is for local development only.
 - Foundation services retain their existing explicit storage injection; no API
   contract or Foundation behavior is modified by deployment configuration.
-- No TLS, authentication provisioning, production secrets manager, backups,
-  scaling, or high availability is included.
+- TLS certificate issuance, secrets management, backups, scaling, and high
+  availability remain operator responsibilities.
