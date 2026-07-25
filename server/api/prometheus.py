@@ -1,0 +1,41 @@
+"""Prometheus exposition for the request counters already kept by the API."""
+
+from __future__ import annotations
+
+from collections.abc import Callable
+from importlib import import_module
+from typing import Any
+
+from server.production import MetricsSnapshot, ProductionRuntime
+
+
+def render_prometheus(snapshot: MetricsSnapshot) -> str:
+    """Render the existing count-only runtime metrics in Prometheus text format."""
+    counters = snapshot.to_dict()
+    lines = [
+        "# HELP tkai_http_requests_total Total HTTP requests handled by the API.",
+        "# TYPE tkai_http_requests_total counter",
+        f"tkai_http_requests_total {counters.get('http.requests', 0)}",
+        "# HELP tkai_http_responses_total HTTP responses by status code.",
+        "# TYPE tkai_http_responses_total counter",
+    ]
+    for name, value in sorted(counters.items()):
+        if not name.startswith("http.status."):
+            continue
+        status = name.removeprefix("http.status.")
+        if status.isdigit():
+            lines.append(f'tkai_http_responses_total{{status="{status}"}} {value}')
+    return "\n".join(lines) + "\n"
+
+
+def prometheus_endpoint(runtime: ProductionRuntime) -> Callable[[], Any]:
+    """Create a FastAPI endpoint without making FastAPI a core dependency."""
+
+    def endpoint() -> Any:
+        response_type = import_module("fastapi.responses").PlainTextResponse
+        return response_type(
+            render_prometheus(runtime.metrics.snapshot()),
+            media_type="text/plain; version=0.0.4",
+        )
+
+    return endpoint

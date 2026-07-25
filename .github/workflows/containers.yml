@@ -21,6 +21,10 @@ jobs:
       POSTGRES_USER: tkai_ci
       POSTGRES_PASSWORD: ci-only-password
       POSTGRES_PORT: "5432"
+      GRAFANA_ADMIN_USER: tkai_ci
+      GRAFANA_ADMIN_PASSWORD: ci-only-grafana-password
+      PROMETHEUS_RETENTION: 1d
+      LOKI_RETENTION: 24h
     steps:
       - name: Check out repository
         uses: actions/checkout@v5
@@ -31,6 +35,9 @@ jobs:
           test "$(docker compose config --services)" = "$(printf 'postgres\napi\ndashboard\nnginx')"
           docker compose -f docker-compose.yml -f docker-compose.production.yml config --quiet
           test "$(docker compose -f docker-compose.yml -f docker-compose.production.yml config --services)" = "$(printf 'postgres\napi\ndashboard\nnginx')"
+          docker compose -f docker-compose.yml -f docker-compose.observability.yml config --quiet
+          test "$(docker compose -f docker-compose.yml -f docker-compose.observability.yml config --services)" = "$(printf 'postgres\napi\ndashboard\nnginx\nprometheus\ngrafana\nloki\nalloy\nalertmanager\npostgres-exporter\nnginx-exporter')"
+          docker compose -f docker-compose.yml -f docker-compose.production.yml -f docker-compose.observability.yml config --quiet
 
   images:
     name: Build ${{ matrix.name }} image

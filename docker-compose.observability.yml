@@ -1,0 +1,155 @@
+services:
+  prometheus:
+    image: prom/prometheus:v3.12.0
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=${PROMETHEUS_RETENTION:-15d}
+      - --web.enable-lifecycle
+    ports:
+      - "127.0.0.1:9090:9090"
+    volumes:
+      - ./deployment/observability/prometheus:/etc/prometheus:ro
+      - prometheus-data:/prometheus
+    networks:
+      - default
+      - observability
+    depends_on:
+      alertmanager:
+        condition: service_healthy
+      postgres-exporter:
+        condition: service_healthy
+      nginx-exporter:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://localhost:9090/-/healthy"]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+      start_period: 10s
+
+  grafana:
+    image: grafana/grafana:13.1.0
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:?Set GRAFANA_ADMIN_USER}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:?Set GRAFANA_ADMIN_PASSWORD}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - ./deployment/observability/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./deployment/observability/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana-data:/var/lib/grafana
+    networks:
+      - observability
+    depends_on:
+      prometheus:
+        condition: service_healthy
+      loki:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost:3000/api/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+      start_period: 20s
+
+  loki:
+    image: grafana/loki:3.7.2
+    command:
+      - -config.file=/etc/loki/config.yml
+      - -config.expand-env=true
+    environment:
+      LOKI_RETENTION: ${LOKI_RETENTION:-168h}
+    ports:
+      - "127.0.0.1:3100:3100"
+    volumes:
+      - ./deployment/observability/loki/config.yml:/etc/loki/config.yml:ro
+      - loki-data:/loki
+    networks:
+      - observability
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost:3100/ready"]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+      start_period: 15s
+
+  alloy:
+    image: grafana/alloy:v1.16.1
+    command: run /etc/alloy/config.alloy
+    volumes:
+      - ./deployment/observability/alloy/config.alloy:/etc/alloy/config.alloy:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - alloy-data:/var/lib/alloy/data
+    networks:
+      - observability
+    depends_on:
+      loki:
+        condition: service_healthy
+
+  alertmanager:
+    image: prom/alertmanager:v0.32.1
+    command:
+      - --config.file=/etc/alertmanager/alertmanager.yml
+      - --storage.path=/alertmanager
+    ports:
+      - "127.0.0.1:9093:9093"
+    volumes:
+      - ./deployment/observability/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+      - alertmanager-data:/alertmanager
+    networks:
+      - observability
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://localhost:9093/-/healthy"]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+      start_period: 10s
+
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter:v0.19.1
+    environment:
+      DATA_SOURCE_NAME: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:${POSTGRES_PORT:-5432}/${POSTGRES_DB}?sslmode=disable
+    ports:
+      - "127.0.0.1:9187:9187"
+    networks:
+      - default
+      - observability
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "/bin/postgres_exporter", "--version"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:1.4.2
+    command:
+      - --nginx.scrape-uri=http://nginx/nginx-status
+    ports:
+      - "127.0.0.1:9113:9113"
+    networks:
+      - default
+      - observability
+    depends_on:
+      nginx:
+        condition: service_healthy
+    healthcheck:
+      test: ["/usr/bin/nginx-prometheus-exporter", "--version"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+networks:
+  observability:
+    internal: true
+
+volumes:
+  prometheus-data:
+  grafana-data:
+  loki-data:
+  alloy-data:
+  alertmanager-data:
