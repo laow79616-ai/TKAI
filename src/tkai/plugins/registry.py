@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any
 from tkai.core.exceptions import PluginError
 
 from .manifest import PluginManifest
-from .models import PluginMetadata
+from .models import InstalledPlugin, PluginDefinition, PluginMetadata, PluginState
 
 if TYPE_CHECKING:
     from .manager import Plugin
@@ -114,3 +114,92 @@ class PluginRegistry:
         """Return registered plugin names in stable order."""
         with self._lock:
             return sorted(self._plugins)
+
+
+class MarketplaceRegistry:
+    """Thread-safe installed-plugin registry with upgrade history and rollback."""
+
+    def __init__(self) -> None:
+        self._installed: dict[str, InstalledPlugin] = {}
+        self._lock = RLock()
+
+    def install(
+        self, definition: PluginDefinition, installed_at: float
+    ) -> InstalledPlugin:
+        with self._lock:
+            if definition.plugin_id in self._installed:
+                raise PluginError(f"Plugin '{definition.plugin_id}' is installed")
+            record = InstalledPlugin(definition, PluginState.INSTALLED, installed_at)
+            self._installed[definition.plugin_id] = record
+            return record
+
+    def uninstall(self, plugin_id: str) -> InstalledPlugin:
+        with self._lock:
+            try:
+                return self._installed.pop(plugin_id)
+            except KeyError as exc:
+                raise PluginError(f"Plugin '{plugin_id}' is not installed") from exc
+
+    def get(self, plugin_id: str) -> InstalledPlugin:
+        with self._lock:
+            try:
+                return self._installed[plugin_id]
+            except KeyError as exc:
+                raise PluginError(f"Plugin '{plugin_id}' is not installed") from exc
+
+    def set_state(self, plugin_id: str, state: PluginState) -> InstalledPlugin:
+        with self._lock:
+            current = self.get(plugin_id)
+            updated = InstalledPlugin(
+                current.definition,
+                state,
+                current.installed_at,
+                current.previous_versions,
+            )
+            self._installed[plugin_id] = updated
+            return updated
+
+    def upgrade(
+        self, plugin_id: str, definition: PluginDefinition, installed_at: float
+    ) -> InstalledPlugin:
+        with self._lock:
+            current = self.get(plugin_id)
+            if current.definition.plugin_id != definition.plugin_id:
+                raise PluginError("Upgrade plugin id does not match installed plugin")
+            updated = InstalledPlugin(
+                definition,
+                current.state,
+                installed_at,
+                current.previous_versions + (current.definition,),
+            )
+            self._installed[plugin_id] = updated
+            return updated
+
+    def rollback(self, plugin_id: str, installed_at: float) -> InstalledPlugin:
+        with self._lock:
+            current = self.get(plugin_id)
+            if not current.previous_versions:
+                raise PluginError(f"Plugin '{plugin_id}' has no rollback version")
+            previous = current.previous_versions[-1]
+            updated = InstalledPlugin(
+                previous,
+                current.state,
+                installed_at,
+                current.previous_versions[:-1],
+            )
+            self._installed[plugin_id] = updated
+            return updated
+
+    def list(self) -> tuple[InstalledPlugin, ...]:
+        with self._lock:
+            return tuple(self._installed[key] for key in sorted(self._installed))
+
+    def search(self, query: str) -> tuple[InstalledPlugin, ...]:
+        needle = query.casefold()
+        return tuple(
+            item
+            for item in self.list()
+            if needle in item.definition.plugin_id.casefold()
+            or needle in item.definition.name.casefold()
+            or needle in item.definition.description.casefold()
+        )

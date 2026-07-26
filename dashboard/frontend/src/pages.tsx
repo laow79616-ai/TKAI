@@ -4,7 +4,7 @@ import { type ApiListResponse, type EnterpriseRecord, type SearchEntry } from ".
 import { useAuth } from "./auth";
 import { Card, Loading, SearchBar, Table } from "./components";
 
-export const dashboardPages = ["dashboard", "agents", "agent-runs", "registry", "publishers", "packages", "versions", "search", "statistics", "health", "users", "organizations", "teams", "roles", "api-keys", "audit"] as const;
+export const dashboardPages = ["dashboard", "agents", "agent-runs", "plugins", "marketplace", "installed", "updates", "registry", "publishers", "packages", "versions", "search", "statistics", "health", "users", "organizations", "teams", "roles", "api-keys", "audit"] as const;
 
 function useRequest<T>(load: () => Promise<T>) {
   const [value, setValue] = useState<T | null>(null);
@@ -36,6 +36,9 @@ export function VersionsPage() { const { client } = useAuth(); return <RecordLis
 export function AgentDefinitionsPage() { const { client } = useAuth(); return <RecordList title="Agent Definitions" load={() => client.agents()} />; }
 export function AgentRunsPage() { return <Card><h1>Agent Runs</h1><p>Open a run to inspect status, events, outputs, and metrics.</p></Card>; }
 export function AgentRunDetailsPage() { return <Card><h1>Run Details</h1><p>Agent run events, outputs, and metrics are available through the run API.</p></Card>; }
+export function PluginsPage({ title = "Plugins" }: { title?: string }) { const { client } = useAuth(); return <RecordList title={title} load={() => client.plugins()} />; }
+export function PluginDetailsPage() { return <Card><h1>Plugin Details</h1><p>Review plugin metadata, lifecycle, tools, signing status, and requested permissions.</p></Card>; }
+export function PluginPermissionsPage() { return <Card><h1>Plugin Permissions</h1><p>Filesystem, network, environment, secrets, API, database, workflow, and agent grants are shown here.</p></Card>; }
 
 export function SearchPage() {
   const { client } = useAuth(); const [keyword, setKeyword] = useState(""); const [target, setTarget] = useState(""); const [results, setResults] = useState<ApiListResponse<SearchEntry> | null>(null); const [error, setError] = useState<string | null>(null);

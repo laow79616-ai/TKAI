@@ -17,6 +17,7 @@ export interface ServerVersion { server_version: string; framework_version: stri
 export interface EnterpriseRecord { [key: string]: unknown; }
 export interface AgentDefinitionRecord { agent_id: string; name: string; version: string; status: string; [key: string]: unknown; }
 export interface AgentRunRecord { run_id: string; agent_id: string; workspace: string; status: string; events: unknown[]; metrics: Record<string, number>; }
+export interface PluginRecord { id: string; name: string; version: string; description: string; permissions: string[]; state?: string; [key: string]: unknown; }
 
 export class ApiClientError extends Error {
   constructor(public readonly status: number, message: string) { super(message); }
@@ -68,4 +69,10 @@ export class MarketplaceApiClient {
   audit() { return this.request<ApiListResponse<EnterpriseRecord>>("/audit"); }
   agents() { return this.request<ApiListResponse<AgentDefinitionRecord>>("/agents"); }
   agentRun(id: string) { return this.request<AgentRunRecord>(`/agents/run/${encodeURIComponent(id)}`); }
+  plugins() { return this.request<ApiListResponse<PluginRecord>>("/plugins"); }
+  installPlugin(id: string, version?: string) { return this.request<PluginRecord>("/plugins/install", { method: "POST", body: JSON.stringify({ id, version }) }); }
+  enablePlugin(id: string) { return this.request<PluginRecord>("/plugins/enable", { method: "POST", body: JSON.stringify({ id }) }); }
+  disablePlugin(id: string) { return this.request<PluginRecord>("/plugins/disable", { method: "POST", body: JSON.stringify({ id }) }); }
+  updatePlugin(id: string, version?: string) { return this.request<PluginRecord>("/plugins/update", { method: "POST", body: JSON.stringify({ id, version }) }); }
+  uninstallPlugin(id: string) { return this.request<PluginRecord>(`/plugins/${encodeURIComponent(id)}`, { method: "DELETE" }); }
 }

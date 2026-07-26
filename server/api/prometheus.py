@@ -8,6 +8,7 @@ from typing import Any
 
 from server.production import MetricsSnapshot, ProductionRuntime
 from tkai.agent import AgentMetrics
+from tkai.plugins.marketplace import PluginMetrics
 
 
 def render_prometheus(snapshot: MetricsSnapshot) -> str:
@@ -30,7 +31,9 @@ def render_prometheus(snapshot: MetricsSnapshot) -> str:
 
 
 def prometheus_endpoint(
-    runtime: ProductionRuntime, agent_metrics: AgentMetrics | None = None
+    runtime: ProductionRuntime,
+    agent_metrics: AgentMetrics | None = None,
+    plugin_metrics: PluginMetrics | None = None,
 ) -> Callable[[], Any]:
     """Create a FastAPI endpoint without making FastAPI a core dependency."""
 
@@ -39,6 +42,8 @@ def prometheus_endpoint(
         body = render_prometheus(runtime.metrics.snapshot())
         if agent_metrics is not None:
             body += agent_metrics.render_prometheus()
+        if plugin_metrics is not None:
+            body += plugin_metrics.render_prometheus()
         return response_type(
             body,
             media_type="text/plain; version=0.0.4",

@@ -10,6 +10,8 @@ from typing import Any, cast
 
 from server.production import ProductionConfigurationLoader, ProductionRuntime
 from tkai.agent import AgentApi
+from tkai.plugins.api import register_plugin_routes
+from tkai.plugins.marketplace import EnterprisePluginMarketplace
 
 from .auth.router import register_routes as register_auth_routes
 from .dependencies import ApiDependencies
@@ -66,6 +68,7 @@ def create_app(
     dependencies: ApiDependencies | None = None,
     app_factory: Callable[..., Any] | None = None,
     production_runtime: ProductionRuntime | None = None,
+    plugin_marketplace: EnterprisePluginMarketplace | None = None,
 ) -> Any:
     """Create an isolated FastAPI application with only read-only endpoints.
 
@@ -108,6 +111,8 @@ def create_app(
     register_enterprise_routes(
         app, selected.enterprise_service, selected.authentication_service
     )
+    plugins = plugin_marketplace or EnterprisePluginMarketplace()
+    register_plugin_routes(app, plugins)
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
@@ -156,7 +161,7 @@ def create_app(
     )
     app.add_api_route(
         "/metrics",
-        prometheus_endpoint(runtime, selected.agent_runtime.metrics),
+        prometheus_endpoint(runtime, selected.agent_runtime.metrics, plugins.metrics),
         methods=["GET"],
         tags=["operations"],
         include_in_schema=False,

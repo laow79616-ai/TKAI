@@ -116,6 +116,13 @@ server = ["persistence/*.ini"]
     "docs/agent/Security.md",
     "docs/agent/Observability.md",
     "docs/agent/FailureHandling.md",
+    "docs/plugins/PluginSDK.md",
+    "docs/plugins/PluginManifest.md",
+    "docs/plugins/PermissionModel.md",
+    "docs/plugins/Sandbox.md",
+    "docs/plugins/Lifecycle.md",
+    "docs/plugins/Signing.md",
+    "docs/plugins/BestPractices.md",
 ]
 "share/tkai/dashboard/frontend" = [
     "dashboard/frontend/index.html",
