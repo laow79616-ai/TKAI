@@ -20,6 +20,8 @@ from tkai.enterprise import EnterprisePlatform
 from tkai.enterprise.api import register_enterprise_platform_routes
 from tkai.plugins.api import register_plugin_routes
 from tkai.plugins.marketplace import EnterprisePluginMarketplace
+from workflow_platform import WorkflowPlatform
+from workflow_platform.api import register_workflow_routes
 
 from .auth.router import register_routes as register_auth_routes
 from .dependencies import ApiDependencies
@@ -138,6 +140,9 @@ def create_app(
     knowledge_platform = KnowledgePlatform()
     register_knowledge_routes(app, knowledge_platform)
     app.state.knowledge_platform = knowledge_platform
+    workflow_platform = WorkflowPlatform()
+    register_workflow_routes(app, workflow_platform)
+    app.state.workflow_platform = workflow_platform
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
@@ -193,6 +198,7 @@ def create_app(
             store.metrics,
             application_center.metrics,
             knowledge_platform.metrics,
+            workflow_platform.metrics,
         ),
         methods=["GET"],
         tags=["operations"],
