@@ -7,17 +7,17 @@ import {
   ApplicationTemplatesPage, ApplicationUsagePage, ApplicationVersionsPage,
   AppStorePage,
   CollectionsPage, DocumentsPage, KnowledgeBasesPage, KnowledgeStatusPage,
-  dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
+  dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
   LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
   PluginDetailsPage, PluginPermissionsPage, PluginsPage, PublishersPage,
   RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage,
-  MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage,
+  MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage,
 } from "./pages";
 
 function Shell() {
   const { token, logout } = useAuth(); const navigate = useNavigate();
   if (!token) return <Navigate to="/login" replace />;
-  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages, ...collaborationDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
+  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages, ...collaborationDashboardPages, ...governanceDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
 }
 
 export function App() {
@@ -31,6 +31,21 @@ export function App() {
     <Route path="/collaboration-timeline" element={<CollaborationPage title="Timeline" />} />
     <Route path="/collaboration-activity" element={<CollaborationPage title="Activity" />} />
     <Route path="/collaboration-notifications" element={<CollaborationPage title="Notifications" />} />
+    <Route path="/governance" element={<GovernancePage />} />
+    <Route path="/governance-policies" element={<GovernancePage title="Policies" />} />
+    <Route path="/governance-risks" element={<GovernancePage title="Risk Register" />} />
+    <Route path="/governance-compliance" element={<GovernancePage title="Compliance" />} />
+    <Route path="/governance-approvals" element={<GovernancePage title="Approvals" />} />
+    <Route path="/governance-controls" element={<GovernancePage title="Controls" />} />
+    <Route path="/governance-models" element={<GovernancePage title="Models" />} />
+    <Route path="/governance-prompts" element={<GovernancePage title="Prompts" />} />
+    <Route path="/governance-agents" element={<GovernancePage title="Agents" />} />
+    <Route path="/governance-applications" element={<GovernancePage title="Applications" />} />
+    <Route path="/governance-workflows" element={<GovernancePage title="Workflows" />} />
+    <Route path="/governance-data" element={<GovernancePage title="Data" />} />
+    <Route path="/governance-incidents" element={<GovernancePage title="Incidents" />} />
+    <Route path="/governance-exceptions" element={<GovernancePage title="Exceptions" />} />
+    <Route path="/governance-reports" element={<GovernancePage title="Reports" />} />
     <Route path="/memory" element={<MemoryPage />} />
     <Route path="/reasoning" element={<ReasoningPage />} />
     <Route path="/reasoning-plans" element={<ReasoningPage title="Plans" />} />

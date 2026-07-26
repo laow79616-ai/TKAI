@@ -1,0 +1,1 @@
+"""Provider governance capability namespace."""

@@ -1,5 +1,7 @@
 include docs/Enterprise.md
 recursive-include collaboration *.py *.md
+recursive-include governance *.py *.md
+recursive-include docs/governance *.md
 include docs/release/enterprise-v3-rc3.md
 include docs/Cloud.md
 include docs/Workspace.md
