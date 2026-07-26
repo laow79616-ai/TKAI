@@ -24,6 +24,8 @@ from marketplace.api import MarketplaceApi
 from marketplace.enterprise_store import EnterpriseMarketplace
 from memory_engine import EnterpriseAIMemoryEngine, MemoryScope
 from memory_engine.api import register_memory_routes
+from model_platform import ModelPlatform, ModelScope
+from model_platform.api import register_model_routes
 from orchestrator import EnterpriseAIOrchestrator
 from orchestrator.api import register_orchestrator_routes
 from reasoning_engine import EnterpriseAIReasoningEngine, ReasoningScope
@@ -232,6 +234,24 @@ def create_app(
     data_platform = DataPlatform()
     register_data_routes(app, data_platform)
     app.state.data_platform = data_platform
+    model_platform = ModelPlatform()
+    dashboard_model_scope = ModelScope("default", "default", "dashboard")
+    model_platform.security.grant(
+        dashboard_model_scope,
+        {
+            "models:admin",
+            "models:read",
+            "models:write",
+            "models:approve",
+            "models:route",
+            "models:deploy",
+            "models:evaluate",
+            "models:govern",
+            "models:invoke",
+        },
+    )
+    register_model_routes(app, model_platform)
+    app.state.model_platform = model_platform
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
@@ -293,6 +313,7 @@ def create_app(
             reasoning_engine.metrics,
             collaboration.metrics,
             governance.metrics,
+            model_platform.metrics,
         ),
         methods=["GET"],
         tags=["operations"],

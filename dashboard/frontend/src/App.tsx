@@ -7,17 +7,17 @@ import {
   ApplicationTemplatesPage, ApplicationUsagePage, ApplicationVersionsPage,
   AppStorePage,
   CollectionsPage, DocumentsPage, KnowledgeBasesPage, KnowledgeStatusPage,
-  dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
+  dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
   LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
   PluginDetailsPage, PluginPermissionsPage, PluginsPage, PublishersPage,
   RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage,
-  MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage,
+  MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage, ModelPlatformPage,
 } from "./pages";
 
 function Shell() {
   const { token, logout } = useAuth(); const navigate = useNavigate();
   if (!token) return <Navigate to="/login" replace />;
-  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages, ...collaborationDashboardPages, ...governanceDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
+  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages, ...collaborationDashboardPages, ...governanceDashboardPages, ...modelDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
 }
 
 export function App() {
@@ -46,6 +46,18 @@ export function App() {
     <Route path="/governance-incidents" element={<GovernancePage title="Incidents" />} />
     <Route path="/governance-exceptions" element={<GovernancePage title="Exceptions" />} />
     <Route path="/governance-reports" element={<GovernancePage title="Reports" />} />
+    <Route path="/model-platform" element={<ModelPlatformPage />} />
+    <Route path="/models" element={<ModelPlatformPage title="Model Registry" resource="models" />} />
+    <Route path="/model-providers" element={<ModelPlatformPage title="Providers" resource="model-providers" />} />
+    <Route path="/model-profiles" element={<ModelPlatformPage title="Profiles" resource="model-profiles" />} />
+    <Route path="/model-deployments" element={<ModelPlatformPage title="Deployments" resource="model-deployments" />} />
+    <Route path="/model-routing" element={<ModelPlatformPage title="Routing" resource="model-routing" />} />
+    <Route path="/model-fallback" element={<ModelPlatformPage title="Fallback" resource="model-fallback" />} />
+    <Route path="/model-evaluations" element={<ModelPlatformPage title="Evaluation" resource="model-evaluations" />} />
+    <Route path="/model-benchmarks" element={<ModelPlatformPage title="Benchmarks" resource="model-benchmarks" />} />
+    <Route path="/model-usage" element={<ModelPlatformPage title="Usage" resource="model-usage" />} />
+    <Route path="/model-cost" element={<ModelPlatformPage title="Cost" resource="model-cost" />} />
+    <Route path="/model-governance" element={<ModelPlatformPage title="Governance" resource="model-governance" />} />
     <Route path="/memory" element={<MemoryPage />} />
     <Route path="/reasoning" element={<ReasoningPage />} />
     <Route path="/reasoning-plans" element={<ReasoningPage title="Plans" />} />
