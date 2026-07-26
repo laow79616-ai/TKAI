@@ -1,0 +1,38 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata: {name: tkai-read-config}
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    resourceNames: ["tkai-config"]
+    verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata: {name: tkai-read-config}
+subjects:
+  - {kind: ServiceAccount, name: tkai-api}
+roleRef: {apiGroup: rbac.authorization.k8s.io, kind: Role, name: tkai-read-config}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: tkai-default-deny}
+spec:
+  podSelector: {}
+  policyTypes: ["Ingress", "Egress"]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: tkai-application}
+spec:
+  podSelector:
+    matchLabels: {app.kubernetes.io/name: tkai}
+  policyTypes: ["Ingress", "Egress"]
+  ingress:
+    - from:
+        - namespaceSelector: {}
+      ports: [{protocol: TCP, port: 80}, {protocol: TCP, port: 8000}, {protocol: TCP, port: 4173}, {protocol: TCP, port: 5432}]
+  egress:
+    - to:
+        - namespaceSelector: {}
+      ports: [{protocol: UDP, port: 53}, {protocol: TCP, port: 5432}, {protocol: TCP, port: 443}]

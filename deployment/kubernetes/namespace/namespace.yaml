@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: tkai
+  labels:
+    app.kubernetes.io/name: tkai
+    pod-security.kubernetes.io/enforce: restricted
