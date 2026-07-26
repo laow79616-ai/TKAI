@@ -36,7 +36,7 @@ tkai = "tkai.cli:main"
 where = ["src", "."]
 # V3.0 compatibility baseline:
 # include = ["tkai*", "studio*", "enterprise*", "cloud*", "marketplace*", "server*"]
-include = ["tkai*", "studio*", "enterprise*", "cloud*", "marketplace*", "server*", "applications*", "knowledge_platform*", "workflow_platform*", "app_store*"]
+include = ["tkai*", "studio*", "enterprise*", "cloud*", "marketplace*", "server*", "applications*", "knowledge_platform*", "workflow_platform*", "app_store*", "orchestrator*"]
 exclude = ["tests*", "benchmarks*"]
 
 [tool.setuptools.package-data]

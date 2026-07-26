@@ -16,6 +16,8 @@ from knowledge_platform import KnowledgePlatform
 from knowledge_platform.api import register_knowledge_routes
 from marketplace.api import MarketplaceApi
 from marketplace.enterprise_store import EnterpriseMarketplace
+from orchestrator import EnterpriseAIOrchestrator
+from orchestrator.api import register_orchestrator_routes
 from server.production import ProductionConfigurationLoader, ProductionRuntime
 from tkai.agent import AgentApi
 from tkai.enterprise import EnterprisePlatform
@@ -148,6 +150,9 @@ def create_app(
     app_store = EnterpriseAppStore()
     register_app_store_routes(app, app_store)
     app.state.app_store = app_store
+    orchestrator = EnterpriseAIOrchestrator()
+    register_orchestrator_routes(app, orchestrator)
+    app.state.orchestrator = orchestrator
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
@@ -204,6 +209,7 @@ def create_app(
             application_center.metrics,
             knowledge_platform.metrics,
             workflow_platform.metrics,
+            orchestrator.metrics,
         ),
         methods=["GET"],
         tags=["operations"],

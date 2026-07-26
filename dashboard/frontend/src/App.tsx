@@ -11,6 +11,7 @@ import {
   LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
   PluginDetailsPage, PluginPermissionsPage, PluginsPage, PublishersPage,
   RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage,
+  OrchestratorPage,
 } from "./pages";
 
 function Shell() {
@@ -22,6 +23,13 @@ function Shell() {
 export function App() {
   return <Routes><Route path="/login" element={<LoginPage />} /><Route element={<Shell />}>
     <Route path="/dashboard" element={<DashboardHome />} />
+    <Route path="/orchestrator" element={<OrchestratorPage />} />
+    <Route path="/execution-plans" element={<OrchestratorPage title="Execution Plans" />} />
+    <Route path="/orchestrator-queues" element={<OrchestratorPage title="Queues" />} />
+    <Route path="/orchestrator-executions" element={<OrchestratorPage title="Executions" />} />
+    <Route path="/orchestrator-failures" element={<OrchestratorPage title="Failures" />} />
+    <Route path="/orchestrator-retries" element={<OrchestratorPage title="Retries" />} />
+    <Route path="/orchestrator-performance" element={<OrchestratorPage title="Performance" />} />
     <Route path="/applications" element={<ApplicationsPage />} />
     <Route path="/app-store" element={<AppStorePage title="Store Home" />} />
     <Route path="/app-store-categories" element={<AppStorePage title="Categories" resource="applications" />} />

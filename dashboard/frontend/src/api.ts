@@ -24,6 +24,7 @@ export interface ApplicationTemplateRecord { id: string; name: string; category:
 export interface DeploymentRecord { id: string; application_id: string; version: string; environment: string; replicas: number; quota: number; status: string; [key: string]: unknown; }
 export interface KnowledgeRecord { id: string; name: string; status: string; scope: { tenant: string; workspace: string; namespace: string }; [key: string]: unknown; }
 export interface AppStoreRecord { id?: string; name?: string; status?: string; [key: string]: unknown; }
+export interface OrchestratorSnapshot { sections: string[]; plans: number; queues: Record<string, number>; executions: number; failures: number; retries: number; performance: Record<string, unknown>; }
 
 export class ApiClientError extends Error {
   constructor(public readonly status: number, message: string) { super(message); }
@@ -85,6 +86,10 @@ export class MarketplaceApiClient {
     const scope = new URLSearchParams({ tenant: "default", organization: "default", workspace: "default" });
     return this.request<ApiListResponse<AppStoreRecord> | Record<string, unknown>>(`${path}?${scope}`);
   }
+  orchestrator() { return this.request<OrchestratorSnapshot>("/orchestrator?tenant=default&actor=dashboard"); }
+  plans() { return this.request<ApiListResponse<EnterpriseRecord>>("/plans?tenant=default&actor=dashboard"); }
+  executions() { return this.request<ApiListResponse<EnterpriseRecord>>("/executions?tenant=default&actor=dashboard"); }
+  queues() { return this.request<Record<string, unknown>>("/queues"); }
   knowledgeBases() { return this.request<ApiListResponse<KnowledgeRecord>>("/knowledge-bases?tenant=default&workspace=default&namespace=default"); }
   knowledge(resource: string) { return this.request<ApiListResponse<EnterpriseRecord>>(`/${resource}?tenant=default&workspace=default&namespace=default`); }
   agentRun(id: string) { return this.request<AgentRunRecord>(`/agents/run/${encodeURIComponent(id)}`); }
