@@ -58,7 +58,12 @@ include docs/dashboard/EnterprisePages.md
 recursive-include server/persistence *.ini *.py
 include docs/dashboard/Architecture.md
 recursive-include dashboard/frontend *.cjs *.css *.html *.json *.ts *.tsx
+prune dashboard/frontend/node_modules
+prune dashboard/frontend/dist
+prune studio/frontend/node_modules
+prune studio/frontend/dist
 include docs/ReleaseValidation.md
+include docs/release/V3.0.md
 include docs/benchmarks/verification.md
 include docs/benchmarks/verification.json
 include docs/benchmarks/resolver.md

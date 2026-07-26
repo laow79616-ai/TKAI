@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tkai"
-version = "1.3.0"
+version = "3.0.0"
 description = "TKAI AI Software Factory"
 readme = "README.md"
-license = { text = "MIT" }
+license = "MIT"
 requires-python = ">=3.10"
 dependencies = [
     "jinja2>=3.1",
@@ -41,6 +41,9 @@ exclude = ["tests*", "benchmarks*"]
 tkai = ["templates/default/README.md", "templates/default/template.json"]
 studio = ["frontend/**", "assets/**", "docs/**"]
 server = ["persistence/*.ini"]
+
+[tool.setuptools.exclude-package-data]
+studio = ["frontend/node_modules/**", "frontend/dist/**"]
 
 [tool.setuptools.data-files]
 "share/doc/tkai/marketplace" = [
@@ -147,7 +150,10 @@ server = ["persistence/*.ini"]
     "dashboard/frontend/src/styles.css",
     "dashboard/frontend/src/vite-env.d.ts",
 ]
-"share/doc/tkai/release" = ["docs/ReleaseValidation.md"]
+"share/doc/tkai/release" = [
+    "docs/ReleaseValidation.md",
+    "docs/release/V3.0.md",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

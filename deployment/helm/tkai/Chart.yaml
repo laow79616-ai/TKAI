@@ -1,7 +1,7 @@
 apiVersion: v2
 name: tkai
-description: Production-oriented TKAI Cloud Native deployment foundation
+description: TKAI V3.0 Enterprise cloud-native deployment
 type: application
-version: 0.1.0
-appVersion: "2.2"
+version: 3.0.0
+appVersion: "3.0.0"
 kubeVersion: ">=1.27.0-0"

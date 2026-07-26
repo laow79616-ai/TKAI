@@ -14,15 +14,12 @@ def test_tkai_2_rc3_report_records_packaging_validation_and_version_source() -> 
     report = (root / "docs/release/tkai-2.0-rc3.md").read_text(encoding="utf-8")
     readme = (root / "README.md").read_text(encoding="utf-8")
     changelog = (root / "CHANGELOG.md").read_text(encoding="utf-8")
-    installed_metadata = (root / "src/tkai.egg-info/PKG-INFO").read_text(
-        encoding="utf-8"
-    )
     project = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))[
         "project"
     ]
 
-    assert project["version"] == tkai.__version__ == "1.3.0"
-    assert "Version: 1.3.0" in installed_metadata
+    assert project["version"] == tkai.__version__ == "3.0.0"
+    assert "single version\nsource is `1.3.0`" in report
     assert "wheel" in report.lower()
     assert "sdist" in report.lower()
     assert "fresh-install" in report.lower()

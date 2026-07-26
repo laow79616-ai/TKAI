@@ -1,11 +1,11 @@
-# TKAI Platform Installation
+# TKAI V3.0 Enterprise Installation
 
 ## Runtime and SDK
 
 Install the published package in a supported Python 3.10+ environment:
 
 ```bash
-python -m pip install tkai
+python -m pip install "tkai==3.0.0"
 ```
 
 The Runtime and SDK ship in the same `tkai` distribution. SDK use is explicit:
@@ -37,7 +37,7 @@ connections, or background workers by default.
 The Studio React/Vite source is packaged for host builds. In a Node-enabled
 frontend environment, install the declared frontend dependencies and run the
 project's configured typecheck, lint, and build commands. No frontend build
-output is distributed by Platform 1.0.
+output is distributed by the Python package.
 
 ## Enterprise reference foundations
 

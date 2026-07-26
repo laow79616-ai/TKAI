@@ -1,11 +1,12 @@
-# TKAI Platform 1.0 Release Notes
+# TKAI V3.0 Enterprise Release Notes
 
 ## Release summary
 
-Platform Enterprise 1.0.0 establishes a documented general-availability
-baseline for Runtime 1.3.0, SDK 2.0, Studio 2.1, and Enterprise 3.0 reference
-foundations. The release preserves Runtime public APIs and keeps SDK, Studio,
-and Enterprise additive.
+TKAI V3.0 establishes a unified `3.0.0` general-availability baseline for the
+Runtime, SDK, Agent Runtime, Plugin Marketplace, Enterprise Platform, Cloud
+Native deployment, AI Studio, Enterprise Marketplace, API, and Dashboard. This
+release focuses on quality, consistency, documentation, and packaging; it adds
+no product behavior. See [the complete V3.0 release guide](release/V3.0.md).
 
 ## Runtime 1.3.0
 
