@@ -17,6 +17,7 @@ if TYPE_CHECKING:
     from server.search import ReferenceSearchService
     from server.statistics import ReferenceStatisticsService
     from server.version import ReferenceVersionService
+    from tkai.agent import AgentRuntime
 
 
 @dataclass(frozen=True, slots=True)
@@ -31,6 +32,11 @@ class ApiDependencies:
     version_service: ReferenceVersionService
     search_service: ReferenceSearchService
     statistics_service: ReferenceStatisticsService
+    agent_runtime: AgentRuntime = field(
+        default_factory=lambda: __import__(
+            "tkai.agent", fromlist=["AgentRuntime"]
+        ).AgentRuntime()
+    )
     enterprise_service: ReferenceEnterpriseService = field(
         default_factory=lambda: __import__(
             "server.enterprise", fromlist=["ReferenceEnterpriseService"]
@@ -45,6 +51,7 @@ class ApiDependencies:
         "search",
         "statistics",
         "health",
+        "agent",
     )
 
     @classmethod
@@ -59,6 +66,7 @@ class ApiDependencies:
         from server.search import ReferenceSearchService
         from server.statistics import ReferenceStatisticsService
         from server.version import ReferenceVersionService
+        from tkai.agent import AgentRuntime
 
         return cls(
             health_service=ReferenceHealthService(),
@@ -70,4 +78,5 @@ class ApiDependencies:
             search_service=ReferenceSearchService(),
             statistics_service=ReferenceStatisticsService(),
             enterprise_service=ReferenceEnterpriseService(),
+            agent_runtime=AgentRuntime(),
         )

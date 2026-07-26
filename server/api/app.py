@@ -9,6 +9,7 @@ from types import ModuleType
 from typing import Any, cast
 
 from server.production import ProductionConfigurationLoader, ProductionRuntime
+from tkai.agent import AgentApi
 
 from .auth.router import register_routes as register_auth_routes
 from .dependencies import ApiDependencies
@@ -41,6 +42,21 @@ from .routers import (
     search_endpoint,
     statistics_endpoint,
     version_endpoint,
+)
+from .routers.agent import (
+    create_endpoint as create_agent_endpoint,
+)
+from .routers.agent import (
+    delete_run_endpoint as delete_agent_run_endpoint,
+)
+from .routers.agent import (
+    get_run_endpoint as get_agent_run_endpoint,
+)
+from .routers.agent import (
+    list_endpoint as list_agent_endpoint,
+)
+from .routers.agent import (
+    run_endpoint as run_agent_endpoint,
 )
 from .routers.enterprise import register_routes as register_enterprise_routes
 
@@ -92,6 +108,31 @@ def create_app(
     register_enterprise_routes(
         app, selected.enterprise_service, selected.authentication_service
     )
+    agent_api = AgentApi(selected.agent_runtime)
+    app.add_api_route(
+        "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
+    )
+    app.add_api_route(
+        "/agents", list_agent_endpoint(agent_api), methods=["GET"], tags=["agents"]
+    )
+    app.add_api_route(
+        "/agents/run",
+        run_agent_endpoint(agent_api),
+        methods=["POST"],
+        tags=["agents"],
+    )
+    app.add_api_route(
+        "/agents/run/{run_id}",
+        get_agent_run_endpoint(agent_api),
+        methods=["GET"],
+        tags=["agents"],
+    )
+    app.add_api_route(
+        "/agents/run/{run_id}",
+        delete_agent_run_endpoint(agent_api),
+        methods=["DELETE"],
+        tags=["agents"],
+    )
     app.add_api_route(
         "/health", health_endpoint(selected), methods=["GET"], tags=["health"]
     )
@@ -115,7 +156,7 @@ def create_app(
     )
     app.add_api_route(
         "/metrics",
-        prometheus_endpoint(runtime),
+        prometheus_endpoint(runtime, selected.agent_runtime.metrics),
         methods=["GET"],
         tags=["operations"],
         include_in_schema=False,
@@ -234,6 +275,7 @@ def _dependency_closers(
         dependencies.version_service,
         dependencies.search_service,
         dependencies.statistics_service,
+        dependencies.agent_runtime,
     )
     closers: list[Callable[[], None]] = []
     for service in services:

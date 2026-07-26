@@ -108,6 +108,14 @@ server = ["persistence/*.ini"]
     "docs/server/AuditLog.md",
     "docs/dashboard/EnterprisePages.md",
     "docs/dashboard/Architecture.md",
+    "docs/agent/Architecture.md",
+    "docs/agent/Lifecycle.md",
+    "docs/agent/Memory.md",
+    "docs/agent/ToolRegistry.md",
+    "docs/agent/Coordinator.md",
+    "docs/agent/Security.md",
+    "docs/agent/Observability.md",
+    "docs/agent/FailureHandling.md",
 ]
 "share/tkai/dashboard/frontend" = [
     "dashboard/frontend/index.html",
