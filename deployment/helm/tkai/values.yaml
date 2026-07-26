@@ -1,0 +1,51 @@
+global:
+  imagePullSecrets: []
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+api:
+  image: {repository: tkai/api, tag: latest, pullPolicy: IfNotPresent}
+  replicas: 2
+  resources:
+    requests: {cpu: 100m, memory: 256Mi}
+    limits: {cpu: 1000m, memory: 1Gi}
+  autoscaling: {enabled: true, minReplicas: 2, maxReplicas: 8, cpu: 70, memory: 80}
+dashboard:
+  image: {repository: tkai/dashboard, tag: latest, pullPolicy: IfNotPresent}
+  replicas: 2
+  resources:
+    requests: {cpu: 50m, memory: 64Mi}
+    limits: {cpu: 500m, memory: 256Mi}
+  autoscaling: {enabled: true, minReplicas: 2, maxReplicas: 6, cpu: 70, memory: 80}
+nginx:
+  image: {repository: nginx, tag: "1.29-alpine", pullPolicy: IfNotPresent}
+  replicas: 2
+  resources:
+    requests: {cpu: 50m, memory: 64Mi}
+    limits: {cpu: 500m, memory: 256Mi}
+ingress:
+  enabled: true
+  className: nginx
+  hostname: tkai.example.invalid
+  tlsSecretName: tkai-tls
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+postgresql:
+  enabled: true
+  image: {repository: postgres, tag: "17-alpine"}
+  existingSecret: tkai-postgresql
+  secretKey: password
+  database: tkai
+  user: tkai
+  externalHost: ""
+  persistence: {enabled: true, size: 20Gi, storageClass: ""}
+  resources:
+    requests: {cpu: 100m, memory: 256Mi}
+    limits: {cpu: 1000m, memory: 1Gi}
+observability:
+  enabled: true
+  serviceMonitor: false
+  prometheus: {image: "prom/prometheus:v3.12.0", persistence: {size: 20Gi}}
+  grafana: {image: "grafana/grafana:13.1.0", existingSecret: tkai-grafana}
+  loki: {image: "grafana/loki:3.7.2", persistence: {size: 20Gi}}
+  alertmanager: {image: "prom/alertmanager:v0.30.0"}

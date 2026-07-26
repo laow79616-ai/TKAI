@@ -21,7 +21,10 @@ def test_release_package_declarations_include_server_dashboard_and_migrations() 
     assert "share/tkai/dashboard/frontend" in data_files
     dashboard_files = data_files["share/tkai/dashboard/frontend"]
     assert "dashboard/frontend/src/App.tsx" in dashboard_files
-    assert data_files["share/doc/tkai/release"] == ["docs/ReleaseValidation.md"]
+    assert set(data_files["share/doc/tkai/release"]) == {
+        "docs/ReleaseValidation.md",
+        "docs/release/V3.0.md",
+    }
     assert {"fastapi", "pydantic", "uvicorn"}.issubset(
         {
             dependency.split(">=")[0]

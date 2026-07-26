@@ -3,6 +3,13 @@
 export type StudioPage =
   | "dashboard"
   | "projects"
+  | "prompt-studio"
+  | "chat-studio"
+  | "knowledge"
+  | "rag"
+  | "models"
+  | "evaluation"
+  | "workflow-studio"
   | "workflow"
   | "execution"
   | "agents"
@@ -16,6 +23,13 @@ export type StudioPage =
 export const studioPages: readonly StudioPage[] = [
   "dashboard",
   "projects",
+  "prompt-studio",
+  "chat-studio",
+  "knowledge",
+  "rag",
+  "models",
+  "evaluation",
+  "workflow-studio",
   "workflow",
   "execution",
   "agents",

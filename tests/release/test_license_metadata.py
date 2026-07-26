@@ -17,6 +17,6 @@ def test_mit_license_metadata_and_readme_are_consistent() -> None:
     assert license_text.startswith("MIT License\n")
     assert "Permission is hereby granted, free of charge" in license_text
     assert 'THE SOFTWARE IS PROVIDED "AS IS"' in license_text
-    assert metadata["project"]["license"] == {"text": "MIT"}
+    assert metadata["project"]["license"] == "MIT"
     assert "MIT License" in readme
     assert "(LICENSE)" in readme

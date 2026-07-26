@@ -3,19 +3,19 @@
 TKAI is a typed, offline-testable Python framework for project scaffolding,
 plugins, workflows, and provider-neutral AI integrations.
 
-Current release: **1.3.0**.
-Previous general availability release: **1.2.0**.
+Current release: **3.0.0**.
+Previous general availability release: **1.3.0**.
+Earlier supported release documentation remains available for **1.2.0**.
 
-## TKAI Platform Enterprise 1.0
+## TKAI V3.0 Enterprise
 
-Platform Enterprise 1.0 documents the compatible Runtime 1.3.0, SDK 2.0,
-Studio 2.1, and Enterprise 3.0 reference-foundation layers. It does not
-introduce a second Python package version; the published `tkai` distribution
-remains **1.3.0**. This Platform 1.0 release mapping remains compatible with
-the prior Runtime, SDK, and Studio documentation. See the
+TKAI V3.0 consolidates the runtime, SDK, Agent Runtime, Plugin Marketplace,
+Enterprise Platform, Cloud Native deployment, AI Studio, and Enterprise
+Marketplace into one versioned distribution. Existing 1.x runtime and 2.x SDK
+interfaces remain supported unless explicitly listed in the upgrade guide. See the
 [platform overview](docs/Platform.md),
 [installation guide](docs/Installation.md), [release notes](docs/ReleaseNotes.md),
-[release checklist](docs/ReleaseChecklist.md), and [GA preparation](docs/release/platform-enterprise-1.0.md).
+[release checklist](docs/ReleaseChecklist.md), and [V3.0 release guide](docs/release/V3.0.md).
 
 ## AI provider framework
 

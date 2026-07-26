@@ -1,8 +1,8 @@
 {
   "name": "@tkai/marketplace-server-dashboard",
   "private": true,
-  "version": "0.1.0",
-  "description": "TKAI Marketplace Server V2 Dashboard MVP",
+  "version": "3.0.0",
+  "description": "TKAI V3.0 Enterprise dashboard",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",

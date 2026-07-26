@@ -8,7 +8,14 @@ from os import environ
 from types import ModuleType
 from typing import Any, cast
 
+from marketplace.api import MarketplaceApi
+from marketplace.enterprise_store import EnterpriseMarketplace
 from server.production import ProductionConfigurationLoader, ProductionRuntime
+from tkai.agent import AgentApi
+from tkai.enterprise import EnterprisePlatform
+from tkai.enterprise.api import register_enterprise_platform_routes
+from tkai.plugins.api import register_plugin_routes
+from tkai.plugins.marketplace import EnterprisePluginMarketplace
 
 from .auth.router import register_routes as register_auth_routes
 from .dependencies import ApiDependencies
@@ -42,6 +49,21 @@ from .routers import (
     statistics_endpoint,
     version_endpoint,
 )
+from .routers.agent import (
+    create_endpoint as create_agent_endpoint,
+)
+from .routers.agent import (
+    delete_run_endpoint as delete_agent_run_endpoint,
+)
+from .routers.agent import (
+    get_run_endpoint as get_agent_run_endpoint,
+)
+from .routers.agent import (
+    list_endpoint as list_agent_endpoint,
+)
+from .routers.agent import (
+    run_endpoint as run_agent_endpoint,
+)
 from .routers.enterprise import register_routes as register_enterprise_routes
 
 
@@ -50,6 +72,8 @@ def create_app(
     dependencies: ApiDependencies | None = None,
     app_factory: Callable[..., Any] | None = None,
     production_runtime: ProductionRuntime | None = None,
+    plugin_marketplace: EnterprisePluginMarketplace | None = None,
+    enterprise_marketplace: EnterpriseMarketplace | None = None,
 ) -> Any:
     """Create an isolated FastAPI application with only read-only endpoints.
 
@@ -92,6 +116,45 @@ def create_app(
     register_enterprise_routes(
         app, selected.enterprise_service, selected.authentication_service
     )
+    plugins = plugin_marketplace or EnterprisePluginMarketplace()
+    register_plugin_routes(app, plugins)
+    store = enterprise_marketplace or EnterpriseMarketplace()
+    marketplace_api = MarketplaceApi(store)
+    for path, endpoint in (
+        ("/marketplace", marketplace_api.catalog),
+        ("/licenses", marketplace_api.licenses),
+        ("/reviews", marketplace_api.reviews),
+        ("/downloads", marketplace_api.downloads),
+    ):
+        app.add_api_route(
+            path, endpoint, methods=["GET"], tags=["marketplace"]
+        )
+    register_enterprise_platform_routes(app, EnterprisePlatform())
+    agent_api = AgentApi(selected.agent_runtime)
+    app.add_api_route(
+        "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
+    )
+    app.add_api_route(
+        "/agents", list_agent_endpoint(agent_api), methods=["GET"], tags=["agents"]
+    )
+    app.add_api_route(
+        "/agents/run",
+        run_agent_endpoint(agent_api),
+        methods=["POST"],
+        tags=["agents"],
+    )
+    app.add_api_route(
+        "/agents/run/{run_id}",
+        get_agent_run_endpoint(agent_api),
+        methods=["GET"],
+        tags=["agents"],
+    )
+    app.add_api_route(
+        "/agents/run/{run_id}",
+        delete_agent_run_endpoint(agent_api),
+        methods=["DELETE"],
+        tags=["agents"],
+    )
     app.add_api_route(
         "/health", health_endpoint(selected), methods=["GET"], tags=["health"]
     )
@@ -115,7 +178,12 @@ def create_app(
     )
     app.add_api_route(
         "/metrics",
-        prometheus_endpoint(runtime),
+        prometheus_endpoint(
+            runtime,
+            selected.agent_runtime.metrics,
+            plugins.metrics,
+            store.metrics,
+        ),
         methods=["GET"],
         tags=["operations"],
         include_in_schema=False,
@@ -234,6 +302,7 @@ def _dependency_closers(
         dependencies.version_service,
         dependencies.search_service,
         dependencies.statistics_service,
+        dependencies.agent_runtime,
     )
     closers: list[Callable[[], None]] = []
     for service in services:

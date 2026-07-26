@@ -1,0 +1,108 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: tkai-api
+  labels: {{- include "tkai.labels" . | nindent 4 }}
+automountServiceAccountToken: false
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tkai-config
+data:
+  TKAI_ENV: production
+  POSTGRES_HOST: {{ ternary "tkai-postgresql" .Values.postgresql.externalHost .Values.postgresql.enabled | quote }}
+  POSTGRES_DB: {{ .Values.postgresql.database | quote }}
+  POSTGRES_USER: {{ .Values.postgresql.user | quote }}
+---
+{{- range $name := list "api" "dashboard" "nginx" }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tkai-{{ $name }}
+  labels:
+    {{- include "tkai.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: {{ $name }}
+spec:
+  replicas: {{ (index $.Values $name).replicas }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: {maxUnavailable: 0, maxSurge: 1}
+  selector:
+    matchLabels: {app.kubernetes.io/name: tkai, app.kubernetes.io/component: {{ $name }}}
+  template:
+    metadata:
+      labels: {app.kubernetes.io/name: tkai, app.kubernetes.io/component: {{ $name }}}
+    spec:
+      serviceAccountName: tkai-api
+      automountServiceAccountToken: false
+      securityContext: {{- include "tkai.podSecurityContext" $ | nindent 8 }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels: {app.kubernetes.io/name: tkai, app.kubernetes.io/component: {{ $name }}}
+        {{- with $.Values.global.affinity }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      nodeSelector: {{- toYaml $.Values.global.nodeSelector | nindent 8 }}
+      tolerations: {{- toYaml $.Values.global.tolerations | nindent 8 }}
+      containers:
+        - name: {{ $name }}
+          image: "{{ (index $.Values $name).image.repository }}:{{ (index $.Values $name).image.tag }}"
+          imagePullPolicy: {{ (index $.Values $name).image.pullPolicy }}
+          securityContext: {{- include "tkai.containerSecurityContext" $ | nindent 12 }}
+          ports:
+            - name: http
+              containerPort: {{ if eq $name "api" }}8000{{ else if eq $name "dashboard" }}4173{{ else }}8080{{ end }}
+          envFrom:
+            - configMapRef: {name: tkai-config}
+          {{- if eq $name "api" }}
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Values.postgresql.existingSecret }}
+                  key: {{ $.Values.postgresql.secretKey }}
+          {{- end }}
+          readinessProbe:
+            httpGet: {path: {{ if eq $name "api" }}/health{{ else }}/{{ end }}, port: http}
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: {path: {{ if eq $name "api" }}/health{{ else }}/{{ end }}, port: http}
+            periodSeconds: 20
+          startupProbe:
+            httpGet: {path: {{ if eq $name "api" }}/health{{ else }}/{{ end }}, port: http}
+            failureThreshold: 30
+            periodSeconds: 5
+          resources: {{- toYaml (index $.Values $name).resources | nindent 12 }}
+          volumeMounts:
+            - {name: tmp, mountPath: /tmp}
+      volumes:
+        - name: tmp
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tkai-{{ $name }}
+spec:
+  selector: {app.kubernetes.io/name: tkai, app.kubernetes.io/component: {{ $name }}}
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: tkai-{{ $name }}
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels: {app.kubernetes.io/name: tkai, app.kubernetes.io/component: {{ $name }}}
+---
+{{- end }}

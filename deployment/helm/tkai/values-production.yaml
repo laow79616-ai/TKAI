@@ -1,0 +1,18 @@
+api:
+  image: {repository: registry.example.invalid/tkai/api, tag: "2.2.0"}
+  replicas: 3
+  autoscaling: {enabled: true, minReplicas: 3, maxReplicas: 12, cpu: 65, memory: 75}
+dashboard:
+  image: {repository: registry.example.invalid/tkai/dashboard, tag: "2.2.0"}
+  replicas: 3
+ingress:
+  hostname: tkai.example.invalid
+  tlsSecretName: tkai-production-tls
+postgresql:
+  enabled: false
+  externalHost: postgresql.example.invalid
+  existingSecret: tkai-managed-postgresql
+global:
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib.util
+import sys
 from pathlib import Path
 from types import ModuleType
 from typing import Any
@@ -10,6 +11,7 @@ from typing import Any
 from tkai.core.exceptions import PluginError
 
 from .manifest import PluginManifest
+from .models import PluginDefinition
 
 
 class PluginLoader:
@@ -53,3 +55,52 @@ class PluginLoader:
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
         return module
+
+
+class MarketplacePluginLoader(PluginLoader):
+    """Load marketplace plugins after version and dependency validation."""
+
+    def validate(
+        self,
+        definition: PluginDefinition,
+        installed_versions: dict[str, str],
+    ) -> None:
+        if not definition.version or any(
+            character.isspace() for character in definition.version
+        ):
+            raise PluginError(f"Invalid plugin version: {definition.version}")
+        missing = [
+            dependency.plugin_id
+            for dependency in definition.dependencies
+            if installed_versions.get(dependency.plugin_id) != dependency.version
+        ]
+        if missing:
+            raise PluginError(f"Unsatisfied plugin dependencies: {sorted(missing)}")
+
+    def load_definition(
+        self,
+        plugin_dir: str | Path,
+        definition: PluginDefinition,
+        installed_versions: dict[str, str],
+    ) -> Any:
+        self.validate(definition, installed_versions)
+        plugin_type = self.resolve(plugin_dir, definition.entry)
+        try:
+            instance = plugin_type()
+        except TypeError as exc:
+            raise PluginError(
+                f"Unable to construct plugin '{definition.plugin_id}'"
+            ) from exc
+        callback = getattr(instance, "initialize", None)
+        if callable(callback):
+            callback()
+        return instance
+
+    @staticmethod
+    def unload(instance: Any) -> None:
+        callback = getattr(instance, "shutdown", None)
+        if callable(callback):
+            callback()
+        module_name = getattr(instance.__class__, "__module__", "")
+        if module_name.startswith("_tkai_plugin_"):
+            sys.modules.pop(module_name, None)

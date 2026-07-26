@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+## 3.0.0 - 2026-07-26
+
+- Consolidated the Enterprise Platform, Agent Runtime, Plugin Marketplace,
+  Cloud Native deployment, AI Studio, Dashboard, API, and Enterprise
+  Marketplace into the TKAI V3.0 release.
+- Synchronized Python, Dashboard, Studio, and Helm release versions.
+- Added the V3.0 architecture, deployment, security, compatibility, upgrade,
+  limitation, and validation documentation.
+- Hardened release packaging and validation without adding product features.
+
 - Platform Enterprise 1.0.0 general-availability preparation consolidates
   Runtime 1.3.0, SDK 2.0, Studio 2.1, and Enterprise 3.0 reference-foundation
   release documentation, installation, operations, upgrade/rollback, and final

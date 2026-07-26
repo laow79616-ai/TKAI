@@ -35,7 +35,7 @@ def test_platform_release_docs_link_the_architecture_and_operations_guidance() -
     changelog = (root / "CHANGELOG.md").read_text(encoding="utf-8")
     architecture = (root / "docs" / "Architecture.md").read_text(encoding="utf-8")
     checklist = (root / "docs" / "ReleaseChecklist.md").read_text(encoding="utf-8")
-    assert "Platform 1.0" in readme and "Platform.md" in readme
+    assert "TKAI V3.0" in readme and "Platform.md" in readme
     assert "Platform 1.0.0 general-availability preparation" in changelog
     assert "Studio 2.1" in architecture and "SDK 2.0" in architecture
-    assert "Node/Vite/typecheck/ESLint" in checklist
+    assert "Node/Vite/typecheck/build" in checklist

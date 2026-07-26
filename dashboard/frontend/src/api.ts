@@ -15,6 +15,10 @@ export interface HealthSnapshot { checks: unknown[]; statistics: Record<string, 
 export interface StatisticsSnapshot { counters: Record<string, number>; closed: boolean; }
 export interface ServerVersion { server_version: string; framework_version: string; build_metadata: Record<string, unknown>; }
 export interface EnterpriseRecord { [key: string]: unknown; }
+export interface AgentDefinitionRecord { agent_id: string; name: string; version: string; status: string; [key: string]: unknown; }
+export interface AgentRunRecord { run_id: string; agent_id: string; workspace: string; status: string; events: unknown[]; metrics: Record<string, number>; }
+export interface PluginRecord { id: string; name: string; version: string; description: string; permissions: string[]; state?: string; [key: string]: unknown; }
+export interface MarketplaceRecord { package_id?: string; publisher_id?: string; license_id?: string; review_id?: string; [key: string]: unknown; }
 
 export class ApiClientError extends Error {
   constructor(public readonly status: number, message: string) { super(message); }
@@ -64,4 +68,17 @@ export class MarketplaceApiClient {
   roles() { return this.request<ApiListResponse<EnterpriseRecord>>("/roles"); }
   apiKeys() { return this.request<ApiListResponse<EnterpriseRecord>>("/api-keys"); }
   audit() { return this.request<ApiListResponse<EnterpriseRecord>>("/audit"); }
+  enterprise(resource: string) { return this.request<ApiListResponse<EnterpriseRecord>>(`/enterprise/${resource}`); }
+  agents() { return this.request<ApiListResponse<AgentDefinitionRecord>>("/agents"); }
+  agentRun(id: string) { return this.request<AgentRunRecord>(`/agents/run/${encodeURIComponent(id)}`); }
+  plugins() { return this.request<ApiListResponse<PluginRecord>>("/plugins"); }
+  marketplace() { return this.request<ApiListResponse<MarketplaceRecord>>("/marketplace"); }
+  marketplaceLicenses() { return this.request<ApiListResponse<MarketplaceRecord>>("/licenses"); }
+  marketplaceReviews() { return this.request<ApiListResponse<MarketplaceRecord>>("/reviews"); }
+  marketplaceDownloads() { return this.request<ApiListResponse<MarketplaceRecord>>("/downloads"); }
+  installPlugin(id: string, version?: string) { return this.request<PluginRecord>("/plugins/install", { method: "POST", body: JSON.stringify({ id, version }) }); }
+  enablePlugin(id: string) { return this.request<PluginRecord>("/plugins/enable", { method: "POST", body: JSON.stringify({ id }) }); }
+  disablePlugin(id: string) { return this.request<PluginRecord>("/plugins/disable", { method: "POST", body: JSON.stringify({ id }) }); }
+  updatePlugin(id: string, version?: string) { return this.request<PluginRecord>("/plugins/update", { method: "POST", body: JSON.stringify({ id, version }) }); }
+  uninstallPlugin(id: string) { return this.request<PluginRecord>(`/plugins/${encodeURIComponent(id)}`, { method: "DELETE" }); }
 }

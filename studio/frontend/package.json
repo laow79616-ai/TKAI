@@ -1,8 +1,8 @@
 {
   "name": "@tkai/studio-frontend",
   "private": true,
-  "version": "0.0.0",
-  "description": "TKAI Studio React and TypeScript frontend foundation",
+  "version": "3.0.0",
+  "description": "TKAI V3.0 AI Studio frontend",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
