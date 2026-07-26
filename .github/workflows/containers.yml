@@ -36,7 +36,7 @@ jobs:
           docker compose -f docker-compose.yml -f docker-compose.production.yml config --quiet
           test "$(docker compose -f docker-compose.yml -f docker-compose.production.yml config --services)" = "$(printf 'postgres\napi\ndashboard\nnginx')"
           docker compose -f docker-compose.yml -f docker-compose.observability.yml config --quiet
-          test "$(docker compose -f docker-compose.yml -f docker-compose.observability.yml config --services)" = "$(printf 'postgres\napi\ndashboard\nnginx\nprometheus\ngrafana\nloki\nalloy\nalertmanager\npostgres-exporter\nnginx-exporter')"
+          test "$(docker compose -f docker-compose.yml -f docker-compose.observability.yml config --services | sort)" = "$(printf 'postgres\napi\ndashboard\nnginx\nprometheus\ngrafana\nloki\nalloy\nalertmanager\npostgres-exporter\nnginx-exporter' | sort)"
           docker compose -f docker-compose.yml -f docker-compose.production.yml -f docker-compose.observability.yml config --quiet
 
   images:
