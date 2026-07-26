@@ -4,7 +4,7 @@ import { type ApiListResponse, type EnterpriseRecord, type SearchEntry } from ".
 import { useAuth } from "./auth";
 import { Card, Loading, SearchBar, Table } from "./components";
 
-export const dashboardPages = ["dashboard", "agents", "agent-runs", "plugins", "marketplace", "installed", "updates", "registry", "publishers", "packages", "versions", "search", "statistics", "health", "users", "organizations", "teams", "roles", "api-keys", "audit"] as const;
+export const dashboardPages = ["dashboard", "agents", "agent-runs", "plugins", "marketplace", "installed", "updates", "registry", "publishers", "packages", "versions", "search", "statistics", "health", "users", "organizations", "tenants", "teams", "roles", "permissions", "license", "billing", "api-keys", "audit"] as const;
 
 function useRequest<T>(load: () => Promise<T>) {
   const [value, setValue] = useState<T | null>(null);

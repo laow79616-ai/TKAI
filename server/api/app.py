@@ -10,6 +10,8 @@ from typing import Any, cast
 
 from server.production import ProductionConfigurationLoader, ProductionRuntime
 from tkai.agent import AgentApi
+from tkai.enterprise import EnterprisePlatform
+from tkai.enterprise.api import register_enterprise_platform_routes
 from tkai.plugins.api import register_plugin_routes
 from tkai.plugins.marketplace import EnterprisePluginMarketplace
 
@@ -113,6 +115,7 @@ def create_app(
     )
     plugins = plugin_marketplace or EnterprisePluginMarketplace()
     register_plugin_routes(app, plugins)
+    register_enterprise_platform_routes(app, EnterprisePlatform())
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]

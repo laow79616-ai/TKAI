@@ -67,6 +67,7 @@ export class MarketplaceApiClient {
   roles() { return this.request<ApiListResponse<EnterpriseRecord>>("/roles"); }
   apiKeys() { return this.request<ApiListResponse<EnterpriseRecord>>("/api-keys"); }
   audit() { return this.request<ApiListResponse<EnterpriseRecord>>("/audit"); }
+  enterprise(resource: string) { return this.request<ApiListResponse<EnterpriseRecord>>(`/enterprise/${resource}`); }
   agents() { return this.request<ApiListResponse<AgentDefinitionRecord>>("/agents"); }
   agentRun(id: string) { return this.request<AgentRunRecord>(`/agents/run/${encodeURIComponent(id)}`); }
   plugins() { return this.request<ApiListResponse<PluginRecord>>("/plugins"); }
