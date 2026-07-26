@@ -25,6 +25,7 @@ export interface DeploymentRecord { id: string; application_id: string; version:
 export interface KnowledgeRecord { id: string; name: string; status: string; scope: { tenant: string; workspace: string; namespace: string }; [key: string]: unknown; }
 export interface AppStoreRecord { id?: string; name?: string; status?: string; [key: string]: unknown; }
 export interface OrchestratorSnapshot { sections: string[]; plans: number; queues: Record<string, number>; executions: number; failures: number; retries: number; performance: Record<string, unknown>; }
+export interface MemoryRecord { id: string; namespace: string; tenant: string; workspace: string; owner: string; type: string; source: string; created: string; updated: string; ttl: number | null; metadata: Record<string, unknown>; }
 
 export class ApiClientError extends Error {
   constructor(public readonly status: number, message: string) { super(message); }
@@ -87,6 +88,13 @@ export class MarketplaceApiClient {
     return this.request<ApiListResponse<AppStoreRecord> | Record<string, unknown>>(`${path}?${scope}`);
   }
   orchestrator() { return this.request<OrchestratorSnapshot>("/orchestrator?tenant=default&actor=dashboard"); }
+  memories(namespace = "") {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", owner: "dashboard" });
+    if (namespace) query.set("namespace", namespace);
+    return this.request<{ data: MemoryRecord[] }>(`/memory?${query}`);
+  }
+  memoryCache() { return this.request<Record<string, number>>("/memory/cache"); }
+  memoryNamespaces() { return this.request<{ data: string[] }>("/memory/namespaces?tenant=default&workspace=default&owner=dashboard"); }
   plans() { return this.request<ApiListResponse<EnterpriseRecord>>("/plans?tenant=default&actor=dashboard"); }
   executions() { return this.request<ApiListResponse<EnterpriseRecord>>("/executions?tenant=default&actor=dashboard"); }
   queues() { return this.request<Record<string, unknown>>("/queues"); }

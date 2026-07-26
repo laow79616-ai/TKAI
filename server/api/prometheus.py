@@ -9,6 +9,7 @@ from typing import Any
 from applications.runtime import ApplicationMetrics
 from knowledge_platform.metrics import KnowledgeMetrics
 from marketplace.enterprise_store import MarketplaceMetrics
+from memory_engine.metrics import MemoryMetrics
 from orchestrator.metrics import OrchestratorMetrics
 from server.production import MetricsSnapshot, ProductionRuntime
 from tkai.agent import AgentMetrics
@@ -44,6 +45,7 @@ def prometheus_endpoint(
     knowledge_metrics: KnowledgeMetrics | None = None,
     workflow_metrics: WorkflowMetrics | None = None,
     orchestrator_metrics: OrchestratorMetrics | None = None,
+    memory_metrics: MemoryMetrics | None = None,
 ) -> Callable[[], Any]:
     """Create a FastAPI endpoint without making FastAPI a core dependency."""
 
@@ -64,6 +66,8 @@ def prometheus_endpoint(
             body += workflow_metrics.render_prometheus()
         if orchestrator_metrics is not None:
             body += orchestrator_metrics.render_prometheus()
+        if memory_metrics is not None:
+            body += memory_metrics.render_prometheus()
         return response_type(
             body,
             media_type="text/plain; version=0.0.4",

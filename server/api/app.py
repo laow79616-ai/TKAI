@@ -16,6 +16,8 @@ from knowledge_platform import KnowledgePlatform
 from knowledge_platform.api import register_knowledge_routes
 from marketplace.api import MarketplaceApi
 from marketplace.enterprise_store import EnterpriseMarketplace
+from memory_engine import EnterpriseAIMemoryEngine, MemoryScope
+from memory_engine.api import register_memory_routes
 from orchestrator import EnterpriseAIOrchestrator
 from orchestrator.api import register_orchestrator_routes
 from server.production import ProductionConfigurationLoader, ProductionRuntime
@@ -153,6 +155,14 @@ def create_app(
     orchestrator = EnterpriseAIOrchestrator()
     register_orchestrator_routes(app, orchestrator)
     app.state.orchestrator = orchestrator
+    memory_engine = EnterpriseAIMemoryEngine()
+    dashboard_memory_scope = MemoryScope("default", "default", "dashboard")
+    memory_engine.security.grant(
+        dashboard_memory_scope,
+        {"memory:read", "memory:write", "memory:delete", "memory:retention"},
+    )
+    register_memory_routes(app, memory_engine)
+    app.state.memory_engine = memory_engine
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
@@ -210,6 +220,7 @@ def create_app(
             knowledge_platform.metrics,
             workflow_platform.metrics,
             orchestrator.metrics,
+            memory_engine.metrics,
         ),
         methods=["GET"],
         tags=["operations"],
