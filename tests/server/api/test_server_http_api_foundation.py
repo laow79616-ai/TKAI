@@ -91,6 +91,7 @@ def test_create_app_registers_read_only_routes_openapi_and_middleware() -> None:
         "/health/live",
         "/health/ready",
         "/health/startup",
+        "/metrics",
         "/version",
         "/metadata",
         "/registry",

@@ -32,3 +32,38 @@ def test_container_workflow_validates_compose_and_builds_both_images() -> None:
     assert "docker/build-push-action@v7" in workflow
     assert workflow.count("actions/upload-artifact@v4") == 1
     assert "push: true" not in workflow
+
+
+def test_container_workflow_compares_compose_services_order_independently() -> None:
+    workflow = (WORKFLOWS / "containers.yml").read_text(encoding="utf-8")
+
+    for deployment in ("default", "production", "observability"):
+        assert (
+            f'{deployment}_actual="$(docker compose'
+            in workflow
+        )
+        assert f'{deployment}_actual" = "${deployment}_expected"' in workflow
+
+    assert workflow.count("config --services | sort)") == 3
+    assert workflow.count("' | sort)") == 3
+    assert (
+        "test \"$(docker compose config --services)\""
+        not in workflow
+    )
+
+
+def test_container_workflow_preserves_strict_expected_service_sets() -> None:
+    workflow = (WORKFLOWS / "containers.yml").read_text(encoding="utf-8")
+    base = r"postgres\napi\ndashboard\nnginx\n"
+    observability = (
+        base
+        + r"prometheus\ngrafana\nloki\nalloy\nalertmanager"
+        + r"\npostgres-exporter\nnginx-exporter\n"
+    )
+
+    assert f"default_expected=\"$(printf '{base}' | sort)\"" in workflow
+    assert f"production_expected=\"$(printf '{base}' | sort)\"" in workflow
+    assert (
+        f"observability_expected=\"$(printf '{observability}' | sort)\""
+        in workflow
+    )

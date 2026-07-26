@@ -21,6 +21,10 @@ jobs:
       POSTGRES_USER: tkai_ci
       POSTGRES_PASSWORD: ci-only-password
       POSTGRES_PORT: "5432"
+      GRAFANA_ADMIN_USER: tkai_ci
+      GRAFANA_ADMIN_PASSWORD: ci-only-grafana-password
+      PROMETHEUS_RETENTION: 1d
+      LOKI_RETENTION: 24h
     steps:
       - name: Check out repository
         uses: actions/checkout@v5
@@ -28,9 +32,18 @@ jobs:
       - name: Validate Compose configuration
         run: |
           docker compose config --quiet
-          test "$(docker compose config --services)" = "$(printf 'postgres\napi\ndashboard\nnginx')"
+          default_actual="$(docker compose config --services | sort)"
+          default_expected="$(printf 'postgres\napi\ndashboard\nnginx\n' | sort)"
+          test "$default_actual" = "$default_expected"
           docker compose -f docker-compose.yml -f docker-compose.production.yml config --quiet
-          test "$(docker compose -f docker-compose.yml -f docker-compose.production.yml config --services)" = "$(printf 'postgres\napi\ndashboard\nnginx')"
+          production_actual="$(docker compose -f docker-compose.yml -f docker-compose.production.yml config --services | sort)"
+          production_expected="$(printf 'postgres\napi\ndashboard\nnginx\n' | sort)"
+          test "$production_actual" = "$production_expected"
+          docker compose -f docker-compose.yml -f docker-compose.observability.yml config --quiet
+          observability_actual="$(docker compose -f docker-compose.yml -f docker-compose.observability.yml config --services | sort)"
+          observability_expected="$(printf 'postgres\napi\ndashboard\nnginx\nprometheus\ngrafana\nloki\nalloy\nalertmanager\npostgres-exporter\nnginx-exporter\n' | sort)"
+          test "$observability_actual" = "$observability_expected"
+          docker compose -f docker-compose.yml -f docker-compose.production.yml -f docker-compose.observability.yml config --quiet
 
   images:
     name: Build ${{ matrix.name }} image

@@ -1,0 +1,37 @@
+groups:
+  - name: tkai-availability
+    rules:
+      - alert: TKAIAPIUnavailable
+        expr: up{job="api"} == 0
+        for: 2m
+        labels: {severity: critical}
+        annotations:
+          summary: TKAI API is unavailable
+      - alert: TKAIPostgreSQLUnavailable
+        expr: up{job="postgres"} == 0 or pg_up == 0
+        for: 2m
+        labels: {severity: critical}
+        annotations:
+          summary: TKAI PostgreSQL is unavailable
+      - alert: TKAINginxUnavailable
+        expr: up{job="nginx"} == 0 or nginx_up == 0
+        for: 2m
+        labels: {severity: critical}
+        annotations:
+          summary: TKAI Nginx gateway is unavailable
+      - alert: PrometheusTargetDown
+        expr: up == 0
+        for: 5m
+        labels: {severity: warning}
+        annotations:
+          summary: Prometheus target is down
+          description: "{{ $labels.job }} target {{ $labels.instance }} is down."
+  - name: tkai-api
+    rules:
+      - alert: TKAIAPIElevated5xxRate
+        expr: sum(rate(tkai_http_responses_total{status=~"5.."}[5m])) / clamp_min(sum(rate(tkai_http_requests_total[5m])), 0.001) > 0.05
+        for: 10m
+        labels: {severity: warning}
+        annotations:
+          summary: TKAI API 5xx response rate is elevated
+          description: More than 5% of API requests returned 5xx for 10 minutes.
