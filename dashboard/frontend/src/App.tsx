@@ -7,23 +7,29 @@ import {
   ApplicationTemplatesPage, ApplicationUsagePage, ApplicationVersionsPage,
   AppStorePage,
   CollectionsPage, DocumentsPage, KnowledgeBasesPage, KnowledgeStatusPage,
-  dashboardPages, memoryDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
+  dashboardPages, memoryDashboardPages, reasoningDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
   LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
   PluginDetailsPage, PluginPermissionsPage, PluginsPage, PublishersPage,
   RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage,
-  MemoryPage, OrchestratorPage,
+  MemoryPage, OrchestratorPage, ReasoningPage,
 } from "./pages";
 
 function Shell() {
   const { token, logout } = useAuth(); const navigate = useNavigate();
   if (!token) return <Navigate to="/login" replace />;
-  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...memoryDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
+  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
 }
 
 export function App() {
   return <Routes><Route path="/login" element={<LoginPage />} /><Route element={<Shell />}>
     <Route path="/dashboard" element={<DashboardHome />} />
     <Route path="/memory" element={<MemoryPage />} />
+    <Route path="/reasoning" element={<ReasoningPage />} />
+    <Route path="/reasoning-plans" element={<ReasoningPage title="Plans" />} />
+    <Route path="/reasoning-decisions" element={<ReasoningPage title="Decisions" />} />
+    <Route path="/reasoning-strategies" element={<ReasoningPage title="Strategies" />} />
+    <Route path="/reasoning-validation" element={<ReasoningPage title="Validation" />} />
+    <Route path="/reasoning-metrics" element={<ReasoningPage title="Metrics" />} />
     <Route path="/memory-namespaces" element={<MemoryPage title="Namespaces" resource="namespaces" />} />
     <Route path="/memory-usage" element={<MemoryPage title="Usage" />} />
     <Route path="/memory-retention" element={<MemoryPage title="Retention" />} />

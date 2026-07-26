@@ -26,6 +26,7 @@ export interface KnowledgeRecord { id: string; name: string; status: string; sco
 export interface AppStoreRecord { id?: string; name?: string; status?: string; [key: string]: unknown; }
 export interface OrchestratorSnapshot { sections: string[]; plans: number; queues: Record<string, number>; executions: number; failures: number; retries: number; performance: Record<string, unknown>; }
 export interface MemoryRecord { id: string; namespace: string; tenant: string; workspace: string; owner: string; type: string; source: string; created: string; updated: string; ttl: number | null; metadata: Record<string, unknown>; }
+export interface ReasoningRecord { id: string; tenant: string; workspace: string; agent: string; goal: string; strategy: string; mode: string; state: string; priority: number; metadata: Record<string, unknown>; }
 
 export class ApiClientError extends Error {
   constructor(public readonly status: number, message: string) { super(message); }
@@ -95,6 +96,7 @@ export class MarketplaceApiClient {
   }
   memoryCache() { return this.request<Record<string, number>>("/memory/cache"); }
   memoryNamespaces() { return this.request<{ data: string[] }>("/memory/namespaces?tenant=default&workspace=default&owner=dashboard"); }
+  reasoning() { return this.request<{ data: ReasoningRecord[] }>("/reasoning?tenant=default&workspace=default&actor=dashboard"); }
   plans() { return this.request<ApiListResponse<EnterpriseRecord>>("/plans?tenant=default&actor=dashboard"); }
   executions() { return this.request<ApiListResponse<EnterpriseRecord>>("/executions?tenant=default&actor=dashboard"); }
   queues() { return this.request<Record<string, unknown>>("/queues"); }

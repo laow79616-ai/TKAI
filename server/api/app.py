@@ -20,6 +20,8 @@ from memory_engine import EnterpriseAIMemoryEngine, MemoryScope
 from memory_engine.api import register_memory_routes
 from orchestrator import EnterpriseAIOrchestrator
 from orchestrator.api import register_orchestrator_routes
+from reasoning_engine import EnterpriseAIReasoningEngine, ReasoningScope
+from reasoning_engine.api import register_reasoning_routes
 from server.production import ProductionConfigurationLoader, ProductionRuntime
 from tkai.agent import AgentApi
 from tkai.enterprise import EnterprisePlatform
@@ -163,6 +165,23 @@ def create_app(
     )
     register_memory_routes(app, memory_engine)
     app.state.memory_engine = memory_engine
+    reasoning_engine = EnterpriseAIReasoningEngine()
+    dashboard_reasoning_scope = ReasoningScope("default", "default", "dashboard")
+    reasoning_engine.security.grant(
+        dashboard_reasoning_scope,
+        {
+            "reasoning:read",
+            "reasoning:write",
+            "reasoning:execute",
+            "reasoning:plan",
+            "reasoning:decide",
+            "reasoning:validate",
+            "reasoning:simulate",
+            "reasoning:optimize",
+        },
+    )
+    register_reasoning_routes(app, reasoning_engine)
+    app.state.reasoning_engine = reasoning_engine
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
@@ -221,6 +240,7 @@ def create_app(
             workflow_platform.metrics,
             orchestrator.metrics,
             memory_engine.metrics,
+            reasoning_engine.metrics,
         ),
         methods=["GET"],
         tags=["operations"],

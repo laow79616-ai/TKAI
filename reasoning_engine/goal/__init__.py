@@ -1,0 +1,1 @@
+"""Reasoning goal domain."""
