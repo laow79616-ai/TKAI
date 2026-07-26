@@ -79,3 +79,6 @@ include docs/benchmarks/server.json
 include docs/release/cloud-v4-rc1.md
 include docs/release/cloud-v4-rc2.md
 include docs/release/cloud-v4-rc3.md
+
+recursive-include data_platform *.py *.md
+recursive-include docs/data-platform *.md

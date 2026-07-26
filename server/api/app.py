@@ -14,6 +14,8 @@ from applications import ApplicationCenter
 from applications.api import register_application_routes
 from collaboration import CollaborationScope, EnterpriseAICollaborationPlatform
 from collaboration.api import register_collaboration_routes
+from data_platform import DataPlatform
+from data_platform.api import register_data_routes
 from governance import EnterpriseAIGovernancePlatform, GovernanceScope
 from governance.api import register_governance_routes
 from knowledge_platform import KnowledgePlatform
@@ -216,9 +218,7 @@ def create_app(
     register_collaboration_routes(app, collaboration)
     app.state.collaboration = collaboration
     governance = EnterpriseAIGovernancePlatform()
-    dashboard_governance_scope = GovernanceScope(
-        "default", "default", "dashboard"
-    )
+    dashboard_governance_scope = GovernanceScope("default", "default", "dashboard")
     governance.security.grant(
         dashboard_governance_scope,
         {
@@ -229,6 +229,9 @@ def create_app(
     )
     register_governance_routes(app, governance)
     app.state.governance = governance
+    data_platform = DataPlatform()
+    register_data_routes(app, data_platform)
+    app.state.data_platform = data_platform
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
