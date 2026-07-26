@@ -7,22 +7,30 @@ import {
   ApplicationTemplatesPage, ApplicationUsagePage, ApplicationVersionsPage,
   AppStorePage,
   CollectionsPage, DocumentsPage, KnowledgeBasesPage, KnowledgeStatusPage,
-  dashboardPages, memoryDashboardPages, reasoningDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
+  dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
   LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
   PluginDetailsPage, PluginPermissionsPage, PluginsPage, PublishersPage,
   RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage,
-  MemoryPage, OrchestratorPage, ReasoningPage,
+  MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage,
 } from "./pages";
 
 function Shell() {
   const { token, logout } = useAuth(); const navigate = useNavigate();
   if (!token) return <Navigate to="/login" replace />;
-  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
+  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages, ...collaborationDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
 }
 
 export function App() {
   return <Routes><Route path="/login" element={<LoginPage />} /><Route element={<Shell />}>
     <Route path="/dashboard" element={<DashboardHome />} />
+    <Route path="/collaboration" element={<CollaborationPage />} />
+    <Route path="/collaboration-teams" element={<CollaborationPage title="Teams" />} />
+    <Route path="/collaboration-projects" element={<CollaborationPage title="Projects" />} />
+    <Route path="/collaboration-sessions" element={<CollaborationPage title="Sessions" />} />
+    <Route path="/collaboration-tasks" element={<CollaborationPage title="Tasks" />} />
+    <Route path="/collaboration-timeline" element={<CollaborationPage title="Timeline" />} />
+    <Route path="/collaboration-activity" element={<CollaborationPage title="Activity" />} />
+    <Route path="/collaboration-notifications" element={<CollaborationPage title="Notifications" />} />
     <Route path="/memory" element={<MemoryPage />} />
     <Route path="/reasoning" element={<ReasoningPage />} />
     <Route path="/reasoning-plans" element={<ReasoningPage title="Plans" />} />

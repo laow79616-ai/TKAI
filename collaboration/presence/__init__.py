@@ -1,0 +1,1 @@
+"""Participant presence capabilities."""

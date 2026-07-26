@@ -12,6 +12,8 @@ from app_store import EnterpriseAppStore
 from app_store.api import register_app_store_routes
 from applications import ApplicationCenter
 from applications.api import register_application_routes
+from collaboration import CollaborationScope, EnterpriseAICollaborationPlatform
+from collaboration.api import register_collaboration_routes
 from knowledge_platform import KnowledgePlatform
 from knowledge_platform.api import register_knowledge_routes
 from marketplace.api import MarketplaceApi
@@ -182,6 +184,35 @@ def create_app(
     )
     register_reasoning_routes(app, reasoning_engine)
     app.state.reasoning_engine = reasoning_engine
+    collaboration = EnterpriseAICollaborationPlatform()
+    dashboard_collaboration_scope = CollaborationScope(
+        "default", "default", "dashboard"
+    )
+    collaboration.security.grant(
+        dashboard_collaboration_scope,
+        {
+            "collaboration:admin",
+            "collaboration:read",
+            "collaboration:write",
+            "collaboration:message",
+            "collaboration:memory:read",
+            "collaboration:memory:write",
+            "collaboration:task",
+            "collaboration:handoff",
+        },
+    )
+    collaboration.create_workspace(
+        {
+            "id": "default",
+            "organization": "default",
+            "name": "Default Workspace",
+            "members": ["dashboard"],
+            "roles": {"dashboard": "administrator"},
+        },
+        dashboard_collaboration_scope,
+    )
+    register_collaboration_routes(app, collaboration)
+    app.state.collaboration = collaboration
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
@@ -241,6 +272,7 @@ def create_app(
             orchestrator.metrics,
             memory_engine.metrics,
             reasoning_engine.metrics,
+            collaboration.metrics,
         ),
         methods=["GET"],
         tags=["operations"],
