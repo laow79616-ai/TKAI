@@ -123,6 +123,13 @@ server = ["persistence/*.ini"]
     "docs/plugins/Lifecycle.md",
     "docs/plugins/Signing.md",
     "docs/plugins/BestPractices.md",
+    "docs/marketplace/Marketplace.md",
+    "docs/marketplace/Publishing.md",
+    "docs/marketplace/Signing.md",
+    "docs/marketplace/Licensing.md",
+    "docs/marketplace/EnterpriseStore.md",
+    "docs/marketplace/Security.md",
+    "docs/marketplace/Architecture.md",
 ]
 "share/tkai/dashboard/frontend" = [
     "dashboard/frontend/index.html",

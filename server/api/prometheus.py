@@ -6,6 +6,7 @@ from collections.abc import Callable
 from importlib import import_module
 from typing import Any
 
+from marketplace.enterprise_store import MarketplaceMetrics
 from server.production import MetricsSnapshot, ProductionRuntime
 from tkai.agent import AgentMetrics
 from tkai.plugins.marketplace import PluginMetrics
@@ -34,6 +35,7 @@ def prometheus_endpoint(
     runtime: ProductionRuntime,
     agent_metrics: AgentMetrics | None = None,
     plugin_metrics: PluginMetrics | None = None,
+    marketplace_metrics: MarketplaceMetrics | None = None,
 ) -> Callable[[], Any]:
     """Create a FastAPI endpoint without making FastAPI a core dependency."""
 
@@ -44,6 +46,8 @@ def prometheus_endpoint(
             body += agent_metrics.render_prometheus()
         if plugin_metrics is not None:
             body += plugin_metrics.render_prometheus()
+        if marketplace_metrics is not None:
+            body += marketplace_metrics.render_prometheus()
         return response_type(
             body,
             media_type="text/plain; version=0.0.4",

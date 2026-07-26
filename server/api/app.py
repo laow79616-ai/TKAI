@@ -8,6 +8,8 @@ from os import environ
 from types import ModuleType
 from typing import Any, cast
 
+from marketplace.api import MarketplaceApi
+from marketplace.enterprise_store import EnterpriseMarketplace
 from server.production import ProductionConfigurationLoader, ProductionRuntime
 from tkai.agent import AgentApi
 from tkai.enterprise import EnterprisePlatform
@@ -71,6 +73,7 @@ def create_app(
     app_factory: Callable[..., Any] | None = None,
     production_runtime: ProductionRuntime | None = None,
     plugin_marketplace: EnterprisePluginMarketplace | None = None,
+    enterprise_marketplace: EnterpriseMarketplace | None = None,
 ) -> Any:
     """Create an isolated FastAPI application with only read-only endpoints.
 
@@ -115,6 +118,17 @@ def create_app(
     )
     plugins = plugin_marketplace or EnterprisePluginMarketplace()
     register_plugin_routes(app, plugins)
+    store = enterprise_marketplace or EnterpriseMarketplace()
+    marketplace_api = MarketplaceApi(store)
+    for path, endpoint in (
+        ("/marketplace", marketplace_api.catalog),
+        ("/licenses", marketplace_api.licenses),
+        ("/reviews", marketplace_api.reviews),
+        ("/downloads", marketplace_api.downloads),
+    ):
+        app.add_api_route(
+            path, endpoint, methods=["GET"], tags=["marketplace"]
+        )
     register_enterprise_platform_routes(app, EnterprisePlatform())
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
@@ -164,7 +178,12 @@ def create_app(
     )
     app.add_api_route(
         "/metrics",
-        prometheus_endpoint(runtime, selected.agent_runtime.metrics, plugins.metrics),
+        prometheus_endpoint(
+            runtime,
+            selected.agent_runtime.metrics,
+            plugins.metrics,
+            store.metrics,
+        ),
         methods=["GET"],
         tags=["operations"],
         include_in_schema=False,
