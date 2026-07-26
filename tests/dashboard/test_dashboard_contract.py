@@ -73,3 +73,26 @@ def test_dashboard_declares_mvp_pages_components_and_authentication_flow() -> No
     ):
         assert component in components
     assert "sessionStorage" in auth and "login" in auth and "logout" in auth
+
+
+def test_dashboard_exposes_enterprise_app_store_sections() -> None:
+    root = _frontend() / "src"
+    app = (root / "App.tsx").read_text(encoding="utf-8")
+    pages = (root / "pages.tsx").read_text(encoding="utf-8")
+    client = (root / "api.ts").read_text(encoding="utf-8")
+    for section in (
+        "Store Home",
+        "Categories",
+        "Application Details",
+        "Installed Applications",
+        "App Store Updates",
+        "App Store Licenses",
+        "Subscriptions",
+        "App Store Publishers",
+        "App Store Reviews",
+        "Moderation",
+        "App Store Analytics",
+    ):
+        assert section in app
+    assert "AppStorePage" in pages
+    assert '"/app-store"' in client

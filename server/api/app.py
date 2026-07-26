@@ -8,6 +8,8 @@ from os import environ
 from types import ModuleType
 from typing import Any, cast
 
+from app_store import EnterpriseAppStore
+from app_store.api import register_app_store_routes
 from applications import ApplicationCenter
 from applications.api import register_application_routes
 from knowledge_platform import KnowledgePlatform
@@ -143,6 +145,9 @@ def create_app(
     workflow_platform = WorkflowPlatform()
     register_workflow_routes(app, workflow_platform)
     app.state.workflow_platform = workflow_platform
+    app_store = EnterpriseAppStore()
+    register_app_store_routes(app, app_store)
+    app.state.app_store = app_store
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]

@@ -5,6 +5,7 @@ import {
   AgentDefinitionsPage, AgentRunDetailsPage, AgentRunsPage,
   ApplicationDeploymentsPage, ApplicationPermissionsPage, ApplicationsPage,
   ApplicationTemplatesPage, ApplicationUsagePage, ApplicationVersionsPage,
+  AppStorePage,
   CollectionsPage, DocumentsPage, KnowledgeBasesPage, KnowledgeStatusPage,
   dashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
   LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
@@ -22,6 +23,17 @@ export function App() {
   return <Routes><Route path="/login" element={<LoginPage />} /><Route element={<Shell />}>
     <Route path="/dashboard" element={<DashboardHome />} />
     <Route path="/applications" element={<ApplicationsPage />} />
+    <Route path="/app-store" element={<AppStorePage title="Store Home" />} />
+    <Route path="/app-store-categories" element={<AppStorePage title="Categories" resource="applications" />} />
+    <Route path="/app-store-details" element={<AppStorePage title="Application Details" resource="applications" />} />
+    <Route path="/app-store-installed" element={<AppStorePage title="Installed Applications" resource="installations" />} />
+    <Route path="/app-store-updates" element={<AppStorePage title="App Store Updates" resource="updates" />} />
+    <Route path="/app-store-licenses" element={<AppStorePage title="App Store Licenses" resource="licenses" />} />
+    <Route path="/app-store-subscriptions" element={<AppStorePage title="Subscriptions" resource="subscriptions" />} />
+    <Route path="/app-store-publishers" element={<AppStorePage title="App Store Publishers" resource="publishers" />} />
+    <Route path="/app-store-reviews" element={<AppStorePage title="App Store Reviews" resource="reviews" />} />
+    <Route path="/app-store-moderation" element={<AppStorePage title="Moderation" resource="moderation" />} />
+    <Route path="/app-store-analytics" element={<AppStorePage title="App Store Analytics" />} />
     <Route path="/application-templates" element={<ApplicationTemplatesPage />} />
     <Route path="/deployments" element={<ApplicationDeploymentsPage />} />
     <Route path="/application-usage" element={<ApplicationUsagePage />} />

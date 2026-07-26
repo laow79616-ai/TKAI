@@ -4,7 +4,7 @@ import { type ApiListResponse, type EnterpriseRecord, type SearchEntry } from ".
 import { useAuth } from "./auth";
 import { Card, Loading, SearchBar, Table } from "./components";
 
-export const dashboardPages = ["dashboard", "knowledge-bases", "collections", "documents", "ingestion", "knowledge-search", "knowledge-permissions", "connectors", "evaluation", "applications", "application-templates", "deployments", "application-usage", "application-versions", "application-permissions", "agents", "agent-runs", "plugins", "marketplace", "installed", "updates", "registry", "publishers", "packages", "downloads", "licenses", "reviews", "versions", "search", "statistics", "health", "users", "organizations", "tenants", "teams", "roles", "permissions", "license", "billing", "api-keys", "audit"] as const;
+export const dashboardPages = ["dashboard", "app-store", "app-store-categories", "app-store-details", "app-store-installed", "app-store-updates", "app-store-licenses", "app-store-subscriptions", "app-store-publishers", "app-store-reviews", "app-store-moderation", "app-store-analytics", "knowledge-bases", "collections", "documents", "ingestion", "knowledge-search", "knowledge-permissions", "connectors", "evaluation", "applications", "application-templates", "deployments", "application-usage", "application-versions", "application-permissions", "agents", "agent-runs", "plugins", "marketplace", "installed", "updates", "registry", "publishers", "packages", "downloads", "licenses", "reviews", "versions", "search", "statistics", "health", "users", "organizations", "tenants", "teams", "roles", "permissions", "license", "billing", "api-keys", "audit"] as const;
 
 function useRequest<T>(load: () => Promise<T>) {
   const [value, setValue] = useState<T | null>(null);
@@ -53,6 +53,7 @@ export function KnowledgeBasesPage() { const { client } = useAuth(); return <Rec
 export function CollectionsPage() { const { client } = useAuth(); return <RecordList title="Collections" load={() => client.knowledge("collections")} />; }
 export function DocumentsPage() { const { client } = useAuth(); return <RecordList title="Documents" load={() => client.knowledge("documents")} />; }
 export function KnowledgeStatusPage({ title }: { title: string }) { return <Card><h1>{title}</h1><p>Tenant-scoped enterprise knowledge controls and status.</p></Card>; }
+export function AppStorePage({ title, resource = "" }: { title: string; resource?: string }) { const { client } = useAuth(); const state = useRequest(() => client.appStore(resource)); return <Card><h1>{title}</h1>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
 
 export function SearchPage() {
   const { client } = useAuth(); const [keyword, setKeyword] = useState(""); const [target, setTarget] = useState(""); const [results, setResults] = useState<ApiListResponse<SearchEntry> | null>(null); const [error, setError] = useState<string | null>(null);
