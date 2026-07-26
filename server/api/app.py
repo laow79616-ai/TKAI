@@ -10,6 +10,8 @@ from typing import Any, cast
 
 from applications import ApplicationCenter
 from applications.api import register_application_routes
+from knowledge_platform import KnowledgePlatform
+from knowledge_platform.api import register_knowledge_routes
 from marketplace.api import MarketplaceApi
 from marketplace.enterprise_store import EnterpriseMarketplace
 from server.production import ProductionConfigurationLoader, ProductionRuntime
@@ -128,13 +130,14 @@ def create_app(
         ("/reviews", marketplace_api.reviews),
         ("/downloads", marketplace_api.downloads),
     ):
-        app.add_api_route(
-            path, endpoint, methods=["GET"], tags=["marketplace"]
-        )
+        app.add_api_route(path, endpoint, methods=["GET"], tags=["marketplace"])
     register_enterprise_platform_routes(app, EnterprisePlatform())
     application_center = ApplicationCenter()
     register_application_routes(app, application_center)
     app.state.application_center = application_center
+    knowledge_platform = KnowledgePlatform()
+    register_knowledge_routes(app, knowledge_platform)
+    app.state.knowledge_platform = knowledge_platform
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
@@ -189,6 +192,7 @@ def create_app(
             plugins.metrics,
             store.metrics,
             application_center.metrics,
+            knowledge_platform.metrics,
         ),
         methods=["GET"],
         tags=["operations"],

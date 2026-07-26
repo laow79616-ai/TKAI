@@ -5,6 +5,7 @@ import {
   AgentDefinitionsPage, AgentRunDetailsPage, AgentRunsPage,
   ApplicationDeploymentsPage, ApplicationPermissionsPage, ApplicationsPage,
   ApplicationTemplatesPage, ApplicationUsagePage, ApplicationVersionsPage,
+  CollectionsPage, DocumentsPage, KnowledgeBasesPage, KnowledgeStatusPage,
   dashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
   LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
   PluginDetailsPage, PluginPermissionsPage, PluginsPage, PublishersPage,
@@ -26,6 +27,14 @@ export function App() {
     <Route path="/application-usage" element={<ApplicationUsagePage />} />
     <Route path="/application-versions" element={<ApplicationVersionsPage />} />
     <Route path="/application-permissions" element={<ApplicationPermissionsPage />} />
+    <Route path="/knowledge-bases" element={<KnowledgeBasesPage />} />
+    <Route path="/collections" element={<CollectionsPage />} />
+    <Route path="/documents" element={<DocumentsPage />} />
+    <Route path="/ingestion" element={<KnowledgeStatusPage title="Ingestion Jobs" />} />
+    <Route path="/knowledge-search" element={<KnowledgeStatusPage title="Knowledge Search" />} />
+    <Route path="/knowledge-permissions" element={<KnowledgeStatusPage title="Knowledge Permissions" />} />
+    <Route path="/connectors" element={<KnowledgeStatusPage title="Connectors" />} />
+    <Route path="/evaluation" element={<KnowledgeStatusPage title="Evaluation" />} />
     <Route path="/agents" element={<AgentDefinitionsPage />} />
     <Route path="/agent-runs" element={<AgentRunsPage />} />
     <Route path="/agent-runs/:id" element={<AgentRunDetailsPage />} />

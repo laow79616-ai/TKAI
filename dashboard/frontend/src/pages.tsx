@@ -4,7 +4,7 @@ import { type ApiListResponse, type EnterpriseRecord, type SearchEntry } from ".
 import { useAuth } from "./auth";
 import { Card, Loading, SearchBar, Table } from "./components";
 
-export const dashboardPages = ["dashboard", "applications", "application-templates", "deployments", "application-usage", "application-versions", "application-permissions", "agents", "agent-runs", "plugins", "marketplace", "installed", "updates", "registry", "publishers", "packages", "downloads", "licenses", "reviews", "versions", "search", "statistics", "health", "users", "organizations", "tenants", "teams", "roles", "permissions", "license", "billing", "api-keys", "audit"] as const;
+export const dashboardPages = ["dashboard", "knowledge-bases", "collections", "documents", "ingestion", "knowledge-search", "knowledge-permissions", "connectors", "evaluation", "applications", "application-templates", "deployments", "application-usage", "application-versions", "application-permissions", "agents", "agent-runs", "plugins", "marketplace", "installed", "updates", "registry", "publishers", "packages", "downloads", "licenses", "reviews", "versions", "search", "statistics", "health", "users", "organizations", "tenants", "teams", "roles", "permissions", "license", "billing", "api-keys", "audit"] as const;
 
 function useRequest<T>(load: () => Promise<T>) {
   const [value, setValue] = useState<T | null>(null);
@@ -49,6 +49,10 @@ export function ApplicationDeploymentsPage() { const { client } = useAuth(); ret
 export function ApplicationVersionsPage() { const { client } = useAuth(); return <RecordList title="Application Versions" load={() => client.applicationVersions()} />; }
 export function ApplicationUsagePage() { const { client } = useAuth(); const state = useRequest(() => client.applicationDashboard()); return <Card><h1>Application Usage</h1>{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
 export function ApplicationPermissionsPage() { return <Card><h1>Application Permissions</h1><p>Manage view, edit, publish, deploy, run, and administrator grants.</p></Card>; }
+export function KnowledgeBasesPage() { const { client } = useAuth(); return <RecordList title="Knowledge Bases" load={() => client.knowledgeBases()} />; }
+export function CollectionsPage() { const { client } = useAuth(); return <RecordList title="Collections" load={() => client.knowledge("collections")} />; }
+export function DocumentsPage() { const { client } = useAuth(); return <RecordList title="Documents" load={() => client.knowledge("documents")} />; }
+export function KnowledgeStatusPage({ title }: { title: string }) { return <Card><h1>{title}</h1><p>Tenant-scoped enterprise knowledge controls and status.</p></Card>; }
 
 export function SearchPage() {
   const { client } = useAuth(); const [keyword, setKeyword] = useState(""); const [target, setTarget] = useState(""); const [results, setResults] = useState<ApiListResponse<SearchEntry> | null>(null); const [error, setError] = useState<string | null>(null);

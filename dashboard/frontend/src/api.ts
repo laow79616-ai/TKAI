@@ -22,6 +22,7 @@ export interface MarketplaceRecord { package_id?: string; publisher_id?: string;
 export interface ApplicationRecord { id: string; name: string; description: string; version: string; owner: string; category: string; tags: string[]; status: string; [key: string]: unknown; }
 export interface ApplicationTemplateRecord { id: string; name: string; category: string; description: string; [key: string]: unknown; }
 export interface DeploymentRecord { id: string; application_id: string; version: string; environment: string; replicas: number; quota: number; status: string; [key: string]: unknown; }
+export interface KnowledgeRecord { id: string; name: string; status: string; scope: { tenant: string; workspace: string; namespace: string }; [key: string]: unknown; }
 
 export class ApiClientError extends Error {
   constructor(public readonly status: number, message: string) { super(message); }
@@ -78,6 +79,8 @@ export class MarketplaceApiClient {
   applicationDeployments() { return this.request<ApiListResponse<DeploymentRecord>>("/deployments"); }
   applicationVersions() { return this.request<ApiListResponse<EnterpriseRecord>>("/applications/versions"); }
   applicationDashboard() { return this.request<Record<string, unknown>>("/applications/dashboard"); }
+  knowledgeBases() { return this.request<ApiListResponse<KnowledgeRecord>>("/knowledge-bases?tenant=default&workspace=default&namespace=default"); }
+  knowledge(resource: string) { return this.request<ApiListResponse<EnterpriseRecord>>(`/${resource}?tenant=default&workspace=default&namespace=default`); }
   agentRun(id: string) { return this.request<AgentRunRecord>(`/agents/run/${encodeURIComponent(id)}`); }
   plugins() { return this.request<ApiListResponse<PluginRecord>>("/plugins"); }
   marketplace() { return this.request<ApiListResponse<MarketplaceRecord>>("/marketplace"); }
