@@ -30,6 +30,7 @@ export interface ReasoningRecord { id: string; tenant: string; workspace: string
 export interface CollaborationDashboard { sections: string[]; projects: number; sessions: number; tasks: number; timeline: unknown[]; notifications: unknown[]; presence: Record<string, string>; metrics: Record<string, number>; }
 export interface GovernanceDashboard { sections: string[]; summary: Record<string, number>; metrics: Record<string, number>; }
 export interface ModelPlatformDashboard { sections: string[]; models: number; providers: number; profiles: number; usage_records: number; cost: Record<string, unknown>; metrics: Record<string, number>; }
+export interface SecurityDashboard { identity: Record<string, number>; authentication: Record<string, number>; authorization: Record<string, number>; secrets: Record<string, number>; threats: unknown[]; incidents: unknown[]; compliance: Record<string, number>; audit: unknown[]; metrics: Record<string, number>; }
 
 export class ApiClientError extends Error {
   constructor(public readonly status: number, message: string) { super(message); }
@@ -105,6 +106,10 @@ export class MarketplaceApiClient {
   modelPlatform(resource = "model-platform") {
     const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
     return this.request<Record<string, unknown>>(`/${resource}?${query}`);
+  }
+  security(resource = "dashboard") {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<SecurityDashboard | Record<string, unknown>>(`/security/${resource}?${query}`);
   }
   plans() { return this.request<ApiListResponse<EnterpriseRecord>>("/plans?tenant=default&actor=dashboard"); }
   executions() { return this.request<ApiListResponse<EnterpriseRecord>>("/executions?tenant=default&actor=dashboard"); }

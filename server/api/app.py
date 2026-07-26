@@ -30,6 +30,8 @@ from orchestrator import EnterpriseAIOrchestrator
 from orchestrator.api import register_orchestrator_routes
 from reasoning_engine import EnterpriseAIReasoningEngine, ReasoningScope
 from reasoning_engine.api import register_reasoning_routes
+from security_platform import SecurityPlatform
+from security_platform.api import register_security_routes
 from server.production import ProductionConfigurationLoader, ProductionRuntime
 from tkai.agent import AgentApi
 from tkai.enterprise import EnterprisePlatform
@@ -252,6 +254,9 @@ def create_app(
     )
     register_model_routes(app, model_platform)
     app.state.model_platform = model_platform
+    security_platform = SecurityPlatform()
+    register_security_routes(app, security_platform)
+    app.state.security_platform = security_platform
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
@@ -314,6 +319,7 @@ def create_app(
             collaboration.metrics,
             governance.metrics,
             model_platform.metrics,
+            security_platform.metrics,
         ),
         methods=["GET"],
         tags=["operations"],

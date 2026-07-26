@@ -7,17 +7,17 @@ import {
   ApplicationTemplatesPage, ApplicationUsagePage, ApplicationVersionsPage,
   AppStorePage,
   CollectionsPage, DocumentsPage, KnowledgeBasesPage, KnowledgeStatusPage,
-  dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
+  dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
   LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
   PluginDetailsPage, PluginPermissionsPage, PluginsPage, PublishersPage,
   RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage,
-  MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage, ModelPlatformPage,
+  MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage, ModelPlatformPage, SecurityPlatformPage,
 } from "./pages";
 
 function Shell() {
   const { token, logout } = useAuth(); const navigate = useNavigate();
   if (!token) return <Navigate to="/login" replace />;
-  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages, ...collaborationDashboardPages, ...governanceDashboardPages, ...modelDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
+  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages, ...collaborationDashboardPages, ...governanceDashboardPages, ...modelDashboardPages, ...securityDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
 }
 
 export function App() {
@@ -58,6 +58,15 @@ export function App() {
     <Route path="/model-usage" element={<ModelPlatformPage title="Usage" resource="model-usage" />} />
     <Route path="/model-cost" element={<ModelPlatformPage title="Cost" resource="model-cost" />} />
     <Route path="/model-governance" element={<ModelPlatformPage title="Governance" resource="model-governance" />} />
+    <Route path="/security" element={<SecurityPlatformPage />} />
+    <Route path="/security-identity" element={<SecurityPlatformPage title="Identity" resource="identity" />} />
+    <Route path="/security-authentication" element={<SecurityPlatformPage title="Authentication" />} />
+    <Route path="/security-authorization" element={<SecurityPlatformPage title="Authorization" />} />
+    <Route path="/security-secrets" element={<SecurityPlatformPage title="Secrets" resource="secrets" />} />
+    <Route path="/security-threats" element={<SecurityPlatformPage title="Threats" />} />
+    <Route path="/security-incidents" element={<SecurityPlatformPage title="Incidents" resource="incidents" />} />
+    <Route path="/security-compliance" element={<SecurityPlatformPage title="Compliance" resource="compliance" />} />
+    <Route path="/security-audit" element={<SecurityPlatformPage title="Audit" />} />
     <Route path="/memory" element={<MemoryPage />} />
     <Route path="/reasoning" element={<ReasoningPage />} />
     <Route path="/reasoning-plans" element={<ReasoningPage title="Plans" />} />
