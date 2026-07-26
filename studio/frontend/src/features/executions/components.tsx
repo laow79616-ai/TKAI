@@ -7,7 +7,7 @@ export const ExecutionSummaryCard = ({ execution }: { execution: ExecutionSummar
 export const ExecutionTimeline = ({ events }: { events: readonly ExecutionTimelineEvent[] }) => <ol>{events.map((item) => <TimelineEvent key={item.id} event={item} />)}</ol>;
 export const TimelineEvent = ({ event }: { event: ExecutionTimelineEvent }) => <li>{event.message ?? event.type}</li>;
 export const ExecutionTree = ({ node }: { node: ExecutionTreeNode | null }) => <section>{node?.label ?? "No execution tree"}</section>;
-export const ExecutionTreeNode = ({ node }: { node: ExecutionTreeNode }) => <article>{node.label}</article>;
+export const ExecutionTreeNodeView = ({ node }: { node: ExecutionTreeNode }) => <article>{node.label}</article>;
 export const ExecutionLogs = ({ logs }: { logs: readonly ExecutionLogEntry[] }) => <ul>{logs.map((item) => <li key={item.id}>{item.message}</li>)}</ul>;
 export const LogFilterBar = ({ filter }: { filter: ExecutionFilter }) => <span>{filter.text}</span>;
 export const TracePanel = ({ spans }: { spans: readonly ExecutionSpan[] }) => <section>{spans.length} spans</section>;

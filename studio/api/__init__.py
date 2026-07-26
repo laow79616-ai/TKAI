@@ -2,4 +2,12 @@
 
 from studio.backend.routes import RouteDefinition, StudioRouter
 
-__all__ = ("RouteDefinition", "StudioRouter")
+from .v23 import STUDIO_RESOURCE_PATHS, StudioEndpoint, studio_v23_routes
+
+__all__ = (
+    "RouteDefinition",
+    "STUDIO_RESOURCE_PATHS",
+    "StudioEndpoint",
+    "StudioRouter",
+    "studio_v23_routes",
+)
