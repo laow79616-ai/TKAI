@@ -19,6 +19,9 @@ export interface AgentDefinitionRecord { agent_id: string; name: string; version
 export interface AgentRunRecord { run_id: string; agent_id: string; workspace: string; status: string; events: unknown[]; metrics: Record<string, number>; }
 export interface PluginRecord { id: string; name: string; version: string; description: string; permissions: string[]; state?: string; [key: string]: unknown; }
 export interface MarketplaceRecord { package_id?: string; publisher_id?: string; license_id?: string; review_id?: string; [key: string]: unknown; }
+export interface ApplicationRecord { id: string; name: string; description: string; version: string; owner: string; category: string; tags: string[]; status: string; [key: string]: unknown; }
+export interface ApplicationTemplateRecord { id: string; name: string; category: string; description: string; [key: string]: unknown; }
+export interface DeploymentRecord { id: string; application_id: string; version: string; environment: string; replicas: number; quota: number; status: string; [key: string]: unknown; }
 
 export class ApiClientError extends Error {
   constructor(public readonly status: number, message: string) { super(message); }
@@ -70,6 +73,11 @@ export class MarketplaceApiClient {
   audit() { return this.request<ApiListResponse<EnterpriseRecord>>("/audit"); }
   enterprise(resource: string) { return this.request<ApiListResponse<EnterpriseRecord>>(`/enterprise/${resource}`); }
   agents() { return this.request<ApiListResponse<AgentDefinitionRecord>>("/agents"); }
+  applications() { return this.request<ApiListResponse<ApplicationRecord>>("/applications"); }
+  applicationTemplates() { return this.request<ApiListResponse<ApplicationTemplateRecord>>("/templates"); }
+  applicationDeployments() { return this.request<ApiListResponse<DeploymentRecord>>("/deployments"); }
+  applicationVersions() { return this.request<ApiListResponse<EnterpriseRecord>>("/applications/versions"); }
+  applicationDashboard() { return this.request<Record<string, unknown>>("/applications/dashboard"); }
   agentRun(id: string) { return this.request<AgentRunRecord>(`/agents/run/${encodeURIComponent(id)}`); }
   plugins() { return this.request<ApiListResponse<PluginRecord>>("/plugins"); }
   marketplace() { return this.request<ApiListResponse<MarketplaceRecord>>("/marketplace"); }

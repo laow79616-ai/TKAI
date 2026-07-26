@@ -1,7 +1,15 @@
 import { Navigate, Outlet, Route, Routes, useNavigate } from "react-router-dom";
 import { useAuth } from "./auth";
 import { ErrorBoundary, Header, Sidebar } from "./components";
-import { AgentDefinitionsPage, AgentRunDetailsPage, AgentRunsPage, dashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage, LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage, PluginDetailsPage, PluginPermissionsPage, PluginsPage, PublishersPage, RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage } from "./pages";
+import {
+  AgentDefinitionsPage, AgentRunDetailsPage, AgentRunsPage,
+  ApplicationDeploymentsPage, ApplicationPermissionsPage, ApplicationsPage,
+  ApplicationTemplatesPage, ApplicationUsagePage, ApplicationVersionsPage,
+  dashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
+  LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
+  PluginDetailsPage, PluginPermissionsPage, PluginsPage, PublishersPage,
+  RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage,
+} from "./pages";
 
 function Shell() {
   const { token, logout } = useAuth(); const navigate = useNavigate();
@@ -9,5 +17,39 @@ function Shell() {
   return <div className="dashboard-shell"><Sidebar pages={dashboardPages} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
 }
 
-export function App() { return <Routes><Route path="/login" element={<LoginPage />} /><Route element={<Shell />}><Route path="/dashboard" element={<DashboardHome />} /><Route path="/agents" element={<AgentDefinitionsPage />} /><Route path="/agent-runs" element={<AgentRunsPage />} /><Route path="/agent-runs/:id" element={<AgentRunDetailsPage />} /><Route path="/plugins" element={<PluginsPage />} /><Route path="/marketplace" element={<MarketplacePage />} /><Route path="/installed" element={<PluginsPage title="Installed Plugins" />} /><Route path="/updates" element={<PluginsPage title="Plugin Updates" />} /><Route path="/plugins/:id" element={<PluginDetailsPage />} /><Route path="/plugins/:id/permissions" element={<PluginPermissionsPage />} /><Route path="/registry" element={<RegistryPage />} /><Route path="/publishers" element={<PublishersPage />} /><Route path="/packages" element={<PackagesPage />} /><Route path="/downloads" element={<DownloadsPage />} /><Route path="/licenses" element={<LicensesPage />} /><Route path="/reviews" element={<ReviewsPage />} /><Route path="/versions" element={<VersionsPage />} /><Route path="/search" element={<SearchPage />} /><Route path="/statistics" element={<StatisticsPage />} /><Route path="/health" element={<HealthPage />} /><EnterpriseRoutes /></Route><Route path="/" element={<Navigate to="/dashboard" replace />} /><Route path="*" element={<NotFoundPage />} /></Routes>; }
-export function EnterpriseRoutes() { const { client } = useAuth(); return <><Route path="/users" element={<EnterprisePage title="Users" load={() => client.users()} />} /><Route path="/organizations" element={<EnterprisePage title="Organizations" load={() => client.organizations()} />} /><Route path="/tenants" element={<EnterprisePage title="Tenants" load={() => client.enterprise("tenants")} />} /><Route path="/teams" element={<EnterprisePage title="Teams" load={() => client.teams()} />} /><Route path="/roles" element={<EnterprisePage title="Roles" load={() => client.roles()} />} /><Route path="/permissions" element={<EnterprisePage title="Permissions" load={() => client.enterprise("permissions")} />} /><Route path="/license" element={<EnterprisePage title="License" load={() => client.enterprise("license")} />} /><Route path="/billing" element={<EnterprisePage title="Billing" load={() => client.enterprise("billing")} />} /><Route path="/api-keys" element={<EnterprisePage title="API Keys" load={() => client.apiKeys()} />} /><Route path="/audit" element={<EnterprisePage title="Audit Logs" load={() => client.audit()} />} /></>; }
+export function App() {
+  return <Routes><Route path="/login" element={<LoginPage />} /><Route element={<Shell />}>
+    <Route path="/dashboard" element={<DashboardHome />} />
+    <Route path="/applications" element={<ApplicationsPage />} />
+    <Route path="/application-templates" element={<ApplicationTemplatesPage />} />
+    <Route path="/deployments" element={<ApplicationDeploymentsPage />} />
+    <Route path="/application-usage" element={<ApplicationUsagePage />} />
+    <Route path="/application-versions" element={<ApplicationVersionsPage />} />
+    <Route path="/application-permissions" element={<ApplicationPermissionsPage />} />
+    <Route path="/agents" element={<AgentDefinitionsPage />} />
+    <Route path="/agent-runs" element={<AgentRunsPage />} />
+    <Route path="/agent-runs/:id" element={<AgentRunDetailsPage />} />
+    <Route path="/plugins" element={<PluginsPage />} />
+    <Route path="/marketplace" element={<MarketplacePage />} />
+    <Route path="/installed" element={<PluginsPage title="Installed Plugins" />} />
+    <Route path="/updates" element={<PluginsPage title="Plugin Updates" />} />
+    <Route path="/plugins/:id" element={<PluginDetailsPage />} />
+    <Route path="/plugins/:id/permissions" element={<PluginPermissionsPage />} />
+    <Route path="/registry" element={<RegistryPage />} />
+    <Route path="/publishers" element={<PublishersPage />} />
+    <Route path="/packages" element={<PackagesPage />} />
+    <Route path="/downloads" element={<DownloadsPage />} />
+    <Route path="/licenses" element={<LicensesPage />} />
+    <Route path="/reviews" element={<ReviewsPage />} />
+    <Route path="/versions" element={<VersionsPage />} />
+    <Route path="/search" element={<SearchPage />} />
+    <Route path="/statistics" element={<StatisticsPage />} />
+    <Route path="/health" element={<HealthPage />} />
+    <EnterpriseRoutes />
+  </Route><Route path="/" element={<Navigate to="/dashboard" replace />} /><Route path="*" element={<NotFoundPage />} /></Routes>;
+}
+
+export function EnterpriseRoutes() {
+  const { client } = useAuth();
+  return <><Route path="/users" element={<EnterprisePage title="Users" load={() => client.users()} />} /><Route path="/organizations" element={<EnterprisePage title="Organizations" load={() => client.organizations()} />} /><Route path="/tenants" element={<EnterprisePage title="Tenants" load={() => client.enterprise("tenants")} />} /><Route path="/teams" element={<EnterprisePage title="Teams" load={() => client.teams()} />} /><Route path="/roles" element={<EnterprisePage title="Roles" load={() => client.roles()} />} /><Route path="/permissions" element={<EnterprisePage title="Permissions" load={() => client.enterprise("permissions")} />} /><Route path="/license" element={<EnterprisePage title="License" load={() => client.enterprise("license")} />} /><Route path="/billing" element={<EnterprisePage title="Billing" load={() => client.enterprise("billing")} />} /><Route path="/api-keys" element={<EnterprisePage title="API Keys" load={() => client.apiKeys()} />} /><Route path="/audit" element={<EnterprisePage title="Audit Logs" load={() => client.audit()} />} /></>;
+}

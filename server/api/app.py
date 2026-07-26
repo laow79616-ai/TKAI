@@ -8,6 +8,8 @@ from os import environ
 from types import ModuleType
 from typing import Any, cast
 
+from applications import ApplicationCenter
+from applications.api import register_application_routes
 from marketplace.api import MarketplaceApi
 from marketplace.enterprise_store import EnterpriseMarketplace
 from server.production import ProductionConfigurationLoader, ProductionRuntime
@@ -130,6 +132,9 @@ def create_app(
             path, endpoint, methods=["GET"], tags=["marketplace"]
         )
     register_enterprise_platform_routes(app, EnterprisePlatform())
+    application_center = ApplicationCenter()
+    register_application_routes(app, application_center)
+    app.state.application_center = application_center
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
@@ -183,6 +188,7 @@ def create_app(
             selected.agent_runtime.metrics,
             plugins.metrics,
             store.metrics,
+            application_center.metrics,
         ),
         methods=["GET"],
         tags=["operations"],
