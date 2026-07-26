@@ -131,6 +131,20 @@ def test_loki_retention_and_alloy_log_scope_are_explicit() -> None:
         assert f'target_label  = "{sensitive}"' not in alloy
 
 
+def test_loki_healthcheck_uses_native_binary_and_readiness_endpoint() -> None:
+    compose = _yaml(ROOT / "docker-compose.observability.yml")
+    healthcheck = compose["services"]["loki"]["healthcheck"]["test"]
+
+    assert healthcheck == [
+        "CMD",
+        "/usr/bin/loki",
+        "-health",
+        "-health.url=http://localhost:3100/ready",
+    ]
+    assert "/bin/sh" not in healthcheck
+    assert "wget" not in healthcheck
+
+
 def test_monitoring_ports_are_localhost_only_and_credentials_are_external() -> None:
     compose = _yaml(ROOT / "docker-compose.observability.yml")
     services = compose["services"]
@@ -153,6 +167,19 @@ def test_monitoring_ports_are_localhost_only_and_credentials_are_external() -> N
         encoding="utf-8"
     )
     assert "GF_SECURITY_ADMIN_PASSWORD: admin" not in compose_text
+
+
+def test_every_observability_healthcheck_uses_a_valid_compose_mode() -> None:
+    compose = _yaml(ROOT / "docker-compose.observability.yml")
+    valid_modes = {"CMD", "CMD-SHELL", "NONE"}
+
+    healthchecks = [
+        service["healthcheck"]["test"]
+        for service in compose["services"].values()
+        if "healthcheck" in service
+    ]
+    assert healthchecks
+    assert all(test[0] in valid_modes for test in healthchecks)
 
 
 def test_api_prometheus_exposition_uses_existing_count_metrics() -> None:
