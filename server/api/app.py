@@ -22,6 +22,8 @@ from data_platform import DataPlatform
 from data_platform.api import register_data_routes
 from governance import EnterpriseAIGovernancePlatform, GovernanceScope
 from governance.api import register_governance_routes
+from knowledge_graph import KnowledgeGraphPlatform
+from knowledge_graph.api import register_knowledge_graph_routes
 from knowledge_platform import KnowledgePlatform
 from knowledge_platform.api import register_knowledge_routes
 from marketplace.api import MarketplaceApi
@@ -162,6 +164,9 @@ def create_app(
     knowledge_platform = KnowledgePlatform()
     register_knowledge_routes(app, knowledge_platform)
     app.state.knowledge_platform = knowledge_platform
+    knowledge_graph = KnowledgeGraphPlatform()
+    register_knowledge_graph_routes(app, knowledge_graph)
+    app.state.knowledge_graph = knowledge_graph
     workflow_platform = WorkflowPlatform()
     register_workflow_routes(app, workflow_platform)
     app.state.workflow_platform = workflow_platform
@@ -322,6 +327,7 @@ def create_app(
             store.metrics,
             application_center.metrics,
             knowledge_platform.metrics,
+            knowledge_graph.metrics,
             workflow_platform.metrics,
             orchestrator.metrics,
             memory_engine.metrics,

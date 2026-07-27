@@ -10,6 +10,7 @@ from applications.runtime import ApplicationMetrics
 from collaboration.metrics import CollaborationMetrics
 from command_center.metrics import CommandCenterMetrics
 from governance.metrics import GovernanceMetrics
+from knowledge_graph.metrics import KnowledgeGraphMetrics
 from knowledge_platform.metrics import KnowledgeMetrics
 from marketplace.enterprise_store import MarketplaceMetrics
 from memory_engine.metrics import MemoryMetrics
@@ -49,6 +50,7 @@ def prometheus_endpoint(
     marketplace_metrics: MarketplaceMetrics | None = None,
     application_metrics: ApplicationMetrics | None = None,
     knowledge_metrics: KnowledgeMetrics | None = None,
+    knowledge_graph_metrics: KnowledgeGraphMetrics | None = None,
     workflow_metrics: WorkflowMetrics | None = None,
     orchestrator_metrics: OrchestratorMetrics | None = None,
     memory_metrics: MemoryMetrics | None = None,
@@ -74,6 +76,8 @@ def prometheus_endpoint(
             body += application_metrics.render_prometheus()
         if knowledge_metrics is not None:
             body += knowledge_metrics.render_prometheus()
+        if knowledge_graph_metrics is not None:
+            body += knowledge_graph_metrics.render_prometheus()
         if workflow_metrics is not None:
             body += workflow_metrics.render_prometheus()
         if orchestrator_metrics is not None:

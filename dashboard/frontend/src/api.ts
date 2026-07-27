@@ -131,6 +131,10 @@ export class MarketplaceApiClient {
     const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
     return this.request<Record<string, unknown> | unknown[]>(`/command-center/${resource}?${query}`);
   }
+  knowledgeGraph(resource = "graphs") {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown> | unknown[]>(`/knowledge-graph/${resource}?${query}`);
+  }
   plans() { return this.request<ApiListResponse<EnterpriseRecord>>("/plans?tenant=default&actor=dashboard"); }
   executions() { return this.request<ApiListResponse<EnterpriseRecord>>("/executions?tenant=default&actor=dashboard"); }
   queues() { return this.request<Record<string, unknown>>("/queues"); }
