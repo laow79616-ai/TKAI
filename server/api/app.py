@@ -64,6 +64,12 @@ from tiktok.content_center import (
     ExistingProxyCenterAdapter as ContentProxyAdapter,
 )
 from tiktok.content_center.api import register_content_center_routes
+from tiktok.data_collection import (
+    ExistingAccountCenterAdapter as DataAccountAdapter,
+)
+from tiktok.data_collection import ExistingProxyCenterAdapter as DataProxyAdapter
+from tiktok.data_collection import TikTokDataCollectionCenter
+from tiktok.data_collection.api import register_data_collection_routes
 from tiktok.proxy_center import BrowserRuntimeProxyAdapter, TikTokProxyCenter
 from tiktok.proxy_center.api import register_proxy_center_routes
 from tkai.agent import AgentApi
@@ -328,6 +334,12 @@ def create_app(
     )
     register_content_center_routes(app, tiktok_content_center)
     app.state.tiktok_content_center = tiktok_content_center
+    tiktok_data_collection_center = TikTokDataCollectionCenter(
+        accounts=DataAccountAdapter(tiktok_account_center),
+        proxies=DataProxyAdapter(tiktok_proxy_center),
+    )
+    register_data_collection_routes(app, tiktok_data_collection_center)
+    app.state.tiktok_data_collection_center = tiktok_data_collection_center
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]

@@ -147,6 +147,10 @@ export class MarketplaceApiClient {
     const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
     return this.request<Record<string, unknown>>(`/tiktok/proxy-center/dashboard?${query}`);
   }
+  tiktokDataCollection() {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown>>(`/tiktok/data/dashboard?${query}`);
+  }
   plans() { return this.request<ApiListResponse<EnterpriseRecord>>("/plans?tenant=default&actor=dashboard"); }
   executions() { return this.request<ApiListResponse<EnterpriseRecord>>("/executions?tenant=default&actor=dashboard"); }
   queues() { return this.request<Record<string, unknown>>("/queues"); }
