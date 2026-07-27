@@ -1,0 +1,1 @@
+"""Bounded media upload namespace."""

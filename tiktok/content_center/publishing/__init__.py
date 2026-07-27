@@ -1,0 +1,1 @@
+"""Approved publishing namespace."""

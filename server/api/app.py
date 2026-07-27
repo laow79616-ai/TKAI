@@ -50,6 +50,20 @@ from tiktok.account_farming import (
 from tiktok.account_farming.api import register_account_farming_routes
 from tiktok.browser_runtime import AccountCenterStatusAdapter, TikTokBrowserRuntime
 from tiktok.browser_runtime.api import register_browser_runtime_routes
+from tiktok.content_center import (
+    ExistingAccountCenterAdapter as ContentAccountAdapter,
+)
+from tiktok.content_center import (
+    ExistingBrowserRuntimeAdapter as ContentBrowserAdapter,
+)
+from tiktok.content_center import (
+    ExistingFarmingAdapter,
+    TikTokContentCenter,
+)
+from tiktok.content_center import (
+    ExistingProxyCenterAdapter as ContentProxyAdapter,
+)
+from tiktok.content_center.api import register_content_center_routes
 from tiktok.proxy_center import BrowserRuntimeProxyAdapter, TikTokProxyCenter
 from tiktok.proxy_center.api import register_proxy_center_routes
 from tkai.agent import AgentApi
@@ -306,6 +320,14 @@ def create_app(
     )
     register_account_farming_routes(app, tiktok_account_farming)
     app.state.tiktok_account_farming = tiktok_account_farming
+    tiktok_content_center = TikTokContentCenter(
+        accounts=ContentAccountAdapter(tiktok_account_center),
+        browsers=ContentBrowserAdapter(tiktok_browser_runtime),
+        proxies=ContentProxyAdapter(tiktok_proxy_center),
+        farming=ExistingFarmingAdapter(tiktok_account_farming),
+    )
+    register_content_center_routes(app, tiktok_content_center)
+    app.state.tiktok_content_center = tiktok_content_center
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
