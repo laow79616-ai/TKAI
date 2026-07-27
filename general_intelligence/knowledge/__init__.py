@@ -1,0 +1,1 @@
+"""Governed knowledge registry boundary."""
