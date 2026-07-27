@@ -1,0 +1,1 @@
+"""Bounded browser page contracts."""

@@ -41,6 +41,8 @@ from security_platform.api import register_security_routes
 from server.production import ProductionConfigurationLoader, ProductionRuntime
 from tiktok.account_center import TikTokAccountCenter
 from tiktok.account_center.api import register_tiktok_routes
+from tiktok.browser_runtime import AccountCenterStatusAdapter, TikTokBrowserRuntime
+from tiktok.browser_runtime.api import register_browser_runtime_routes
 from tkai.agent import AgentApi
 from tkai.enterprise import EnterprisePlatform
 from tkai.enterprise.api import register_enterprise_platform_routes
@@ -277,6 +279,11 @@ def create_app(
     tiktok_account_center = TikTokAccountCenter()
     register_tiktok_routes(app, tiktok_account_center)
     app.state.tiktok_account_center = tiktok_account_center
+    tiktok_browser_runtime = TikTokBrowserRuntime(
+        account_status=AccountCenterStatusAdapter(tiktok_account_center)
+    )
+    register_browser_runtime_routes(app, tiktok_browser_runtime)
+    app.state.tiktok_browser_runtime = tiktok_browser_runtime
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
