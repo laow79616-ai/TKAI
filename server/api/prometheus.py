@@ -8,6 +8,7 @@ from typing import Any
 
 from applications.runtime import ApplicationMetrics
 from collaboration.metrics import CollaborationMetrics
+from command_center.metrics import CommandCenterMetrics
 from governance.metrics import GovernanceMetrics
 from knowledge_platform.metrics import KnowledgeMetrics
 from marketplace.enterprise_store import MarketplaceMetrics
@@ -56,6 +57,7 @@ def prometheus_endpoint(
     governance_metrics: GovernanceMetrics | None = None,
     model_metrics: ModelMetrics | None = None,
     security_metrics: SecurityMetrics | None = None,
+    command_center_metrics: CommandCenterMetrics | None = None,
 ) -> Callable[[], Any]:
     """Create a FastAPI endpoint without making FastAPI a core dependency."""
 
@@ -88,6 +90,8 @@ def prometheus_endpoint(
             body += model_metrics.render_prometheus()
         if security_metrics is not None:
             body += security_metrics.render_prometheus()
+        if command_center_metrics is not None:
+            body += command_center_metrics.render_prometheus()
         return response_type(
             body,
             media_type="text/plain; version=0.0.4",

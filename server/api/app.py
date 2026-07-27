@@ -16,6 +16,8 @@ from applications import ApplicationCenter
 from applications.api import register_application_routes
 from collaboration import CollaborationScope, EnterpriseAICollaborationPlatform
 from collaboration.api import register_collaboration_routes
+from command_center import CommandCenterPlatform
+from command_center.api import register_command_center_routes
 from data_platform import DataPlatform
 from data_platform.api import register_data_routes
 from governance import EnterpriseAIGovernancePlatform, GovernanceScope
@@ -262,6 +264,9 @@ def create_app(
     security_platform = SecurityPlatform()
     register_security_routes(app, security_platform)
     app.state.security_platform = security_platform
+    command_center = CommandCenterPlatform()
+    register_command_center_routes(app, command_center)
+    app.state.command_center = command_center
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
@@ -325,6 +330,7 @@ def create_app(
             governance.metrics,
             model_platform.metrics,
             security_platform.metrics,
+            command_center.metrics,
         ),
         methods=["GET"],
         tags=["operations"],

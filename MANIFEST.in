@@ -87,3 +87,5 @@ recursive-include model_platform *.py *.md
 recursive-include event_streaming *.py *.md
 recursive-include docs/event-streaming *.md
 recursive-include docs/model-platform *.md
+recursive-include command_center *.py
+recursive-include docs/command_center *.md

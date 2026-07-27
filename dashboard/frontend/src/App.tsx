@@ -7,17 +7,17 @@ import {
   ApplicationTemplatesPage, ApplicationUsagePage, ApplicationVersionsPage,
   AppStorePage,
   CollectionsPage, DocumentsPage, KnowledgeBasesPage, KnowledgeStatusPage,
-  dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, apiManagementDashboardPages, integrationHubDashboardPages, digitalTwinDashboardPages, businessIntelligenceDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
+  dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, apiManagementDashboardPages, integrationHubDashboardPages, digitalTwinDashboardPages, businessIntelligenceDashboardPages, commandCenterDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
   LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
   PluginDetailsPage, PluginPermissionsPage, PluginsPage, PublishersPage,
   RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage,
-  MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage, ModelPlatformPage, SecurityPlatformPage, ApiManagementPage, IntegrationHubPage, DigitalTwinPage, BusinessIntelligencePage,
+  MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage, ModelPlatformPage, SecurityPlatformPage, ApiManagementPage, IntegrationHubPage, DigitalTwinPage, BusinessIntelligencePage, CommandCenterPage,
 } from "./pages";
 
 function Shell() {
   const { token, logout } = useAuth(); const navigate = useNavigate();
   if (!token) return <Navigate to="/login" replace />;
-  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages, ...collaborationDashboardPages, ...governanceDashboardPages, ...modelDashboardPages, ...securityDashboardPages, ...apiManagementDashboardPages, ...integrationHubDashboardPages, ...digitalTwinDashboardPages, ...businessIntelligenceDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
+  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages, ...collaborationDashboardPages, ...governanceDashboardPages, ...modelDashboardPages, ...securityDashboardPages, ...apiManagementDashboardPages, ...integrationHubDashboardPages, ...digitalTwinDashboardPages, ...businessIntelligenceDashboardPages, ...commandCenterDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
 }
 
 export function App() {
@@ -107,6 +107,16 @@ export function App() {
     <Route path="/business-intelligence-alerts" element={<BusinessIntelligencePage title="BI Alerts" resource="alerts" />} />
     <Route path="/business-intelligence-subscriptions" element={<BusinessIntelligencePage title="BI Subscriptions" resource="subscriptions" />} />
     <Route path="/business-intelligence-governance" element={<BusinessIntelligencePage title="BI Governance" resource="governance" />} />
+    <Route path="/command-center" element={<CommandCenterPage />} />
+    <Route path="/command-center-operations" element={<CommandCenterPage title="Live Operations" resource="operations" />} />
+    <Route path="/command-center-agents" element={<CommandCenterPage title="Agents" resource="topology" />} />
+    <Route path="/command-center-automation" element={<CommandCenterPage title="Automation" resource="tasks" />} />
+    <Route path="/command-center-incidents" element={<CommandCenterPage title="Incidents" resource="incidents" />} />
+    <Route path="/command-center-alerts" element={<CommandCenterPage title="Alerts" resource="alerts" />} />
+    <Route path="/command-center-topology" element={<CommandCenterPage title="Topology" resource="topology" />} />
+    <Route path="/command-center-health" element={<CommandCenterPage title="Health" resource="health" />} />
+    <Route path="/command-center-activity" element={<CommandCenterPage title="Activity" resource="activity" />} />
+    <Route path="/command-center-audit" element={<CommandCenterPage title="Audit" resource="activity" />} />
     <Route path="/memory" element={<MemoryPage />} />
     <Route path="/reasoning" element={<ReasoningPage />} />
     <Route path="/reasoning-plans" element={<ReasoningPage title="Plans" />} />
