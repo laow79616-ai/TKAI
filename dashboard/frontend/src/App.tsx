@@ -7,7 +7,7 @@ import {
   ApplicationTemplatesPage, ApplicationUsagePage, ApplicationVersionsPage,
   AppStorePage,
   CollectionsPage, DocumentsPage, KnowledgeBasesPage, KnowledgeStatusPage,
-  dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, apiManagementDashboardPages, integrationHubDashboardPages, digitalTwinDashboardPages, businessIntelligenceDashboardPages, commandCenterDashboardPages, knowledgeGraphDashboardPages, tiktokDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
+  dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, apiManagementDashboardPages, integrationHubDashboardPages, digitalTwinDashboardPages, businessIntelligenceDashboardPages, commandCenterDashboardPages, knowledgeGraphDashboardPages, tiktokDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage, TikTokInteractionCenterPage,
   LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
   PluginDetailsPage, PluginPermissionsPage, PluginsPage, PublishersPage,
   RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage,
@@ -27,6 +27,7 @@ export function App() {
     <Route path="/tiktok-browser-runtime" element={<TikTokBrowserRuntimePage />} />
     <Route path="/tiktok-proxy-center" element={<TikTokProxyCenterPage />} />
     <Route path="/tiktok-data-collection" element={<TikTokDataCollectionPage />} />
+    <Route path="/tiktok-ai-interaction-center" element={<TikTokInteractionCenterPage />} />
     <Route path="/collaboration" element={<CollaborationPage />} />
     <Route path="/collaboration-teams" element={<CollaborationPage title="Teams" />} />
     <Route path="/collaboration-projects" element={<CollaborationPage title="Projects" />} />
