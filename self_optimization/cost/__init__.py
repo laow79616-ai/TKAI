@@ -1,0 +1,1 @@
+"""Cost optimization contracts."""
