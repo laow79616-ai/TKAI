@@ -7,17 +7,17 @@ import {
   ApplicationTemplatesPage, ApplicationUsagePage, ApplicationVersionsPage,
   AppStorePage,
   CollectionsPage, DocumentsPage, KnowledgeBasesPage, KnowledgeStatusPage,
-  dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, apiManagementDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
+  dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, apiManagementDashboardPages, integrationHubDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
   LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
   PluginDetailsPage, PluginPermissionsPage, PluginsPage, PublishersPage,
   RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage,
-  MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage, ModelPlatformPage, SecurityPlatformPage, ApiManagementPage,
+  MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage, ModelPlatformPage, SecurityPlatformPage, ApiManagementPage, IntegrationHubPage,
 } from "./pages";
 
 function Shell() {
   const { token, logout } = useAuth(); const navigate = useNavigate();
   if (!token) return <Navigate to="/login" replace />;
-  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages, ...collaborationDashboardPages, ...governanceDashboardPages, ...modelDashboardPages, ...securityDashboardPages, ...apiManagementDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
+  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages, ...collaborationDashboardPages, ...governanceDashboardPages, ...modelDashboardPages, ...securityDashboardPages, ...apiManagementDashboardPages, ...integrationHubDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
 }
 
 export function App() {
@@ -79,6 +79,17 @@ export function App() {
     <Route path="/api-management-subscriptions" element={<ApiManagementPage title="Subscriptions" resource="subscriptions" />} />
     <Route path="/api-management-analytics" element={<ApiManagementPage title="Analytics" resource="analytics" />} />
     <Route path="/api-management-developer-portal" element={<ApiManagementPage title="Developer Portal" resource="developer-portal" />} />
+    <Route path="/integration-hub" element={<IntegrationHubPage />} />
+    <Route path="/integration-hub-catalog" element={<IntegrationHubPage title="Integration Catalog" resource="catalog" />} />
+    <Route path="/integration-hub-instances" element={<IntegrationHubPage title="Connector Instances" resource="instances" />} />
+    <Route path="/integration-hub-mappings" element={<IntegrationHubPage title="Mappings" resource="mappings" />} />
+    <Route path="/integration-hub-flows" element={<IntegrationHubPage title="Integration Flows" resource="flows" />} />
+    <Route path="/integration-hub-credentials" element={<IntegrationHubPage title="Credentials" resource="credentials" />} />
+    <Route path="/integration-hub-health" element={<IntegrationHubPage title="Connector Health" resource="health" />} />
+    <Route path="/integration-hub-schedules" element={<IntegrationHubPage title="Schedules" resource="schedules" />} />
+    <Route path="/integration-hub-failures" element={<IntegrationHubPage title="Failures" resource="failures" />} />
+    <Route path="/integration-hub-dead-letter" element={<IntegrationHubPage title="Dead Letter" resource="dead-letter" />} />
+    <Route path="/integration-hub-analytics" element={<IntegrationHubPage title="Integration Analytics" resource="analytics" />} />
     <Route path="/memory" element={<MemoryPage />} />
     <Route path="/reasoning" element={<ReasoningPage />} />
     <Route path="/reasoning-plans" element={<ReasoningPage title="Plans" />} />
