@@ -11,7 +11,7 @@ import {
   LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
   PluginDetailsPage, PluginPermissionsPage, PluginsPage, PublishersPage,
   RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage,
-  MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage, ModelPlatformPage, SecurityPlatformPage, ApiManagementPage, IntegrationHubPage, DigitalTwinPage, BusinessIntelligencePage, CommandCenterPage, KnowledgeGraphPage, TikTokAccountCenterPage, TikTokBrowserRuntimePage, TikTokProxyCenterPage, TikTokDataCollectionPage,
+  MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage, ModelPlatformPage, SecurityPlatformPage, ApiManagementPage, IntegrationHubPage, DigitalTwinPage, BusinessIntelligencePage, CommandCenterPage, KnowledgeGraphPage, TikTokAccountCenterPage, TikTokBrowserRuntimePage, TikTokProxyCenterPage, TikTokPublishingCenterPage, TikTokDataCollectionPage,
 } from "./pages";
 
 function Shell() {
@@ -26,6 +26,7 @@ export function App() {
     <Route path="/tiktok-account-center" element={<TikTokAccountCenterPage />} />
     <Route path="/tiktok-browser-runtime" element={<TikTokBrowserRuntimePage />} />
     <Route path="/tiktok-proxy-center" element={<TikTokProxyCenterPage />} />
+    <Route path="/tiktok-ai-publishing-center" element={<TikTokPublishingCenterPage />} />
     <Route path="/tiktok-data-collection" element={<TikTokDataCollectionPage />} />
     <Route path="/tiktok-ai-interaction-center" element={<TikTokInteractionCenterPage />} />
     <Route path="/tiktok-ai-risk-control-center" element={<TikTokRiskControlCenterPage />} />

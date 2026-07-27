@@ -79,6 +79,17 @@ from tiktok.operations_center import TikTokOperationsCommandCenter
 from tiktok.operations_center.api import register_operations_center_routes
 from tiktok.proxy_center import BrowserRuntimeProxyAdapter, TikTokProxyCenter
 from tiktok.proxy_center.api import register_proxy_center_routes
+from tiktok.publishing_center import (
+    ExistingAccountCenterAdapter as PublishingAccountAdapter,
+)
+from tiktok.publishing_center import (
+    ExistingBrowserPublisher,
+    ExistingContentCenterAdapter,
+    ExistingFarmingPolicy,
+    ExistingProxyPolicy,
+    TikTokPublishingCenter,
+)
+from tiktok.publishing_center.api import register_publishing_center_routes
 from tiktok.risk_control import TikTokRiskControlCenter
 from tiktok.risk_control.api import register_risk_control_routes
 from tiktok.workflow_center import TikTokWorkflowOrchestrationCenter
@@ -346,6 +357,15 @@ def create_app(
     )
     register_content_center_routes(app, tiktok_content_center)
     app.state.tiktok_content_center = tiktok_content_center
+    tiktok_publishing_center = TikTokPublishingCenter(
+        content=ExistingContentCenterAdapter(tiktok_content_center),
+        accounts=PublishingAccountAdapter(tiktok_account_center),
+        publisher=ExistingBrowserPublisher(tiktok_browser_runtime),
+        proxy_policy=ExistingProxyPolicy(tiktok_proxy_center),
+        farming_policy=ExistingFarmingPolicy(tiktok_account_farming),
+    )
+    register_publishing_center_routes(app, tiktok_publishing_center)
+    app.state.tiktok_publishing_center = tiktok_publishing_center
     tiktok_data_collection_center = TikTokDataCollectionCenter(
         accounts=DataAccountAdapter(tiktok_account_center),
         proxies=DataProxyAdapter(tiktok_proxy_center),
