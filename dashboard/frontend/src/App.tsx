@@ -7,22 +7,23 @@ import {
   ApplicationTemplatesPage, ApplicationUsagePage, ApplicationVersionsPage,
   AppStorePage,
   CollectionsPage, DocumentsPage, KnowledgeBasesPage, KnowledgeStatusPage,
-  dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, apiManagementDashboardPages, integrationHubDashboardPages, digitalTwinDashboardPages, businessIntelligenceDashboardPages, commandCenterDashboardPages, knowledgeGraphDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
+  dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, apiManagementDashboardPages, integrationHubDashboardPages, digitalTwinDashboardPages, businessIntelligenceDashboardPages, commandCenterDashboardPages, knowledgeGraphDashboardPages, tiktokDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
   LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
   PluginDetailsPage, PluginPermissionsPage, PluginsPage, PublishersPage,
   RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage,
-  MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage, ModelPlatformPage, SecurityPlatformPage, ApiManagementPage, IntegrationHubPage, DigitalTwinPage, BusinessIntelligencePage, CommandCenterPage, KnowledgeGraphPage,
+  MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage, ModelPlatformPage, SecurityPlatformPage, ApiManagementPage, IntegrationHubPage, DigitalTwinPage, BusinessIntelligencePage, CommandCenterPage, KnowledgeGraphPage, TikTokAccountCenterPage,
 } from "./pages";
 
 function Shell() {
   const { token, logout } = useAuth(); const navigate = useNavigate();
   if (!token) return <Navigate to="/login" replace />;
-  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages, ...collaborationDashboardPages, ...governanceDashboardPages, ...modelDashboardPages, ...securityDashboardPages, ...apiManagementDashboardPages, ...integrationHubDashboardPages, ...digitalTwinDashboardPages, ...businessIntelligenceDashboardPages, ...commandCenterDashboardPages, ...knowledgeGraphDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
+  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages, ...collaborationDashboardPages, ...governanceDashboardPages, ...modelDashboardPages, ...securityDashboardPages, ...apiManagementDashboardPages, ...integrationHubDashboardPages, ...digitalTwinDashboardPages, ...businessIntelligenceDashboardPages, ...commandCenterDashboardPages, ...knowledgeGraphDashboardPages, ...tiktokDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
 }
 
 export function App() {
   return <Routes><Route path="/login" element={<LoginPage />} /><Route element={<Shell />}>
     <Route path="/dashboard" element={<DashboardHome />} />
+    <Route path="/tiktok-account-center" element={<TikTokAccountCenterPage />} />
     <Route path="/collaboration" element={<CollaborationPage />} />
     <Route path="/collaboration-teams" element={<CollaborationPage title="Teams" />} />
     <Route path="/collaboration-projects" element={<CollaborationPage title="Projects" />} />

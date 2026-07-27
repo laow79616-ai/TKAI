@@ -39,6 +39,8 @@ from reasoning_engine.api import register_reasoning_routes
 from security_platform import SecurityPlatform
 from security_platform.api import register_security_routes
 from server.production import ProductionConfigurationLoader, ProductionRuntime
+from tiktok.account_center import TikTokAccountCenter
+from tiktok.account_center.api import register_tiktok_routes
 from tkai.agent import AgentApi
 from tkai.enterprise import EnterprisePlatform
 from tkai.enterprise.api import register_enterprise_platform_routes
@@ -272,6 +274,9 @@ def create_app(
     command_center = CommandCenterPlatform()
     register_command_center_routes(app, command_center)
     app.state.command_center = command_center
+    tiktok_account_center = TikTokAccountCenter()
+    register_tiktok_routes(app, tiktok_account_center)
+    app.state.tiktok_account_center = tiktok_account_center
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
