@@ -74,6 +74,8 @@ from tiktok.interaction_center import TikTokInteractionCenter
 from tiktok.interaction_center.api import register_interaction_routes
 from tiktok.proxy_center import BrowserRuntimeProxyAdapter, TikTokProxyCenter
 from tiktok.proxy_center.api import register_proxy_center_routes
+from tiktok.risk_control import TikTokRiskControlCenter
+from tiktok.risk_control.api import register_risk_control_routes
 from tkai.agent import AgentApi
 from tkai.enterprise import EnterprisePlatform
 from tkai.enterprise.api import register_enterprise_platform_routes
@@ -345,6 +347,9 @@ def create_app(
     tiktok_interaction_center = TikTokInteractionCenter()
     register_interaction_routes(app, tiktok_interaction_center)
     app.state.tiktok_interaction_center = tiktok_interaction_center
+    tiktok_risk_control_center = TikTokRiskControlCenter()
+    register_risk_control_routes(app, tiktok_risk_control_center)
+    app.state.tiktok_risk_control_center = tiktok_risk_control_center
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
