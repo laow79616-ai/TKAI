@@ -26,6 +26,7 @@ from knowledge_graph import KnowledgeGraphPlatform
 from knowledge_graph.api import register_knowledge_graph_routes
 from knowledge_platform import KnowledgePlatform
 from knowledge_platform.api import register_knowledge_routes
+from local_runtime.api import register_local_runtime_routes
 from marketplace.api import MarketplaceApi
 from marketplace.enterprise_store import EnterpriseMarketplace
 from memory_engine import EnterpriseAIMemoryEngine, MemoryScope
@@ -315,6 +316,7 @@ def create_app(
     command_center = CommandCenterPlatform()
     register_command_center_routes(app, command_center)
     app.state.command_center = command_center
+    register_local_runtime_routes(app)
     tiktok_account_center = TikTokAccountCenter()
     register_tiktok_routes(app, tiktok_account_center)
     app.state.tiktok_account_center = tiktok_account_center

@@ -7,7 +7,7 @@ import {
   ApplicationTemplatesPage, ApplicationUsagePage, ApplicationVersionsPage,
   AppStorePage,
   CollectionsPage, DocumentsPage, KnowledgeBasesPage, KnowledgeStatusPage,
-  dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, apiManagementDashboardPages, integrationHubDashboardPages, digitalTwinDashboardPages, businessIntelligenceDashboardPages, commandCenterDashboardPages, knowledgeGraphDashboardPages, tiktokDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage, TikTokInteractionCenterPage, TikTokRiskControlCenterPage, TikTokOperationsCenterPage,
+  dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, apiManagementDashboardPages, integrationHubDashboardPages, digitalTwinDashboardPages, businessIntelligenceDashboardPages, commandCenterDashboardPages, knowledgeGraphDashboardPages, tiktokDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage, TikTokInteractionCenterPage, TikTokRiskControlCenterPage, TikTokOperationsCenterPage, TikTokLocalRuntimePage,
   LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
   PluginDetailsPage, PluginPermissionsPage, PluginsPage, PublishersPage,
   RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage,
@@ -30,6 +30,7 @@ export function App() {
     <Route path="/tiktok-ai-interaction-center" element={<TikTokInteractionCenterPage />} />
     <Route path="/tiktok-ai-risk-control-center" element={<TikTokRiskControlCenterPage />} />
     <Route path="/tiktok-operations-command-center" element={<TikTokOperationsCenterPage />} />
+    <Route path="/tiktok-local-runtime" element={<TikTokLocalRuntimePage />} />
     <Route path="/collaboration" element={<CollaborationPage />} />
     <Route path="/collaboration-teams" element={<CollaborationPage title="Teams" />} />
     <Route path="/collaboration-projects" element={<CollaborationPage title="Projects" />} />

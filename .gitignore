@@ -20,6 +20,8 @@ dist/
 .ruff_cache/
 .coverage
 htmlcov/
+runtime/
+configuration/local.json
 
 # macOS
 .DS_Store

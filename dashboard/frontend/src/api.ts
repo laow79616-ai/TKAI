@@ -163,6 +163,9 @@ export class MarketplaceApiClient {
     const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
     return this.request<Record<string, unknown> | unknown[]>(`/tiktok/operations/${resource}?${query}`);
   }
+  localRuntime() {
+    return this.request<Record<string, unknown>>("/local-runtime/status");
+  }
   plans() { return this.request<ApiListResponse<EnterpriseRecord>>("/plans?tenant=default&actor=dashboard"); }
   executions() { return this.request<ApiListResponse<EnterpriseRecord>>("/executions?tenant=default&actor=dashboard"); }
   queues() { return this.request<Record<string, unknown>>("/queues"); }
