@@ -1,0 +1,1 @@
+"""Twin-managed asset interfaces."""

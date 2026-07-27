@@ -7,17 +7,17 @@ import {
   ApplicationTemplatesPage, ApplicationUsagePage, ApplicationVersionsPage,
   AppStorePage,
   CollectionsPage, DocumentsPage, KnowledgeBasesPage, KnowledgeStatusPage,
-  dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, apiManagementDashboardPages, integrationHubDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
+  dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, apiManagementDashboardPages, integrationHubDashboardPages, digitalTwinDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
   LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
   PluginDetailsPage, PluginPermissionsPage, PluginsPage, PublishersPage,
   RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage,
-  MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage, ModelPlatformPage, SecurityPlatformPage, ApiManagementPage, IntegrationHubPage,
+  MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage, ModelPlatformPage, SecurityPlatformPage, ApiManagementPage, IntegrationHubPage, DigitalTwinPage,
 } from "./pages";
 
 function Shell() {
   const { token, logout } = useAuth(); const navigate = useNavigate();
   if (!token) return <Navigate to="/login" replace />;
-  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages, ...collaborationDashboardPages, ...governanceDashboardPages, ...modelDashboardPages, ...securityDashboardPages, ...apiManagementDashboardPages, ...integrationHubDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
+  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages, ...collaborationDashboardPages, ...governanceDashboardPages, ...modelDashboardPages, ...securityDashboardPages, ...apiManagementDashboardPages, ...integrationHubDashboardPages, ...digitalTwinDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
 }
 
 export function App() {
@@ -90,6 +90,12 @@ export function App() {
     <Route path="/integration-hub-failures" element={<IntegrationHubPage title="Failures" resource="failures" />} />
     <Route path="/integration-hub-dead-letter" element={<IntegrationHubPage title="Dead Letter" resource="dead-letter" />} />
     <Route path="/integration-hub-analytics" element={<IntegrationHubPage title="Integration Analytics" resource="analytics" />} />
+    <Route path="/digital-twins" element={<DigitalTwinPage />} />
+    <Route path="/twin-topology" element={<DigitalTwinPage title="Twin Topology" resource="entities" />} />
+    <Route path="/twin-telemetry" element={<DigitalTwinPage title="Twin Telemetry" resource="state" />} />
+    <Route path="/twin-simulation" element={<DigitalTwinPage title="Twin Simulation" resource="simulation" />} />
+    <Route path="/twin-predictions" element={<DigitalTwinPage title="Twin Predictions" resource="predictions" />} />
+    <Route path="/twin-optimization" element={<DigitalTwinPage title="Twin Optimization" resource="optimization" />} />
     <Route path="/memory" element={<MemoryPage />} />
     <Route path="/reasoning" element={<ReasoningPage />} />
     <Route path="/reasoning-plans" element={<ReasoningPage title="Plans" />} />
