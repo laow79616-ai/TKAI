@@ -7,17 +7,17 @@ import {
   ApplicationTemplatesPage, ApplicationUsagePage, ApplicationVersionsPage,
   AppStorePage,
   CollectionsPage, DocumentsPage, KnowledgeBasesPage, KnowledgeStatusPage,
-  dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, apiManagementDashboardPages, integrationHubDashboardPages, digitalTwinDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
+  dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, apiManagementDashboardPages, integrationHubDashboardPages, digitalTwinDashboardPages, businessIntelligenceDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
   LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
   PluginDetailsPage, PluginPermissionsPage, PluginsPage, PublishersPage,
   RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage,
-  MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage, ModelPlatformPage, SecurityPlatformPage, ApiManagementPage, IntegrationHubPage, DigitalTwinPage,
+  MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage, ModelPlatformPage, SecurityPlatformPage, ApiManagementPage, IntegrationHubPage, DigitalTwinPage, BusinessIntelligencePage,
 } from "./pages";
 
 function Shell() {
   const { token, logout } = useAuth(); const navigate = useNavigate();
   if (!token) return <Navigate to="/login" replace />;
-  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages, ...collaborationDashboardPages, ...governanceDashboardPages, ...modelDashboardPages, ...securityDashboardPages, ...apiManagementDashboardPages, ...integrationHubDashboardPages, ...digitalTwinDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
+  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages, ...collaborationDashboardPages, ...governanceDashboardPages, ...modelDashboardPages, ...securityDashboardPages, ...apiManagementDashboardPages, ...integrationHubDashboardPages, ...digitalTwinDashboardPages, ...businessIntelligenceDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
 }
 
 export function App() {
@@ -96,6 +96,17 @@ export function App() {
     <Route path="/twin-simulation" element={<DigitalTwinPage title="Twin Simulation" resource="simulation" />} />
     <Route path="/twin-predictions" element={<DigitalTwinPage title="Twin Predictions" resource="predictions" />} />
     <Route path="/twin-optimization" element={<DigitalTwinPage title="Twin Optimization" resource="optimization" />} />
+    <Route path="/business-intelligence-workspaces" element={<BusinessIntelligencePage title="BI Workspaces" />} />
+    <Route path="/business-intelligence-data-sources" element={<BusinessIntelligencePage title="BI Data Sources" resource="data-sources" />} />
+    <Route path="/business-intelligence-datasets" element={<BusinessIntelligencePage title="BI Datasets" resource="datasets" />} />
+    <Route path="/business-intelligence-semantic-models" element={<BusinessIntelligencePage title="Semantic Models" resource="semantic-models" />} />
+    <Route path="/business-intelligence-metrics" element={<BusinessIntelligencePage title="BI Metrics" resource="metrics" />} />
+    <Route path="/business-intelligence-reports" element={<BusinessIntelligencePage title="BI Reports" resource="reports" />} />
+    <Route path="/business-intelligence-dashboards" element={<BusinessIntelligencePage title="BI Dashboards" resource="dashboards" />} />
+    <Route path="/business-intelligence-insights" element={<BusinessIntelligencePage title="BI Insights" resource="insights" />} />
+    <Route path="/business-intelligence-alerts" element={<BusinessIntelligencePage title="BI Alerts" resource="alerts" />} />
+    <Route path="/business-intelligence-subscriptions" element={<BusinessIntelligencePage title="BI Subscriptions" resource="subscriptions" />} />
+    <Route path="/business-intelligence-governance" element={<BusinessIntelligencePage title="BI Governance" resource="governance" />} />
     <Route path="/memory" element={<MemoryPage />} />
     <Route path="/reasoning" element={<ReasoningPage />} />
     <Route path="/reasoning-plans" element={<ReasoningPage title="Plans" />} />

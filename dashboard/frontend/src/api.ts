@@ -123,6 +123,10 @@ export class MarketplaceApiClient {
     const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
     return this.request<Record<string, unknown> | unknown[]>(`/${resource}?${query}`);
   }
+  businessIntelligence(resource = "workspaces") {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown> | unknown[]>(`/business-intelligence/${resource}?${query}`);
+  }
   plans() { return this.request<ApiListResponse<EnterpriseRecord>>("/plans?tenant=default&actor=dashboard"); }
   executions() { return this.request<ApiListResponse<EnterpriseRecord>>("/executions?tenant=default&actor=dashboard"); }
   queues() { return this.request<Record<string, unknown>>("/queues"); }
