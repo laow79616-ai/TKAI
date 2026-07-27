@@ -1,0 +1,1 @@
+"""Intelligence profile domain boundary."""
