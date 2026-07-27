@@ -48,6 +48,8 @@ from tiktok.account_farming import (
     TikTokAccountFarming,
 )
 from tiktok.account_farming.api import register_account_farming_routes
+from tiktok.analytics_center import TikTokAIAnalyticsCenter
+from tiktok.analytics_center.api import register_analytics_center_routes
 from tiktok.browser_runtime import AccountCenterStatusAdapter, TikTokBrowserRuntime
 from tiktok.browser_runtime.api import register_browser_runtime_routes
 from tiktok.content_center import (
@@ -360,6 +362,9 @@ def create_app(
     tiktok_operations_center = TikTokOperationsCommandCenter()
     register_operations_center_routes(app, tiktok_operations_center)
     app.state.tiktok_operations_center = tiktok_operations_center
+    tiktok_analytics_center = TikTokAIAnalyticsCenter()
+    register_analytics_center_routes(app, tiktok_analytics_center)
+    app.state.tiktok_analytics_center = tiktok_analytics_center
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
