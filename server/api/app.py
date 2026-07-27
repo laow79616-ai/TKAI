@@ -72,6 +72,8 @@ from tiktok.data_collection import TikTokDataCollectionCenter
 from tiktok.data_collection.api import register_data_collection_routes
 from tiktok.interaction_center import TikTokInteractionCenter
 from tiktok.interaction_center.api import register_interaction_routes
+from tiktok.operations_center import TikTokOperationsCommandCenter
+from tiktok.operations_center.api import register_operations_center_routes
 from tiktok.proxy_center import BrowserRuntimeProxyAdapter, TikTokProxyCenter
 from tiktok.proxy_center.api import register_proxy_center_routes
 from tiktok.risk_control import TikTokRiskControlCenter
@@ -355,6 +357,9 @@ def create_app(
     tiktok_workflow_center = TikTokWorkflowOrchestrationCenter()
     register_workflow_center_routes(app, tiktok_workflow_center)
     app.state.tiktok_workflow_center = tiktok_workflow_center
+    tiktok_operations_center = TikTokOperationsCommandCenter()
+    register_operations_center_routes(app, tiktok_operations_center)
+    app.state.tiktok_operations_center = tiktok_operations_center
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
