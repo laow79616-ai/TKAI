@@ -1,0 +1,1 @@
+"""Bounded ERP integration contracts."""
