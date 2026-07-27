@@ -8,6 +8,8 @@ from os import environ
 from types import ModuleType
 from typing import Any, cast
 
+from api_management import ApiManagementPlatform
+from api_management.api import register_api_management_routes
 from app_store import EnterpriseAppStore
 from app_store.api import register_app_store_routes
 from applications import ApplicationCenter
@@ -164,6 +166,9 @@ def create_app(
     app_store = EnterpriseAppStore()
     register_app_store_routes(app, app_store)
     app.state.app_store = app_store
+    api_management = ApiManagementPlatform()
+    register_api_management_routes(app, api_management)
+    app.state.api_management = api_management
     orchestrator = EnterpriseAIOrchestrator()
     register_orchestrator_routes(app, orchestrator)
     app.state.orchestrator = orchestrator

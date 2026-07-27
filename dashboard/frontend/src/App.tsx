@@ -7,17 +7,17 @@ import {
   ApplicationTemplatesPage, ApplicationUsagePage, ApplicationVersionsPage,
   AppStorePage,
   CollectionsPage, DocumentsPage, KnowledgeBasesPage, KnowledgeStatusPage,
-  dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
+  dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, apiManagementDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage,
   LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
   PluginDetailsPage, PluginPermissionsPage, PluginsPage, PublishersPage,
   RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage,
-  MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage, ModelPlatformPage, SecurityPlatformPage,
+  MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage, ModelPlatformPage, SecurityPlatformPage, ApiManagementPage,
 } from "./pages";
 
 function Shell() {
   const { token, logout } = useAuth(); const navigate = useNavigate();
   if (!token) return <Navigate to="/login" replace />;
-  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages, ...collaborationDashboardPages, ...governanceDashboardPages, ...modelDashboardPages, ...securityDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
+  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages, ...collaborationDashboardPages, ...governanceDashboardPages, ...modelDashboardPages, ...securityDashboardPages, ...apiManagementDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
 }
 
 export function App() {
@@ -67,6 +67,18 @@ export function App() {
     <Route path="/security-incidents" element={<SecurityPlatformPage title="Incidents" resource="incidents" />} />
     <Route path="/security-compliance" element={<SecurityPlatformPage title="Compliance" resource="compliance" />} />
     <Route path="/security-audit" element={<SecurityPlatformPage title="Audit" />} />
+    <Route path="/api-management" element={<ApiManagementPage />} />
+    <Route path="/api-management-apis" element={<ApiManagementPage title="APIs" resource="apis" />} />
+    <Route path="/api-management-gateways" element={<ApiManagementPage title="Gateways" resource="gateways" />} />
+    <Route path="/api-management-routes" element={<ApiManagementPage title="Routes" resource="routes" />} />
+    <Route path="/api-management-versions" element={<ApiManagementPage title="Versions" resource="versions" />} />
+    <Route path="/api-management-policies" element={<ApiManagementPage title="Policies" resource="policies" />} />
+    <Route path="/api-management-credentials" element={<ApiManagementPage title="Credentials" resource="keys" />} />
+    <Route path="/api-management-rate-limits" element={<ApiManagementPage title="Rate Limits" resource="rate-limits" />} />
+    <Route path="/api-management-quotas" element={<ApiManagementPage title="Quotas" resource="quotas" />} />
+    <Route path="/api-management-subscriptions" element={<ApiManagementPage title="Subscriptions" resource="subscriptions" />} />
+    <Route path="/api-management-analytics" element={<ApiManagementPage title="Analytics" resource="analytics" />} />
+    <Route path="/api-management-developer-portal" element={<ApiManagementPage title="Developer Portal" resource="developer-portal" />} />
     <Route path="/memory" element={<MemoryPage />} />
     <Route path="/reasoning" element={<ReasoningPage />} />
     <Route path="/reasoning-plans" element={<ReasoningPage title="Plans" />} />

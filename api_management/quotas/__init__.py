@@ -1,0 +1,1 @@
+"""Bounded quota domain."""
