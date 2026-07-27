@@ -1,0 +1,1 @@
+"""Event streaming component interface."""

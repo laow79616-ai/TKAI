@@ -83,4 +83,7 @@ include docs/release/cloud-v4-rc3.md
 recursive-include data_platform *.py *.md
 recursive-include docs/data-platform *.md
 recursive-include model_platform *.py *.md
+
+recursive-include event_streaming *.py *.md
+recursive-include docs/event-streaming *.md
 recursive-include docs/model-platform *.md
