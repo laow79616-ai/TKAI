@@ -11,7 +11,7 @@ import {
   LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
   PluginDetailsPage, PluginPermissionsPage, PluginsPage, PublishersPage,
   RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage,
-  MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage, ModelPlatformPage, SecurityPlatformPage, ApiManagementPage, IntegrationHubPage, DigitalTwinPage, BusinessIntelligencePage, CommandCenterPage, KnowledgeGraphPage, TikTokAccountCenterPage, TikTokBrowserRuntimePage,
+  MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage, ModelPlatformPage, SecurityPlatformPage, ApiManagementPage, IntegrationHubPage, DigitalTwinPage, BusinessIntelligencePage, CommandCenterPage, KnowledgeGraphPage, TikTokAccountCenterPage, TikTokBrowserRuntimePage, TikTokProxyCenterPage,
 } from "./pages";
 
 function Shell() {
@@ -25,6 +25,7 @@ export function App() {
     <Route path="/dashboard" element={<DashboardHome />} />
     <Route path="/tiktok-account-center" element={<TikTokAccountCenterPage />} />
     <Route path="/tiktok-browser-runtime" element={<TikTokBrowserRuntimePage />} />
+    <Route path="/tiktok-proxy-center" element={<TikTokProxyCenterPage />} />
     <Route path="/collaboration" element={<CollaborationPage />} />
     <Route path="/collaboration-teams" element={<CollaborationPage title="Teams" />} />
     <Route path="/collaboration-projects" element={<CollaborationPage title="Projects" />} />

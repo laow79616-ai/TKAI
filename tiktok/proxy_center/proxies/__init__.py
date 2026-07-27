@@ -1,0 +1,1 @@
+"""Proxy inventory bounded context."""

@@ -43,6 +43,8 @@ from tiktok.account_center import TikTokAccountCenter
 from tiktok.account_center.api import register_tiktok_routes
 from tiktok.browser_runtime import AccountCenterStatusAdapter, TikTokBrowserRuntime
 from tiktok.browser_runtime.api import register_browser_runtime_routes
+from tiktok.proxy_center import BrowserRuntimeProxyAdapter, TikTokProxyCenter
+from tiktok.proxy_center.api import register_proxy_center_routes
 from tkai.agent import AgentApi
 from tkai.enterprise import EnterprisePlatform
 from tkai.enterprise.api import register_enterprise_platform_routes
@@ -284,6 +286,12 @@ def create_app(
     )
     register_browser_runtime_routes(app, tiktok_browser_runtime)
     app.state.tiktok_browser_runtime = tiktok_browser_runtime
+    tiktok_proxy_center = TikTokProxyCenter()
+    register_proxy_center_routes(app, tiktok_proxy_center)
+    app.state.tiktok_proxy_center = tiktok_proxy_center
+    app.state.tiktok_browser_proxy_port = BrowserRuntimeProxyAdapter(
+        tiktok_proxy_center
+    )
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]

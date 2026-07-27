@@ -1,0 +1,1 @@
+"""Proxy group bounded context."""
