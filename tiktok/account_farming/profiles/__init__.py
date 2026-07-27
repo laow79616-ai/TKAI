@@ -1,0 +1,1 @@
+"""Behavior profile domain."""

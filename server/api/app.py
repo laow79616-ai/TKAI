@@ -41,6 +41,13 @@ from security_platform.api import register_security_routes
 from server.production import ProductionConfigurationLoader, ProductionRuntime
 from tiktok.account_center import TikTokAccountCenter
 from tiktok.account_center.api import register_tiktok_routes
+from tiktok.account_farming import (
+    BoundedAccountCenterAdapter,
+    ExistingBrowserRuntimeAdapter,
+    ExistingProxyCenterAdapter,
+    TikTokAccountFarming,
+)
+from tiktok.account_farming.api import register_account_farming_routes
 from tiktok.browser_runtime import AccountCenterStatusAdapter, TikTokBrowserRuntime
 from tiktok.browser_runtime.api import register_browser_runtime_routes
 from tiktok.proxy_center import BrowserRuntimeProxyAdapter, TikTokProxyCenter
@@ -292,6 +299,13 @@ def create_app(
     app.state.tiktok_browser_proxy_port = BrowserRuntimeProxyAdapter(
         tiktok_proxy_center
     )
+    tiktok_account_farming = TikTokAccountFarming(
+        accounts=BoundedAccountCenterAdapter(tiktok_account_center),
+        browsers=ExistingBrowserRuntimeAdapter(tiktok_browser_runtime),
+        proxies=ExistingProxyCenterAdapter(tiktok_proxy_center),
+    )
+    register_account_farming_routes(app, tiktok_account_farming)
+    app.state.tiktok_account_farming = tiktok_account_farming
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
