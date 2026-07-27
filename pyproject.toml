@@ -36,7 +36,7 @@ tkai = "tkai.cli:main"
 where = ["src", "."]
 # V3.0 compatibility baseline:
 # include = ["tkai*", "studio*", "enterprise*", "cloud*", "marketplace*", "server*"]
-include = ["tkai*", "studio*", "enterprise*", "cloud*", "marketplace*", "server*", "applications*", "knowledge_platform*", "knowledge_graph*", "workflow_platform*", "app_store*", "orchestrator*", "memory_engine*", "reasoning_engine*", "collaboration*", "governance*", "data_platform*", "model_platform*", "security_platform*", "operations_platform*", "automation_platform*", "integration_platform*", "api_management*", "event_streaming*", "integration_hub*", "digital_twin*", "business_intelligence*", "command_center*", "decision_intelligence*", "autonomous_operations*", "multi_agent*", "cognitive_architecture*", "autonomous_intelligence*"]
+include = ["tkai*", "studio*", "enterprise*", "cloud*", "marketplace*", "server*", "applications*", "knowledge_platform*", "knowledge_graph*", "workflow_platform*", "app_store*", "orchestrator*", "memory_engine*", "reasoning_engine*", "collaboration*", "governance*", "data_platform*", "model_platform*", "security_platform*", "operations_platform*", "automation_platform*", "integration_platform*", "api_management*", "event_streaming*", "integration_hub*", "digital_twin*", "business_intelligence*", "command_center*", "decision_intelligence*", "autonomous_operations*", "multi_agent*", "cognitive_architecture*", "autonomous_intelligence*", "super_intelligence*"]
 exclude = ["tests*", "benchmarks*"]
 
 [tool.setuptools.package-data]
