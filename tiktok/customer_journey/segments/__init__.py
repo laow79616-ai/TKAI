@@ -1,0 +1,1 @@
+"""Journey segment boundary."""

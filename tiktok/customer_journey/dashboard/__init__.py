@@ -1,0 +1,1 @@
+"""Journey dashboard boundary."""

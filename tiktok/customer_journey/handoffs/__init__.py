@@ -1,0 +1,1 @@
+"""Reference-only handoff boundary."""

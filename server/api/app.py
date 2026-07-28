@@ -109,6 +109,8 @@ from tiktok.creator_workspace import TikTokCreatorWorkspace
 from tiktok.creator_workspace.api import register_creator_workspace_routes
 from tiktok.crm_center import TikTokCRMCenter
 from tiktok.crm_center.api import register_crm_routes
+from tiktok.customer_journey import TikTokCustomerJourneyCenter
+from tiktok.customer_journey.api import register_customer_journey_routes
 from tiktok.data_collection import (
     ExistingAccountCenterAdapter as DataAccountAdapter,
 )
@@ -591,6 +593,9 @@ def create_app(
     tiktok_crm_center = TikTokCRMCenter()
     register_crm_routes(app, tiktok_crm_center)
     app.state.tiktok_crm_center = tiktok_crm_center
+    tiktok_customer_journey_center = TikTokCustomerJourneyCenter()
+    register_customer_journey_routes(app, tiktok_customer_journey_center)
+    app.state.tiktok_customer_journey_center = tiktok_customer_journey_center
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
