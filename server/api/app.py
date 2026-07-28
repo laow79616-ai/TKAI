@@ -111,6 +111,8 @@ from tiktok.device_center import TikTokDeviceCenter
 from tiktok.device_center.api import register_device_center_routes
 from tiktok.execution_engine import TikTokAIExecutionEngine
 from tiktok.execution_engine.api import register_execution_routes
+from tiktok.growth_center import TikTokAIGrowthCenter
+from tiktok.growth_center.api import register_growth_routes
 from tiktok.interaction_center import TikTokInteractionCenter
 from tiktok.interaction_center.api import register_interaction_routes
 from tiktok.operations_center import TikTokOperationsCommandCenter
@@ -523,6 +525,9 @@ def create_app(
     )
     register_campaign_routes(app, tiktok_campaign_center)
     app.state.tiktok_campaign_center = tiktok_campaign_center
+    tiktok_growth_center = TikTokAIGrowthCenter()
+    register_growth_routes(app, tiktok_growth_center)
+    app.state.tiktok_growth_center = tiktok_growth_center
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
