@@ -135,6 +135,9 @@ from tiktok.interaction_center import TikTokInteractionCenter
 from tiktok.interaction_center.api import register_interaction_routes
 from tiktok.lead_center import TikTokLeadManagementCenter
 from tiktok.lead_center.api import register_lead_routes
+from tiktok.mission_engine import TikTokAutonomousMissionEngine
+from tiktok.mission_engine.adapters import ExistingModulePort as MissionModulePort
+from tiktok.mission_engine.api import register_mission_engine_routes
 from tiktok.operations_center import TikTokOperationsCommandCenter
 from tiktok.operations_center.api import register_operations_center_routes
 from tiktok.operations_planner import TikTokAIOperationsPlanner
@@ -522,6 +525,42 @@ def create_app(
     )
     register_autonomous_operation_routes(app, tiktok_autonomous_operation)
     app.state.tiktok_autonomous_operation = tiktok_autonomous_operation
+    tiktok_mission_engine = TikTokAutonomousMissionEngine(
+        {
+            "autonomous_operation": MissionModulePort(
+                "autonomous_operation", tiktok_autonomous_operation
+            ),
+            "task_scheduler": MissionModulePort(
+                "task_scheduler", tiktok_task_scheduler
+            ),
+            "automation_engine": MissionModulePort(
+                "automation_engine", tiktok_automation_engine
+            ),
+            "workflow_center": MissionModulePort(
+                "workflow_center", tiktok_workflow_center
+            ),
+            "execution_engine": MissionModulePort(
+                "execution_engine", tiktok_execution_engine
+            ),
+            "runtime_manager": MissionModulePort(
+                "runtime_manager", tiktok_runtime_manager
+            ),
+            "resource_center": MissionModulePort(
+                "resource_center", tiktok_resource_center
+            ),
+            "browser_cluster": MissionModulePort(
+                "browser_cluster", tiktok_browser_cluster
+            ),
+            "device_center": MissionModulePort(
+                "device_center", tiktok_device_center
+            ),
+            "risk_control": MissionModulePort(
+                "risk_control", tiktok_risk_control_center
+            ),
+        }
+    )
+    register_mission_engine_routes(app, tiktok_mission_engine)
+    app.state.tiktok_mission_engine = tiktok_mission_engine
     tiktok_optimization_center = TikTokAIContinuousOptimizationCenter()
     register_optimization_routes(app, tiktok_optimization_center)
     app.state.tiktok_optimization_center = tiktok_optimization_center
