@@ -90,6 +90,11 @@ from tiktok.data_collection import (
 from tiktok.data_collection import ExistingProxyCenterAdapter as DataProxyAdapter
 from tiktok.data_collection import TikTokDataCollectionCenter
 from tiktok.data_collection.api import register_data_collection_routes
+from tiktok.decision_center import (
+    ControlTowerDecisionInputAdapter,
+    TikTokAIIntelligentDecisionCenter,
+)
+from tiktok.decision_center.api import register_decision_center_routes
 from tiktok.device_center import TikTokDeviceCenter
 from tiktok.device_center.api import register_device_center_routes
 from tiktok.execution_engine import TikTokAIExecutionEngine
@@ -474,6 +479,11 @@ def create_app(
     )
     register_control_tower_routes(app, tiktok_control_tower)
     app.state.tiktok_control_tower = tiktok_control_tower
+    tiktok_decision_center = TikTokAIIntelligentDecisionCenter(
+        ControlTowerDecisionInputAdapter(tiktok_control_tower)
+    )
+    register_decision_center_routes(app, tiktok_decision_center)
+    app.state.tiktok_decision_center = tiktok_decision_center
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
