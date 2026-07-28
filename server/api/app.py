@@ -85,6 +85,8 @@ from tiktok.interaction_center import TikTokInteractionCenter
 from tiktok.interaction_center.api import register_interaction_routes
 from tiktok.operations_center import TikTokOperationsCommandCenter
 from tiktok.operations_center.api import register_operations_center_routes
+from tiktok.optimization_center import TikTokAIContinuousOptimizationCenter
+from tiktok.optimization_center.api import register_optimization_routes
 from tiktok.proxy_center import BrowserRuntimeProxyAdapter, TikTokProxyCenter
 from tiktok.proxy_center.api import register_proxy_center_routes
 from tiktok.publishing_center import (
@@ -425,6 +427,9 @@ def create_app(
     tiktok_execution_engine = TikTokAIExecutionEngine()
     register_execution_routes(app, tiktok_execution_engine)
     app.state.tiktok_execution_engine = tiktok_execution_engine
+    tiktok_optimization_center = TikTokAIContinuousOptimizationCenter()
+    register_optimization_routes(app, tiktok_optimization_center)
+    app.state.tiktok_optimization_center = tiktok_optimization_center
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
