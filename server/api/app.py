@@ -126,6 +126,8 @@ from tiktok.growth_center import TikTokAIGrowthCenter
 from tiktok.growth_center.api import register_growth_routes
 from tiktok.interaction_center import TikTokInteractionCenter
 from tiktok.interaction_center.api import register_interaction_routes
+from tiktok.lead_center import TikTokLeadManagementCenter
+from tiktok.lead_center.api import register_lead_routes
 from tiktok.operations_center import TikTokOperationsCommandCenter
 from tiktok.operations_center.api import register_operations_center_routes
 from tiktok.operations_planner import TikTokAIOperationsPlanner
@@ -581,6 +583,9 @@ def create_app(
     )
     register_business_workspace_routes(app, tiktok_business_workspace)
     app.state.tiktok_business_workspace = tiktok_business_workspace
+    tiktok_lead_center = TikTokLeadManagementCenter()
+    register_lead_routes(app, tiktok_lead_center)
+    app.state.tiktok_lead_center = tiktok_lead_center
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]

@@ -171,6 +171,9 @@ export class MarketplaceApiClient {
   tiktokBusinessWorkspace() {
     return this.request<Record<string, unknown>>("/tiktok/business-workspace/dashboard");
   }
+  tiktokLeadManagement() {
+    return this.request<Record<string, unknown>>("/tiktok/leads/dashboard");
+  }
   tiktokDataCollection() {
     const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
     return this.request<Record<string, unknown>>(`/tiktok/data/dashboard?${query}`);
