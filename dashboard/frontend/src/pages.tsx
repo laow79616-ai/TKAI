@@ -99,7 +99,118 @@ export function TikTokBusinessIntelligencePage() { const { client } = useAuth();
 export function TikTokDataCollectionPage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokDataCollection()); return <Card><h1>TikTok Data Collection Center</h1><p>Tenant-scoped projects, jobs, datasets, pipelines, execution history, analytics, and encrypted storage references. Collection runs only through configured platform adapters.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
 export function TikTokInteractionCenterPage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokInteractionCenter()); return <Card><h1>TikTok AI Interaction Center</h1><p>Projects, tasks, drafts, localized templates, review and approval queues, analytics, history, statistics, and notifications with strict tenant isolation.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
 export function TikTokRiskControlCenterPage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokRiskControlCenter()); return <Card><h1>TikTok AI Risk Control Center</h1><p>Safety monitoring, bounded policies and rules, explainable scores, alerts, restrictions, approvals, coordinated pauses, health, recovery, analytics, and audit.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
-export function TikTokOperationsCenterPage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokOperationsCenter()); return <Card><h1>TikTok Operations Command Center</h1><p>Unified monitoring, approved controls, incidents, health, bounded recovery, activity, and audit for the TikTok Cloud Control Platform.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
+type OperationsDashboard = {
+  sections?: string[];
+  overview?: Record<string, unknown>;
+  health?: Record<string, unknown>;
+};
+
+const operationMetricLabels: Record<string, string> = {
+  total_accounts: "Total accounts",
+  active_accounts: "Active accounts",
+  paused_accounts: "Paused accounts",
+  restricted_accounts: "Restricted accounts",
+  active_browsers: "Active browsers",
+  browser_failures: "Browser failures",
+  healthy_proxies: "Healthy proxies",
+  unhealthy_proxies: "Unhealthy proxies",
+  running_workflows: "Running workflows",
+  queued_tasks: "Queued tasks",
+  publishing_jobs: "Publishing jobs",
+  collection_jobs: "Collection jobs",
+  interaction_tasks: "Interaction tasks",
+  risk_alerts: "Risk alerts",
+  open_incidents: "Open incidents",
+};
+
+function displayOperationValue(value: unknown): string {
+  if (typeof value === "number") return new Intl.NumberFormat().format(value);
+  if (typeof value === "boolean") return value ? "Enabled" : "Disabled";
+  if (typeof value === "string") return value.replaceAll("_", " ");
+  return value == null ? "—" : String(value);
+}
+
+function operationStatusTone(value: unknown): string {
+  const status = String(value ?? "unknown").toLowerCase();
+  if (["healthy", "active", "ready", "running", "ok", "operational"].some((item) => status.includes(item))) return "healthy";
+  if (["failed", "critical", "restricted", "offline", "error"].some((item) => status.includes(item))) return "critical";
+  if (["warning", "degraded", "paused", "maintenance", "recovering"].some((item) => status.includes(item))) return "warning";
+  return "neutral";
+}
+
+export function TikTokOperationsCenterPage() {
+  const { client } = useAuth();
+  const state = useRequest(() => client.tiktokOperationsCenter());
+  const dashboard = (state.value ?? {}) as OperationsDashboard;
+  const overview = dashboard.overview ?? {};
+  const health = dashboard.health ?? {};
+  const statuses = (overview.unified_status ?? {}) as Record<string, unknown>;
+  const scoreValue = health.score ?? health.health_score ?? health.composite_score;
+  const metricEntries = Object.entries(operationMetricLabels);
+  const issueCount = Number(overview.risk_alerts ?? 0) + Number(overview.open_incidents ?? 0) + Number(overview.browser_failures ?? 0) + Number(overview.unhealthy_proxies ?? 0);
+
+  return <div className="operations-v2">
+    <div className="operations-hero">
+      <div>
+        <p className="operations-eyebrow">TikTok Cloud Control Platform</p>
+        <h1>Operations Command Center</h1>
+        <p>Live operational visibility across accounts, infrastructure, workflows, risk, and recovery.</p>
+      </div>
+      <div className={`operations-overall ${issueCount ? "warning" : "healthy"}`}>
+        <span className="operations-pulse" />
+        <div><small>Platform status</small><strong>{issueCount ? "Attention required" : "All systems operational"}</strong></div>
+      </div>
+    </div>
+
+    {state.error && <div className="operations-error" role="alert"><strong>Dashboard unavailable</strong><span>{state.error}</span></div>}
+    {!state.value && !state.error && <Card><Loading /></Card>}
+
+    {state.value && <>
+      <section className="operations-kpis" aria-label="Key operational metrics">
+        {metricEntries.slice(0, 6).map(([key, label]) => <article key={key}>
+          <span>{label}</span>
+          <strong>{displayOperationValue(overview[key])}</strong>
+          <small className={Number(overview[key] ?? 0) > 0 && ["browser_failures", "paused_accounts", "restricted_accounts"].includes(key) ? "metric-alert" : ""}>
+            {["browser_failures", "paused_accounts", "restricted_accounts"].includes(key) ? "requires review" : "current"}
+          </small>
+        </article>)}
+      </section>
+
+      <div className="operations-grid">
+        <section className="operations-panel operations-platform">
+          <div className="operations-panel-heading"><div><p className="operations-eyebrow">Infrastructure</p><h2>Platform health</h2></div>{scoreValue != null && <strong className="health-score">{displayOperationValue(scoreValue)}<small>/ 100</small></strong>}</div>
+          <div className="status-list">
+            {Object.entries(statuses).length ? Object.entries(statuses).map(([key, value]) => <div className="status-row" key={key}>
+              <span className={`status-dot ${operationStatusTone(value)}`} />
+              <span>{key.replace(/_status$/, "").replaceAll("_", " ")}</span>
+              <strong className={`status-pill ${operationStatusTone(value)}`}>{displayOperationValue(value)}</strong>
+            </div>) : <p className="operations-empty">No module status has been reported.</p>}
+          </div>
+        </section>
+
+        <section className="operations-panel">
+          <div className="operations-panel-heading"><div><p className="operations-eyebrow">Workload</p><h2>Live operations</h2></div><span className="live-badge">Live</span></div>
+          <div className="workload-grid">
+            {metricEntries.slice(6).map(([key, label]) => <div key={key}><span>{label}</span><strong>{displayOperationValue(overview[key])}</strong></div>)}
+          </div>
+        </section>
+
+        <section className="operations-panel operations-attention">
+          <div className="operations-panel-heading"><div><p className="operations-eyebrow">Safety &amp; response</p><h2>Needs attention</h2></div><span className={`attention-count ${issueCount ? "warning" : ""}`}>{issueCount}</span></div>
+          <div className="attention-list">
+            {[
+              ["Open incidents", overview.open_incidents],
+              ["Risk alerts", overview.risk_alerts],
+              ["Browser failures", overview.browser_failures],
+              ["Unhealthy proxies", overview.unhealthy_proxies],
+            ].map(([label, value]) => <div key={String(label)}><span>{String(label)}</span><strong>{displayOperationValue(value)}</strong></div>)}
+          </div>
+          <p className="operations-safety-note">Recovery remains blocked while TikTok restrictions or unresolved challenges are active.</p>
+        </section>
+      </div>
+    </>}
+  </div>;
+}
 export function TikTokResourceCenterPage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokResourceCenter()); return <Card><h1>TikTok Resource Center</h1><p>Unified tenant-isolated inventory, reservations, leases, allocations, quotas, capacity, utilization, health, recovery, telemetry, and statistics for local TikTok resources.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
 export function TikTokAutomationEnginePage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokAutomationEngine()); return <Card><h1>TikTok AI Automation Engine</h1><p>Approved local automations, reusable plans, executions, triggers, conditions, queues, monitoring, recovery, and analytics with bounded concurrency and restriction-safe stops.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
 export function TikTokExecutionEnginePage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokExecutionEngine()); return <Card><h1>TikTok AI Execution Engine</h1><p>Approval-gated plan execution through existing workflow, automation, scheduler, runtime, resource, browser, device, account, proxy, and risk systems, with checkpoints, rollback, verification, monitoring, and analytics.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
