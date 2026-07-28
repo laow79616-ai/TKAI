@@ -159,6 +159,8 @@ from tiktok.risk_control import TikTokRiskControlCenter
 from tiktok.risk_control.api import register_risk_control_routes
 from tiktok.runtime_manager import RuntimeInstance, TikTokRuntimeManager
 from tiktok.runtime_manager.api import register_runtime_manager_routes
+from tiktok.task_scheduler import TikTokAITaskScheduler
+from tiktok.task_scheduler.api import register_task_scheduler_routes
 from tiktok.workflow_center import TikTokWorkflowOrchestrationCenter
 from tiktok.workflow_center.api import register_workflow_center_routes
 from tkai.agent import AgentApi
@@ -487,6 +489,9 @@ def create_app(
     tiktok_automation_engine = TikTokAutomationEngine()
     register_automation_routes(app, tiktok_automation_engine)
     app.state.tiktok_automation_engine = tiktok_automation_engine
+    tiktok_task_scheduler = TikTokAITaskScheduler()
+    register_task_scheduler_routes(app, tiktok_task_scheduler)
+    app.state.tiktok_task_scheduler = tiktok_task_scheduler
     tiktok_execution_engine = TikTokAIExecutionEngine()
     register_execution_routes(app, tiktok_execution_engine)
     app.state.tiktok_execution_engine = tiktok_execution_engine
@@ -506,7 +511,7 @@ def create_app(
                 "devices": tiktok_device_center,
                 "proxies": tiktok_proxy_center,
                 "workflows": tiktok_workflow_center,
-                "scheduler": tiktok_execution_engine,
+                "scheduler": tiktok_task_scheduler,
                 "automation": tiktok_automation_engine,
                 "execution": tiktok_execution_engine,
                 "publishing": tiktok_publishing_center,

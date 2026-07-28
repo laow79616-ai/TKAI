@@ -1,4 +1,15 @@
-# TKAI V3.0 Enterprise Final Release Checklist
+# TKAI V5.0 Local Production Release Checklist
+
+- [ ] Confirm 5.0.0 across Python, Dashboard, AI Studio, API, and release metadata.
+- [ ] Run Ruff, focused mypy, repository mypy, and full pytest.
+- [ ] Run TikTok, deployment, release, and local-runtime regression suites.
+- [ ] Build Dashboard and AI Studio production assets.
+- [ ] Validate PowerShell, OpenAPI, startup, repeated shutdown, and diagnostics.
+- [ ] Validate database initialization, backup, restore, and integrity.
+- [ ] Validate release manifest, exclusions, checksums, and secret scan.
+- [ ] Run `git diff --check`; obtain approval before tagging, publishing, or pushing.
+
+## Historical V3 checklist
 
 - [x] Synchronize Python, Dashboard, Studio, and Helm metadata at `3.0.0`.
 - [x] Review public compatibility and frozen Studio REST contract boundaries.

@@ -3,8 +3,9 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 $repository = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot ".."))
 $output = [System.IO.Path]::GetFullPath((Join-Path $repository $OutputDirectory))
-$stage = Join-Path $output "tkai-4.0.0"
-$archive = Join-Path $output "tkai-4.0.0.zip"
+$release = Get-Content "$repository\release.json" -Raw | ConvertFrom-Json
+$stage = Join-Path $output "tkai-$($release.version)"
+$archive = Join-Path $output "tkai-$($release.version).zip"
 
 if (-not (Test-Path "$repository\dashboard\frontend\dist")) { throw "Dashboard build is missing." }
 if (-not (Test-Path "$repository\studio\frontend\dist")) { throw "AI Studio build is missing." }
@@ -33,6 +34,14 @@ Get-ChildItem $stage -Recurse -File | Where-Object {
     $_.Extension -in @(".pyc", ".log", ".db") -or
     $_.Name -match "\.(cookie|session|credential|secret)$"
 } | Remove-Item -Force
+$secretPattern = "-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----|sk-[A-Za-z0-9_-]{20,}|gh[pousr]_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}"
+$secretHit = Get-ChildItem $stage -Recurse -File | Where-Object {
+    $_.Length -le 5MB -and
+    (Select-String -LiteralPath $_.FullName -Pattern $secretPattern -Quiet)
+} | Select-Object -First 1
+if ($secretHit) {
+    throw "Potential secret found in release input: $($secretHit.FullName.Substring($stage.Length + 1))"
+}
 
 $commit = (git -C $repository rev-parse HEAD).Trim()
 $metadata = Get-Content "$stage\release.json" -Raw | ConvertFrom-Json

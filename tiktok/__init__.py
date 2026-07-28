@@ -8,6 +8,7 @@ from .creator_workspace import TikTokCreatorWorkspace
 from .device_center import TikTokDeviceCenter
 from .proxy_center import TikTokProxyCenter
 from .publishing_center import TikTokPublishingCenter
+from .registry import TIKTOK_MODULE_KEYS, TIKTOK_MODULES, TikTokModule
 
 __all__ = (
     "TikTokAccountCenter",
@@ -18,4 +19,7 @@ __all__ = (
     "TikTokCreatorWorkspace",
     "TikTokProxyCenter",
     "TikTokPublishingCenter",
+    "TikTokModule",
+    "TIKTOK_MODULES",
+    "TIKTOK_MODULE_KEYS",
 )

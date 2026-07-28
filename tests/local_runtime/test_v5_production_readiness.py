@@ -7,6 +7,7 @@ import pytest
 
 from local_runtime.config import ConfigurationError, LocalRuntimeConfig
 from local_runtime.integration import MODULES, integration_readiness, module_registry
+from tiktok import TIKTOK_MODULE_KEYS, TIKTOK_MODULES
 
 
 def test_registry_is_complete_unique_and_importable() -> None:
@@ -14,6 +15,7 @@ def test_registry_is_complete_unique_and_importable() -> None:
     assert tuple(item.key for item in registry) == tuple(key for key, _ in MODULES)
     assert len({item.key for item in registry}) == len(MODULES)
     assert all(item.registered for item in registry)
+    assert TIKTOK_MODULE_KEYS == tuple(module.key for module in TIKTOK_MODULES)
 
 
 def test_integration_health_detects_duplicate_routes(tmp_path: Path) -> None:
@@ -33,6 +35,16 @@ def test_integration_health_detects_duplicate_routes(tmp_path: Path) -> None:
     assert result["live_tiktok_required"] is False
 
 
+def test_application_registers_every_v5_module_without_duplicate_routes() -> None:
+    from server.api.app import create_app
+
+    root = Path(__file__).resolve().parents[2]
+    result = integration_readiness(create_app(), root)
+    assert len(result["modules"]) == 31
+    assert all(item["registered"] for item in result["modules"])
+    assert result["duplicate_routes"] == []
+
+
 def test_environment_override_and_resource_bounds(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
@@ -49,7 +61,7 @@ def test_release_metadata_and_checklist_are_machine_readable() -> None:
     checklist = json.loads(
         (root / "release-checklist.json").read_text(encoding="utf-8")
     )
-    assert metadata["version"] == "4.0.0"
+    assert metadata["version"] == "5.0.0"
     assert {"openapi", "backup", "restore", "secret_scan", "checksums"} <= set(
         checklist["checks"]
     )

@@ -1,4 +1,9 @@
-# TKAI V3.0 Enterprise Installation
+# TKAI V5.0 Local Installation
+
+For the supported Windows workflow, follow [Quick Start](QuickStart.md) and
+[Configuration](Configuration.md). V5 requires Python 3.10+ and Node for the
+Dashboard and AI Studio builds. The supported deployment is loopback-only,
+local, and single-user.
 
 ## Runtime and SDK
 

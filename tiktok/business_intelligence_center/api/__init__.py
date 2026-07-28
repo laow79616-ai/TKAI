@@ -150,7 +150,7 @@ def register_business_intelligence_routes(
         tags=TAG,
     )
     app.add_api_route(
-        "/tiktok/business-intelligence/metrics",
+        "/tiktok/business-intelligence/prometheus",
         service.metrics.render_prometheus,
         methods=["GET"],
         tags=TAG,

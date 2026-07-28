@@ -3,11 +3,11 @@
 TKAI is a typed, offline-testable Python framework for project scaffolding,
 plugins, workflows, and provider-neutral AI integrations.
 
-Current release: **4.0.0**.
+Current release: **5.0.0**.
 Previous general availability release: **1.3.0**.
 Earlier supported release documentation remains available for **1.2.0**.
 
-## TKAI V4.0 TikTok Cloud Control Platform
+## TKAI V5.0 TikTok Cloud Control Platform
 
 TKAI V3.0 consolidates the runtime, SDK, Agent Runtime, Plugin Marketplace,
 Enterprise Platform, Cloud Native deployment, AI Studio, and Enterprise
@@ -16,7 +16,8 @@ interfaces remain supported unless explicitly listed in the upgrade guide. See t
 [platform overview](docs/Platform.md),
 [installation guide](docs/Installation.md), [release notes](docs/ReleaseNotes.md),
 [release checklist](docs/ReleaseChecklist.md), [V3.0 release guide](docs/release/V3.0.md),
-and [V4.0.0 release notes](docs/release/V4.0.md).
+the [V5 module catalog](docs/V5Modules.md), [local quick start](docs/QuickStart.md),
+and [V5.0.0 production-readiness notes](docs/release/V5.0.md).
 
 ## AI provider framework
 
