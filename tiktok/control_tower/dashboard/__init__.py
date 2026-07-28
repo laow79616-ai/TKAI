@@ -1,0 +1,1 @@
+"""Control Tower dashboard namespace."""

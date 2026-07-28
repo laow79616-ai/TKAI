@@ -190,6 +190,10 @@ export class MarketplaceApiClient {
   tiktokCreatorWorkspace() {
     return this.request<Record<string, unknown>>("/tiktok/creator-workspace/dashboard");
   }
+  tiktokControlTower(resource = "dashboard") {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown>>(`/tiktok/control-tower/${resource}?${query}`);
+  }
   localRuntime() {
     return this.request<Record<string, unknown>>("/local-runtime/status");
   }

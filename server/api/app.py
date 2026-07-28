@@ -71,6 +71,8 @@ from tiktok.content_center import (
     ExistingProxyCenterAdapter as ContentProxyAdapter,
 )
 from tiktok.content_center.api import register_content_center_routes
+from tiktok.control_tower import ExistingServiceRegistryProvider, TikTokAIControlTower
+from tiktok.control_tower.api import register_control_tower_routes
 from tiktok.creator_workspace import (
     ExistingAnalyticsCenterAdapter as CreatorAnalyticsAdapter,
 )
@@ -448,6 +450,30 @@ def create_app(
     tiktok_optimization_center = TikTokAIContinuousOptimizationCenter()
     register_optimization_routes(app, tiktok_optimization_center)
     app.state.tiktok_optimization_center = tiktok_optimization_center
+    tiktok_control_tower = TikTokAIControlTower(
+        ExistingServiceRegistryProvider(
+            {
+                "runtime": tiktok_runtime_manager,
+                "resources": tiktok_resource_center,
+                "accounts": tiktok_account_center,
+                "browser_cluster": tiktok_browser_cluster,
+                "devices": tiktok_device_center,
+                "proxies": tiktok_proxy_center,
+                "workflows": tiktok_workflow_center,
+                "scheduler": tiktok_execution_engine,
+                "automation": tiktok_automation_engine,
+                "execution": tiktok_execution_engine,
+                "publishing": tiktok_publishing_center,
+                "collection": tiktok_data_collection_center,
+                "interaction": tiktok_interaction_center,
+                "risk": tiktok_risk_control_center,
+                "analytics": tiktok_analytics_center,
+                "recovery": tiktok_operations_center,
+            }
+        )
+    )
+    register_control_tower_routes(app, tiktok_control_tower)
+    app.state.tiktok_control_tower = tiktok_control_tower
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
