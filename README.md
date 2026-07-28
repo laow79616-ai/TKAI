@@ -3,11 +3,11 @@
 TKAI is a typed, offline-testable Python framework for project scaffolding,
 plugins, workflows, and provider-neutral AI integrations.
 
-Current release: **3.0.0**.
+Current release: **4.0.0**.
 Previous general availability release: **1.3.0**.
 Earlier supported release documentation remains available for **1.2.0**.
 
-## TKAI V3.0 Enterprise
+## TKAI V4.0 TikTok Cloud Control Platform
 
 TKAI V3.0 consolidates the runtime, SDK, Agent Runtime, Plugin Marketplace,
 Enterprise Platform, Cloud Native deployment, AI Studio, and Enterprise

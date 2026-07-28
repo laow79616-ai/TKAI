@@ -1,0 +1,1 @@
+"""Proxy binding bounded context."""

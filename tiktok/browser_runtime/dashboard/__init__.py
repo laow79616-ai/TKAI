@@ -1,0 +1,1 @@
+"""Browser runtime dashboard contracts."""

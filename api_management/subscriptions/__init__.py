@@ -1,0 +1,1 @@
+"""Consumer subscription lifecycle domain."""

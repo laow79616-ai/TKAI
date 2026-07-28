@@ -19,6 +19,18 @@ export interface AgentDefinitionRecord { agent_id: string; name: string; version
 export interface AgentRunRecord { run_id: string; agent_id: string; workspace: string; status: string; events: unknown[]; metrics: Record<string, number>; }
 export interface PluginRecord { id: string; name: string; version: string; description: string; permissions: string[]; state?: string; [key: string]: unknown; }
 export interface MarketplaceRecord { package_id?: string; publisher_id?: string; license_id?: string; review_id?: string; [key: string]: unknown; }
+export interface ApplicationRecord { id: string; name: string; description: string; version: string; owner: string; category: string; tags: string[]; status: string; [key: string]: unknown; }
+export interface ApplicationTemplateRecord { id: string; name: string; category: string; description: string; [key: string]: unknown; }
+export interface DeploymentRecord { id: string; application_id: string; version: string; environment: string; replicas: number; quota: number; status: string; [key: string]: unknown; }
+export interface KnowledgeRecord { id: string; name: string; status: string; scope: { tenant: string; workspace: string; namespace: string }; [key: string]: unknown; }
+export interface AppStoreRecord { id?: string; name?: string; status?: string; [key: string]: unknown; }
+export interface OrchestratorSnapshot { sections: string[]; plans: number; queues: Record<string, number>; executions: number; failures: number; retries: number; performance: Record<string, unknown>; }
+export interface MemoryRecord { id: string; namespace: string; tenant: string; workspace: string; owner: string; type: string; source: string; created: string; updated: string; ttl: number | null; metadata: Record<string, unknown>; }
+export interface ReasoningRecord { id: string; tenant: string; workspace: string; agent: string; goal: string; strategy: string; mode: string; state: string; priority: number; metadata: Record<string, unknown>; }
+export interface CollaborationDashboard { sections: string[]; projects: number; sessions: number; tasks: number; timeline: unknown[]; notifications: unknown[]; presence: Record<string, string>; metrics: Record<string, number>; }
+export interface GovernanceDashboard { sections: string[]; summary: Record<string, number>; metrics: Record<string, number>; }
+export interface ModelPlatformDashboard { sections: string[]; models: number; providers: number; profiles: number; usage_records: number; cost: Record<string, unknown>; metrics: Record<string, number>; }
+export interface SecurityDashboard { identity: Record<string, number>; authentication: Record<string, number>; authorization: Record<string, number>; secrets: Record<string, number>; threats: unknown[]; incidents: unknown[]; compliance: Record<string, number>; audit: unknown[]; metrics: Record<string, number>; }
 
 export class ApiClientError extends Error {
   constructor(public readonly status: number, message: string) { super(message); }
@@ -70,6 +82,99 @@ export class MarketplaceApiClient {
   audit() { return this.request<ApiListResponse<EnterpriseRecord>>("/audit"); }
   enterprise(resource: string) { return this.request<ApiListResponse<EnterpriseRecord>>(`/enterprise/${resource}`); }
   agents() { return this.request<ApiListResponse<AgentDefinitionRecord>>("/agents"); }
+  applications() { return this.request<ApiListResponse<ApplicationRecord>>("/applications"); }
+  applicationTemplates() { return this.request<ApiListResponse<ApplicationTemplateRecord>>("/templates"); }
+  applicationDeployments() { return this.request<ApiListResponse<DeploymentRecord>>("/deployments"); }
+  applicationVersions() { return this.request<ApiListResponse<EnterpriseRecord>>("/applications/versions"); }
+  applicationDashboard() { return this.request<Record<string, unknown>>("/applications/dashboard"); }
+  appStore(resource = "") {
+    const path = resource ? `/app-store/${resource}` : "/app-store";
+    const scope = new URLSearchParams({ tenant: "default", organization: "default", workspace: "default" });
+    return this.request<ApiListResponse<AppStoreRecord> | Record<string, unknown>>(`${path}?${scope}`);
+  }
+  orchestrator() { return this.request<OrchestratorSnapshot>("/orchestrator?tenant=default&actor=dashboard"); }
+  memories(namespace = "") {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", owner: "dashboard" });
+    if (namespace) query.set("namespace", namespace);
+    return this.request<{ data: MemoryRecord[] }>(`/memory?${query}`);
+  }
+  memoryCache() { return this.request<Record<string, number>>("/memory/cache"); }
+  memoryNamespaces() { return this.request<{ data: string[] }>("/memory/namespaces?tenant=default&workspace=default&owner=dashboard"); }
+  reasoning() { return this.request<{ data: ReasoningRecord[] }>("/reasoning?tenant=default&workspace=default&actor=dashboard"); }
+  collaborationDashboard() { return this.request<CollaborationDashboard>("/collaboration/dashboard?tenant=default&workspace=default&actor=dashboard"); }
+  governanceDashboard() { return this.request<GovernanceDashboard>("/governance/dashboard?tenant=default&workspace=default&actor=dashboard"); }
+  modelPlatform(resource = "model-platform") {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown>>(`/${resource}?${query}`);
+  }
+  security(resource = "dashboard") {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<SecurityDashboard | Record<string, unknown>>(`/security/${resource}?${query}`);
+  }
+  apiManagement(resource = "dashboard") {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown>>(`/api-management/${resource}?${query}`);
+  }
+  integrationHub(resource = "analytics") {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown>>(`/integration-hub/${resource}?${query}`);
+  }
+  digitalTwin(resource = "digital-twins") {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown> | unknown[]>(`/${resource}?${query}`);
+  }
+  businessIntelligence(resource = "workspaces") {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown> | unknown[]>(`/business-intelligence/${resource}?${query}`);
+  }
+  commandCenter(resource = "overview") {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown> | unknown[]>(`/command-center/${resource}?${query}`);
+  }
+  knowledgeGraph(resource = "graphs") {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown> | unknown[]>(`/knowledge-graph/${resource}?${query}`);
+  }
+  tiktokDashboard() {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown>>(`/tiktok/dashboard?${query}`);
+  }
+  tiktokBrowserRuntime() {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown>>(`/tiktok/browser-runtime/dashboard?${query}`);
+  }
+  tiktokProxyCenter() {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown>>(`/tiktok/proxy-center/dashboard?${query}`);
+  }
+  tiktokPublishingCenter() {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown>>(`/tiktok/publishing/dashboard?${query}`);
+  }
+  tiktokDataCollection() {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown>>(`/tiktok/data/dashboard?${query}`);
+  }
+  tiktokInteractionCenter() {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown>>(`/tiktok/interaction/dashboard?${query}`);
+  }
+  tiktokRiskControlCenter() {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown>>(`/tiktok/risk-control/dashboard?${query}`);
+  }
+  tiktokOperationsCenter(resource = "dashboard") {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown> | unknown[]>(`/tiktok/operations/${resource}?${query}`);
+  }
+  localRuntime() {
+    return this.request<Record<string, unknown>>("/local-runtime/status");
+  }
+  plans() { return this.request<ApiListResponse<EnterpriseRecord>>("/plans?tenant=default&actor=dashboard"); }
+  executions() { return this.request<ApiListResponse<EnterpriseRecord>>("/executions?tenant=default&actor=dashboard"); }
+  queues() { return this.request<Record<string, unknown>>("/queues"); }
+  knowledgeBases() { return this.request<ApiListResponse<KnowledgeRecord>>("/knowledge-bases?tenant=default&workspace=default&namespace=default"); }
+  knowledge(resource: string) { return this.request<ApiListResponse<EnterpriseRecord>>(`/${resource}?tenant=default&workspace=default&namespace=default`); }
   agentRun(id: string) { return this.request<AgentRunRecord>(`/agents/run/${encodeURIComponent(id)}`); }
   plugins() { return this.request<ApiListResponse<PluginRecord>>("/plugins"); }
   marketplace() { return this.request<ApiListResponse<MarketplaceRecord>>("/marketplace"); }

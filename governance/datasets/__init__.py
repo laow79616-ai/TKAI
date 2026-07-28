@@ -1,0 +1,1 @@
+"""Dataset governance capability namespace."""

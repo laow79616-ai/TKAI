@@ -1,0 +1,1 @@
+"""Bounded CRM integration contracts."""

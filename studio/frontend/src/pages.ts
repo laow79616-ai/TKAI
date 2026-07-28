@@ -6,6 +6,7 @@ export type StudioPage =
   | "prompt-studio"
   | "chat-studio"
   | "knowledge"
+  | "knowledge-graph"
   | "rag"
   | "models"
   | "evaluation"
@@ -26,6 +27,7 @@ export const studioPages: readonly StudioPage[] = [
   "prompt-studio",
   "chat-studio",
   "knowledge",
+  "knowledge-graph",
   "rag",
   "models",
   "evaluation",

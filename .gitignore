@@ -20,6 +20,10 @@ dist/
 .ruff_cache/
 .coverage
 htmlcov/
+runtime/
+configuration/local.json
+artifacts/
+*.egg-info/
 
 # macOS
 .DS_Store

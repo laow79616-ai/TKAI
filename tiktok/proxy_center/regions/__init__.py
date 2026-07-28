@@ -1,0 +1,1 @@
+"""Proxy region bounded context."""

@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tkai"
-version = "3.0.0"
-description = "TKAI AI Software Factory"
+version = "4.0.0"
+description = "TKAI TikTok Cloud Control Platform"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.10"
@@ -34,7 +34,9 @@ tkai = "tkai.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src", "."]
-include = ["tkai*", "studio*", "enterprise*", "cloud*", "marketplace*", "server*"]
+# V3.0 compatibility baseline:
+# include = ["tkai*", "studio*", "enterprise*", "cloud*", "marketplace*", "server*"]
+include = ["tkai*", "studio*", "enterprise*", "cloud*", "marketplace*", "server*", "applications*", "knowledge_platform*", "knowledge_graph*", "workflow_platform*", "app_store*", "orchestrator*", "memory_engine*", "reasoning_engine*", "collaboration*", "governance*", "data_platform*", "model_platform*", "security_platform*", "operations_platform*", "automation_platform*", "integration_platform*", "api_management*", "event_streaming*", "integration_hub*", "digital_twin*", "business_intelligence*", "command_center*", "decision_intelligence*", "autonomous_operations*", "multi_agent*", "cognitive_architecture*", "autonomous_intelligence*", "self_evolving*", "self_optimization*", "tiktok*", "local_runtime*"]
 exclude = ["tests*", "benchmarks*"]
 
 [tool.setuptools.package-data]

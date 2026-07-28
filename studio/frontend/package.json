@@ -1,10 +1,11 @@
 {
   "name": "@tkai/studio-frontend",
   "private": true,
-  "version": "3.0.0",
-  "description": "TKAI V3.0 AI Studio frontend",
+  "version": "4.0.0",
+  "description": "TKAI V4.0 AI Studio frontend",
   "scripts": {
     "dev": "vite",
+    "preview": "vite preview",
     "build": "tsc --noEmit && vite build",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src --max-warnings=0"

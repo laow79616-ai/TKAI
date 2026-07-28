@@ -1,4 +1,7 @@
 include docs/Enterprise.md
+recursive-include collaboration *.py *.md
+recursive-include governance *.py *.md
+recursive-include docs/governance *.md
 include docs/release/enterprise-v3-rc3.md
 include docs/Cloud.md
 include docs/Workspace.md
@@ -23,6 +26,7 @@ include docs/release/marketplace-v5-rc2.md
 include docs/release/marketplace-v5-rc3.md
 include docs/release/marketplace-v5-ga.md
 recursive-include docs/marketplace *.md
+recursive-include docs/app-store *.md
 include docs/server/Architecture.md
 include docs/server/ArchitectureReview.md
 include docs/server/RC1IntegrationValidation.md
@@ -75,3 +79,13 @@ include docs/benchmarks/server.json
 include docs/release/cloud-v4-rc1.md
 include docs/release/cloud-v4-rc2.md
 include docs/release/cloud-v4-rc3.md
+
+recursive-include data_platform *.py *.md
+recursive-include docs/data-platform *.md
+recursive-include model_platform *.py *.md
+
+recursive-include event_streaming *.py *.md
+recursive-include docs/event-streaming *.md
+recursive-include docs/model-platform *.md
+recursive-include command_center *.py
+recursive-include docs/command_center *.md

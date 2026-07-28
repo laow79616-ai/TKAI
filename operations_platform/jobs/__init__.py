@@ -1,0 +1,1 @@
+"""Operations job lifecycle contracts."""

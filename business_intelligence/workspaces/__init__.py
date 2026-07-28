@@ -1,0 +1,1 @@
+"""BI workspace lifecycle contracts."""

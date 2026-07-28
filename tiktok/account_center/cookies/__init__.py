@@ -1,0 +1,1 @@
+"""Encrypted TikTok cookie management."""

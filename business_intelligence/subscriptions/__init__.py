@@ -1,0 +1,1 @@
+"""Scheduled BI delivery contracts."""

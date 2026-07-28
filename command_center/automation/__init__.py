@@ -1,0 +1,1 @@
+"""Automation operational projections."""

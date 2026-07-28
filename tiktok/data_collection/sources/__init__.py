@@ -1,0 +1,1 @@
+"""Configured collection sources package."""

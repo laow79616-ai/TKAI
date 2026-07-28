@@ -1,0 +1,1 @@
+from data_platform.platform import validate_schema as validate_schema

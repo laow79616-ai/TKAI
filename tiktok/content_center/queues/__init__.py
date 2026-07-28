@@ -1,0 +1,1 @@
+"""Bounded publishing queue namespace."""

@@ -1,0 +1,1 @@
+"""Interaction dashboard domain boundary."""

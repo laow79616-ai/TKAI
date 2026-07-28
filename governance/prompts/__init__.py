@@ -1,0 +1,1 @@
+"""Prompt governance capability namespace."""

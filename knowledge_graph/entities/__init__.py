@@ -1,0 +1,1 @@
+"""Typed knowledge graph entities."""

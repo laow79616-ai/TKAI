@@ -1,0 +1,1 @@
+"""Integration catalog component."""

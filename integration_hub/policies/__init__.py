@@ -1,0 +1,1 @@
+"""Integration policy component."""

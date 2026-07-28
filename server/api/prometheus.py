@@ -6,10 +6,22 @@ from collections.abc import Callable
 from importlib import import_module
 from typing import Any
 
+from applications.runtime import ApplicationMetrics
+from collaboration.metrics import CollaborationMetrics
+from command_center.metrics import CommandCenterMetrics
+from governance.metrics import GovernanceMetrics
+from knowledge_graph.metrics import KnowledgeGraphMetrics
+from knowledge_platform.metrics import KnowledgeMetrics
 from marketplace.enterprise_store import MarketplaceMetrics
+from memory_engine.metrics import MemoryMetrics
+from model_platform import ModelMetrics
+from orchestrator.metrics import OrchestratorMetrics
+from reasoning_engine.metrics import ReasoningMetrics
+from security_platform.metrics import SecurityMetrics
 from server.production import MetricsSnapshot, ProductionRuntime
 from tkai.agent import AgentMetrics
 from tkai.plugins.marketplace import PluginMetrics
+from workflow_platform.metrics import WorkflowMetrics
 
 
 def render_prometheus(snapshot: MetricsSnapshot) -> str:
@@ -36,6 +48,18 @@ def prometheus_endpoint(
     agent_metrics: AgentMetrics | None = None,
     plugin_metrics: PluginMetrics | None = None,
     marketplace_metrics: MarketplaceMetrics | None = None,
+    application_metrics: ApplicationMetrics | None = None,
+    knowledge_metrics: KnowledgeMetrics | None = None,
+    knowledge_graph_metrics: KnowledgeGraphMetrics | None = None,
+    workflow_metrics: WorkflowMetrics | None = None,
+    orchestrator_metrics: OrchestratorMetrics | None = None,
+    memory_metrics: MemoryMetrics | None = None,
+    reasoning_metrics: ReasoningMetrics | None = None,
+    collaboration_metrics: CollaborationMetrics | None = None,
+    governance_metrics: GovernanceMetrics | None = None,
+    model_metrics: ModelMetrics | None = None,
+    security_metrics: SecurityMetrics | None = None,
+    command_center_metrics: CommandCenterMetrics | None = None,
 ) -> Callable[[], Any]:
     """Create a FastAPI endpoint without making FastAPI a core dependency."""
 
@@ -48,6 +72,30 @@ def prometheus_endpoint(
             body += plugin_metrics.render_prometheus()
         if marketplace_metrics is not None:
             body += marketplace_metrics.render_prometheus()
+        if application_metrics is not None:
+            body += application_metrics.render_prometheus()
+        if knowledge_metrics is not None:
+            body += knowledge_metrics.render_prometheus()
+        if knowledge_graph_metrics is not None:
+            body += knowledge_graph_metrics.render_prometheus()
+        if workflow_metrics is not None:
+            body += workflow_metrics.render_prometheus()
+        if orchestrator_metrics is not None:
+            body += orchestrator_metrics.render_prometheus()
+        if memory_metrics is not None:
+            body += memory_metrics.render_prometheus()
+        if reasoning_metrics is not None:
+            body += reasoning_metrics.render_prometheus()
+        if collaboration_metrics is not None:
+            body += collaboration_metrics.render_prometheus()
+        if governance_metrics is not None:
+            body += governance_metrics.render_prometheus()
+        if model_metrics is not None:
+            body += model_metrics.render_prometheus()
+        if security_metrics is not None:
+            body += security_metrics.render_prometheus()
+        if command_center_metrics is not None:
+            body += command_center_metrics.render_prometheus()
         return response_type(
             body,
             media_type="text/plain; version=0.0.4",
