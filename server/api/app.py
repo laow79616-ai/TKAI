@@ -96,6 +96,8 @@ from tiktok.publishing_center import (
 from tiktok.publishing_center.api import register_publishing_center_routes
 from tiktok.risk_control import TikTokRiskControlCenter
 from tiktok.risk_control.api import register_risk_control_routes
+from tiktok.runtime_manager import RuntimeInstance, TikTokRuntimeManager
+from tiktok.runtime_manager.api import register_runtime_manager_routes
 from tiktok.workflow_center import TikTokWorkflowOrchestrationCenter
 from tiktok.workflow_center.api import register_workflow_center_routes
 from tkai.agent import AgentApi
@@ -332,6 +334,17 @@ def create_app(
     register_command_center_routes(app, command_center)
     app.state.command_center = command_center
     register_local_runtime_routes(app)
+    tiktok_runtime_manager = TikTokRuntimeManager(
+        RuntimeInstance(
+            "local-runtime",
+            "TKAI TikTok Local Runtime",
+            "default",
+            "local-operator",
+            "5.0",
+        )
+    )
+    register_runtime_manager_routes(app, tiktok_runtime_manager)
+    app.state.tiktok_runtime_manager = tiktok_runtime_manager
     tiktok_account_center = TikTokAccountCenter()
     register_tiktok_routes(app, tiktok_account_center)
     app.state.tiktok_account_center = tiktok_account_center
