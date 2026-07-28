@@ -134,7 +134,7 @@ class AllocationPolicy:
 
 @dataclass(order=True, slots=True)
 class DeviceQueueItem:
-    sort_key: tuple[datetime, int, int]
+    sort_key: tuple[int, datetime, int]
     id: str = field(compare=False)
     tenant: str = field(compare=False)
     workspace: str = field(compare=False)

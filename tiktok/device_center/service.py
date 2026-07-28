@@ -301,7 +301,7 @@ class TikTokDeviceCenter:
         self._sequence += 1
         available = datetime.now(timezone.utc) + timedelta(seconds=delay_seconds)
         item = DeviceQueueItem(
-            (available, -priority, self._sequence),
+            (-priority, available, self._sequence),
             str(uuid4()),
             scope.tenant,
             scope.workspace,

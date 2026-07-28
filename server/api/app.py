@@ -57,6 +57,16 @@ from tiktok.browser_cluster import TikTokBrowserCluster
 from tiktok.browser_cluster.api import register_browser_cluster_routes
 from tiktok.browser_runtime import AccountCenterStatusAdapter, TikTokBrowserRuntime
 from tiktok.browser_runtime.api import register_browser_runtime_routes
+from tiktok.campaign_center import (
+    ExistingAnalyticsAdapter as CampaignAnalyticsAdapter,
+)
+from tiktok.campaign_center import ExistingPlannerAdapter as CampaignPlannerAdapter
+from tiktok.campaign_center import (
+    ExistingRegistryAdapter as CampaignRegistryAdapter,
+)
+from tiktok.campaign_center import ExistingStatusAdapter as CampaignStatusAdapter
+from tiktok.campaign_center import TikTokCampaignCenter
+from tiktok.campaign_center.api import register_campaign_routes
 from tiktok.content_center import (
     ExistingAccountCenterAdapter as ContentAccountAdapter,
 )
@@ -103,6 +113,8 @@ from tiktok.interaction_center import TikTokInteractionCenter
 from tiktok.interaction_center.api import register_interaction_routes
 from tiktok.operations_center import TikTokOperationsCommandCenter
 from tiktok.operations_center.api import register_operations_center_routes
+from tiktok.operations_planner import TikTokAIOperationsPlanner
+from tiktok.operations_planner.api import register_operations_planner_routes
 from tiktok.optimization_center import TikTokAIContinuousOptimizationCenter
 from tiktok.optimization_center.api import register_optimization_routes
 from tiktok.proxy_center import BrowserRuntimeProxyAdapter, TikTokProxyCenter
@@ -452,6 +464,9 @@ def create_app(
     tiktok_execution_engine = TikTokAIExecutionEngine()
     register_execution_routes(app, tiktok_execution_engine)
     app.state.tiktok_execution_engine = tiktok_execution_engine
+    tiktok_operations_planner = TikTokAIOperationsPlanner()
+    register_operations_planner_routes(app, tiktok_operations_planner)
+    app.state.tiktok_operations_planner = tiktok_operations_planner
     tiktok_optimization_center = TikTokAIContinuousOptimizationCenter()
     register_optimization_routes(app, tiktok_optimization_center)
     app.state.tiktok_optimization_center = tiktok_optimization_center
@@ -484,6 +499,25 @@ def create_app(
     )
     register_decision_center_routes(app, tiktok_decision_center)
     app.state.tiktok_decision_center = tiktok_decision_center
+    tiktok_campaign_center = TikTokCampaignCenter(
+        creator=CampaignRegistryAdapter(tiktok_creator_workspace, "projects"),
+        content=CampaignRegistryAdapter(tiktok_content_center, "projects"),
+        publishing=CampaignRegistryAdapter(tiktok_publishing_center, "jobs"),
+        workflow=CampaignRegistryAdapter(tiktok_workflow_center, "workflows"),
+        automation=CampaignRegistryAdapter(tiktok_automation_engine, "automations"),
+        execution=CampaignRegistryAdapter(tiktok_execution_engine, "plans"),
+        publishing_status=CampaignStatusAdapter(
+            tiktok_publishing_center, "jobs"
+        ),
+        workflow_status=CampaignStatusAdapter(tiktok_workflow_center, "workflows"),
+        execution_status=CampaignStatusAdapter(tiktok_execution_engine, "plans"),
+        risk_status=CampaignStatusAdapter(tiktok_risk_control_center, "restrictions"),
+        runtime_status=CampaignStatusAdapter(tiktok_runtime_manager, "instances"),
+        analytics_center=CampaignAnalyticsAdapter(tiktok_analytics_center),
+        operations_planner=CampaignPlannerAdapter(tiktok_operations_planner),
+    )
+    register_campaign_routes(app, tiktok_campaign_center)
+    app.state.tiktok_campaign_center = tiktok_campaign_center
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]

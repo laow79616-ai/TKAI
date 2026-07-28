@@ -1,0 +1,1 @@
+"""Campaign objective boundary."""

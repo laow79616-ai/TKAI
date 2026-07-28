@@ -198,6 +198,9 @@ export class MarketplaceApiClient {
     const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
     return this.request<Record<string, unknown>>(`/tiktok/decision-center/${resource}?${query}`);
   }
+  tiktokCampaignCenter() {
+    return this.request<Record<string, unknown>>("/tiktok/campaigns/dashboard");
+  }
   localRuntime() {
     return this.request<Record<string, unknown>>("/local-runtime/status");
   }
