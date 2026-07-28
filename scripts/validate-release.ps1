@@ -1,7 +1,11 @@
-param([string]$Archive = "artifacts\tkai-4.0.0.zip")
+param([string]$Archive)
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 $repository = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot ".."))
+if (-not $Archive) {
+    $release = Get-Content "$repository\release.json" -Raw | ConvertFrom-Json
+    $Archive = "artifacts\tkai-$($release.version).zip"
+}
 $path = [System.IO.Path]::GetFullPath((Join-Path $repository $Archive))
 if (-not (Test-Path -LiteralPath $path)) { throw "Release archive not found: $path" }
 $forbidden = @(

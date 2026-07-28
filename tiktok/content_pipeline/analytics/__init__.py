@@ -1,0 +1,1 @@
+"""Pipeline analytics contracts."""

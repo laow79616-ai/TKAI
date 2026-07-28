@@ -1,0 +1,1 @@
+"""Workflow resource references namespace."""

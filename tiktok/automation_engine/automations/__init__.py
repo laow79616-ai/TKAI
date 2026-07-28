@@ -1,0 +1,1 @@
+"""Automation aggregate namespace."""

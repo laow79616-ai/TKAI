@@ -1,0 +1,1 @@
+"""Versioned checksum content manifests."""

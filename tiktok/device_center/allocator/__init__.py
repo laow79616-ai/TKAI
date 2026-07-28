@@ -1,0 +1,1 @@
+"""Bounded resource allocation namespace."""

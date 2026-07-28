@@ -1,0 +1,1 @@
+"""Scoped activity projection."""

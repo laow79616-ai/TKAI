@@ -143,6 +143,14 @@ export class MarketplaceApiClient {
     const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
     return this.request<Record<string, unknown>>(`/tiktok/browser-runtime/dashboard?${query}`);
   }
+  tiktokBrowserCluster() {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown>>(`/tiktok/browser-cluster?${query}`);
+  }
+  tiktokDeviceCenter() {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown>>(`/tiktok/device-center?${query}`);
+  }
   tiktokProxyCenter() {
     const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
     return this.request<Record<string, unknown>>(`/tiktok/proxy-center/dashboard?${query}`);
@@ -150,6 +158,24 @@ export class MarketplaceApiClient {
   tiktokPublishingCenter() {
     const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
     return this.request<Record<string, unknown>>(`/tiktok/publishing/dashboard?${query}`);
+  }
+  tiktokContentPipeline() {
+    return this.request<Record<string, unknown>>("/tiktok/content-pipeline/dashboard");
+  }
+  tiktokGrowthCenter() {
+    return this.request<Record<string, unknown>>("/tiktok/growth/dashboard");
+  }
+  tiktokPerformanceInsights() {
+    return this.request<Record<string, unknown>>("/tiktok/performance-insights/dashboard");
+  }
+  tiktokBusinessWorkspace() {
+    return this.request<Record<string, unknown>>("/tiktok/business-workspace/dashboard");
+  }
+  tiktokLeadManagement() {
+    return this.request<Record<string, unknown>>("/tiktok/leads/dashboard");
+  }
+  tiktokBusinessIntelligence() {
+    return this.request<Record<string, unknown>>("/tiktok/business-intelligence/dashboard");
   }
   tiktokDataCollection() {
     const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
@@ -166,6 +192,32 @@ export class MarketplaceApiClient {
   tiktokOperationsCenter(resource = "dashboard") {
     const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
     return this.request<Record<string, unknown> | unknown[]>(`/tiktok/operations/${resource}?${query}`);
+  }
+  tiktokResourceCenter() {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown>>(`/tiktok/resource-center/dashboard?${query}`);
+  }
+  tiktokAutomationEngine() {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown>>(`/tiktok/automation/dashboard?${query}`);
+  }
+  tiktokExecutionEngine() {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown>>(`/tiktok/execution/dashboard?${query}`);
+  }
+  tiktokCreatorWorkspace() {
+    return this.request<Record<string, unknown>>("/tiktok/creator-workspace/dashboard");
+  }
+  tiktokControlTower(resource = "dashboard") {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown>>(`/tiktok/control-tower/${resource}?${query}`);
+  }
+  tiktokDecisionCenter(resource = "dashboard") {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown>>(`/tiktok/decision-center/${resource}?${query}`);
+  }
+  tiktokCampaignCenter() {
+    return this.request<Record<string, unknown>>("/tiktok/campaigns/dashboard");
   }
   localRuntime() {
     return this.request<Record<string, unknown>>("/local-runtime/status");

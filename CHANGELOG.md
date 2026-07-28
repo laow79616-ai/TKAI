@@ -189,3 +189,9 @@
 ## 0.2.1
 
 - Initial packaged TKAI command-line and template-generation release.
+# 5.0.0
+
+- Unified readiness and health aggregation across all completed TikTok modules.
+- Registered Task Scheduler in the API and Control Tower dependency graph.
+- Removed the duplicate Business Intelligence metrics route.
+- Hardened versioned Windows release packaging, checksums, and local operations docs.

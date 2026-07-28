@@ -7,22 +7,10 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
+from tiktok.registry import TIKTOK_MODULES
 from tkai import __version__
 
-MODULES = (
-    ("account_center", "Account Center"),
-    ("browser_runtime", "Browser Runtime"),
-    ("proxy_center", "Proxy Center"),
-    ("account_farming", "Account Farming"),
-    ("content_center", "Content Center"),
-    ("publishing_center", "Publishing Center"),
-    ("data_collection", "Data Collection Center"),
-    ("interaction_center", "Interaction Center"),
-    ("risk_control", "Risk Control Center"),
-    ("workflow_center", "Workflow Center"),
-    ("operations_center", "Operations Center"),
-    ("analytics_center", "Analytics Center"),
-)
+MODULES = tuple((module.key, module.name) for module in TIKTOK_MODULES)
 
 
 @dataclass(frozen=True)

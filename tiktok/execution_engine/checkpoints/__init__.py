@@ -1,0 +1,1 @@
+"""Execution checkpoint namespace."""

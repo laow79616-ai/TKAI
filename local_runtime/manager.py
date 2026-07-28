@@ -16,6 +16,8 @@ from pathlib import Path
 from typing import Any
 from urllib.request import urlopen
 
+from tiktok.registry import TIKTOK_MODULE_KEYS
+
 from .config import LocalRuntimeConfig, resolve_bounded
 
 DIRECTORIES = (
@@ -29,20 +31,6 @@ DIRECTORIES = (
     "temp",
 )
 SERVICES = ("backend", "dashboard", "studio")
-TIKTOK_MODULES = (
-    "account_center",
-    "browser_runtime",
-    "proxy_center",
-    "account_farming",
-    "content_center",
-    "publishing_center",
-    "data_collection",
-    "interaction_center",
-    "risk_control",
-    "workflow_center",
-    "operations_center",
-    "analytics_center",
-)
 REQUIRED_ROUTES = ("/health", "/tiktok/accounts", "/tiktok/browser")
 SECRET_PATTERN = re.compile(
     r"(?i)(password|secret|token|cookie|session|proxy[_-]?credentials)"
@@ -189,7 +177,7 @@ class LocalRuntimeManager:
             "database": self.database_health()["healthy"],
             "tiktok_modules": {
                 name: (self.config.repository / "tiktok" / name).is_dir()
-                for name in TIKTOK_MODULES
+                for name in TIKTOK_MODULE_KEYS
             },
             "required_routes": list(REQUIRED_ROUTES),
         }

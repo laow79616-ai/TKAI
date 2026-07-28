@@ -16,7 +16,7 @@ export const integrationHubDashboardPages = ["integration-hub", "integration-hub
 export const digitalTwinDashboardPages = ["digital-twins", "twin-topology", "twin-telemetry", "twin-simulation", "twin-predictions", "twin-optimization"] as const;
 export const businessIntelligenceDashboardPages = ["business-intelligence-workspaces", "business-intelligence-data-sources", "business-intelligence-datasets", "business-intelligence-semantic-models", "business-intelligence-metrics", "business-intelligence-reports", "business-intelligence-dashboards", "business-intelligence-insights", "business-intelligence-alerts", "business-intelligence-subscriptions", "business-intelligence-governance"] as const;
 export const commandCenterDashboardPages = ["command-center", "command-center-operations", "command-center-agents", "command-center-automation", "command-center-incidents", "command-center-alerts", "command-center-topology", "command-center-health", "command-center-activity", "command-center-audit"] as const;
-export const tiktokDashboardPages = ["tiktok-account-center", "tiktok-browser-runtime", "tiktok-proxy-center", "tiktok-ai-publishing-center", "tiktok-data-collection", "tiktok-ai-interaction-center", "tiktok-ai-risk-control-center", "tiktok-operations-command-center", "tiktok-local-runtime"] as const;
+export const tiktokDashboardPages = ["tiktok-business-intelligence", "tiktok-lead-management", "tiktok-business-workspace", "tiktok-performance-insights", "tiktok-ai-growth-center", "tiktok-ai-control-tower", "tiktok-ai-intelligent-decision-center", "tiktok-content-pipeline", "tiktok-account-center", "tiktok-browser-runtime", "tiktok-browser-cluster", "tiktok-device-center", "tiktok-proxy-center", "tiktok-ai-publishing-center", "tiktok-creator-workspace", "tiktok-campaign-center", "tiktok-data-collection", "tiktok-ai-interaction-center", "tiktok-ai-risk-control-center", "tiktok-operations-command-center", "tiktok-resource-center", "tiktok-ai-automation-engine", "tiktok-ai-execution-engine", "tiktok-local-runtime"] as const;
 export const knowledgeGraphDashboardPages = ["knowledge-graphs", "knowledge-graph-entities", "knowledge-graph-relationships", "knowledge-graph-ontology", "knowledge-graph-taxonomy", "knowledge-graph-lineage", "knowledge-graph-analytics", "knowledge-graph-queries"] as const;
 
 function useRequest<T>(load: () => Promise<T>) {
@@ -83,13 +83,139 @@ export function BusinessIntelligencePage({ title = "Enterprise AI Business Intel
 export function CommandCenterPage({ title = "Enterprise AI Command Center", resource = "overview" }: { title?: string; resource?: string }) { const { client } = useAuth(); const state = useRequest(() => client.commandCenter(resource)); return <Card><h1>{title}</h1><p>Unified tenant-scoped control planes, live operations, incident response, topology, health, activity, and audit.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
 export function KnowledgeGraphPage({ title = "Enterprise AI Knowledge Graph", resource = "graphs" }: { title?: string; resource?: string }) { const { client } = useAuth(); const state = useRequest(() => client.knowledgeGraph(resource)); return <Card><h1>{title}</h1><p>Tenant-scoped graphs, entities, relationships, semantics, lineage, bounded queries, reasoning, and analytics.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
 export function TikTokBrowserRuntimePage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokBrowserRuntime()); return <Card><h1>TikTok Browser Runtime</h1><p>Tenant-scoped browser instances, profiles, account bindings, pool, queue, health, encrypted sessions, storage, and bounded recovery.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
+export function TikTokBrowserClusterPage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokBrowserCluster()); return <Card><h1>TikTok Browser Cluster</h1><p>Local, tenant-isolated nodes, instances, fair queues, bounded resources, health, recovery, telemetry, and statistics. Recovery stops for unresolved TikTok restrictions.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
+export function TikTokDeviceCenterPage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokDeviceCenter()); return <Card><h1>TikTok Device Center</h1><p>Unified local Android, iOS reference, emulator, simulator reference, and virtual-device inventory with profiles, fair scheduling, bounded allocation, health, recovery, telemetry, and statistics. Recovery stops for unresolved TikTok restrictions or challenges.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
 export function TikTokProxyCenterPage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokProxyCenter()); return <Card><h1>TikTok Proxy Center</h1><p>Tenant-scoped inventory, health, regions, countries, groups, bindings, pool, queue, statistics, and failure operations. Credentials remain secret references.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
 export function TikTokAccountCenterPage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokDashboard()); return <Card><h1>TikTok Account Center</h1><p>Tenant-scoped accounts, login health, risk, groups, tags, sessions, cookies, and browser bindings.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
 export function TikTokPublishingCenterPage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokPublishingCenter()); return <Card><h1>TikTok AI Publishing Center</h1><p>Tenant-scoped queue, calendar, schedules, approvals, retries, failures, history, analytics, and statistics. Publishing respects TikTok platform security and anti-abuse controls.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
+export function TikTokCreatorWorkspacePage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokCreatorWorkspace()); return <Card><h1>TikTok Creator Workspace</h1><p>Plan and review projects, calendars, creative assets, drafts, templates, reviews, approvals, and analytics. Publishing plans remain approval-gated and execute through the existing Publishing Center.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
+export function TikTokCampaignCenterPage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokCampaignCenter()); return <Card><h1>TikTok Campaign Center</h1><p>Coordinate campaign overview, plans, schedules, approvals, monitoring, analytics, and history through existing TikTok modules. Campaigns never publish directly and remain approval-gated.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
+export function TikTokContentPipelinePage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokContentPipeline()); return <Card><h1>Enterprise TikTok Content Pipeline</h1><p>Tenant-scoped intake, validation, explainable quality, reviews, approvals, packaging, checkpoints, recovery, and reference-only publishing handoff. This pipeline never publishes directly.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
+export function TikTokGrowthCenterPage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokGrowthCenter()); return <Card><h1>Enterprise TikTok AI Growth Center</h1><p>Bounded goals, KPIs, trends, opportunities, offline forecasts, analytics, and approval-gated execution proposals. Recommendations remain advisory until approved.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
+export function TikTokPerformanceInsightsPage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokPerformanceInsights()); return <Card><h1>TikTok Performance Insights Center</h1><p>Unified, explainable, read-only performance profiles, datasets, metrics, comparisons, trends, anomaly references, bounded forecasts, advisory insights, recommendations, reports, snapshots, and history.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
+export function TikTokBusinessWorkspacePage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokBusinessWorkspace()); return <Card><h1>TikTok Business Workspace</h1><p>Unified projects, operations, campaigns, calendars, members, approvals, analytics, and history. Publishing and execution remain approval-gated proposals delegated to existing TikTok modules.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
+export function TikTokLeadManagementPage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokLeadManagement()); return <Card><h1>TikTok Lead Management Center</h1><p>Consent-aware lead intake, deduplication, qualification, explainable scoring, assignment, manual follow-up proposals, bounded handoffs, history, and analytics. No direct outreach is executed.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
+export function TikTokBusinessIntelligencePage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokBusinessIntelligence()); return <Card><h1>TikTok Business Intelligence Center</h1><p>Unified, read-only dashboards, KPIs, comparisons, trends, bounded forecasts, reports, snapshots, exports, governance, and explainable advisory insights across TikTok business operations.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
 export function TikTokDataCollectionPage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokDataCollection()); return <Card><h1>TikTok Data Collection Center</h1><p>Tenant-scoped projects, jobs, datasets, pipelines, execution history, analytics, and encrypted storage references. Collection runs only through configured platform adapters.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
 export function TikTokInteractionCenterPage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokInteractionCenter()); return <Card><h1>TikTok AI Interaction Center</h1><p>Projects, tasks, drafts, localized templates, review and approval queues, analytics, history, statistics, and notifications with strict tenant isolation.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
 export function TikTokRiskControlCenterPage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokRiskControlCenter()); return <Card><h1>TikTok AI Risk Control Center</h1><p>Safety monitoring, bounded policies and rules, explainable scores, alerts, restrictions, approvals, coordinated pauses, health, recovery, analytics, and audit.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
-export function TikTokOperationsCenterPage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokOperationsCenter()); return <Card><h1>TikTok Operations Command Center</h1><p>Unified monitoring, approved controls, incidents, health, bounded recovery, activity, and audit for the TikTok Cloud Control Platform.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
+type OperationsDashboard = {
+  sections?: string[];
+  overview?: Record<string, unknown>;
+  health?: Record<string, unknown>;
+};
+
+const operationMetricLabels: Record<string, string> = {
+  total_accounts: "Total accounts",
+  active_accounts: "Active accounts",
+  paused_accounts: "Paused accounts",
+  restricted_accounts: "Restricted accounts",
+  active_browsers: "Active browsers",
+  browser_failures: "Browser failures",
+  healthy_proxies: "Healthy proxies",
+  unhealthy_proxies: "Unhealthy proxies",
+  running_workflows: "Running workflows",
+  queued_tasks: "Queued tasks",
+  publishing_jobs: "Publishing jobs",
+  collection_jobs: "Collection jobs",
+  interaction_tasks: "Interaction tasks",
+  risk_alerts: "Risk alerts",
+  open_incidents: "Open incidents",
+};
+
+function displayOperationValue(value: unknown): string {
+  if (typeof value === "number") return new Intl.NumberFormat().format(value);
+  if (typeof value === "boolean") return value ? "Enabled" : "Disabled";
+  if (typeof value === "string") return value.replaceAll("_", " ");
+  return value == null ? "—" : String(value);
+}
+
+function operationStatusTone(value: unknown): string {
+  const status = String(value ?? "unknown").toLowerCase();
+  if (["healthy", "active", "ready", "running", "ok", "operational"].some((item) => status.includes(item))) return "healthy";
+  if (["failed", "critical", "restricted", "offline", "error"].some((item) => status.includes(item))) return "critical";
+  if (["warning", "degraded", "paused", "maintenance", "recovering"].some((item) => status.includes(item))) return "warning";
+  return "neutral";
+}
+
+export function TikTokOperationsCenterPage() {
+  const { client } = useAuth();
+  const state = useRequest(() => client.tiktokOperationsCenter());
+  const dashboard = (state.value ?? {}) as OperationsDashboard;
+  const overview = dashboard.overview ?? {};
+  const health = dashboard.health ?? {};
+  const statuses = (overview.unified_status ?? {}) as Record<string, unknown>;
+  const scoreValue = health.score ?? health.health_score ?? health.composite_score;
+  const metricEntries = Object.entries(operationMetricLabels);
+  const issueCount = Number(overview.risk_alerts ?? 0) + Number(overview.open_incidents ?? 0) + Number(overview.browser_failures ?? 0) + Number(overview.unhealthy_proxies ?? 0);
+
+  return <div className="operations-v2">
+    <div className="operations-hero">
+      <div>
+        <p className="operations-eyebrow">TikTok Cloud Control Platform</p>
+        <h1>Operations Command Center</h1>
+        <p>Live operational visibility across accounts, infrastructure, workflows, risk, and recovery.</p>
+      </div>
+      <div className={`operations-overall ${issueCount ? "warning" : "healthy"}`}>
+        <span className="operations-pulse" />
+        <div><small>Platform status</small><strong>{issueCount ? "Attention required" : "All systems operational"}</strong></div>
+      </div>
+    </div>
+
+    {state.error && <div className="operations-error" role="alert"><strong>Dashboard unavailable</strong><span>{state.error}</span></div>}
+    {!state.value && !state.error && <Card><Loading /></Card>}
+
+    {state.value && <>
+      <section className="operations-kpis" aria-label="Key operational metrics">
+        {metricEntries.slice(0, 6).map(([key, label]) => <article key={key}>
+          <span>{label}</span>
+          <strong>{displayOperationValue(overview[key])}</strong>
+          <small className={Number(overview[key] ?? 0) > 0 && ["browser_failures", "paused_accounts", "restricted_accounts"].includes(key) ? "metric-alert" : ""}>
+            {["browser_failures", "paused_accounts", "restricted_accounts"].includes(key) ? "requires review" : "current"}
+          </small>
+        </article>)}
+      </section>
+
+      <div className="operations-grid">
+        <section className="operations-panel operations-platform">
+          <div className="operations-panel-heading"><div><p className="operations-eyebrow">Infrastructure</p><h2>Platform health</h2></div>{scoreValue != null && <strong className="health-score">{displayOperationValue(scoreValue)}<small>/ 100</small></strong>}</div>
+          <div className="status-list">
+            {Object.entries(statuses).length ? Object.entries(statuses).map(([key, value]) => <div className="status-row" key={key}>
+              <span className={`status-dot ${operationStatusTone(value)}`} />
+              <span>{key.replace(/_status$/, "").replaceAll("_", " ")}</span>
+              <strong className={`status-pill ${operationStatusTone(value)}`}>{displayOperationValue(value)}</strong>
+            </div>) : <p className="operations-empty">No module status has been reported.</p>}
+          </div>
+        </section>
+
+        <section className="operations-panel">
+          <div className="operations-panel-heading"><div><p className="operations-eyebrow">Workload</p><h2>Live operations</h2></div><span className="live-badge">Live</span></div>
+          <div className="workload-grid">
+            {metricEntries.slice(6).map(([key, label]) => <div key={key}><span>{label}</span><strong>{displayOperationValue(overview[key])}</strong></div>)}
+          </div>
+        </section>
+
+        <section className="operations-panel operations-attention">
+          <div className="operations-panel-heading"><div><p className="operations-eyebrow">Safety &amp; response</p><h2>Needs attention</h2></div><span className={`attention-count ${issueCount ? "warning" : ""}`}>{issueCount}</span></div>
+          <div className="attention-list">
+            {[
+              ["Open incidents", overview.open_incidents],
+              ["Risk alerts", overview.risk_alerts],
+              ["Browser failures", overview.browser_failures],
+              ["Unhealthy proxies", overview.unhealthy_proxies],
+            ].map(([label, value]) => <div key={String(label)}><span>{String(label)}</span><strong>{displayOperationValue(value)}</strong></div>)}
+          </div>
+          <p className="operations-safety-note">Recovery remains blocked while TikTok restrictions or unresolved challenges are active.</p>
+        </section>
+      </div>
+    </>}
+  </div>;
+}
+export function TikTokResourceCenterPage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokResourceCenter()); return <Card><h1>TikTok Resource Center</h1><p>Unified tenant-isolated inventory, reservations, leases, allocations, quotas, capacity, utilization, health, recovery, telemetry, and statistics for local TikTok resources.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
+export function TikTokAutomationEnginePage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokAutomationEngine()); return <Card><h1>TikTok AI Automation Engine</h1><p>Approved local automations, reusable plans, executions, triggers, conditions, queues, monitoring, recovery, and analytics with bounded concurrency and restriction-safe stops.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
+export function TikTokExecutionEnginePage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokExecutionEngine()); return <Card><h1>TikTok AI Execution Engine</h1><p>Approval-gated plan execution through existing workflow, automation, scheduler, runtime, resource, browser, device, account, proxy, and risk systems, with checkpoints, rollback, verification, monitoring, and analytics.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
+export function TikTokAIControlTowerPage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokControlTower()); return <Card><h1>TikTok AI Control Tower</h1><p>Unified, read-only operational cockpit for health, topology, runtime, resources, accounts, browsers, devices, proxies, workflows, scheduling, automation, execution, recovery, publishing, collection, interaction, risk, analytics, alerts, and activity.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
+export function TikTokAIIntelligentDecisionCenterPage() { const { client } = useAuth(); const state = useRequest(() => client.tiktokDecisionCenter()); return <Card><h1>TikTok AI Intelligent Decision Center</h1><p>Explainable and reviewable decision support using scoped, read-only TikTok platform data. Recommendations remain advisory until an authorized reviewer approves an execution proposal handoff.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
 export function TikTokLocalRuntimePage() { const { client } = useAuth(); const state = useRequest(() => client.localRuntime()); return <Card><h1>TikTok Local Deployment &amp; Runtime Center</h1><p>Loopback-only service status, URLs, ports, directories, database health, backup state, and last health check. Use scripts\start-tkai.ps1 and scripts\stop-tkai.ps1 for lifecycle control.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
 export function MemoryPage({ title = "Memory Overview", resource = "memory" }: { title?: string; resource?: "memory" | "namespaces" | "cache" }) { const { client } = useAuth(); const state = useRequest<unknown>(() => resource === "namespaces" ? client.memoryNamespaces() : resource === "cache" ? client.memoryCache() : client.memories()); return <Card><h1>{title}</h1>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>; }
 

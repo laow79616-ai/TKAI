@@ -82,3 +82,10 @@ declarations held by `ProviderRegistry`; it does not depend on fallback.
 list and has no dependency on the manager. `DoctorService` is read-only and
 inspects these layers without sending requests or changing lifecycle state.
 This separation keeps command imports from reversing runtime dependencies.
+# TKAI V5 Production Architecture
+
+V5 retains the layered architecture and adds a canonical static TikTok registry
+at `tiktok/registry.py`. The API composes completed TikTok services in dependency
+order; readiness and runtime health consume the same registry. Startup and
+shutdown ownership remains in the bounded Windows local-runtime layer. See
+[V5 Modules](V5Modules.md).

@@ -51,8 +51,37 @@ from tiktok.account_farming import (
 from tiktok.account_farming.api import register_account_farming_routes
 from tiktok.analytics_center import TikTokAIAnalyticsCenter
 from tiktok.analytics_center.api import register_analytics_center_routes
+from tiktok.automation_engine import TikTokAutomationEngine
+from tiktok.automation_engine.api import register_automation_routes
+from tiktok.browser_cluster import TikTokBrowserCluster
+from tiktok.browser_cluster.api import register_browser_cluster_routes
 from tiktok.browser_runtime import AccountCenterStatusAdapter, TikTokBrowserRuntime
 from tiktok.browser_runtime.api import register_browser_runtime_routes
+from tiktok.business_intelligence_center import TikTokBusinessIntelligenceCenter
+from tiktok.business_intelligence_center.api import (
+    register_business_intelligence_routes,
+)
+from tiktok.business_workspace import (
+    CoordinationTarget as BusinessCoordinationTarget,
+)
+from tiktok.business_workspace import (
+    ExistingAnalyticsAdapter as BusinessAnalyticsAdapter,
+)
+from tiktok.business_workspace import (
+    ExistingCoordinationAdapter as BusinessCoordinationAdapter,
+)
+from tiktok.business_workspace import TikTokBusinessWorkspace
+from tiktok.business_workspace.api import register_business_workspace_routes
+from tiktok.campaign_center import (
+    ExistingAnalyticsAdapter as CampaignAnalyticsAdapter,
+)
+from tiktok.campaign_center import ExistingPlannerAdapter as CampaignPlannerAdapter
+from tiktok.campaign_center import (
+    ExistingRegistryAdapter as CampaignRegistryAdapter,
+)
+from tiktok.campaign_center import ExistingStatusAdapter as CampaignStatusAdapter
+from tiktok.campaign_center import TikTokCampaignCenter
+from tiktok.campaign_center.api import register_campaign_routes
 from tiktok.content_center import (
     ExistingAccountCenterAdapter as ContentAccountAdapter,
 )
@@ -67,16 +96,50 @@ from tiktok.content_center import (
     ExistingProxyCenterAdapter as ContentProxyAdapter,
 )
 from tiktok.content_center.api import register_content_center_routes
+from tiktok.content_pipeline import TikTokContentPipeline
+from tiktok.content_pipeline.api import register_content_pipeline_routes
+from tiktok.control_tower import ExistingServiceRegistryProvider, TikTokAIControlTower
+from tiktok.control_tower.api import register_control_tower_routes
+from tiktok.creator_workspace import (
+    ExistingAnalyticsCenterAdapter as CreatorAnalyticsAdapter,
+)
+from tiktok.creator_workspace import (
+    ExistingContentCenterAdapter as CreatorContentAdapter,
+)
+from tiktok.creator_workspace import (
+    ExistingPublishingCenterAdapter as CreatorPublishingAdapter,
+)
+from tiktok.creator_workspace import TikTokCreatorWorkspace
+from tiktok.creator_workspace.api import register_creator_workspace_routes
 from tiktok.data_collection import (
     ExistingAccountCenterAdapter as DataAccountAdapter,
 )
 from tiktok.data_collection import ExistingProxyCenterAdapter as DataProxyAdapter
 from tiktok.data_collection import TikTokDataCollectionCenter
 from tiktok.data_collection.api import register_data_collection_routes
+from tiktok.decision_center import (
+    ControlTowerDecisionInputAdapter,
+    TikTokAIIntelligentDecisionCenter,
+)
+from tiktok.decision_center.api import register_decision_center_routes
+from tiktok.device_center import TikTokDeviceCenter
+from tiktok.device_center.api import register_device_center_routes
+from tiktok.execution_engine import TikTokAIExecutionEngine
+from tiktok.execution_engine.api import register_execution_routes
+from tiktok.growth_center import TikTokAIGrowthCenter
+from tiktok.growth_center.api import register_growth_routes
 from tiktok.interaction_center import TikTokInteractionCenter
 from tiktok.interaction_center.api import register_interaction_routes
+from tiktok.lead_center import TikTokLeadManagementCenter
+from tiktok.lead_center.api import register_lead_routes
 from tiktok.operations_center import TikTokOperationsCommandCenter
 from tiktok.operations_center.api import register_operations_center_routes
+from tiktok.operations_planner import TikTokAIOperationsPlanner
+from tiktok.operations_planner.api import register_operations_planner_routes
+from tiktok.optimization_center import TikTokAIContinuousOptimizationCenter
+from tiktok.optimization_center.api import register_optimization_routes
+from tiktok.performance_insights import TikTokPerformanceInsightsCenter
+from tiktok.performance_insights.api import register_performance_insights_routes
 from tiktok.proxy_center import BrowserRuntimeProxyAdapter, TikTokProxyCenter
 from tiktok.proxy_center.api import register_proxy_center_routes
 from tiktok.publishing_center import (
@@ -90,8 +153,14 @@ from tiktok.publishing_center import (
     TikTokPublishingCenter,
 )
 from tiktok.publishing_center.api import register_publishing_center_routes
+from tiktok.resource_center import TikTokResourceCenter
+from tiktok.resource_center.api import register_resource_center_routes
 from tiktok.risk_control import TikTokRiskControlCenter
 from tiktok.risk_control.api import register_risk_control_routes
+from tiktok.runtime_manager import RuntimeInstance, TikTokRuntimeManager
+from tiktok.runtime_manager.api import register_runtime_manager_routes
+from tiktok.task_scheduler import TikTokAITaskScheduler
+from tiktok.task_scheduler.api import register_task_scheduler_routes
 from tiktok.workflow_center import TikTokWorkflowOrchestrationCenter
 from tiktok.workflow_center.api import register_workflow_center_routes
 from tkai.agent import AgentApi
@@ -328,6 +397,17 @@ def create_app(
     register_command_center_routes(app, command_center)
     app.state.command_center = command_center
     register_local_runtime_routes(app)
+    tiktok_runtime_manager = TikTokRuntimeManager(
+        RuntimeInstance(
+            "local-runtime",
+            "TKAI TikTok Local Runtime",
+            "default",
+            "local-operator",
+            "5.0",
+        )
+    )
+    register_runtime_manager_routes(app, tiktok_runtime_manager)
+    app.state.tiktok_runtime_manager = tiktok_runtime_manager
     tiktok_account_center = TikTokAccountCenter()
     register_tiktok_routes(app, tiktok_account_center)
     app.state.tiktok_account_center = tiktok_account_center
@@ -336,6 +416,12 @@ def create_app(
     )
     register_browser_runtime_routes(app, tiktok_browser_runtime)
     app.state.tiktok_browser_runtime = tiktok_browser_runtime
+    tiktok_browser_cluster = TikTokBrowserCluster()
+    register_browser_cluster_routes(app, tiktok_browser_cluster)
+    app.state.tiktok_browser_cluster = tiktok_browser_cluster
+    tiktok_device_center = TikTokDeviceCenter()
+    register_device_center_routes(app, tiktok_device_center)
+    app.state.tiktok_device_center = tiktok_device_center
     tiktok_proxy_center = TikTokProxyCenter()
     register_proxy_center_routes(app, tiktok_proxy_center)
     app.state.tiktok_proxy_center = tiktok_proxy_center
@@ -357,6 +443,9 @@ def create_app(
     )
     register_content_center_routes(app, tiktok_content_center)
     app.state.tiktok_content_center = tiktok_content_center
+    tiktok_content_pipeline = TikTokContentPipeline()
+    register_content_pipeline_routes(app, tiktok_content_pipeline)
+    app.state.tiktok_content_pipeline = tiktok_content_pipeline
     tiktok_publishing_center = TikTokPublishingCenter(
         content=ExistingContentCenterAdapter(tiktok_content_center),
         accounts=PublishingAccountAdapter(tiktok_account_center),
@@ -387,6 +476,128 @@ def create_app(
     tiktok_analytics_center = TikTokAIAnalyticsCenter()
     register_analytics_center_routes(app, tiktok_analytics_center)
     app.state.tiktok_analytics_center = tiktok_analytics_center
+    tiktok_creator_workspace = TikTokCreatorWorkspace(
+        content=CreatorContentAdapter(tiktok_content_center),
+        publishing=CreatorPublishingAdapter(tiktok_publishing_center),
+        analytics_center=CreatorAnalyticsAdapter(tiktok_analytics_center),
+    )
+    register_creator_workspace_routes(app, tiktok_creator_workspace)
+    app.state.tiktok_creator_workspace = tiktok_creator_workspace
+    tiktok_resource_center = TikTokResourceCenter()
+    register_resource_center_routes(app, tiktok_resource_center)
+    app.state.tiktok_resource_center = tiktok_resource_center
+    tiktok_automation_engine = TikTokAutomationEngine()
+    register_automation_routes(app, tiktok_automation_engine)
+    app.state.tiktok_automation_engine = tiktok_automation_engine
+    tiktok_task_scheduler = TikTokAITaskScheduler()
+    register_task_scheduler_routes(app, tiktok_task_scheduler)
+    app.state.tiktok_task_scheduler = tiktok_task_scheduler
+    tiktok_execution_engine = TikTokAIExecutionEngine()
+    register_execution_routes(app, tiktok_execution_engine)
+    app.state.tiktok_execution_engine = tiktok_execution_engine
+    tiktok_operations_planner = TikTokAIOperationsPlanner()
+    register_operations_planner_routes(app, tiktok_operations_planner)
+    app.state.tiktok_operations_planner = tiktok_operations_planner
+    tiktok_optimization_center = TikTokAIContinuousOptimizationCenter()
+    register_optimization_routes(app, tiktok_optimization_center)
+    app.state.tiktok_optimization_center = tiktok_optimization_center
+    tiktok_control_tower = TikTokAIControlTower(
+        ExistingServiceRegistryProvider(
+            {
+                "runtime": tiktok_runtime_manager,
+                "resources": tiktok_resource_center,
+                "accounts": tiktok_account_center,
+                "browser_cluster": tiktok_browser_cluster,
+                "devices": tiktok_device_center,
+                "proxies": tiktok_proxy_center,
+                "workflows": tiktok_workflow_center,
+                "scheduler": tiktok_task_scheduler,
+                "automation": tiktok_automation_engine,
+                "execution": tiktok_execution_engine,
+                "publishing": tiktok_publishing_center,
+                "collection": tiktok_data_collection_center,
+                "interaction": tiktok_interaction_center,
+                "risk": tiktok_risk_control_center,
+                "analytics": tiktok_analytics_center,
+                "recovery": tiktok_operations_center,
+            }
+        )
+    )
+    register_control_tower_routes(app, tiktok_control_tower)
+    app.state.tiktok_control_tower = tiktok_control_tower
+    tiktok_decision_center = TikTokAIIntelligentDecisionCenter(
+        ControlTowerDecisionInputAdapter(tiktok_control_tower)
+    )
+    register_decision_center_routes(app, tiktok_decision_center)
+    app.state.tiktok_decision_center = tiktok_decision_center
+    tiktok_campaign_center = TikTokCampaignCenter(
+        creator=CampaignRegistryAdapter(tiktok_creator_workspace, "projects"),
+        content=CampaignRegistryAdapter(tiktok_content_center, "projects"),
+        publishing=CampaignRegistryAdapter(tiktok_publishing_center, "jobs"),
+        workflow=CampaignRegistryAdapter(tiktok_workflow_center, "workflows"),
+        automation=CampaignRegistryAdapter(tiktok_automation_engine, "automations"),
+        execution=CampaignRegistryAdapter(tiktok_execution_engine, "plans"),
+        publishing_status=CampaignStatusAdapter(
+            tiktok_publishing_center, "jobs"
+        ),
+        workflow_status=CampaignStatusAdapter(tiktok_workflow_center, "workflows"),
+        execution_status=CampaignStatusAdapter(tiktok_execution_engine, "plans"),
+        risk_status=CampaignStatusAdapter(tiktok_risk_control_center, "restrictions"),
+        runtime_status=CampaignStatusAdapter(tiktok_runtime_manager, "instances"),
+        analytics_center=CampaignAnalyticsAdapter(tiktok_analytics_center),
+        operations_planner=CampaignPlannerAdapter(tiktok_operations_planner),
+    )
+    register_campaign_routes(app, tiktok_campaign_center)
+    app.state.tiktok_campaign_center = tiktok_campaign_center
+    tiktok_growth_center = TikTokAIGrowthCenter()
+    register_growth_routes(app, tiktok_growth_center)
+    app.state.tiktok_growth_center = tiktok_growth_center
+    tiktok_performance_insights = TikTokPerformanceInsightsCenter()
+    register_performance_insights_routes(app, tiktok_performance_insights)
+    app.state.tiktok_performance_insights = tiktok_performance_insights
+    tiktok_business_workspace = TikTokBusinessWorkspace(
+        coordinators={
+            BusinessCoordinationTarget.CREATOR_WORKSPACE: BusinessCoordinationAdapter(
+                tiktok_creator_workspace
+            ),
+            BusinessCoordinationTarget.CAMPAIGN_CENTER: BusinessCoordinationAdapter(
+                tiktok_campaign_center
+            ),
+            BusinessCoordinationTarget.CONTENT_PIPELINE: BusinessCoordinationAdapter(
+                tiktok_content_pipeline
+            ),
+            BusinessCoordinationTarget.PUBLISHING_CENTER: BusinessCoordinationAdapter(
+                tiktok_publishing_center
+            ),
+            BusinessCoordinationTarget.AUTOMATION_ENGINE: BusinessCoordinationAdapter(
+                tiktok_automation_engine
+            ),
+            BusinessCoordinationTarget.EXECUTION_ENGINE: BusinessCoordinationAdapter(
+                tiktok_execution_engine
+            ),
+            BusinessCoordinationTarget.RUNTIME_MANAGER: BusinessCoordinationAdapter(
+                tiktok_runtime_manager
+            ),
+            BusinessCoordinationTarget.OPERATIONS_PLANNER: BusinessCoordinationAdapter(
+                tiktok_operations_planner
+            ),
+            BusinessCoordinationTarget.DECISION_CENTER: BusinessCoordinationAdapter(
+                tiktok_decision_center
+            ),
+            BusinessCoordinationTarget.CONTROL_TOWER: BusinessCoordinationAdapter(
+                tiktok_control_tower
+            ),
+        },
+        analytics_center=BusinessAnalyticsAdapter(tiktok_analytics_center),
+    )
+    register_business_workspace_routes(app, tiktok_business_workspace)
+    app.state.tiktok_business_workspace = tiktok_business_workspace
+    tiktok_lead_center = TikTokLeadManagementCenter()
+    register_lead_routes(app, tiktok_lead_center)
+    app.state.tiktok_lead_center = tiktok_lead_center
+    tiktok_business_intelligence_center = TikTokBusinessIntelligenceCenter()
+    register_business_intelligence_routes(app, tiktok_business_intelligence_center)
+    app.state.tiktok_business_intelligence_center = tiktok_business_intelligence_center
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]

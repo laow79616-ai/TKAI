@@ -1,0 +1,1 @@
+"""Content pipeline dashboard contracts."""

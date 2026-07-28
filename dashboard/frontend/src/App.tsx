@@ -7,11 +7,11 @@ import {
   ApplicationTemplatesPage, ApplicationUsagePage, ApplicationVersionsPage,
   AppStorePage,
   CollectionsPage, DocumentsPage, KnowledgeBasesPage, KnowledgeStatusPage,
-  dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, apiManagementDashboardPages, integrationHubDashboardPages, digitalTwinDashboardPages, businessIntelligenceDashboardPages, commandCenterDashboardPages, knowledgeGraphDashboardPages, tiktokDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage, TikTokInteractionCenterPage, TikTokRiskControlCenterPage, TikTokOperationsCenterPage, TikTokLocalRuntimePage,
-  LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
+  dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, apiManagementDashboardPages, integrationHubDashboardPages, digitalTwinDashboardPages, businessIntelligenceDashboardPages, commandCenterDashboardPages, knowledgeGraphDashboardPages, tiktokDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage, TikTokInteractionCenterPage, TikTokRiskControlCenterPage, TikTokOperationsCenterPage, TikTokResourceCenterPage, TikTokAutomationEnginePage, TikTokExecutionEnginePage, TikTokAIControlTowerPage, TikTokAIIntelligentDecisionCenterPage, TikTokLocalRuntimePage,
+  TikTokBusinessWorkspacePage, TikTokLeadManagementPage, TikTokBusinessIntelligencePage, TikTokGrowthCenterPage, TikTokPerformanceInsightsPage, LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
   PluginDetailsPage, PluginPermissionsPage, PluginsPage, PublishersPage,
   RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage,
-  MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage, ModelPlatformPage, SecurityPlatformPage, ApiManagementPage, IntegrationHubPage, DigitalTwinPage, BusinessIntelligencePage, CommandCenterPage, KnowledgeGraphPage, TikTokAccountCenterPage, TikTokBrowserRuntimePage, TikTokProxyCenterPage, TikTokPublishingCenterPage, TikTokDataCollectionPage,
+  MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage, ModelPlatformPage, SecurityPlatformPage, ApiManagementPage, IntegrationHubPage, DigitalTwinPage, BusinessIntelligencePage, CommandCenterPage, KnowledgeGraphPage, TikTokAccountCenterPage, TikTokBrowserRuntimePage, TikTokBrowserClusterPage, TikTokDeviceCenterPage, TikTokProxyCenterPage, TikTokPublishingCenterPage, TikTokCreatorWorkspacePage, TikTokCampaignCenterPage, TikTokContentPipelinePage, TikTokDataCollectionPage,
 } from "./pages";
 
 function Shell() {
@@ -25,12 +25,27 @@ export function App() {
     <Route path="/dashboard" element={<DashboardHome />} />
     <Route path="/tiktok-account-center" element={<TikTokAccountCenterPage />} />
     <Route path="/tiktok-browser-runtime" element={<TikTokBrowserRuntimePage />} />
+    <Route path="/tiktok-browser-cluster" element={<TikTokBrowserClusterPage />} />
+    <Route path="/tiktok-device-center" element={<TikTokDeviceCenterPage />} />
     <Route path="/tiktok-proxy-center" element={<TikTokProxyCenterPage />} />
     <Route path="/tiktok-ai-publishing-center" element={<TikTokPublishingCenterPage />} />
+    <Route path="/tiktok-creator-workspace" element={<TikTokCreatorWorkspacePage />} />
+    <Route path="/tiktok-campaign-center" element={<TikTokCampaignCenterPage />} />
+    <Route path="/tiktok-content-pipeline" element={<TikTokContentPipelinePage />} />
+    <Route path="/tiktok-business-workspace" element={<TikTokBusinessWorkspacePage />} />
+    <Route path="/tiktok-lead-management" element={<TikTokLeadManagementPage />} />
+    <Route path="/tiktok-business-intelligence" element={<TikTokBusinessIntelligencePage />} />
+    <Route path="/tiktok-ai-growth-center" element={<TikTokGrowthCenterPage />} />
+    <Route path="/tiktok-performance-insights" element={<TikTokPerformanceInsightsPage />} />
     <Route path="/tiktok-data-collection" element={<TikTokDataCollectionPage />} />
     <Route path="/tiktok-ai-interaction-center" element={<TikTokInteractionCenterPage />} />
     <Route path="/tiktok-ai-risk-control-center" element={<TikTokRiskControlCenterPage />} />
     <Route path="/tiktok-operations-command-center" element={<TikTokOperationsCenterPage />} />
+    <Route path="/tiktok-resource-center" element={<TikTokResourceCenterPage />} />
+    <Route path="/tiktok-ai-automation-engine" element={<TikTokAutomationEnginePage />} />
+    <Route path="/tiktok-ai-execution-engine" element={<TikTokExecutionEnginePage />} />
+    <Route path="/tiktok-ai-control-tower" element={<TikTokAIControlTowerPage />} />
+    <Route path="/tiktok-ai-intelligent-decision-center" element={<TikTokAIIntelligentDecisionCenterPage />} />
     <Route path="/tiktok-local-runtime" element={<TikTokLocalRuntimePage />} />
     <Route path="/collaboration" element={<CollaborationPage />} />
     <Route path="/collaboration-teams" element={<CollaborationPage title="Teams" />} />

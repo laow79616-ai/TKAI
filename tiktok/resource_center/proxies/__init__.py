@@ -1,0 +1,1 @@
+"""Proxy resource references namespace."""
