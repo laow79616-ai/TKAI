@@ -81,6 +81,8 @@ from tiktok.content_center import (
     ExistingProxyCenterAdapter as ContentProxyAdapter,
 )
 from tiktok.content_center.api import register_content_center_routes
+from tiktok.content_pipeline import TikTokContentPipeline
+from tiktok.content_pipeline.api import register_content_pipeline_routes
 from tiktok.control_tower import ExistingServiceRegistryProvider, TikTokAIControlTower
 from tiktok.control_tower.api import register_control_tower_routes
 from tiktok.creator_workspace import (
@@ -94,8 +96,6 @@ from tiktok.creator_workspace import (
 )
 from tiktok.creator_workspace import TikTokCreatorWorkspace
 from tiktok.creator_workspace.api import register_creator_workspace_routes
-from tiktok.content_pipeline import TikTokContentPipeline
-from tiktok.content_pipeline.api import register_content_pipeline_routes
 from tiktok.data_collection import (
     ExistingAccountCenterAdapter as DataAccountAdapter,
 )
@@ -121,6 +121,8 @@ from tiktok.operations_planner import TikTokAIOperationsPlanner
 from tiktok.operations_planner.api import register_operations_planner_routes
 from tiktok.optimization_center import TikTokAIContinuousOptimizationCenter
 from tiktok.optimization_center.api import register_optimization_routes
+from tiktok.performance_insights import TikTokPerformanceInsightsCenter
+from tiktok.performance_insights.api import register_performance_insights_routes
 from tiktok.proxy_center import BrowserRuntimeProxyAdapter, TikTokProxyCenter
 from tiktok.proxy_center.api import register_proxy_center_routes
 from tiktok.publishing_center import (
@@ -528,6 +530,9 @@ def create_app(
     tiktok_growth_center = TikTokAIGrowthCenter()
     register_growth_routes(app, tiktok_growth_center)
     app.state.tiktok_growth_center = tiktok_growth_center
+    tiktok_performance_insights = TikTokPerformanceInsightsCenter()
+    register_performance_insights_routes(app, tiktok_performance_insights)
+    app.state.tiktok_performance_insights = tiktok_performance_insights
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]

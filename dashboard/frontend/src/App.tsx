@@ -8,7 +8,7 @@ import {
   AppStorePage,
   CollectionsPage, DocumentsPage, KnowledgeBasesPage, KnowledgeStatusPage,
   dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, apiManagementDashboardPages, integrationHubDashboardPages, digitalTwinDashboardPages, businessIntelligenceDashboardPages, commandCenterDashboardPages, knowledgeGraphDashboardPages, tiktokDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage, TikTokInteractionCenterPage, TikTokRiskControlCenterPage, TikTokOperationsCenterPage, TikTokResourceCenterPage, TikTokAutomationEnginePage, TikTokExecutionEnginePage, TikTokAIControlTowerPage, TikTokAIIntelligentDecisionCenterPage, TikTokLocalRuntimePage,
-  TikTokGrowthCenterPage, LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
+  TikTokGrowthCenterPage, TikTokPerformanceInsightsPage, LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
   PluginDetailsPage, PluginPermissionsPage, PluginsPage, PublishersPage,
   RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage,
   MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage, ModelPlatformPage, SecurityPlatformPage, ApiManagementPage, IntegrationHubPage, DigitalTwinPage, BusinessIntelligencePage, CommandCenterPage, KnowledgeGraphPage, TikTokAccountCenterPage, TikTokBrowserRuntimePage, TikTokBrowserClusterPage, TikTokDeviceCenterPage, TikTokProxyCenterPage, TikTokPublishingCenterPage, TikTokCreatorWorkspacePage, TikTokCampaignCenterPage, TikTokContentPipelinePage, TikTokDataCollectionPage,
@@ -33,6 +33,7 @@ export function App() {
     <Route path="/tiktok-campaign-center" element={<TikTokCampaignCenterPage />} />
     <Route path="/tiktok-content-pipeline" element={<TikTokContentPipelinePage />} />
     <Route path="/tiktok-ai-growth-center" element={<TikTokGrowthCenterPage />} />
+    <Route path="/tiktok-performance-insights" element={<TikTokPerformanceInsightsPage />} />
     <Route path="/tiktok-data-collection" element={<TikTokDataCollectionPage />} />
     <Route path="/tiktok-ai-interaction-center" element={<TikTokInteractionCenterPage />} />
     <Route path="/tiktok-ai-risk-control-center" element={<TikTokRiskControlCenterPage />} />
