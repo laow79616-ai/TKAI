@@ -1,0 +1,1 @@
+"""Account resource references namespace."""

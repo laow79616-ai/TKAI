@@ -94,6 +94,8 @@ from tiktok.publishing_center import (
     TikTokPublishingCenter,
 )
 from tiktok.publishing_center.api import register_publishing_center_routes
+from tiktok.resource_center import TikTokResourceCenter
+from tiktok.resource_center.api import register_resource_center_routes
 from tiktok.risk_control import TikTokRiskControlCenter
 from tiktok.risk_control.api import register_risk_control_routes
 from tiktok.runtime_manager import RuntimeInstance, TikTokRuntimeManager
@@ -410,6 +412,9 @@ def create_app(
     tiktok_analytics_center = TikTokAIAnalyticsCenter()
     register_analytics_center_routes(app, tiktok_analytics_center)
     app.state.tiktok_analytics_center = tiktok_analytics_center
+    tiktok_resource_center = TikTokResourceCenter()
+    register_resource_center_routes(app, tiktok_resource_center)
+    app.state.tiktok_resource_center = tiktok_resource_center
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]

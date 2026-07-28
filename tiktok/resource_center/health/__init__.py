@@ -1,0 +1,1 @@
+"""Composite resource health namespace."""
