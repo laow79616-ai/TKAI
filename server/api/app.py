@@ -51,6 +51,8 @@ from tiktok.account_farming import (
 from tiktok.account_farming.api import register_account_farming_routes
 from tiktok.analytics_center import TikTokAIAnalyticsCenter
 from tiktok.analytics_center.api import register_analytics_center_routes
+from tiktok.browser_cluster import TikTokBrowserCluster
+from tiktok.browser_cluster.api import register_browser_cluster_routes
 from tiktok.browser_runtime import AccountCenterStatusAdapter, TikTokBrowserRuntime
 from tiktok.browser_runtime.api import register_browser_runtime_routes
 from tiktok.content_center import (
@@ -73,6 +75,8 @@ from tiktok.data_collection import (
 from tiktok.data_collection import ExistingProxyCenterAdapter as DataProxyAdapter
 from tiktok.data_collection import TikTokDataCollectionCenter
 from tiktok.data_collection.api import register_data_collection_routes
+from tiktok.device_center import TikTokDeviceCenter
+from tiktok.device_center.api import register_device_center_routes
 from tiktok.interaction_center import TikTokInteractionCenter
 from tiktok.interaction_center.api import register_interaction_routes
 from tiktok.operations_center import TikTokOperationsCommandCenter
@@ -336,6 +340,12 @@ def create_app(
     )
     register_browser_runtime_routes(app, tiktok_browser_runtime)
     app.state.tiktok_browser_runtime = tiktok_browser_runtime
+    tiktok_browser_cluster = TikTokBrowserCluster()
+    register_browser_cluster_routes(app, tiktok_browser_cluster)
+    app.state.tiktok_browser_cluster = tiktok_browser_cluster
+    tiktok_device_center = TikTokDeviceCenter()
+    register_device_center_routes(app, tiktok_device_center)
+    app.state.tiktok_device_center = tiktok_device_center
     tiktok_proxy_center = TikTokProxyCenter()
     register_proxy_center_routes(app, tiktok_proxy_center)
     app.state.tiktok_proxy_center = tiktok_proxy_center

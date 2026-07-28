@@ -1,0 +1,1 @@
+"""Versioned device profile namespace."""

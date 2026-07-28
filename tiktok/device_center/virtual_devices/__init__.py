@@ -1,0 +1,1 @@
+"""Virtual device namespace."""

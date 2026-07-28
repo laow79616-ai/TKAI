@@ -53,4 +53,9 @@ def register_browser_cluster_routes(
         ),
     }
     for path, handler in handlers.items():
-        app.add_api_route(path, handler, methods=["GET"])
+        try:
+            app.add_api_route(
+                path, handler, methods=["GET"], tags=["tiktok-browser-cluster"]
+            )
+        except TypeError:
+            app.add_api_route(path, handler, methods=["GET"])
