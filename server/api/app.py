@@ -79,6 +79,8 @@ from tiktok.data_collection import TikTokDataCollectionCenter
 from tiktok.data_collection.api import register_data_collection_routes
 from tiktok.device_center import TikTokDeviceCenter
 from tiktok.device_center.api import register_device_center_routes
+from tiktok.execution_engine import TikTokAIExecutionEngine
+from tiktok.execution_engine.api import register_execution_routes
 from tiktok.interaction_center import TikTokInteractionCenter
 from tiktok.interaction_center.api import register_interaction_routes
 from tiktok.operations_center import TikTokOperationsCommandCenter
@@ -420,6 +422,9 @@ def create_app(
     tiktok_automation_engine = TikTokAutomationEngine()
     register_automation_routes(app, tiktok_automation_engine)
     app.state.tiktok_automation_engine = tiktok_automation_engine
+    tiktok_execution_engine = TikTokAIExecutionEngine()
+    register_execution_routes(app, tiktok_execution_engine)
+    app.state.tiktok_execution_engine = tiktok_execution_engine
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
