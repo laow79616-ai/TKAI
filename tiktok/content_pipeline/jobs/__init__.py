@@ -1,0 +1,1 @@
+"""Bounded pipeline job contracts."""
