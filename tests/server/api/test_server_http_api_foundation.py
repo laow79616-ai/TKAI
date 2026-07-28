@@ -142,7 +142,7 @@ def test_read_only_endpoints_delegate_to_explicit_reference_dependencies() -> No
 
     assert health_data["checks"][0]["name"] == "reference"
     assert version_data["server_version"] == "6.0"
-    assert version_data["framework_version"] == "3.0.0"
+    assert version_data["framework_version"] == "4.0.0"
     assert metadata_data["server_name"] == "tkai-marketplace-server"
     assert metadata_data["supported_modules"] == list(dependencies.supported_modules)
 
@@ -161,14 +161,20 @@ def test_multiple_apps_are_isolated_and_legacy_api_contracts_remain_available() 
     assert ApiRequest(pagination=Pagination(limit=1)).pagination.limit == 1
 
 
-def test_error_mapping_is_stable_and_real_host_requires_optional_fastapi() -> None:
-    """Known Foundation errors map safely while FastAPI remains optional."""
+def test_error_mapping_is_stable_and_real_host_supports_optional_fastapi() -> None:
+    """Known errors map safely and real hosting follows the installed extras."""
     mapped = map_error(HealthError("offline failure"))
     assert mapped.status_code == 400
     assert mapped.error.code == "HealthError"
 
-    with pytest.raises(RuntimeError, match="FastAPI is required"):
-        create_app()
+    try:
+        import fastapi  # noqa: F401
+    except ImportError:
+        with pytest.raises(RuntimeError, match="FastAPI is required"):
+            create_app()
+    else:
+        app = create_app()
+        assert "/health" in app.openapi()["paths"]
 
 
 def test_resource_routes_use_reference_services_only_and_return_json_models() -> None:

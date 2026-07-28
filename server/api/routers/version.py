@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from collections.abc import Callable
 from importlib import import_module
 
@@ -17,6 +18,9 @@ def endpoint(dependencies: ApiDependencies) -> Callable[[], dict[str, object]]:
             "server_version": dependencies.server_config.version.value,
             "framework_version": _framework_version(),
             "build_metadata": dict(dependencies.server_config.metadata.values),
+            "api_version": "v4",
+            "release_date": os.getenv("TKAI_RELEASE_DATE", "2026-07-28"),
+            "git_commit": os.getenv("TKAI_GIT_COMMIT", "development"),
         }
 
     return version

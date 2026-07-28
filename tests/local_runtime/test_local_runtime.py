@@ -114,6 +114,8 @@ def test_api_registration_uses_read_only_routes(tmp_path: Path) -> None:
     assert app.routes == [
         ("/local-runtime/status", ["GET"]),
         ("/local-runtime/health", ["GET"]),
+        ("/readiness", ["GET"]),
+        ("/tiktok/system/health", ["GET"]),
     ]
 
 

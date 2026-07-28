@@ -1,7 +1,7 @@
 apiVersion: v2
 name: tkai
-description: TKAI V3.0 Enterprise cloud-native deployment
+description: TKAI V4.0 TikTok Cloud Control Platform deployment
 type: application
-version: 3.0.0
-appVersion: "3.0.0"
+version: 4.0.0
+appVersion: "4.0.0"
 kubeVersion: ">=1.27.0-0"

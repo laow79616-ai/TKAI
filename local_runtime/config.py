@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
@@ -29,6 +30,16 @@ class LocalRuntimeConfig:
     secret_reference: str = "windows-credential-manager://TKAI/local"
     log_retention_days: int = 14
     backup_retention_count: int = 10
+    max_browser_instances: int = 3
+    max_tabs_per_browser: int = 5
+    max_workflow_concurrency: int = 4
+    max_publishing_concurrency: int = 2
+    max_collection_concurrency: int = 3
+    max_interaction_concurrency: int = 3
+    max_queue_size: int = 1000
+    max_payload_bytes: int = 2_097_152
+    max_export_rows: int = 10_000
+    max_query_rows: int = 1000
 
     @classmethod
     def load(cls, repository: Path, path: Path | None = None) -> LocalRuntimeConfig:
@@ -37,7 +48,20 @@ class LocalRuntimeConfig:
         source = path or repo / "configuration" / "local.json"
         values: dict[str, Any] = {}
         if source.exists():
-            values = json.loads(source.read_text(encoding="utf-8"))
+            try:
+                values = json.loads(source.read_text(encoding="utf-8"))
+            except json.JSONDecodeError as error:
+                raise ConfigurationError(
+                    f"invalid configuration JSON: {error}"
+                ) from error
+        fields = cls.__dataclass_fields__
+        for name in fields:
+            environment = f"TKAI_{name.upper()}"
+            if environment not in os.environ or name in {"repository", "runtime_dir"}:
+                continue
+            current = fields[name].default
+            raw = os.environ[environment]
+            values[name] = int(raw) if isinstance(current, int) else raw
         runtime_value = values.pop("runtime_dir", "runtime")
         runtime = Path(runtime_value)
         if not runtime.is_absolute():
@@ -77,6 +101,20 @@ class LocalRuntimeConfig:
             raise ConfigurationError(
                 "database_url must not embed plaintext credentials"
             )
+        limits = (
+            self.max_browser_instances,
+            self.max_tabs_per_browser,
+            self.max_workflow_concurrency,
+            self.max_publishing_concurrency,
+            self.max_collection_concurrency,
+            self.max_interaction_concurrency,
+            self.max_queue_size,
+            self.max_payload_bytes,
+            self.max_export_rows,
+            self.max_query_rows,
+        )
+        if any(value <= 0 for value in limits):
+            raise ConfigurationError("resource and concurrency limits must be positive")
 
     def public_dict(self) -> dict[str, Any]:
         """Return a JSON-safe representation without secret values."""

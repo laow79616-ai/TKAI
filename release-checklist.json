@@ -1,0 +1,28 @@
+{
+  "version": "4.0.0",
+  "checks": [
+    "clean_worktree",
+    "version",
+    "ruff",
+    "mypy",
+    "full_pytest",
+    "deployment_tests",
+    "release_tests",
+    "tiktok_regression_tests",
+    "dashboard_build",
+    "ai_studio_build",
+    "powershell_syntax",
+    "openapi",
+    "database_initialization",
+    "backup",
+    "restore",
+    "startup",
+    "shutdown",
+    "health",
+    "diagnostics",
+    "release_package",
+    "checksums",
+    "secret_scan",
+    "git_diff_check"
+  ]
+}

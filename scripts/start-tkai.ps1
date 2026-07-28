@@ -25,11 +25,11 @@ try {
     $backend = Start-Process -FilePath $python -ArgumentList $backendArgs -WorkingDirectory $repository -RedirectStandardOutput "$logs\backend.log" -RedirectStandardError "$logs\backend-error.log" -PassThru -WindowStyle Hidden
     Write-TkaiPidReference $repository "backend" $backend "$python $($backendArgs -join ' ')"
 
-    $dashboardArgs = @("--prefix", "dashboard/frontend", "exec", "vite", "--", $(if ($Development) { "dev" } else { "preview" }), "--host", $config.dashboard_host, "--port", "$($config.dashboard_port)")
+    $dashboardArgs = @("--prefix", "dashboard/frontend", "run", $(if ($Development) { "dev" } else { "preview" }), "--", "--host", $config.dashboard_host, "--port", "$($config.dashboard_port)")
     $dashboard = Start-Process -FilePath "npm.cmd" -ArgumentList $dashboardArgs -WorkingDirectory $repository -RedirectStandardOutput "$logs\dashboard.log" -RedirectStandardError "$logs\dashboard-error.log" -PassThru -WindowStyle Hidden
     Write-TkaiPidReference $repository "dashboard" $dashboard "npm.cmd $($dashboardArgs -join ' ')"
 
-    $studioArgs = @("--prefix", "studio/frontend", "exec", "vite", "--", $(if ($Development) { "dev" } else { "preview" }), "--host", $config.studio_host, "--port", "$($config.studio_port)")
+    $studioArgs = @("--prefix", "studio/frontend", "run", $(if ($Development) { "dev" } else { "preview" }), "--", "--host", $config.studio_host, "--port", "$($config.studio_port)")
     $studio = Start-Process -FilePath "npm.cmd" -ArgumentList $studioArgs -WorkingDirectory $repository -RedirectStandardOutput "$logs\studio.log" -RedirectStandardError "$logs\studio-error.log" -PassThru -WindowStyle Hidden
     Write-TkaiPidReference $repository "studio" $studio "npm.cmd $($studioArgs -join ' ')"
 

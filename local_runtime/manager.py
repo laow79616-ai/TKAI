@@ -72,15 +72,24 @@ class LocalRuntimeManager:
         """Create the local metadata database with idempotent migrations."""
         path = self.database_path()
         path.parent.mkdir(parents=True, exist_ok=True)
-        with sqlite3.connect(path) as database:
-            database.execute(
-                "CREATE TABLE IF NOT EXISTS runtime_metadata "
-                "(key TEXT PRIMARY KEY, value TEXT NOT NULL, updated_at TEXT NOT NULL)"
-            )
-            database.execute(
-                "INSERT OR IGNORE INTO runtime_metadata VALUES (?, ?, ?)",
-                ("schema_version", "1", _now()),
-            )
+        try:
+            with sqlite3.connect(path, timeout=5) as database:
+                integrity = database.execute("PRAGMA integrity_check").fetchone()
+                if integrity != ("ok",):
+                    raise RuntimeError("database integrity validation failed")
+                database.execute(
+                    "CREATE TABLE IF NOT EXISTS runtime_metadata "
+                    "(key TEXT PRIMARY KEY, value TEXT NOT NULL, "
+                    "updated_at TEXT NOT NULL)"
+                )
+                database.execute(
+                    "INSERT OR IGNORE INTO runtime_metadata VALUES (?, ?, ?)",
+                    ("schema_version", "1", _now()),
+                )
+        except sqlite3.OperationalError as error:
+            raise RuntimeError(
+                f"SQLite initialization failed (database may be locked): {error}"
+            ) from error
         return path
 
     def database_path(self) -> Path:
