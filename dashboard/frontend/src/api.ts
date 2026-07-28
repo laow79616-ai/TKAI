@@ -143,6 +143,10 @@ export class MarketplaceApiClient {
     const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
     return this.request<Record<string, unknown>>(`/tiktok/browser-runtime/dashboard?${query}`);
   }
+  tiktokBrowserCluster() {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown>>(`/tiktok/browser-cluster?${query}`);
+  }
   tiktokProxyCenter() {
     const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
     return this.request<Record<string, unknown>>(`/tiktok/proxy-center/dashboard?${query}`);
