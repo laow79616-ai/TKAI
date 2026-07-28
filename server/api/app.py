@@ -53,6 +53,9 @@ from tiktok.analytics_center import TikTokAIAnalyticsCenter
 from tiktok.analytics_center.api import register_analytics_center_routes
 from tiktok.automation_engine import TikTokAutomationEngine
 from tiktok.automation_engine.api import register_automation_routes
+from tiktok.autonomous_operation import TikTokAutonomousOperationCenter
+from tiktok.autonomous_operation.adapters import ExistingModulePort
+from tiktok.autonomous_operation.api import register_autonomous_operation_routes
 from tiktok.browser_cluster import TikTokBrowserCluster
 from tiktok.browser_cluster.api import register_browser_cluster_routes
 from tiktok.browser_runtime import AccountCenterStatusAdapter, TikTokBrowserRuntime
@@ -498,6 +501,27 @@ def create_app(
     tiktok_operations_planner = TikTokAIOperationsPlanner()
     register_operations_planner_routes(app, tiktok_operations_planner)
     app.state.tiktok_operations_planner = tiktok_operations_planner
+    tiktok_autonomous_operation = TikTokAutonomousOperationCenter(
+        {
+            "task_scheduler": ExistingModulePort(
+                "task_scheduler", tiktok_task_scheduler
+            ),
+            "automation_engine": ExistingModulePort(
+                "automation_engine", tiktok_automation_engine
+            ),
+            "execution_engine": ExistingModulePort(
+                "execution_engine", tiktok_execution_engine
+            ),
+            "workflow_center": ExistingModulePort(
+                "workflow_center", tiktok_workflow_center
+            ),
+            "runtime_manager": ExistingModulePort(
+                "runtime_manager", tiktok_runtime_manager
+            ),
+        }
+    )
+    register_autonomous_operation_routes(app, tiktok_autonomous_operation)
+    app.state.tiktok_autonomous_operation = tiktok_autonomous_operation
     tiktok_optimization_center = TikTokAIContinuousOptimizationCenter()
     register_optimization_routes(app, tiktok_optimization_center)
     app.state.tiktok_optimization_center = tiktok_optimization_center

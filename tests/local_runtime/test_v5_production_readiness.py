@@ -40,7 +40,7 @@ def test_application_registers_every_v5_module_without_duplicate_routes() -> Non
 
     root = Path(__file__).resolve().parents[2]
     result = integration_readiness(create_app(), root)
-    assert len(result["modules"]) == 31
+    assert len(result["modules"]) == 32
     assert all(item["registered"] for item in result["modules"])
     assert result["duplicate_routes"] == []
 

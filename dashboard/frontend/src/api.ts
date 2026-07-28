@@ -205,6 +205,9 @@ export class MarketplaceApiClient {
     const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
     return this.request<Record<string, unknown>>(`/tiktok/execution/dashboard?${query}`);
   }
+  tiktokAutonomousOperation() {
+    return this.request<Record<string, unknown>>("/tiktok/autonomous-operation/dashboard");
+  }
   tiktokCreatorWorkspace() {
     return this.request<Record<string, unknown>>("/tiktok/creator-workspace/dashboard");
   }
