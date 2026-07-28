@@ -1,0 +1,1 @@
+"""Opaque document references."""

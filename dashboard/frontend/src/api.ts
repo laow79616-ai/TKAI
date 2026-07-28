@@ -174,6 +174,9 @@ export class MarketplaceApiClient {
   tiktokLeadManagement() {
     return this.request<Record<string, unknown>>("/tiktok/leads/dashboard");
   }
+  tiktokCRMCenter() {
+    return this.request<Record<string, unknown>>("/tiktok/crm/dashboard");
+  }
   tiktokDataCollection() {
     const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
     return this.request<Record<string, unknown>>(`/tiktok/data/dashboard?${query}`);

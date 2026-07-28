@@ -1,0 +1,1 @@
+"""Approved business opportunities."""
