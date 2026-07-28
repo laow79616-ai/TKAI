@@ -1,0 +1,1 @@
+"""Advisory strategy recommendation contracts."""

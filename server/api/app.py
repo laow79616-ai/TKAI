@@ -165,6 +165,9 @@ from tiktok.risk_control import TikTokRiskControlCenter
 from tiktok.risk_control.api import register_risk_control_routes
 from tiktok.runtime_manager import RuntimeInstance, TikTokRuntimeManager
 from tiktok.runtime_manager.api import register_runtime_manager_routes
+from tiktok.strategy_center import TikTokAutonomousStrategyCenter
+from tiktok.strategy_center.adapters import ExistingModuleInputAdapter
+from tiktok.strategy_center.api import register_strategy_center_routes
 from tiktok.task_scheduler import TikTokAITaskScheduler
 from tiktok.task_scheduler.api import register_task_scheduler_routes
 from tiktok.workflow_center import TikTokWorkflowOrchestrationCenter
@@ -551,9 +554,7 @@ def create_app(
             "browser_cluster": MissionModulePort(
                 "browser_cluster", tiktok_browser_cluster
             ),
-            "device_center": MissionModulePort(
-                "device_center", tiktok_device_center
-            ),
+            "device_center": MissionModulePort("device_center", tiktok_device_center),
             "risk_control": MissionModulePort(
                 "risk_control", tiktok_risk_control_center
             ),
@@ -600,9 +601,7 @@ def create_app(
         workflow=CampaignRegistryAdapter(tiktok_workflow_center, "workflows"),
         automation=CampaignRegistryAdapter(tiktok_automation_engine, "automations"),
         execution=CampaignRegistryAdapter(tiktok_execution_engine, "plans"),
-        publishing_status=CampaignStatusAdapter(
-            tiktok_publishing_center, "jobs"
-        ),
+        publishing_status=CampaignStatusAdapter(tiktok_publishing_center, "jobs"),
         workflow_status=CampaignStatusAdapter(tiktok_workflow_center, "workflows"),
         execution_status=CampaignStatusAdapter(tiktok_execution_engine, "plans"),
         risk_status=CampaignStatusAdapter(tiktok_risk_control_center, "restrictions"),
@@ -661,6 +660,37 @@ def create_app(
     tiktok_business_intelligence_center = TikTokBusinessIntelligenceCenter()
     register_business_intelligence_routes(app, tiktok_business_intelligence_center)
     app.state.tiktok_business_intelligence_center = tiktok_business_intelligence_center
+    tiktok_strategy_center = TikTokAutonomousStrategyCenter(
+        {
+            "business_intelligence": ExistingModuleInputAdapter(
+                tiktok_business_intelligence_center
+            ),
+            "performance_insights": ExistingModuleInputAdapter(
+                tiktok_performance_insights
+            ),
+            "growth_center": ExistingModuleInputAdapter(tiktok_growth_center),
+            "campaign_center": ExistingModuleInputAdapter(tiktok_campaign_center),
+            "creator_workspace": ExistingModuleInputAdapter(tiktok_creator_workspace),
+            "content_pipeline": ExistingModuleInputAdapter(tiktok_content_pipeline),
+            "control_tower": ExistingModuleInputAdapter(tiktok_control_tower),
+            "decision_center": ExistingModuleInputAdapter(tiktok_decision_center),
+            "optimization_center": ExistingModuleInputAdapter(
+                tiktok_optimization_center
+            ),
+            "operations_planner": ExistingModuleInputAdapter(tiktok_operations_planner),
+            "autonomous_operation": ExistingModuleInputAdapter(
+                tiktok_autonomous_operation
+            ),
+            "mission_engine": ExistingModuleInputAdapter(tiktok_mission_engine),
+            "recovery_center": ExistingModuleInputAdapter(tiktok_operations_center),
+            "risk_control": ExistingModuleInputAdapter(tiktok_risk_control_center),
+            "runtime_manager": ExistingModuleInputAdapter(tiktok_runtime_manager),
+            "resource_center": ExistingModuleInputAdapter(tiktok_resource_center),
+            "task_scheduler": ExistingModuleInputAdapter(tiktok_task_scheduler),
+        }
+    )
+    register_strategy_center_routes(app, tiktok_strategy_center)
+    app.state.tiktok_strategy_center = tiktok_strategy_center
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]

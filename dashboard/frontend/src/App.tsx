@@ -8,7 +8,7 @@ import {
   AppStorePage,
   CollectionsPage, DocumentsPage, KnowledgeBasesPage, KnowledgeStatusPage,
   dashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, apiManagementDashboardPages, integrationHubDashboardPages, digitalTwinDashboardPages, businessIntelligenceDashboardPages, commandCenterDashboardPages, knowledgeGraphDashboardPages, tiktokDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage, TikTokInteractionCenterPage, TikTokRiskControlCenterPage, TikTokOperationsCenterPage, TikTokResourceCenterPage, TikTokAutomationEnginePage, TikTokExecutionEnginePage, TikTokAIControlTowerPage, TikTokAIIntelligentDecisionCenterPage, TikTokLocalRuntimePage,
-  TikTokAutonomousOperationPage, TikTokAutonomousMissionEnginePage, TikTokBusinessWorkspacePage, TikTokLeadManagementPage, TikTokBusinessIntelligencePage, TikTokGrowthCenterPage, TikTokPerformanceInsightsPage, LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
+  TikTokAutonomousOperationPage, TikTokAutonomousMissionEnginePage, TikTokAutonomousStrategyCenterPage, TikTokBusinessWorkspacePage, TikTokLeadManagementPage, TikTokBusinessIntelligencePage, TikTokGrowthCenterPage, TikTokPerformanceInsightsPage, LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
   PluginDetailsPage, PluginPermissionsPage, PluginsPage, PublishersPage,
   RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage,
   MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage, ModelPlatformPage, SecurityPlatformPage, ApiManagementPage, IntegrationHubPage, DigitalTwinPage, BusinessIntelligencePage, CommandCenterPage, KnowledgeGraphPage, TikTokAccountCenterPage, TikTokBrowserRuntimePage, TikTokBrowserClusterPage, TikTokDeviceCenterPage, TikTokProxyCenterPage, TikTokPublishingCenterPage, TikTokCreatorWorkspacePage, TikTokCampaignCenterPage, TikTokContentPipelinePage, TikTokDataCollectionPage,
@@ -46,6 +46,7 @@ export function App() {
     <Route path="/tiktok-ai-execution-engine" element={<TikTokExecutionEnginePage />} />
     <Route path="/tiktok-autonomous-operation" element={<TikTokAutonomousOperationPage />} />
     <Route path="/tiktok-autonomous-mission-engine" element={<TikTokAutonomousMissionEnginePage />} />
+    <Route path="/tiktok-autonomous-strategy-center" element={<TikTokAutonomousStrategyCenterPage />} />
     <Route path="/tiktok-ai-control-tower" element={<TikTokAIControlTowerPage />} />
     <Route path="/tiktok-ai-intelligent-decision-center" element={<TikTokAIIntelligentDecisionCenterPage />} />
     <Route path="/tiktok-local-runtime" element={<TikTokLocalRuntimePage />} />

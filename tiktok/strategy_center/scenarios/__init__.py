@@ -1,0 +1,1 @@
+"""Offline strategy scenario contracts."""

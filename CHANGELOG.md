@@ -1,5 +1,12 @@
 # Changelog
 
+## TKAI V6.0 - TikTok Autonomous Strategy Center
+
+- Added bounded, explainable and reviewable advisory strategy proposals.
+- Added read-only integrations, offline scenarios, approval-gated reference
+  handoffs, audit history, analytics, metrics, dashboard, API, and operations
+  documentation.
+
 ## Unreleased
 
 ## 3.0.0 - 2026-07-26

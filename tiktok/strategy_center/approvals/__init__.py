@@ -1,0 +1,1 @@
+"""Approval-gating contracts."""
