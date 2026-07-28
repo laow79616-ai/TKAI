@@ -162,6 +162,9 @@ export class MarketplaceApiClient {
   tiktokContentPipeline() {
     return this.request<Record<string, unknown>>("/tiktok/content-pipeline/dashboard");
   }
+  tiktokGrowthCenter() {
+    return this.request<Record<string, unknown>>("/tiktok/growth/dashboard");
+  }
   tiktokDataCollection() {
     const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
     return this.request<Record<string, unknown>>(`/tiktok/data/dashboard?${query}`);
