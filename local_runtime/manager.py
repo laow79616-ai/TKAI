@@ -40,6 +40,7 @@ TIKTOK_MODULES = (
     "interaction_center",
     "risk_control",
     "workflow_center",
+    "automation_engine",
     "operations_center",
     "analytics_center",
 )

@@ -20,6 +20,7 @@ MODULES = (
     ("interaction_center", "Interaction Center"),
     ("risk_control", "Risk Control Center"),
     ("workflow_center", "Workflow Center"),
+    ("automation_engine", "TikTok AI Automation Engine"),
     ("operations_center", "Operations Center"),
     ("analytics_center", "Analytics Center"),
 )

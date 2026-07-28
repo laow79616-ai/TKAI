@@ -48,6 +48,7 @@ MANAGED_SERVICE_NAMES = (
     "task_scheduler",
     "resource_center",
     "workflow_center",
+    "automation_engine",
     "operations_center",
     "risk_control_center",
     "analytics_center",

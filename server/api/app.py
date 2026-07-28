@@ -51,6 +51,8 @@ from tiktok.account_farming import (
 from tiktok.account_farming.api import register_account_farming_routes
 from tiktok.analytics_center import TikTokAIAnalyticsCenter
 from tiktok.analytics_center.api import register_analytics_center_routes
+from tiktok.automation_engine import TikTokAutomationEngine
+from tiktok.automation_engine.api import register_automation_routes
 from tiktok.browser_cluster import TikTokBrowserCluster
 from tiktok.browser_cluster.api import register_browser_cluster_routes
 from tiktok.browser_runtime import AccountCenterStatusAdapter, TikTokBrowserRuntime
@@ -415,6 +417,9 @@ def create_app(
     tiktok_resource_center = TikTokResourceCenter()
     register_resource_center_routes(app, tiktok_resource_center)
     app.state.tiktok_resource_center = tiktok_resource_center
+    tiktok_automation_engine = TikTokAutomationEngine()
+    register_automation_routes(app, tiktok_automation_engine)
+    app.state.tiktok_automation_engine = tiktok_automation_engine
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]

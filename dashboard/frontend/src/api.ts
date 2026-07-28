@@ -179,6 +179,10 @@ export class MarketplaceApiClient {
     const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
     return this.request<Record<string, unknown>>(`/tiktok/resource-center/dashboard?${query}`);
   }
+  tiktokAutomationEngine() {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
+    return this.request<Record<string, unknown>>(`/tiktok/automation/dashboard?${query}`);
+  }
   localRuntime() {
     return this.request<Record<string, unknown>>("/local-runtime/status");
   }
