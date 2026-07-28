@@ -66,14 +66,32 @@ function Stop-TkaiOwnedProcess {
         }
         $process = Get-Process -Id $reference.pid -ErrorAction SilentlyContinue
         if ($null -ne $process) {
-            $commandLine = (Get-CimInstance Win32_Process -Filter "ProcessId = $($reference.pid)").CommandLine
-            if ($commandLine -notlike "*$Repository*") {
+            $processInfo = Get-CimInstance Win32_Process -Filter "ProcessId = $($reference.pid)"
+            $commandLine = $processInfo.CommandLine
+            $fingerprint = switch ($Service) {
+                "backend" { "server.api.app:create_app" }
+                "dashboard" { "--prefix dashboard/frontend" }
+                "studio" { "--prefix studio/frontend" }
+            }
+            if (
+                $reference.command -notlike "*$fingerprint*" -or
+                $commandLine -notlike "*$fingerprint*"
+            ) {
                 throw "Process command line is not owned by this TKAI checkout"
             }
-            Stop-Process -Id $reference.pid
-            if (-not $process.WaitForExit(10000)) {
-                throw "$Service did not stop within 10 seconds"
+
+            $owned = @($reference.pid)
+            do {
+                $children = @(Get-CimInstance Win32_Process | Where-Object {
+                    $_.ParentProcessId -in $owned -and $_.ProcessId -notin $owned
+                } | Select-Object -ExpandProperty ProcessId)
+                $owned += $children
+            } while ($children.Count -gt 0)
+            [array]::Reverse($owned)
+            foreach ($processId in $owned) {
+                Stop-Process -Id $processId -Force -ErrorAction SilentlyContinue
             }
+            [void]$process.WaitForExit(10000)
             Write-Host "$Service`: stopped"
         } else {
             Write-Host "$Service`: stale PID reference cleaned"

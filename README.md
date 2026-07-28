@@ -15,7 +15,8 @@ Marketplace into one versioned distribution. Existing 1.x runtime and 2.x SDK
 interfaces remain supported unless explicitly listed in the upgrade guide. See the
 [platform overview](docs/Platform.md),
 [installation guide](docs/Installation.md), [release notes](docs/ReleaseNotes.md),
-[release checklist](docs/ReleaseChecklist.md), and [V3.0 release guide](docs/release/V3.0.md).
+[release checklist](docs/ReleaseChecklist.md), [V3.0 release guide](docs/release/V3.0.md),
+and [V4.0.0 release notes](docs/release/V4.0.md).
 
 ## AI provider framework
 

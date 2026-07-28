@@ -84,6 +84,27 @@ def test_backup_manifest_and_restore_validation(tmp_path: Path) -> None:
         manager.restore(backup, force=True)
 
 
+def test_restore_preserves_external_secret_reference(tmp_path: Path) -> None:
+    runtime_config = config(tmp_path)
+    configuration = tmp_path / "configuration"
+    configuration.mkdir()
+    local_config = configuration / "local.json"
+    local_config.write_text(
+        json.dumps(
+            {"secret_reference": "windows-credential-manager://TKAI/local"}
+        ),
+        encoding="utf-8",
+    )
+    manager = LocalRuntimeManager(runtime_config)
+    backup = manager.backup()
+    manager.restore(backup, force=True)
+    restored = json.loads(local_config.read_text(encoding="utf-8"))
+    assert (
+        restored["secret_reference"]
+        == "windows-credential-manager://TKAI/local"
+    )
+
+
 def test_diagnostic_secret_sanitization() -> None:
     value = "token=abc password:xyz cookie=qwe session=123 proxy_credentials=hidden"
     result = SECRET_PATTERN.sub(r"\1=<redacted>", value)

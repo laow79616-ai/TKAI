@@ -234,7 +234,7 @@ class LocalRuntimeManager:
     def backup(self, include_media_manifest: bool = False) -> Path:
         """Create a timestamped backup plus SHA-256 integrity manifest."""
         self.initialize()
-        stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
         target = resolve_bounded(self.config.runtime_dir, f"backups/{stamp}")
         target.mkdir(parents=True)
         shutil.copy2(self.database_path(), target / "tkai-local.db")
@@ -286,7 +286,19 @@ class LocalRuntimeManager:
         config_backup = backup / "local.json"
         if config_backup.exists():
             destination = self.config.repository / "configuration" / "local.json"
-            shutil.copy2(config_backup, destination)
+            restored_config = json.loads(config_backup.read_text(encoding="utf-8"))
+            if restored_config.get("secret_reference") == "<configured-reference>":
+                current_config = (
+                    json.loads(destination.read_text(encoding="utf-8"))
+                    if destination.exists()
+                    else {}
+                )
+                restored_config["secret_reference"] = current_config.get(
+                    "secret_reference", self.config.secret_reference
+                )
+            destination.write_text(
+                json.dumps(restored_config, indent=2), encoding="utf-8"
+            )
         self._audit("restore", {"backup": backup.name, "safety_backup": safety.name})
         self._operation_log(
             "restore", {"backup": backup.name, "safety_backup": safety.name}
