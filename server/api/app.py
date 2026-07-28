@@ -57,6 +57,10 @@ from tiktok.browser_cluster import TikTokBrowserCluster
 from tiktok.browser_cluster.api import register_browser_cluster_routes
 from tiktok.browser_runtime import AccountCenterStatusAdapter, TikTokBrowserRuntime
 from tiktok.browser_runtime.api import register_browser_runtime_routes
+from tiktok.business_intelligence_center import TikTokBusinessIntelligenceCenter
+from tiktok.business_intelligence_center.api import (
+    register_business_intelligence_routes,
+)
 from tiktok.business_workspace import (
     CoordinationTarget as BusinessCoordinationTarget,
 )
@@ -586,6 +590,9 @@ def create_app(
     tiktok_lead_center = TikTokLeadManagementCenter()
     register_lead_routes(app, tiktok_lead_center)
     app.state.tiktok_lead_center = tiktok_lead_center
+    tiktok_business_intelligence_center = TikTokBusinessIntelligenceCenter()
+    register_business_intelligence_routes(app, tiktok_business_intelligence_center)
+    app.state.tiktok_business_intelligence_center = tiktok_business_intelligence_center
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]
