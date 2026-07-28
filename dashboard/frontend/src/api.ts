@@ -168,6 +168,9 @@ export class MarketplaceApiClient {
   tiktokPerformanceInsights() {
     return this.request<Record<string, unknown>>("/tiktok/performance-insights/dashboard");
   }
+  tiktokBusinessWorkspace() {
+    return this.request<Record<string, unknown>>("/tiktok/business-workspace/dashboard");
+  }
   tiktokDataCollection() {
     const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
     return this.request<Record<string, unknown>>(`/tiktok/data/dashboard?${query}`);

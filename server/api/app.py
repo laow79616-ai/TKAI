@@ -57,6 +57,17 @@ from tiktok.browser_cluster import TikTokBrowserCluster
 from tiktok.browser_cluster.api import register_browser_cluster_routes
 from tiktok.browser_runtime import AccountCenterStatusAdapter, TikTokBrowserRuntime
 from tiktok.browser_runtime.api import register_browser_runtime_routes
+from tiktok.business_workspace import (
+    CoordinationTarget as BusinessCoordinationTarget,
+)
+from tiktok.business_workspace import (
+    ExistingAnalyticsAdapter as BusinessAnalyticsAdapter,
+)
+from tiktok.business_workspace import (
+    ExistingCoordinationAdapter as BusinessCoordinationAdapter,
+)
+from tiktok.business_workspace import TikTokBusinessWorkspace
+from tiktok.business_workspace.api import register_business_workspace_routes
 from tiktok.campaign_center import (
     ExistingAnalyticsAdapter as CampaignAnalyticsAdapter,
 )
@@ -533,6 +544,43 @@ def create_app(
     tiktok_performance_insights = TikTokPerformanceInsightsCenter()
     register_performance_insights_routes(app, tiktok_performance_insights)
     app.state.tiktok_performance_insights = tiktok_performance_insights
+    tiktok_business_workspace = TikTokBusinessWorkspace(
+        coordinators={
+            BusinessCoordinationTarget.CREATOR_WORKSPACE: BusinessCoordinationAdapter(
+                tiktok_creator_workspace
+            ),
+            BusinessCoordinationTarget.CAMPAIGN_CENTER: BusinessCoordinationAdapter(
+                tiktok_campaign_center
+            ),
+            BusinessCoordinationTarget.CONTENT_PIPELINE: BusinessCoordinationAdapter(
+                tiktok_content_pipeline
+            ),
+            BusinessCoordinationTarget.PUBLISHING_CENTER: BusinessCoordinationAdapter(
+                tiktok_publishing_center
+            ),
+            BusinessCoordinationTarget.AUTOMATION_ENGINE: BusinessCoordinationAdapter(
+                tiktok_automation_engine
+            ),
+            BusinessCoordinationTarget.EXECUTION_ENGINE: BusinessCoordinationAdapter(
+                tiktok_execution_engine
+            ),
+            BusinessCoordinationTarget.RUNTIME_MANAGER: BusinessCoordinationAdapter(
+                tiktok_runtime_manager
+            ),
+            BusinessCoordinationTarget.OPERATIONS_PLANNER: BusinessCoordinationAdapter(
+                tiktok_operations_planner
+            ),
+            BusinessCoordinationTarget.DECISION_CENTER: BusinessCoordinationAdapter(
+                tiktok_decision_center
+            ),
+            BusinessCoordinationTarget.CONTROL_TOWER: BusinessCoordinationAdapter(
+                tiktok_control_tower
+            ),
+        },
+        analytics_center=BusinessAnalyticsAdapter(tiktok_analytics_center),
+    )
+    register_business_workspace_routes(app, tiktok_business_workspace)
+    app.state.tiktok_business_workspace = tiktok_business_workspace
     agent_api = AgentApi(selected.agent_runtime)
     app.add_api_route(
         "/agents", create_agent_endpoint(agent_api), methods=["POST"], tags=["agents"]

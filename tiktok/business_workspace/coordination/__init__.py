@@ -1,0 +1,1 @@
+"""Bounded integration coordination surface."""
