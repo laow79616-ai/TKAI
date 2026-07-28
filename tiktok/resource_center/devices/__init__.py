@@ -1,0 +1,1 @@
+"""Device resource references namespace."""
