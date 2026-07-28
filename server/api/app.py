@@ -71,6 +71,8 @@ from tiktok.content_center import (
     ExistingProxyCenterAdapter as ContentProxyAdapter,
 )
 from tiktok.content_center.api import register_content_center_routes
+from tiktok.content_pipeline import TikTokContentPipeline
+from tiktok.content_pipeline.api import register_content_pipeline_routes
 from tiktok.data_collection import (
     ExistingAccountCenterAdapter as DataAccountAdapter,
 )
@@ -388,6 +390,9 @@ def create_app(
     )
     register_content_center_routes(app, tiktok_content_center)
     app.state.tiktok_content_center = tiktok_content_center
+    tiktok_content_pipeline = TikTokContentPipeline()
+    register_content_pipeline_routes(app, tiktok_content_pipeline)
+    app.state.tiktok_content_pipeline = tiktok_content_pipeline
     tiktok_publishing_center = TikTokPublishingCenter(
         content=ExistingContentCenterAdapter(tiktok_content_center),
         accounts=PublishingAccountAdapter(tiktok_account_center),
