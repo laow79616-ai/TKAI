@@ -71,6 +71,17 @@ from tiktok.content_center import (
     ExistingProxyCenterAdapter as ContentProxyAdapter,
 )
 from tiktok.content_center.api import register_content_center_routes
+from tiktok.creator_workspace import (
+    ExistingAnalyticsCenterAdapter as CreatorAnalyticsAdapter,
+)
+from tiktok.creator_workspace import (
+    ExistingContentCenterAdapter as CreatorContentAdapter,
+)
+from tiktok.creator_workspace import (
+    ExistingPublishingCenterAdapter as CreatorPublishingAdapter,
+)
+from tiktok.creator_workspace import TikTokCreatorWorkspace
+from tiktok.creator_workspace.api import register_creator_workspace_routes
 from tiktok.data_collection import (
     ExistingAccountCenterAdapter as DataAccountAdapter,
 )
@@ -418,6 +429,13 @@ def create_app(
     tiktok_analytics_center = TikTokAIAnalyticsCenter()
     register_analytics_center_routes(app, tiktok_analytics_center)
     app.state.tiktok_analytics_center = tiktok_analytics_center
+    tiktok_creator_workspace = TikTokCreatorWorkspace(
+        content=CreatorContentAdapter(tiktok_content_center),
+        publishing=CreatorPublishingAdapter(tiktok_publishing_center),
+        analytics_center=CreatorAnalyticsAdapter(tiktok_analytics_center),
+    )
+    register_creator_workspace_routes(app, tiktok_creator_workspace)
+    app.state.tiktok_creator_workspace = tiktok_creator_workspace
     tiktok_resource_center = TikTokResourceCenter()
     register_resource_center_routes(app, tiktok_resource_center)
     app.state.tiktok_resource_center = tiktok_resource_center

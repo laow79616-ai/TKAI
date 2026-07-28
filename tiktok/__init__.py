@@ -3,6 +3,7 @@
 from .account_center import TikTokAccountCenter
 from .browser_cluster import TikTokBrowserCluster
 from .browser_runtime import TikTokBrowserRuntime
+from .creator_workspace import TikTokCreatorWorkspace
 from .device_center import TikTokDeviceCenter
 from .proxy_center import TikTokProxyCenter
 from .publishing_center import TikTokPublishingCenter
@@ -12,6 +13,7 @@ __all__ = (
     "TikTokBrowserRuntime",
     "TikTokBrowserCluster",
     "TikTokDeviceCenter",
+    "TikTokCreatorWorkspace",
     "TikTokProxyCenter",
     "TikTokPublishingCenter",
 )
