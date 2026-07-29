@@ -187,6 +187,7 @@ from tkai.enterprise.api import register_enterprise_platform_routes
 from tkai.plugins.api import register_plugin_routes
 from tkai.plugins.marketplace import EnterprisePluginMarketplace
 from tkai.v7.capabilities.api import register_capability_routes
+from tkai.v7.event_fabric.api import register_event_fabric_routes
 from workflow_platform import WorkflowPlatform
 from workflow_platform.api import register_workflow_routes
 
@@ -827,6 +828,7 @@ def create_app(
         tags=["statistics"],
     )
     register_capability_routes(app)
+    register_event_fabric_routes(app)
     return app
 
 
