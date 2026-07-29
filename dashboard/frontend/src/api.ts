@@ -236,6 +236,12 @@ export class MarketplaceApiClient {
       `/v7/capabilities/${encodeURIComponent(resource)}`,
     );
   }
+  extensions(resource = "catalog") {
+    const query = new URLSearchParams({ tenant: "default", workspace: "default", namespace: "extensions" });
+    return this.request<Record<string, unknown>>(
+      `/v7/extensions/${encodeURIComponent(resource)}?${query}`,
+    );
+  }
   workflows(resource = "registry") {
     return this.request<Record<string, unknown>>(
       `/v7/workflows/${encodeURIComponent(resource)}`,

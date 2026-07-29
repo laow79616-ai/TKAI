@@ -7,6 +7,7 @@ import { Card, Loading, SearchBar, Table } from "./components";
 export const dashboardPages = ["dashboard", "orchestrator", "execution-plans", "orchestrator-queues", "orchestrator-executions", "orchestrator-failures", "orchestrator-retries", "orchestrator-performance", "app-store", "app-store-categories", "app-store-details", "app-store-installed", "app-store-updates", "app-store-licenses", "app-store-subscriptions", "app-store-publishers", "app-store-reviews", "app-store-moderation", "app-store-analytics", "knowledge-bases", "collections", "documents", "ingestion", "knowledge-search", "knowledge-permissions", "connectors", "evaluation", "applications", "application-templates", "deployments", "application-usage", "application-versions", "application-permissions", "agents", "agent-runs", "plugins", "marketplace", "installed", "updates", "registry", "publishers", "packages", "downloads", "licenses", "reviews", "versions", "search", "statistics", "health", "users", "organizations", "tenants", "teams", "roles", "permissions", "license", "billing", "api-keys", "audit"] as const;
 export const memoryDashboardPages = ["memory", "memory-namespaces", "memory-usage", "memory-retention", "memory-cache", "memory-retrieval", "memory-metrics"] as const;
 export const capabilityDashboardPages = ["capabilities-catalog", "capabilities-registry", "capabilities-dependencies", "capabilities-health", "capabilities-metrics", "capabilities-audit", "capabilities-versions", "capabilities-lifecycle"] as const;
+export const extensionDashboardPages = ["extensions", "extensions-plugins", "extensions-registry", "extensions-dependencies", "extensions-compatibility", "extensions-validation", "extensions-packages", "extensions-signatures", "extensions-health", "extensions-metrics", "extensions-audit"] as const;
 export const workflowDashboardPages = ["workflows", "workflow-definitions", "workflow-planner", "workflow-dependencies", "workflow-constraints", "workflow-lifecycle", "workflow-history", "workflow-recovery", "workflow-metrics", "workflow-audit"] as const;
 export const reasoningDashboardPages = ["reasoning", "reasoning-plans", "reasoning-decisions", "reasoning-strategies", "reasoning-validation", "reasoning-metrics"] as const;
 export const collaborationDashboardPages = ["collaboration", "collaboration-teams", "collaboration-projects", "collaboration-sessions", "collaboration-tasks", "collaboration-timeline", "collaboration-activity", "collaboration-notifications"] as const;
@@ -51,6 +52,12 @@ export function CapabilityFrameworkPage({ title = "Capability Catalog", resource
   const { client } = useAuth();
   const state = useRequest(() => client.capabilities(resource));
   return <Card><h1>{title}</h1><p>Read-only TKAI V7 unified capability control plane.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>;
+}
+
+export function ExtensionFrameworkPage({ title = "Extensions", resource = "catalog" }: { title?: string; resource?: string }) {
+  const { client } = useAuth();
+  const state = useRequest(() => client.extensions(resource));
+  return <Card><h1>{title}</h1><p>Read-only TKAI V7 internal extension and plugin metadata. Code execution and remote discovery are disabled.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>;
 }
 
 export function WorkflowFrameworkPage({ title = "Workflow Overview", resource = "registry" }: { title?: string; resource?: string }) {

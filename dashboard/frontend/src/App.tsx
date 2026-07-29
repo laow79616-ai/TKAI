@@ -7,17 +7,17 @@ import {
   ApplicationTemplatesPage, ApplicationUsagePage, ApplicationVersionsPage,
   AppStorePage,
   CollectionsPage, DocumentsPage, KnowledgeBasesPage, KnowledgeStatusPage,
-  dashboardPages, capabilityDashboardPages, workflowDashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, apiManagementDashboardPages, integrationHubDashboardPages, digitalTwinDashboardPages, businessIntelligenceDashboardPages, commandCenterDashboardPages, knowledgeGraphDashboardPages, tiktokDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage, TikTokInteractionCenterPage, TikTokRiskControlCenterPage, TikTokOperationsCenterPage, TikTokResourceCenterPage, TikTokAutomationEnginePage, TikTokExecutionEnginePage, TikTokAIControlTowerPage, TikTokAIIntelligentDecisionCenterPage, TikTokLocalRuntimePage,
+  dashboardPages, capabilityDashboardPages, extensionDashboardPages, workflowDashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, apiManagementDashboardPages, integrationHubDashboardPages, digitalTwinDashboardPages, businessIntelligenceDashboardPages, commandCenterDashboardPages, knowledgeGraphDashboardPages, tiktokDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage, TikTokInteractionCenterPage, TikTokRiskControlCenterPage, TikTokOperationsCenterPage, TikTokResourceCenterPage, TikTokAutomationEnginePage, TikTokExecutionEnginePage, TikTokAIControlTowerPage, TikTokAIIntelligentDecisionCenterPage, TikTokLocalRuntimePage,
   TikTokAutonomousOperationPage, TikTokAutonomousMissionEnginePage, TikTokAutonomousIntelligenceCenterPage, TikTokBusinessWorkspacePage, TikTokLeadManagementPage, TikTokBusinessIntelligencePage, TikTokGrowthCenterPage, TikTokPerformanceInsightsPage, LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
   PluginDetailsPage, PluginPermissionsPage, PluginsPage, PublishersPage,
-  RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage, CapabilityFrameworkPage, WorkflowFrameworkPage,
+  RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage, CapabilityFrameworkPage, ExtensionFrameworkPage, WorkflowFrameworkPage,
   MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage, ModelPlatformPage, SecurityPlatformPage, ApiManagementPage, IntegrationHubPage, DigitalTwinPage, BusinessIntelligencePage, CommandCenterPage, KnowledgeGraphPage, TikTokAccountCenterPage, TikTokBrowserRuntimePage, TikTokBrowserClusterPage, TikTokDeviceCenterPage, TikTokProxyCenterPage, TikTokPublishingCenterPage, TikTokCreatorWorkspacePage, TikTokCampaignCenterPage, TikTokContentPipelinePage, TikTokDataCollectionPage,
 } from "./pages";
 
 function Shell() {
   const { token, logout } = useAuth(); const navigate = useNavigate();
   if (!token) return <Navigate to="/login" replace />;
-  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...capabilityDashboardPages, ...workflowDashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages, ...collaborationDashboardPages, ...governanceDashboardPages, ...modelDashboardPages, ...securityDashboardPages, ...apiManagementDashboardPages, ...integrationHubDashboardPages, ...digitalTwinDashboardPages, ...businessIntelligenceDashboardPages, ...commandCenterDashboardPages, ...knowledgeGraphDashboardPages, ...tiktokDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
+  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...capabilityDashboardPages, ...extensionDashboardPages, ...workflowDashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages, ...collaborationDashboardPages, ...governanceDashboardPages, ...modelDashboardPages, ...securityDashboardPages, ...apiManagementDashboardPages, ...integrationHubDashboardPages, ...digitalTwinDashboardPages, ...businessIntelligenceDashboardPages, ...commandCenterDashboardPages, ...knowledgeGraphDashboardPages, ...tiktokDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
 }
 
 export function App() {
@@ -31,6 +31,17 @@ export function App() {
     <Route path="/capabilities-audit" element={<CapabilityFrameworkPage title="Capability Audit" resource="audit" />} />
     <Route path="/capabilities-versions" element={<CapabilityFrameworkPage title="Capability Versions" resource="versions" />} />
     <Route path="/capabilities-lifecycle" element={<CapabilityFrameworkPage title="Capability Lifecycle" resource="lifecycle" />} />
+    <Route path="/extensions" element={<ExtensionFrameworkPage />} />
+    <Route path="/extensions-plugins" element={<ExtensionFrameworkPage title="Plugins" resource="plugins" />} />
+    <Route path="/extensions-registry" element={<ExtensionFrameworkPage title="Extension Registry" resource="registry" />} />
+    <Route path="/extensions-dependencies" element={<ExtensionFrameworkPage title="Extension Dependencies" resource="dependencies" />} />
+    <Route path="/extensions-compatibility" element={<ExtensionFrameworkPage title="Extension Compatibility" resource="compatibility" />} />
+    <Route path="/extensions-validation" element={<ExtensionFrameworkPage title="Extension Validation" resource="validation" />} />
+    <Route path="/extensions-packages" element={<ExtensionFrameworkPage title="Extension Packages" resource="packages" />} />
+    <Route path="/extensions-signatures" element={<ExtensionFrameworkPage title="Extension Signatures" resource="signatures" />} />
+    <Route path="/extensions-health" element={<ExtensionFrameworkPage title="Extension Health" resource="health" />} />
+    <Route path="/extensions-metrics" element={<ExtensionFrameworkPage title="Extension Metrics" resource="metrics" />} />
+    <Route path="/extensions-audit" element={<ExtensionFrameworkPage title="Extension Audit" resource="audit" />} />
     <Route path="/workflows" element={<WorkflowFrameworkPage />} />
     <Route path="/workflow-definitions" element={<WorkflowFrameworkPage title="Definitions" resource="definitions" />} />
     <Route path="/workflow-planner" element={<WorkflowFrameworkPage title="Planner" resource="planner" />} />
