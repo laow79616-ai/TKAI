@@ -1,0 +1,1 @@
+"""Forecast confidence-estimation contracts."""

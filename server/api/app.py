@@ -154,6 +154,8 @@ from tiktok.optimization_center import TikTokAIContinuousOptimizationCenter
 from tiktok.optimization_center.api import register_optimization_routes
 from tiktok.performance_insights import TikTokPerformanceInsightsCenter
 from tiktok.performance_insights.api import register_performance_insights_routes
+from tiktok.predictive_analytics import TikTokPredictiveAnalyticsCenter
+from tiktok.predictive_analytics.api import register_predictive_routes
 from tiktok.proxy_center import BrowserRuntimeProxyAdapter, TikTokProxyCenter
 from tiktok.proxy_center.api import register_proxy_center_routes
 from tiktok.publishing_center import (
@@ -578,6 +580,9 @@ def create_app(
     tiktok_decision_evolution = TikTokDecisionEvolutionCenter()
     register_decision_evolution_routes(app, tiktok_decision_evolution)
     app.state.tiktok_decision_evolution = tiktok_decision_evolution
+    tiktok_predictive_analytics = TikTokPredictiveAnalyticsCenter()
+    register_predictive_routes(app, tiktok_predictive_analytics)
+    app.state.tiktok_predictive_analytics = tiktok_predictive_analytics
     tiktok_optimization_center = TikTokAIContinuousOptimizationCenter()
     register_optimization_routes(app, tiktok_optimization_center)
     app.state.tiktok_optimization_center = tiktok_optimization_center

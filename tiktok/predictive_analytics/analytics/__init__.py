@@ -1,0 +1,1 @@
+"""Aggregate predictive analytics contracts."""

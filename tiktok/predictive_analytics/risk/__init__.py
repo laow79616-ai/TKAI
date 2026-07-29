@@ -1,0 +1,1 @@
+"""Risk trend forecasting contracts."""

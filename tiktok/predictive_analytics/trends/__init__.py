@@ -1,0 +1,1 @@
+"""Historical trend-analysis contracts."""
