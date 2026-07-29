@@ -137,6 +137,8 @@ from tiktok.interaction_center import TikTokInteractionCenter
 from tiktok.interaction_center.api import register_interaction_routes
 from tiktok.lead_center import TikTokLeadManagementCenter
 from tiktok.lead_center.api import register_lead_routes
+from tiktok.learning_center import TikTokAutonomousLearningCenter
+from tiktok.learning_center.api import register_learning_routes
 from tiktok.mission_engine import TikTokAutonomousMissionEngine
 from tiktok.mission_engine.adapters import ExistingModulePort as MissionModulePort
 from tiktok.mission_engine.api import register_mission_engine_routes
@@ -566,6 +568,9 @@ def create_app(
     tiktok_intelligence_center = TikTokAutonomousIntelligenceCenter()
     register_intelligence_routes(app, tiktok_intelligence_center)
     app.state.tiktok_intelligence_center = tiktok_intelligence_center
+    tiktok_learning_center = TikTokAutonomousLearningCenter()
+    register_learning_routes(app, tiktok_learning_center)
+    app.state.tiktok_learning_center = tiktok_learning_center
     tiktok_optimization_center = TikTokAIContinuousOptimizationCenter()
     register_optimization_routes(app, tiktok_optimization_center)
     app.state.tiktok_optimization_center = tiktok_optimization_center

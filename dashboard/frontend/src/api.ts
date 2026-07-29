@@ -214,6 +214,9 @@ export class MarketplaceApiClient {
   tiktokIntelligenceCenter() {
     return this.request<Record<string, unknown>>("/tiktok/intelligence/dashboard");
   }
+  tiktokLearningCenter() {
+    return this.request<Record<string, unknown>>("/tiktok/learning/dashboard");
+  }
   tiktokCreatorWorkspace() {
     return this.request<Record<string, unknown>>("/tiktok/creator-workspace/dashboard");
   }
