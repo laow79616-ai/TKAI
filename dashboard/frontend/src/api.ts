@@ -236,6 +236,11 @@ export class MarketplaceApiClient {
       `/v7/capabilities/${encodeURIComponent(resource)}`,
     );
   }
+  workflows(resource = "registry") {
+    return this.request<Record<string, unknown>>(
+      `/v7/workflows/${encodeURIComponent(resource)}`,
+    );
+  }
   plans() { return this.request<ApiListResponse<EnterpriseRecord>>("/plans?tenant=default&actor=dashboard"); }
   executions() { return this.request<ApiListResponse<EnterpriseRecord>>("/executions?tenant=default&actor=dashboard"); }
   queues() { return this.request<Record<string, unknown>>("/queues"); }

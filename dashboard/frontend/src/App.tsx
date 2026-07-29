@@ -7,17 +7,17 @@ import {
   ApplicationTemplatesPage, ApplicationUsagePage, ApplicationVersionsPage,
   AppStorePage,
   CollectionsPage, DocumentsPage, KnowledgeBasesPage, KnowledgeStatusPage,
-  dashboardPages, capabilityDashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, apiManagementDashboardPages, integrationHubDashboardPages, digitalTwinDashboardPages, businessIntelligenceDashboardPages, commandCenterDashboardPages, knowledgeGraphDashboardPages, tiktokDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage, TikTokInteractionCenterPage, TikTokRiskControlCenterPage, TikTokOperationsCenterPage, TikTokResourceCenterPage, TikTokAutomationEnginePage, TikTokExecutionEnginePage, TikTokAIControlTowerPage, TikTokAIIntelligentDecisionCenterPage, TikTokLocalRuntimePage,
+  dashboardPages, capabilityDashboardPages, workflowDashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, apiManagementDashboardPages, integrationHubDashboardPages, digitalTwinDashboardPages, businessIntelligenceDashboardPages, commandCenterDashboardPages, knowledgeGraphDashboardPages, tiktokDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage, TikTokInteractionCenterPage, TikTokRiskControlCenterPage, TikTokOperationsCenterPage, TikTokResourceCenterPage, TikTokAutomationEnginePage, TikTokExecutionEnginePage, TikTokAIControlTowerPage, TikTokAIIntelligentDecisionCenterPage, TikTokLocalRuntimePage,
   TikTokAutonomousOperationPage, TikTokAutonomousMissionEnginePage, TikTokAutonomousIntelligenceCenterPage, TikTokBusinessWorkspacePage, TikTokLeadManagementPage, TikTokBusinessIntelligencePage, TikTokGrowthCenterPage, TikTokPerformanceInsightsPage, LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
   PluginDetailsPage, PluginPermissionsPage, PluginsPage, PublishersPage,
-  RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage, CapabilityFrameworkPage,
+  RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage, CapabilityFrameworkPage, WorkflowFrameworkPage,
   MemoryPage, OrchestratorPage, ReasoningPage, CollaborationPage, GovernancePage, ModelPlatformPage, SecurityPlatformPage, ApiManagementPage, IntegrationHubPage, DigitalTwinPage, BusinessIntelligencePage, CommandCenterPage, KnowledgeGraphPage, TikTokAccountCenterPage, TikTokBrowserRuntimePage, TikTokBrowserClusterPage, TikTokDeviceCenterPage, TikTokProxyCenterPage, TikTokPublishingCenterPage, TikTokCreatorWorkspacePage, TikTokCampaignCenterPage, TikTokContentPipelinePage, TikTokDataCollectionPage,
 } from "./pages";
 
 function Shell() {
   const { token, logout } = useAuth(); const navigate = useNavigate();
   if (!token) return <Navigate to="/login" replace />;
-  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...capabilityDashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages, ...collaborationDashboardPages, ...governanceDashboardPages, ...modelDashboardPages, ...securityDashboardPages, ...apiManagementDashboardPages, ...integrationHubDashboardPages, ...digitalTwinDashboardPages, ...businessIntelligenceDashboardPages, ...commandCenterDashboardPages, ...knowledgeGraphDashboardPages, ...tiktokDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
+  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...capabilityDashboardPages, ...workflowDashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages, ...collaborationDashboardPages, ...governanceDashboardPages, ...modelDashboardPages, ...securityDashboardPages, ...apiManagementDashboardPages, ...integrationHubDashboardPages, ...digitalTwinDashboardPages, ...businessIntelligenceDashboardPages, ...commandCenterDashboardPages, ...knowledgeGraphDashboardPages, ...tiktokDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
 }
 
 export function App() {
@@ -31,6 +31,16 @@ export function App() {
     <Route path="/capabilities-audit" element={<CapabilityFrameworkPage title="Capability Audit" resource="audit" />} />
     <Route path="/capabilities-versions" element={<CapabilityFrameworkPage title="Capability Versions" resource="versions" />} />
     <Route path="/capabilities-lifecycle" element={<CapabilityFrameworkPage title="Capability Lifecycle" resource="lifecycle" />} />
+    <Route path="/workflows" element={<WorkflowFrameworkPage />} />
+    <Route path="/workflow-definitions" element={<WorkflowFrameworkPage title="Definitions" resource="definitions" />} />
+    <Route path="/workflow-planner" element={<WorkflowFrameworkPage title="Planner" resource="planner" />} />
+    <Route path="/workflow-dependencies" element={<WorkflowFrameworkPage title="Dependencies" resource="dependencies" />} />
+    <Route path="/workflow-constraints" element={<WorkflowFrameworkPage title="Constraints" resource="constraints" />} />
+    <Route path="/workflow-lifecycle" element={<WorkflowFrameworkPage title="Lifecycle" resource="registry" />} />
+    <Route path="/workflow-history" element={<WorkflowFrameworkPage title="History" resource="history" />} />
+    <Route path="/workflow-recovery" element={<WorkflowFrameworkPage title="Recovery" resource="recovery" />} />
+    <Route path="/workflow-metrics" element={<WorkflowFrameworkPage title="Metrics" resource="metrics" />} />
+    <Route path="/workflow-audit" element={<WorkflowFrameworkPage title="Audit" resource="history" />} />
     <Route path="/tiktok-account-center" element={<TikTokAccountCenterPage />} />
     <Route path="/tiktok-browser-runtime" element={<TikTokBrowserRuntimePage />} />
     <Route path="/tiktok-browser-cluster" element={<TikTokBrowserClusterPage />} />
