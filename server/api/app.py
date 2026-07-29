@@ -190,6 +190,7 @@ from tkai.v7.capabilities.api import register_capability_routes
 from tkai.v7.configuration_framework.api import (
     register_configuration_framework_routes,
 )
+from tkai.v7.data_framework.api import register_data_framework_routes
 from tkai.v7.event_fabric.api import register_event_fabric_routes
 from tkai.v7.extension_framework.api import register_extension_framework_routes
 from tkai.v7.observability_framework.api import (
@@ -839,6 +840,7 @@ def create_app(
     )
     register_capability_routes(app)
     register_configuration_framework_routes(app)
+    register_data_framework_routes(app)
     register_event_fabric_routes(app)
     register_extension_framework_routes(app)
     register_security_framework_routes(app)
