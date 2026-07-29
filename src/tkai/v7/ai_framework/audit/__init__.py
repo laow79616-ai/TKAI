@@ -1,0 +1,1 @@
+"""Scoped audit metadata."""
