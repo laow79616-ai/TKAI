@@ -131,6 +131,8 @@ from tiktok.execution_engine import TikTokAIExecutionEngine
 from tiktok.execution_engine.api import register_execution_routes
 from tiktok.growth_center import TikTokAIGrowthCenter
 from tiktok.growth_center.api import register_growth_routes
+from tiktok.intelligence_center import TikTokAutonomousIntelligenceCenter
+from tiktok.intelligence_center.api import register_intelligence_routes
 from tiktok.interaction_center import TikTokInteractionCenter
 from tiktok.interaction_center.api import register_interaction_routes
 from tiktok.lead_center import TikTokLeadManagementCenter
@@ -561,6 +563,9 @@ def create_app(
     )
     register_mission_engine_routes(app, tiktok_mission_engine)
     app.state.tiktok_mission_engine = tiktok_mission_engine
+    tiktok_intelligence_center = TikTokAutonomousIntelligenceCenter()
+    register_intelligence_routes(app, tiktok_intelligence_center)
+    app.state.tiktok_intelligence_center = tiktok_intelligence_center
     tiktok_optimization_center = TikTokAIContinuousOptimizationCenter()
     register_optimization_routes(app, tiktok_optimization_center)
     app.state.tiktok_optimization_center = tiktok_optimization_center

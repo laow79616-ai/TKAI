@@ -211,6 +211,9 @@ export class MarketplaceApiClient {
   tiktokMissionEngine() {
     return this.request<Record<string, unknown>>("/tiktok/mission-engine/dashboard");
   }
+  tiktokIntelligenceCenter() {
+    return this.request<Record<string, unknown>>("/tiktok/intelligence/dashboard");
+  }
   tiktokCreatorWorkspace() {
     return this.request<Record<string, unknown>>("/tiktok/creator-workspace/dashboard");
   }

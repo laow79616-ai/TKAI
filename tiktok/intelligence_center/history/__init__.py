@@ -1,0 +1,1 @@
+"""Scoped intelligence history."""
