@@ -203,6 +203,7 @@ from tkai.v7.runtime_governance.api import register_runtime_governance_routes
 from tkai.v7.security_framework.api import register_security_framework_routes
 from tkai.v7.state_framework.api import register_state_framework_routes
 from tkai.v7.workflow_framework.api import register_workflow_framework_routes
+from tkai.v8.api import register_routes as register_v8_kernel_routes
 from workflow_platform import WorkflowPlatform
 from workflow_platform.api import register_workflow_routes
 
@@ -853,6 +854,7 @@ def create_app(
     register_observability_framework_routes(app)
     register_state_framework_routes(app)
     register_workflow_framework_routes(app)
+    register_v8_kernel_routes(app)
     return app
 
 

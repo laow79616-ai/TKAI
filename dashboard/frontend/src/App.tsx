@@ -7,7 +7,7 @@ import {
   ApplicationTemplatesPage, ApplicationUsagePage, ApplicationVersionsPage,
   AppStorePage,
   CollectionsPage, DocumentsPage, KnowledgeBasesPage, KnowledgeStatusPage,
-  dashboardPages, capabilityDashboardPages, extensionDashboardPages, workflowDashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, apiManagementDashboardPages, integrationHubDashboardPages, digitalTwinDashboardPages, businessIntelligenceDashboardPages, commandCenterDashboardPages, knowledgeGraphDashboardPages, tiktokDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage, TikTokInteractionCenterPage, TikTokRiskControlCenterPage, TikTokOperationsCenterPage, TikTokResourceCenterPage, TikTokAutomationEnginePage, TikTokExecutionEnginePage, TikTokAIControlTowerPage, TikTokAIIntelligentDecisionCenterPage, TikTokLocalRuntimePage,
+  dashboardPages, hyperKernelDashboardPages, capabilityDashboardPages, extensionDashboardPages, workflowDashboardPages, memoryDashboardPages, reasoningDashboardPages, collaborationDashboardPages, governanceDashboardPages, modelDashboardPages, securityDashboardPages, apiManagementDashboardPages, integrationHubDashboardPages, digitalTwinDashboardPages, businessIntelligenceDashboardPages, commandCenterDashboardPages, knowledgeGraphDashboardPages, tiktokDashboardPages, DashboardHome, DownloadsPage, EnterprisePage, HealthPage, TikTokInteractionCenterPage, TikTokRiskControlCenterPage, TikTokOperationsCenterPage, TikTokResourceCenterPage, TikTokAutomationEnginePage, TikTokExecutionEnginePage, TikTokAIControlTowerPage, TikTokAIIntelligentDecisionCenterPage, TikTokLocalRuntimePage, HyperKernelPage,
   TikTokAutonomousOperationPage, TikTokAutonomousMissionEnginePage, TikTokAutonomousIntelligenceCenterPage, TikTokBusinessWorkspacePage, TikTokLeadManagementPage, TikTokBusinessIntelligencePage, TikTokGrowthCenterPage, TikTokPerformanceInsightsPage, LicensesPage, LoginPage, MarketplacePage, NotFoundPage, PackagesPage,
   PluginDetailsPage, PluginPermissionsPage, PluginsPage, PublishersPage,
   RegistryPage, ReviewsPage, SearchPage, StatisticsPage, VersionsPage, CapabilityFrameworkPage, ExtensionFrameworkPage, WorkflowFrameworkPage,
@@ -17,12 +17,20 @@ import {
 function Shell() {
   const { token, logout } = useAuth(); const navigate = useNavigate();
   if (!token) return <Navigate to="/login" replace />;
-  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...capabilityDashboardPages, ...extensionDashboardPages, ...workflowDashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages, ...collaborationDashboardPages, ...governanceDashboardPages, ...modelDashboardPages, ...securityDashboardPages, ...apiManagementDashboardPages, ...integrationHubDashboardPages, ...digitalTwinDashboardPages, ...businessIntelligenceDashboardPages, ...commandCenterDashboardPages, ...knowledgeGraphDashboardPages, ...tiktokDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
+  return <div className="dashboard-shell"><Sidebar pages={[...dashboardPages, ...hyperKernelDashboardPages, ...capabilityDashboardPages, ...extensionDashboardPages, ...workflowDashboardPages, ...memoryDashboardPages, ...reasoningDashboardPages, ...collaborationDashboardPages, ...governanceDashboardPages, ...modelDashboardPages, ...securityDashboardPages, ...apiManagementDashboardPages, ...integrationHubDashboardPages, ...digitalTwinDashboardPages, ...businessIntelligenceDashboardPages, ...commandCenterDashboardPages, ...knowledgeGraphDashboardPages, ...tiktokDashboardPages]} /><main><Header onLogout={() => { logout().finally(() => navigate("/login")); }} /><ErrorBoundary><Outlet /></ErrorBoundary></main></div>;
 }
 
 export function App() {
   return <Routes><Route path="/login" element={<LoginPage />} /><Route element={<Shell />}>
     <Route path="/dashboard" element={<DashboardHome />} />
+    <Route path="/v8-kernel" element={<HyperKernelPage />} />
+    <Route path="/v8-frameworks" element={<HyperKernelPage title="Framework Registry" resource="frameworks" />} />
+    <Route path="/v8-capabilities" element={<HyperKernelPage title="Capabilities" resource="capabilities" />} />
+    <Route path="/v8-runtime" element={<HyperKernelPage title="Runtime" resource="runtime" />} />
+    <Route path="/v8-health" element={<HyperKernelPage title="Health" resource="health" />} />
+    <Route path="/v8-metrics" element={<HyperKernelPage title="Metrics" resource="metrics" />} />
+    <Route path="/v8-diagnostics" element={<HyperKernelPage title="Diagnostics" resource="diagnostics" />} />
+    <Route path="/v8-audit" element={<HyperKernelPage title="Audit" resource="audit" />} />
     <Route path="/capabilities-catalog" element={<CapabilityFrameworkPage />} />
     <Route path="/capabilities-registry" element={<CapabilityFrameworkPage title="Capability Registry" resource="registry" />} />
     <Route path="/capabilities-dependencies" element={<CapabilityFrameworkPage title="Capability Dependencies" resource="dependencies" />} />
