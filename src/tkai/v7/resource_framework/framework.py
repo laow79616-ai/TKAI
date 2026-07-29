@@ -28,9 +28,7 @@ from .contracts import (
     utc_now,
 )
 
-LIFECYCLE_TRANSITIONS: Mapping[
-    ResourceLifecycle, frozenset[ResourceLifecycle]
-] = {
+LIFECYCLE_TRANSITIONS: Mapping[ResourceLifecycle, frozenset[ResourceLifecycle]] = {
     ResourceLifecycle.REGISTERED: frozenset(
         {
             ResourceLifecycle.VALIDATED,
@@ -340,9 +338,7 @@ class ResourceFramework:
     def validate(self, resource_id: str, *, actor: str = "system") -> ValidationReport:
         resource = self.registry.get(resource_id)
         issues: list[ValidationIssue] = []
-        if not re.fullmatch(
-            r"\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?", resource.version
-        ):
+        if not re.fullmatch(r"\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?", resource.version):
             issues.append(
                 ValidationIssue(
                     "version_invalid", "version must be semantic", resource_id

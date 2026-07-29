@@ -336,21 +336,15 @@ class ExtensionFramework:
             discovered.append(item)
         return tuple(discovered)
 
-    def register_extension(
-        self, manifest: ExtensionManifest
-    ) -> ExtensionManifest:
-        item = replace(
-            manifest, lifecycle=Lifecycle.REGISTERED, updated_at=now_utc()
-        )
+    def register_extension(self, manifest: ExtensionManifest) -> ExtensionManifest:
+        item = replace(manifest, lifecycle=Lifecycle.REGISTERED, updated_at=now_utc())
         result = self.registry.register_extension(item)
         self.metric_values["v7_extensions_registered_total"] += 1
         self._record("registered", item.extension_id, item.scope)
         return result
 
     def register_plugin(self, manifest: PluginManifest) -> PluginManifest:
-        parent = self.registry.extensions.get(
-            manifest.extension_id, ExtensionManifest
-        )
+        parent = self.registry.extensions.get(manifest.extension_id, ExtensionManifest)
         self._require_scope(parent.scope, manifest.scope)
         if manifest.plugin_id not in parent.plugin_ids:
             raise ExtensionFrameworkError("plugin is not declared by parent extension")
@@ -360,9 +354,7 @@ class ExtensionFramework:
         self._record("plugin-registered", item.plugin_id, item.scope)
         return result
 
-    def validate(
-        self, subject_id: str, *, plugin: bool = False
-    ) -> ValidationResult:
+    def validate(self, subject_id: str, *, plugin: bool = False) -> ValidationResult:
         manifest = self._subject(subject_id, plugin)
         result = self.validator.validate(manifest, self.registry)
         self._upsert(self.validations, f"{plugin}:{subject_id}", result)

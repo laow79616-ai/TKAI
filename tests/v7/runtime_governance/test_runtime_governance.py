@@ -221,9 +221,7 @@ def test_boundary_scope_isolation_and_secret_filtering() -> None:
     framework, scope = build_framework()
     foreign = Scope("tenant-b", "workspace-a")
     with pytest.raises(IsolationError):
-        framework.registries["runtime"].get(
-            "runtime-1", RuntimeReference, foreign
-        )
+        framework.registries["runtime"].get("runtime-1", RuntimeReference, foreign)
     with pytest.raises(ValueError, match="unsafe metadata"):
         GovernanceProfile(
             "unsafe-profile",

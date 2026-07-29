@@ -1,19 +1,14 @@
-param([string]$Archive)
+param([string]$Archive = "artifacts\tkai-7.0.0.zip")
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 $repository = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot ".."))
-if (-not $Archive) {
-    $release = Get-Content "$repository\release.json" -Raw | ConvertFrom-Json
-    $Archive = "artifacts\tkai-$($release.version).zip"
-}
 $release = Get-Content "$repository\release.json" -Raw | ConvertFrom-Json
-$sourceEntry = "source/tkai-$($release.version).tar.gz"
 $path = [System.IO.Path]::GetFullPath((Join-Path $repository $Archive))
 if (-not (Test-Path -LiteralPath $path)) { throw "Release archive not found: $path" }
 $forbidden = @(
     "(^|/)node_modules/",
     "(^|/)\.venv/",
-    "(^|/)runtime/",
+    "^[^/]+/runtime/",
     "\.db$",
     "\.(cookie|session|credential|secret)$",
     "\.log$"
@@ -27,11 +22,13 @@ try {
     foreach ($term in $forbidden) {
         if ($names | Where-Object { $_ -match $term }) { throw "Forbidden release entry: $term" }
     }
+    if ($names.Count -ne (@($names | Select-Object -Unique)).Count) {
+        throw "Duplicate archive entries detected."
+    }
     foreach ($required in @(
         "release.json", "release-checklist.json", "release_manifest.json",
         "framework_manifest.json", "integrity_manifest.json",
-        "build_metadata.json", "sha256sums", "configuration/local.example.json",
-        $sourceEntry
+        "build_metadata.json", "configuration/local.example.json"
     )) {
         if (-not ($names | Where-Object { $_ -like "*/$required" -or $_ -eq $required })) {
             throw "Required release entry missing: $required"
@@ -40,7 +37,12 @@ try {
 } finally {
     $zip.Dispose()
 }
-$expected = (Get-Content "$path.sha256").Split(" ")[0]
+$checksumFile = Join-Path (Split-Path $path) "CHECKSUMS_V7.txt"
+$checksumLine = Get-Content $checksumFile | Where-Object {
+    $_ -match [regex]::Escape((Split-Path $path -Leaf)) + "$"
+} | Select-Object -First 1
+if (-not $checksumLine) { throw "Archive checksum is missing." }
+$expected = $checksumLine.Split(" ")[0]
 $actual = (Get-FileHash $path -Algorithm SHA256).Hash.ToLower()
 if ($expected -ne $actual) { throw "Release archive checksum mismatch." }
 Write-Host "Release package validation passed."

@@ -16,7 +16,7 @@ class StudioSettings:
     """Configuration passed explicitly to a Studio backend application factory."""
 
     app_name: str = "TKAI Studio"
-    app_version: str = "6.0.0"
+    app_version: str = "7.0.0"
     environment: str = "development"
     api_prefix: str = "/api"
     host: str = "127.0.0.1"
@@ -77,7 +77,7 @@ class StudioSettings:
                 f"Unknown Studio configuration fields: {sorted(unknown)}"
             )
         app_name = values.get("app_name", "TKAI Studio")
-        app_version = values.get("app_version", "6.0.0")
+        app_version = values.get("app_version", "7.0.0")
         environment = values.get("environment", "development")
         api_prefix = values.get("api_prefix", "/api")
         host = values.get("host", "127.0.0.1")

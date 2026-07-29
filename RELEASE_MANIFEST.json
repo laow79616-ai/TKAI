@@ -3,13 +3,17 @@
   "version": "7.0.0",
   "tag": "v7.0.0",
   "release_date": "2026-07-30",
-  "base_commit": "1a2d277c5236803b5f0ad42b1a490a628f09b7d6",
-  "branch": "feature/tkai-v7-production-readiness",
+  "base_commit": "0e31fe02c2afcac597aae9f839e3fb0679014af3",
+  "branch": "release/tkai-v7.0.0",
   "release_type": "general-availability",
   "assets": [
     "artifacts/tkai-7.0.0.tar.gz",
     "artifacts/tkai-7.0.0.zip",
-    "artifacts/tkai-7.0.0.zip.sha256"
+    "artifacts/RELEASE_MANIFEST_V7.json",
+    "artifacts/FRAMEWORK_MANIFEST_V7.json",
+    "artifacts/BUILD_METADATA_V7.json",
+    "artifacts/INTEGRITY_MANIFEST_V7.json",
+    "artifacts/CHECKSUMS_V7.txt"
   ],
   "framework_manifest": "FRAMEWORK_MANIFEST.json",
   "integrity_manifest": "INTEGRITY_MANIFEST.json"

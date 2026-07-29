@@ -10,9 +10,10 @@ No automatic data migration is performed. Roll back by restoring the V6
 package and configuration backup; V7 metadata does not rewrite V6 data.
 
 V6.0 preserves the V5 functional scope and public execution boundaries.
-Upgrade by backing up runtime data, recording the current configuration and
-artifact checksum, installing the 6.0.0 package, rebuilding the Dashboard and
-AI Studio, and running database initialization plus health and OpenAPI checks.
+For V6-to-V7 upgrade, back up runtime data, record the current configuration
+and artifact checksum, install the 7.0.0 package, rebuild the Dashboard and
+AI Studio, and run health and OpenAPI checks. Database schema changes remain
+operator-controlled; the release exposes no automatic migration endpoint.
 
 Compare configuration with `configuration/local.example.json`; keep secrets in
 the environment or approved secret store. Do not copy `.env`, runtime
@@ -24,10 +25,10 @@ using the verified backup through `scripts/restore-tkai.ps1`. Validate health,
 tenant/workspace isolation, and audit continuity before resuming service.
 
 1. Stop the existing TKAI deployment and verify no owned PID remains.
-2. Create and validate a backup with the currently deployed release.
-3. Retain the previous checkout, configuration, release archive, and checksums.
-4. Install V6 dependencies and rebuild both frontends.
-5. Start V6. Database initialization remains idempotent and validates integrity.
+2. Create and validate a backup with the currently deployed V6 release.
+3. Retain the V6 checkout, configuration, release archive, and checksums.
+4. Install V7 dependencies and rebuild both frontends.
+5. Start V7 with the existing configuration and V7 frameworks disabled.
 6. Verify `/health`, `/readiness`, `/tiktok/system/health`, `/openapi.json`,
-   Dashboard, and AI Studio.
-7. Run the V6 release checklist before restoring normal traffic.
+   Dashboard, AI Studio, isolation, redaction, and audit correlation.
+7. Opt into V7 frameworks only after their scoped validation.

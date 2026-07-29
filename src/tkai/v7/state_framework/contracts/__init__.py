@@ -212,10 +212,7 @@ def serialize(value: object) -> object:
     if isinstance(value, Enum):
         return value.value
     if hasattr(value, "__dataclass_fields__"):
-        return {
-            key: serialize(item)
-            for key, item in asdict(cast(Any, value)).items()
-        }
+        return {key: serialize(item) for key, item in asdict(cast(Any, value)).items()}
     if isinstance(value, Mapping):
         return {str(key): serialize(item) for key, item in value.items()}
     if isinstance(value, (tuple, list)):

@@ -123,7 +123,7 @@ def main() -> int:
     report = {
         "schema_version": 1,
         "release": "7.0.0",
-        "base_commit": "1a2d277c5236803b5f0ad42b1a490a628f09b7d6",
+        "base_commit": "0e31fe02c2afcac597aae9f839e3fb0679014af3",
         "frameworks": framework_results,
         "repository": {
             "v7_module_count": len(graph),

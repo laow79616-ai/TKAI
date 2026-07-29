@@ -3,8 +3,8 @@
   "version": "7.0.0",
   "tag": "v7.0.0",
   "release_date": "2026-07-30",
-  "source_base_commit": "1a2d277c5236803b5f0ad42b1a490a628f09b7d6",
-  "source_branch": "feature/tkai-v7-production-readiness",
+  "source_base_commit": "0e31fe02c2afcac597aae9f839e3fb0679014af3",
+  "source_branch": "release/tkai-v7.0.0",
   "build_script": "scripts/build-release.ps1",
   "reproducibility": "Build locally from the tagged commit using the documented release validation sequence."
 }

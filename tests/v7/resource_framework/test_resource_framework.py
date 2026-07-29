@@ -83,9 +83,7 @@ def test_registry_catalog_extensibility_and_secret_filtering() -> None:
 def test_discovery_lookup_filter_tag_capability_dependency_and_metadata() -> None:
     framework = ResourceFramework()
     framework.register(resource("base"))
-    framework.register(
-        resource("child", dependencies=(DependencyReference("base"),))
-    )
+    framework.register(resource("child", dependencies=(DependencyReference("base"),)))
     discovered = framework.discover(resource_type="worker")
     assert [item.resource_id for item in discovered] == [
         "base",
@@ -122,9 +120,7 @@ def test_validation_dependencies_versions_constraints_capacity_and_cycles() -> N
     cyclic.register(resource("y", dependencies=(DependencyReference("x"),)))
     with pytest.raises(DependencyCycleError):
         cyclic._ordered_dependencies("x")
-    assert "dependency_cycle" in {
-        issue.code for issue in cyclic.validate("x").issues
-    }
+    assert "dependency_cycle" in {issue.code for issue in cyclic.validate("x").issues}
 
 
 def test_capacity_reservation_expiry_history_and_conflicts_are_reference_only() -> None:

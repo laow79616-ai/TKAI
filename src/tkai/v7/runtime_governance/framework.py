@@ -148,28 +148,20 @@ class RuntimeGovernanceFramework:
     def register_policy(self, item: GovernancePolicy) -> GovernancePolicy:
         return self._add("policies", item.policy_id, item, "policy-registered")
 
-    def register_constraint(
-        self, item: GovernanceConstraint
-    ) -> GovernanceConstraint:
+    def register_constraint(self, item: GovernanceConstraint) -> GovernanceConstraint:
         return self._add(
             "constraints", item.constraint_id, item, "constraint-registered"
         )
 
     def register_boundary(self, item: RuntimeBoundary) -> RuntimeBoundary:
-        return self._add(
-            "boundaries", item.boundary_id, item, "boundary-registered"
-        )
+        return self._add("boundaries", item.boundary_id, item, "boundary-registered")
 
     def register_runtime(self, item: RuntimeReference) -> RuntimeReference:
         for reference in item.boundary_references:
-            self.registries["boundaries"].get(
-                reference, RuntimeBoundary, item.scope
-            )
+            self.registries["boundaries"].get(reference, RuntimeBoundary, item.scope)
         return self._add("runtime", item.runtime_id, item, "runtime-referenced")
 
-    def register_maintenance(
-        self, item: MaintenanceMetadata
-    ) -> MaintenanceMetadata:
+    def register_maintenance(self, item: MaintenanceMetadata) -> MaintenanceMetadata:
         return self._add(
             "maintenance", item.maintenance_id, item, "maintenance-recorded"
         )
@@ -366,14 +358,10 @@ class RuntimeGovernanceFramework:
     def _active_killswitch(self, scope: Scope, subject: str) -> bool:
         return any(
             item.active and item.subject_reference in (subject, scope.workspace)
-            for item in self.registries["killswitch"].values(
-                KillSwitchMetadata, scope
-            )
+            for item in self.registries["killswitch"].values(KillSwitchMetadata, scope)
         )
 
-    def _exists(
-        self, registry: str, expected: type[T], key: str, scope: Scope
-    ) -> bool:
+    def _exists(self, registry: str, expected: type[T], key: str, scope: Scope) -> bool:
         try:
             self.registries[registry].get(key, expected, scope)
         except IsolationError:

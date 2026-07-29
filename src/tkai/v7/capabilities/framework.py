@@ -211,14 +211,10 @@ class CapabilityMetrics:
 
     def error(self, capability_id: str) -> None:
         current = self.get(capability_id)
-        self._values[capability_id] = replace(
-            current, errors=current.errors + 1
-        )
+        self._values[capability_id] = replace(current, errors=current.errors + 1)
 
     def unavailable(self, capability_id: str) -> None:
-        self._values[capability_id] = replace(
-            self.get(capability_id), availability=0.0
-        )
+        self._values[capability_id] = replace(self.get(capability_id), availability=0.0)
 
 
 class HealthMonitor:
@@ -265,9 +261,7 @@ class HealthMonitor:
                     live=bool(result.get("live", True)),
                     diagnostics=result,
                 )
-            return self.heartbeat(
-                capability_id, ready=bool(result), live=bool(result)
-            )
+            return self.heartbeat(capability_id, ready=bool(result), live=bool(result))
         except Exception as error:  # noqa: BLE001 - health checks are provider code
             health = Health(
                 status=HealthStatus.UNHEALTHY,
@@ -453,9 +447,7 @@ class CapabilityRegistry:
         try:
             return self._providers[capability_id]
         except KeyError as error:
-            raise CapabilityNotFoundError(
-                f"provider for {capability_id}"
-            ) from error
+            raise CapabilityNotFoundError(f"provider for {capability_id}") from error
 
     def snapshot(self) -> tuple[CapabilityModel, ...]:
         return tuple(
@@ -551,17 +543,13 @@ class CapabilityLifecycle:
     def pause(self, capability_id: str, *, actor: str = "system") -> CapabilityModel:
         model = self.registry.get(capability_id)
         if model.status is not CapabilityStatus.ACTIVE:
-            raise LifecycleTransitionError(
-                f"{capability_id} is not active"
-            )
+            raise LifecycleTransitionError(f"{capability_id} is not active")
         self.registry.provider(capability_id).pause()
         return self.registry.transition(
             capability_id, CapabilityStatus.PAUSED, actor=actor
         )
 
-    def disable(
-        self, capability_id: str, *, actor: str = "system"
-    ) -> CapabilityModel:
+    def disable(self, capability_id: str, *, actor: str = "system") -> CapabilityModel:
         model = self.registry.get(capability_id)
         if CapabilityStatus.DISABLED not in _TRANSITIONS[model.status]:
             raise LifecycleTransitionError(

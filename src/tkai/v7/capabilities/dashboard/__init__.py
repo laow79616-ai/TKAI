@@ -37,9 +37,7 @@ class CapabilityDashboard:
                 model.capability_id: serialize(model.metrics) for model in models
             },
             "audit": serialize(self.registry.audit.list()),
-            "versions": {
-                model.capability_id: str(model.version) for model in models
-            },
+            "versions": {model.capability_id: str(model.version) for model in models},
             "lifecycle": {
                 model.capability_id: serialize(model.lifecycle) for model in models
             },

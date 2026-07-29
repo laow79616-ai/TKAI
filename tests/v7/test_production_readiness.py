@@ -8,9 +8,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 def test_release_and_framework_manifests_are_consistent() -> None:
     release = json.loads((ROOT / "release.json").read_text(encoding="utf-8"))
-    manifest = json.loads(
-        (ROOT / "RELEASE_MANIFEST.json").read_text(encoding="utf-8")
-    )
+    manifest = json.loads((ROOT / "RELEASE_MANIFEST.json").read_text(encoding="utf-8"))
     frameworks = json.loads(
         (ROOT / "FRAMEWORK_MANIFEST.json").read_text(encoding="utf-8")
     )

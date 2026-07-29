@@ -1,4 +1,5 @@
 """Dashboard projections for the advisory intelligence framework."""
+
 from ..contracts import Scope
 from ..framework import GLOBAL_INTELLIGENCE_FRAMEWORK, IntelligenceFramework
 

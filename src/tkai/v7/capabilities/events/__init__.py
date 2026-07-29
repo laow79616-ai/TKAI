@@ -16,13 +16,11 @@ class CapabilityEvent:
 
 class CapabilityEventBus:
     def __init__(self) -> None:
-        self._subscribers: dict[
-            str, list[Callable[[CapabilityEvent], None]]
-        ] = defaultdict(list)
+        self._subscribers: dict[str, list[Callable[[CapabilityEvent], None]]] = (
+            defaultdict(list)
+        )
 
-    def subscribe(
-        self, name: str, callback: Callable[[CapabilityEvent], None]
-    ) -> None:
+    def subscribe(self, name: str, callback: Callable[[CapabilityEvent], None]) -> None:
         self._subscribers[name].append(callback)
 
     def publish(self, event: CapabilityEvent) -> None:

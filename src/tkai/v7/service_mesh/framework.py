@@ -97,9 +97,7 @@ class ServiceMetricsStore:
             requests=requests,
             successes=current.successes + int(success),
             failures=current.failures + int(not success),
-            latency_ms=(
-                (current.latency_ms * current.requests) + latency_ms
-            )
+            latency_ms=((current.latency_ms * current.requests) + latency_ms)
             / requests,
             route_count=current.route_count + 1,
         )
@@ -264,12 +262,8 @@ _TRANSITIONS: dict[ServiceStatus, frozenset[ServiceStatus]] = {
     ServiceStatus.REGISTERED: frozenset(
         {ServiceStatus.VALIDATED, ServiceStatus.FAILED}
     ),
-    ServiceStatus.VALIDATED: frozenset(
-        {ServiceStatus.STARTING, ServiceStatus.FAILED}
-    ),
-    ServiceStatus.STARTING: frozenset(
-        {ServiceStatus.RUNNING, ServiceStatus.FAILED}
-    ),
+    ServiceStatus.VALIDATED: frozenset({ServiceStatus.STARTING, ServiceStatus.FAILED}),
+    ServiceStatus.STARTING: frozenset({ServiceStatus.RUNNING, ServiceStatus.FAILED}),
     ServiceStatus.RUNNING: frozenset(
         {
             ServiceStatus.PAUSED,
@@ -281,12 +275,8 @@ _TRANSITIONS: dict[ServiceStatus, frozenset[ServiceStatus]] = {
     ServiceStatus.PAUSED: frozenset(
         {ServiceStatus.RUNNING, ServiceStatus.STOPPING, ServiceStatus.FAILED}
     ),
-    ServiceStatus.STOPPING: frozenset(
-        {ServiceStatus.STOPPED, ServiceStatus.FAILED}
-    ),
-    ServiceStatus.STOPPED: frozenset(
-        {ServiceStatus.STARTING, ServiceStatus.RETIRED}
-    ),
+    ServiceStatus.STOPPING: frozenset({ServiceStatus.STOPPED, ServiceStatus.FAILED}),
+    ServiceStatus.STOPPED: frozenset({ServiceStatus.STARTING, ServiceStatus.RETIRED}),
     ServiceStatus.FAILED: frozenset(
         {ServiceStatus.STARTING, ServiceStatus.STOPPING, ServiceStatus.RETIRED}
     ),

@@ -9,9 +9,7 @@ class TracingHooks:
     def __init__(self) -> None:
         self._hooks: list[Callable[[str, Mapping[str, object]], None]] = []
 
-    def register(
-        self, hook: Callable[[str, Mapping[str, object]], None]
-    ) -> None:
+    def register(self, hook: Callable[[str, Mapping[str, object]], None]) -> None:
         self._hooks.append(hook)
 
     def emit(self, event: str, attributes: Mapping[str, object]) -> None:

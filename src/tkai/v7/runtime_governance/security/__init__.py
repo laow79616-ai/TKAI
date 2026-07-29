@@ -1,4 +1,5 @@
 """Scope isolation and secret-filtering boundary."""
+
 from ..contracts import Scope, safe_metadata
 from ..framework import IsolationError
 

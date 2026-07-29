@@ -346,8 +346,7 @@ def serialize(value: Any) -> Any:
         return [serialize(item) for item in value]
     if hasattr(value, "__dataclass_fields__"):
         return {
-            item.name: serialize(getattr(value, item.name))
-            for item in fields(value)
+            item.name: serialize(getattr(value, item.name)) for item in fields(value)
         }
     return value
 

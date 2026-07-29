@@ -189,9 +189,9 @@ def test_security_logging_tracing_audit_and_isolation() -> None:
     with pytest.raises(PermissionError):
         security.require_service("catalog", "other")
 
-    assert structured_event(
-        "diagnostic", "catalog", {"api_key": "hidden"}
-    )["fields"] == {"api_key": "[REDACTED]"}
+    assert structured_event("diagnostic", "catalog", {"api_key": "hidden"})[
+        "fields"
+    ] == {"api_key": "[REDACTED]"}
     hook = Mock()
     tracing = TracingHooks()
     tracing.register(hook)

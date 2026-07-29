@@ -1,4 +1,5 @@
 """Immutable, secret-safe contracts for V7 intelligence and decisions."""
+
 from __future__ import annotations
 
 from collections.abc import Mapping
@@ -15,8 +16,17 @@ def utc_now() -> datetime:
 
 def safe_metadata(value: Mapping[str, Any] | None = None) -> Mapping[str, Any]:
     data = dict(value or {})
-    blocked = ("password", "secret", "token", "cookie", "session", "api_key",
-               "proxy", "chain_of_thought", "hidden_reasoning")
+    blocked = (
+        "password",
+        "secret",
+        "token",
+        "cookie",
+        "session",
+        "api_key",
+        "proxy",
+        "chain_of_thought",
+        "hidden_reasoning",
+    )
     for key, item in data.items():
         if any(word in key.lower() for word in blocked):
             raise ValueError(f"unsafe metadata field: {key}")
@@ -161,13 +171,15 @@ class Evidence:
     metadata: Mapping[str, Any] = field(default_factory=safe_metadata)
 
     def __post_init__(self) -> None:
-        if not self.payload_reference.startswith(("ref://", "data://", "storage://",
-                                                  "v6://", "v7://")):
+        if not self.payload_reference.startswith(
+            ("ref://", "data://", "storage://", "v6://", "v7://")
+        ):
             raise ValueError("evidence payloads must be reference-only")
         if len(self.payload_hash) < 32:
             raise ValueError("payload integrity hash is required")
-        if any(not 0 <= x <= 1 for x in (self.reliability, self.relevance,
-                                         self.freshness)):
+        if any(
+            not 0 <= x <= 1 for x in (self.reliability, self.relevance, self.freshness)
+        ):
             raise ValueError("evidence scores must be between zero and one")
         object.__setattr__(self, "metadata", safe_metadata(self.metadata))
 
@@ -284,9 +296,13 @@ class ConfidenceCalibration:
     limitations: tuple[str, ...]
 
     def __post_init__(self) -> None:
-        values = (self.original_confidence, self.evidence_adjusted_confidence,
-                  self.policy_adjusted_confidence, self.risk_adjusted_confidence,
-                  self.calibrated_confidence)
+        values = (
+            self.original_confidence,
+            self.evidence_adjusted_confidence,
+            self.policy_adjusted_confidence,
+            self.risk_adjusted_confidence,
+            self.calibrated_confidence,
+        )
         if any(not 0 <= x <= 1 for x in values):
             raise ValueError("confidence values must be between zero and one")
 
