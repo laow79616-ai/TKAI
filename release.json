@@ -1,8 +1,9 @@
 {
   "product": "TKAI TikTok Cloud Control Platform",
-  "version": "6.0.0",
-  "api_version": "v6",
-  "release_date": "2026-07-29",
+  "version": "7.0.0",
+  "api_version": "v7",
+  "release_date": "2026-07-30",
   "git_commit": "${TKAI_GIT_COMMIT}",
-  "deployment_profile": "local-single-user"
+  "deployment_profile": "production",
+  "compatibility": ["v6", "tiktok", "dashboard", "ai-studio"]
 }

@@ -10,8 +10,11 @@ $sourceArchive = Join-Path $output "tkai-$($release.version).tar.gz"
 
 if (-not (Test-Path "$repository\dashboard\frontend\dist")) { throw "Dashboard build is missing." }
 if (-not (Test-Path "$repository\studio\frontend\dist")) { throw "AI Studio build is missing." }
-if (-not (Test-Path -LiteralPath $sourceArchive)) { throw "Source package is missing: $sourceArchive" }
 New-Item -ItemType Directory -Force -Path $output | Out-Null
+if (Test-Path $sourceArchive) { Remove-Item -LiteralPath $sourceArchive -Force }
+git -C $repository archive --format=tar.gz --prefix="tkai-$($release.version)/" `
+    -o $sourceArchive HEAD
+if ($LASTEXITCODE -ne 0) { throw "Source package generation failed." }
 if (Test-Path $stage) { Remove-Item -LiteralPath $stage -Recurse -Force }
 if (Test-Path $archive) { Remove-Item -LiteralPath $archive -Force }
 New-Item -ItemType Directory -Path $stage | Out-Null
@@ -20,8 +23,9 @@ $include = @(
     "src", "server", "tiktok", "local_runtime", "dashboard\frontend\dist",
     "studio\frontend\dist", "configuration\local.example.json", "deployment",
     "scripts", "docs", "pyproject.toml", "README.md", "CHANGELOG.md",
-    "RELEASE_NOTES_V6.md", "VERSION_SUMMARY.md", "LICENSE",
+    "RELEASE_NOTES_V7.md", "VERSION_SUMMARY.md", "LICENSE",
     "release.json", "release-checklist.json", "RELEASE_MANIFEST.json",
+    "FRAMEWORK_MANIFEST.json", "INTEGRITY_MANIFEST.json",
     "BUILD_METADATA.json", "docs\Upgrade.md", "docs\KnownIssues.md",
     "docs\ProductionDeployment.md", "docker-compose.local.yml"
 )
@@ -76,6 +80,15 @@ Get-ChildItem $stage -Recurse -File | Sort-Object FullName | ForEach-Object {
     $relative = $_.FullName.Substring($stage.Length + 1).Replace("\", "/")
     "$((Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower())  $relative"
 } | Set-Content "$stage\SHA256SUMS" -Encoding ASCII
+$integrityManifest = [ordered]@{
+    schema_version = 1
+    algorithm = "SHA-256"
+    checksum_file = "SHA256SUMS"
+    source_distribution = "source/tkai-$($release.version).tar.gz"
+    generated_at_utc = [DateTime]::UtcNow.ToString("o")
+}
+$integrityManifest | ConvertTo-Json |
+    Set-Content "$stage\INTEGRITY_MANIFEST.json" -Encoding UTF8
 Compress-Archive -Path "$stage\*" -DestinationPath $archive -CompressionLevel Optimal
 "$((Get-FileHash $archive -Algorithm SHA256).Hash.ToLower())  $(Split-Path $archive -Leaf)" |
     Set-Content "$archive.sha256" -Encoding ASCII

@@ -3,6 +3,15 @@
 Use PowerShell from the repository root:
 
 ```powershell
+.\.venv\Scripts\python.exe scripts\verify-v7-production.py
+.\scripts\build-release.ps1
+.\scripts\validate-release.ps1
+```
+
+Keep `.env`, runtime data, credentials, cookies, sessions, `.venv`, and
+`node_modules` outside release artifacts.
+
+```powershell
 .\.venv\Scripts\python.exe -m ruff check .
 .\.venv\Scripts\python.exe -m mypy
 .\.venv\Scripts\python.exe -m pytest

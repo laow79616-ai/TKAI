@@ -24,3 +24,7 @@ modules continue to use their V6 paths and behavior.
 
 Dependencies point inward toward contracts. Business modules depend on the
 kernel interfaces; the kernel never imports a business module.
+
+The production framework catalog is documented in `FrameworkOverview.md`.
+Repository-wide V7 imports are audited for cycles and duplicate packages by
+`scripts/verify-v7-production.py`.

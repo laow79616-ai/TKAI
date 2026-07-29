@@ -1,5 +1,13 @@
 # TKAI Architecture
 
+## V7 production architecture
+
+V7 is an opt-in framework layer under `tkai.v7`. The V6 runtime and TikTok
+business modules retain their existing imports and behavior. Framework
+dependencies point inward to stable contracts; no V7 package is auto-registered
+or started by import. See `docs/v7/Architecture.md` and
+`docs/v7/FrameworkOverview.md` for the verified framework map.
+
 ## Layers
 
 ```text

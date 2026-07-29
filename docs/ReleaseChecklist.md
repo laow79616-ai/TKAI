@@ -1,6 +1,10 @@
-# TKAI V6.0 Production Readiness Checklist
+# TKAI V7.0 Production Readiness Checklist
 
-- [x] Confirm 6.0.0 across Python, Dashboard, AI Studio, API, Helm, and release metadata.
+- [x] Confirm 7.0.0 across Python, Dashboard, AI Studio, API, and release metadata.
+- [x] Verify all 15 V7 frameworks and the module/import dependency graph.
+- [x] Verify V6 and TikTok backward compatibility.
+- [x] Verify read-only OpenAPI projections and security boundaries.
+- [x] Generate release, framework, integrity, checksum, source, and ZIP metadata.
 - [x] Verify the canonical TikTok registry is unique, complete, and importable.
 - [x] Verify package structure, import boundaries, and dependency graph integrity.
 - [x] Run Ruff lint and normalize formatting.

@@ -3,14 +3,15 @@
 TKAI is a typed, offline-testable Python framework for project scaffolding,
 plugins, workflows, and provider-neutral AI integrations.
 
-Current release: **6.0.0**.
+Current release: **7.0.0**.
 Previous general availability release: **1.3.0**.
 Earlier supported release documentation remains available for **1.2.0**.
 
-## TKAI V6.0 TikTok Cloud Control Platform
+## TKAI V7.0 Production Release
 
-TKAI V3.0 established the unified runtime and distribution baseline. TKAI V6.0
-consolidates the runtime, SDK, Agent Runtime, Plugin Marketplace,
+TKAI V3.0 established the unified runtime and distribution baseline. TKAI V7.0
+adds opt-in, metadata-oriented platform frameworks while preserving the V6
+runtime, SDK, Agent Runtime, Plugin Marketplace,
 Enterprise Platform, Cloud Native deployment, AI Studio, and Enterprise
 Marketplace into one versioned distribution. Existing 1.x runtime and 2.x SDK
 interfaces remain supported unless explicitly listed in the upgrade guide. See the
@@ -18,9 +19,9 @@ interfaces remain supported unless explicitly listed in the upgrade guide. See t
 [installation guide](docs/Installation.md), [release notes](docs/ReleaseNotes.md),
 [release checklist](docs/ReleaseChecklist.md), [V3.0 release guide](docs/release/V3.0.md),
 the [V5 module catalog](docs/V5Modules.md), [local quick start](docs/QuickStart.md),
-and [V6.0 production-readiness notes](RELEASE_NOTES_V6.md).
+and [V7.0 production-readiness notes](RELEASE_NOTES_V7.md).
 
-V6.0 is a release-quality consolidation of the existing TikTok platform. It
+V7.0 is a release-quality consolidation of the existing TikTok platform. It
 does not add social platforms, broaden execution privileges, or change the
 existing functional scope. Production operators should review the
 [deployment guide](docs/Deployment.md), [Windows guide](docs/LocalWindows.md),
@@ -29,6 +30,10 @@ and [release checklist](docs/ReleaseChecklist.md). Final release metadata is
 recorded in [RELEASE_MANIFEST.json](RELEASE_MANIFEST.json),
 [BUILD_METADATA.json](BUILD_METADATA.json), and
 [VERSION_SUMMARY.md](VERSION_SUMMARY.md).
+
+The V7 framework catalog and release evidence are in
+[Framework Overview](docs/v7/FrameworkOverview.md) and
+[Production Readiness Report](docs/v7/ProductionReadinessReport.md).
 
 ## AI provider framework
 

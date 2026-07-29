@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "algorithm": "SHA-256",
+  "checksum_file": "SHA256SUMS",
+  "release_archive_checksum": "artifacts/tkai-7.0.0.zip.sha256",
+  "generated_by": "scripts/build-release.ps1",
+  "excludes": [".git", ".venv", "node_modules", "runtime", "credentials", "sessions", "secrets"]
+}

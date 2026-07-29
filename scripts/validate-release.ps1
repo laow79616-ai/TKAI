@@ -29,6 +29,7 @@ try {
     }
     foreach ($required in @(
         "release.json", "release-checklist.json", "release_manifest.json",
+        "framework_manifest.json", "integrity_manifest.json",
         "build_metadata.json", "sha256sums", "configuration/local.example.json",
         $sourceEntry
     )) {

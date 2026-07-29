@@ -1,4 +1,13 @@
-# Upgrading to TKAI V6.0
+# Upgrading from TKAI V6.0 to V7.0
+
+1. Back up configuration and persistent storage with the existing V6 tools.
+2. Verify the V7 archive checksum and review `RELEASE_NOTES_V7.md`.
+3. Deploy with the existing V6 configuration unchanged.
+4. Run V6 health, TikTok, Dashboard, and AI Studio smoke checks.
+5. Opt into V7 frameworks individually after their scoped validation.
+
+No automatic data migration is performed. Roll back by restoring the V6
+package and configuration backup; V7 metadata does not rewrite V6 data.
 
 V6.0 preserves the V5 functional scope and public execution boundaries.
 Upgrade by backing up runtime data, recording the current configuration and

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tkai"
-version = "6.0.0"
+version = "7.0.0"
 description = "TKAI TikTok Cloud Control Platform"
 readme = "README.md"
 license = "MIT"
@@ -27,6 +27,7 @@ dev = [
     "pytest>=8.0",
     "ruff>=0.6",
     "types-PyYAML>=6.0",
+    "vulture>=2.11",
 ]
 
 [project.scripts]
@@ -172,9 +173,16 @@ select = ["E", "F", "I", "UP", "B"]
 line-length = 88
 target-version = ["py310"]
 
+[tool.vulture]
+paths = ["src/tkai/v7"]
+min_confidence = 100
+# Protocol declarations intentionally name parameters for implementer clarity.
+ignore_names = ["kernel"]
+
 [tool.mypy]
 python_version = "3.10"
 files = ["src/tkai"]
+incremental = false
 check_untyped_defs = true
 disallow_untyped_defs = true
 warn_unused_ignores = true

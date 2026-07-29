@@ -21,10 +21,10 @@ def test_current_release_versions_are_synchronized() -> None:
     )
     chart = (ROOT / "deployment/helm/tkai/Chart.yaml").read_text(encoding="utf-8")
 
-    assert project["project"]["version"] == tkai.__version__ == "6.0.0"
+    assert project["project"]["version"] == tkai.__version__ == "7.0.0"
     assert dashboard["version"] == studio["version"] == tkai.__version__
-    assert "version: 6.0.0" in chart
-    assert 'appVersion: "6.0.0"' in chart
+    assert "version: 7.0.0" in chart
+    assert 'appVersion: "7.0.0"' in chart
 
 
 def test_v3_release_document_and_packaging_are_complete() -> None:

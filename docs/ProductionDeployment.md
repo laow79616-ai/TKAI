@@ -1,4 +1,10 @@
-# TKAI V6.0 Production Deployment Notes
+# TKAI V7.0 Production Deployment Notes
+
+Deploy only the validated `tkai-7.0.0.zip` artifact. Verify its adjacent
+`.sha256` file, then verify the packaged `SHA256SUMS`. V7 remains opt-in;
+existing V6 and TikTok processes may be deployed unchanged. Only documented
+read-only health, diagnostics, metadata, and dashboard projections may be
+routed from V7.
 
 Deploy only the verified `v6.0.0` assets and compare their SHA-256 checksums
 with the supplied integrity manifests. Keep credentials, sessions, cookies,

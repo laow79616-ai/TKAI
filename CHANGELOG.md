@@ -209,3 +209,12 @@
 - Registered Task Scheduler in the API and Control Tower dependency graph.
 - Removed the duplicate Business Intelligence metrics route.
 - Hardened versioned Windows release packaging, checksums, and local operations docs.
+# 7.0.0 - 2026-07-30
+
+- Productionized the complete opt-in V7 framework set.
+- Added deterministic repository, import graph, public API, security boundary,
+  compatibility, and framework verification.
+- Added V7 release manifests, integrity metadata, packaging, and operational
+  documentation.
+- Preserved V6 APIs, TikTok business behavior, configuration, storage,
+  Dashboard, AI Studio, and extension compatibility.
