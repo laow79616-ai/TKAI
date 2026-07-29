@@ -56,6 +56,8 @@ from tiktok.automation_engine.api import register_automation_routes
 from tiktok.autonomous_operation import TikTokAutonomousOperationCenter
 from tiktok.autonomous_operation.adapters import ExistingModulePort
 from tiktok.autonomous_operation.api import register_autonomous_operation_routes
+from tiktok.autonomous_planning import TikTokAutonomousPlanningCenter
+from tiktok.autonomous_planning.api import register_autonomous_planning_routes
 from tiktok.browser_cluster import TikTokBrowserCluster
 from tiktok.browser_cluster.api import register_browser_cluster_routes
 from tiktok.browser_runtime import AccountCenterStatusAdapter, TikTokBrowserRuntime
@@ -583,6 +585,9 @@ def create_app(
     tiktok_predictive_analytics = TikTokPredictiveAnalyticsCenter()
     register_predictive_routes(app, tiktok_predictive_analytics)
     app.state.tiktok_predictive_analytics = tiktok_predictive_analytics
+    tiktok_autonomous_planning = TikTokAutonomousPlanningCenter()
+    register_autonomous_planning_routes(app, tiktok_autonomous_planning)
+    app.state.tiktok_autonomous_planning = tiktok_autonomous_planning
     tiktok_optimization_center = TikTokAIContinuousOptimizationCenter()
     register_optimization_routes(app, tiktok_optimization_center)
     app.state.tiktok_optimization_center = tiktok_optimization_center
