@@ -199,6 +199,7 @@ from tkai.v7.intelligence_framework.api import (
 from tkai.v7.observability_framework.api import (
     register_observability_framework_routes,
 )
+from tkai.v7.runtime_governance.api import register_runtime_governance_routes
 from tkai.v7.security_framework.api import register_security_framework_routes
 from tkai.v7.state_framework.api import register_state_framework_routes
 from tkai.v7.workflow_framework.api import register_workflow_framework_routes
@@ -847,6 +848,7 @@ def create_app(
     register_event_fabric_routes(app)
     register_extension_framework_routes(app)
     register_intelligence_framework_routes(app)
+    register_runtime_governance_routes(app)
     register_security_framework_routes(app)
     register_observability_framework_routes(app)
     register_state_framework_routes(app)
