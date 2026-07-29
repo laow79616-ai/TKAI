@@ -73,12 +73,12 @@ install and a real Docker Compose/API/Dashboard smoke test must be completed
 in an environment with the required build and container tooling.
 # TKAI V6.0 Production Readiness Validation
 
-Validated on 2026-07-29 from
-`feature/tiktok-v6-production-readiness`.
+Final release validation completed on 2026-07-29 from
+`release/tkai-v6.0.0`, based on production-readiness commit `fc8c101`.
 
 | Gate | Result |
 | --- | --- |
-| Repository path and branch | PASS |
+| Repository path and branch | PASS; exact path `C:\Users\laow7\Documents\TKAI`, branch `release/tkai-v6.0.0` |
 | Ruff lint | PASS |
 | Ruff formatting | PASS; 133 existing files normalized |
 | Full pytest | PASS; 1,256 passed, 1 skipped |
@@ -86,13 +86,13 @@ Validated on 2026-07-29 from
 | Dashboard production build | PASS |
 | AI Studio production build | PASS |
 | OpenAPI generation | PASS; 650 unique paths |
-| Operational PowerShell syntax | PASS |
+| Operational PowerShell syntax | PASS; 14 scripts parsed |
 | Source distribution | PASS; `tkai-6.0.0.tar.gz` |
 | Windows release package | PASS; manifests and SHA-256 verified |
 | Dependency integrity | PASS; `pip check` |
 | Module registry/import graph | PASS; 38 unique importable modules |
 | Tracked-source secret scan | PASS |
-| Full mypy | KNOWN ISSUE; stops on duplicate generated modules under `artifacts/` |
+| Configured repository mypy | PASS; 356 source files |
 | GA host prerequisites | WARNING; optional twine, SQLAlchemy, Alembic, and psycopg are not installed on the validation host |
 
 The full and targeted suites cover metrics registration, structured logging,
@@ -101,9 +101,10 @@ isolation, secret filtering, safe defaults, and execution boundaries. No
 source-package duplicate modules, plaintext secrets, or execution bypasses
 were detected.
 
-The only known repository-wide issue is duplicate packaged modules in existing
-generated artifact directories. Generated artifacts are excluded from source
-control and must not be added to Python or mypy import roots.
+The documented repository-wide duplicate-module issue under generated
+`artifacts/` was not present in the configured mypy run. Generated artifacts
+remain excluded from source control and must not be added to Python or mypy
+import roots.
 
 No code release blocker remains. Deployment operators must install and verify
 the optional production database and publication dependencies before an

@@ -20,8 +20,10 @@ $include = @(
     "src", "server", "tiktok", "local_runtime", "dashboard\frontend\dist",
     "studio\frontend\dist", "configuration\local.example.json", "deployment",
     "scripts", "docs", "pyproject.toml", "README.md", "CHANGELOG.md",
-    "RELEASE_NOTES_V6.md", "LICENSE",
-    "release.json", "release-checklist.json", "docker-compose.local.yml"
+    "RELEASE_NOTES_V6.md", "VERSION_SUMMARY.md", "LICENSE",
+    "release.json", "release-checklist.json", "RELEASE_MANIFEST.json",
+    "BUILD_METADATA.json", "docs\Upgrade.md", "docs\KnownIssues.md",
+    "docs\ProductionDeployment.md", "docker-compose.local.yml"
 )
 foreach ($relative in $include) {
     $source = Join-Path $repository $relative

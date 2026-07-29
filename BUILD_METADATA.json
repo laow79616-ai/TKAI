@@ -1,0 +1,10 @@
+{
+  "product": "TKAI TikTok Cloud Control Platform",
+  "version": "6.0.0",
+  "tag": "v6.0.0",
+  "release_date": "2026-07-29",
+  "source_base_commit": "fc8c1013b8ec0ceef6b0c6f58a6c63ab48f48ee7",
+  "source_branch": "release/tkai-v6.0.0",
+  "build_script": "scripts/build-release.ps1",
+  "reproducibility": "Build locally from the tagged commit using the documented release validation sequence."
+}

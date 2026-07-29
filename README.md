@@ -9,7 +9,8 @@ Earlier supported release documentation remains available for **1.2.0**.
 
 ## TKAI V6.0 TikTok Cloud Control Platform
 
-TKAI V3.0 consolidates the runtime, SDK, Agent Runtime, Plugin Marketplace,
+TKAI V3.0 established the unified runtime and distribution baseline. TKAI V6.0
+consolidates the runtime, SDK, Agent Runtime, Plugin Marketplace,
 Enterprise Platform, Cloud Native deployment, AI Studio, and Enterprise
 Marketplace into one versioned distribution. Existing 1.x runtime and 2.x SDK
 interfaces remain supported unless explicitly listed in the upgrade guide. See the
@@ -24,7 +25,10 @@ does not add social platforms, broaden execution privileges, or change the
 existing functional scope. Production operators should review the
 [deployment guide](docs/Deployment.md), [Windows guide](docs/LocalWindows.md),
 [troubleshooting guide](docs/Troubleshooting.md), [upgrade guide](docs/Upgrade.md),
-and [release checklist](docs/ReleaseChecklist.md).
+and [release checklist](docs/ReleaseChecklist.md). Final release metadata is
+recorded in [RELEASE_MANIFEST.json](RELEASE_MANIFEST.json),
+[BUILD_METADATA.json](BUILD_METADATA.json), and
+[VERSION_SUMMARY.md](VERSION_SUMMARY.md).
 
 ## AI provider framework
 

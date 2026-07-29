@@ -4,6 +4,8 @@
 
 ## 6.0.0 - 2026-07-29
 
+- Finalized the official V6.0.0 release metadata, integrity inputs,
+  documentation set, and local release-asset workflow.
 - Consolidated the completed TikTok module set into the TKAI V6.0 production
   release without changing functional scope.
 - Synchronized Python, API, Dashboard, AI Studio, Helm, and release metadata.

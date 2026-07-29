@@ -15,13 +15,14 @@
   plaintext-secret scanning, and absence of execution bypasses.
 - [x] Repository-wide mypy duplicate-module failures are allowed only for known
   generated copies under `artifacts/`; record them as an existing issue.
-- [ ] Run Ruff, focused mypy, repository mypy, and full pytest.
-- [ ] Run TikTok, deployment, release, and local-runtime regression suites.
-- [ ] Build Dashboard and AI Studio production assets.
-- [ ] Validate PowerShell, OpenAPI, startup, repeated shutdown, and diagnostics.
-- [ ] Validate database initialization, backup, restore, and integrity.
-- [ ] Validate release manifest, exclusions, checksums, and secret scan.
-- [ ] Run `git diff --check`; obtain approval before tagging, publishing, or pushing.
+- [x] Run Ruff, configured repository mypy, and full pytest.
+- [x] Run TikTok, deployment, release, production, and local-runtime regression suites.
+- [x] Build Dashboard and AI Studio production assets.
+- [x] Validate PowerShell syntax and OpenAPI generation.
+- [x] Validate startup, repeated shutdown, diagnostics, database initialization,
+  backup, restore, and integrity through the production and local-runtime suites.
+- [x] Validate release manifest, exclusions, checksums, and secret scan.
+- [x] Run `git diff --check` and create the approved local annotated tag.
 
 ## Historical V3 checklist
 

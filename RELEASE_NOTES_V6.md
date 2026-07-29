@@ -24,5 +24,6 @@ may stop on duplicate packaged modules under generated `artifacts/`; this is an
 existing artifact-layout issue, not a duplicate in the source package. Any
 duplicate module outside `artifacts/` remains a release blocker.
 
-See `docs/ReleaseValidation.md` and `docs/ReleaseChecklist.md` for the recorded
-gate results and any remaining blockers.
+See `docs/ReleaseValidation.md`, `docs/ReleaseChecklist.md`,
+`docs/KnownIssues.md`, and `docs/ProductionDeployment.md` for the recorded gate
+results, known limitations, and operator sign-off requirements.
