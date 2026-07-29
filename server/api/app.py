@@ -125,6 +125,8 @@ from tiktok.decision_center import (
     TikTokAIIntelligentDecisionCenter,
 )
 from tiktok.decision_center.api import register_decision_center_routes
+from tiktok.decision_evolution import TikTokDecisionEvolutionCenter
+from tiktok.decision_evolution.api import register_decision_evolution_routes
 from tiktok.device_center import TikTokDeviceCenter
 from tiktok.device_center.api import register_device_center_routes
 from tiktok.execution_engine import TikTokAIExecutionEngine
@@ -573,6 +575,9 @@ def create_app(
     tiktok_knowledge_evolution = TikTokKnowledgeEvolutionCenter()
     register_knowledge_evolution_routes(app, tiktok_knowledge_evolution)
     app.state.tiktok_knowledge_evolution = tiktok_knowledge_evolution
+    tiktok_decision_evolution = TikTokDecisionEvolutionCenter()
+    register_decision_evolution_routes(app, tiktok_decision_evolution)
+    app.state.tiktok_decision_evolution = tiktok_decision_evolution
     tiktok_optimization_center = TikTokAIContinuousOptimizationCenter()
     register_optimization_routes(app, tiktok_optimization_center)
     app.state.tiktok_optimization_center = tiktok_optimization_center
