@@ -231,6 +231,11 @@ export class MarketplaceApiClient {
   localRuntime() {
     return this.request<Record<string, unknown>>("/local-runtime/status");
   }
+  capabilities(resource = "catalog") {
+    return this.request<Record<string, unknown>>(
+      `/v7/capabilities/${encodeURIComponent(resource)}`,
+    );
+  }
   plans() { return this.request<ApiListResponse<EnterpriseRecord>>("/plans?tenant=default&actor=dashboard"); }
   executions() { return this.request<ApiListResponse<EnterpriseRecord>>("/executions?tenant=default&actor=dashboard"); }
   queues() { return this.request<Record<string, unknown>>("/queues"); }

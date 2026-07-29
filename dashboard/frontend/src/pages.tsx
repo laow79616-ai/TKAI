@@ -6,6 +6,7 @@ import { Card, Loading, SearchBar, Table } from "./components";
 
 export const dashboardPages = ["dashboard", "orchestrator", "execution-plans", "orchestrator-queues", "orchestrator-executions", "orchestrator-failures", "orchestrator-retries", "orchestrator-performance", "app-store", "app-store-categories", "app-store-details", "app-store-installed", "app-store-updates", "app-store-licenses", "app-store-subscriptions", "app-store-publishers", "app-store-reviews", "app-store-moderation", "app-store-analytics", "knowledge-bases", "collections", "documents", "ingestion", "knowledge-search", "knowledge-permissions", "connectors", "evaluation", "applications", "application-templates", "deployments", "application-usage", "application-versions", "application-permissions", "agents", "agent-runs", "plugins", "marketplace", "installed", "updates", "registry", "publishers", "packages", "downloads", "licenses", "reviews", "versions", "search", "statistics", "health", "users", "organizations", "tenants", "teams", "roles", "permissions", "license", "billing", "api-keys", "audit"] as const;
 export const memoryDashboardPages = ["memory", "memory-namespaces", "memory-usage", "memory-retention", "memory-cache", "memory-retrieval", "memory-metrics"] as const;
+export const capabilityDashboardPages = ["capabilities-catalog", "capabilities-registry", "capabilities-dependencies", "capabilities-health", "capabilities-metrics", "capabilities-audit", "capabilities-versions", "capabilities-lifecycle"] as const;
 export const reasoningDashboardPages = ["reasoning", "reasoning-plans", "reasoning-decisions", "reasoning-strategies", "reasoning-validation", "reasoning-metrics"] as const;
 export const collaborationDashboardPages = ["collaboration", "collaboration-teams", "collaboration-projects", "collaboration-sessions", "collaboration-tasks", "collaboration-timeline", "collaboration-activity", "collaboration-notifications"] as const;
 export const governanceDashboardPages = ["governance", "governance-policies", "governance-risks", "governance-compliance", "governance-approvals", "governance-controls", "governance-models", "governance-prompts", "governance-agents", "governance-applications", "governance-workflows", "governance-data", "governance-incidents", "governance-exceptions", "governance-reports"] as const;
@@ -43,6 +44,12 @@ export function DashboardHome() {
   const health = useRequest(() => client.health());
   const statistics = useRequest(() => client.statistics());
   return <><h1>Dashboard</h1><div className="cards"><Card><h2>Server Version</h2><p>{version.value?.server_version ?? "Loading..."}</p></Card><Card><h2>Health Summary</h2><p>{health.value?.checks.length ?? "..."} checks</p></Card><Card><h2>Statistics Summary</h2><p>{statistics.value?.data.counters.total_records ?? "..."} records</p></Card></div></>;
+}
+
+export function CapabilityFrameworkPage({ title = "Capability Catalog", resource = "catalog" }: { title?: string; resource?: string }) {
+  const { client } = useAuth();
+  const state = useRequest(() => client.capabilities(resource));
+  return <Card><h1>{title}</h1><p>Read-only TKAI V7 unified capability control plane.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>;
 }
 
 export function RegistryPage() { const { client } = useAuth(); return <RecordList title="Registry" load={() => client.registries()} />; }
