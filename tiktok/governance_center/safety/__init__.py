@@ -1,0 +1,1 @@
+"""Non-overridable safety controls."""

@@ -50,6 +50,7 @@ TIKTOK_MODULES = (
     TikTokModule("lead_center", "Lead Management Center"),
     TikTokModule("business_intelligence_center", "Business Intelligence Center"),
     TikTokModule("autonomous_operation", "Autonomous Operation Center"),
+    TikTokModule("governance_center", "Autonomous Governance Center"),
 )
 
 TIKTOK_MODULE_KEYS = tuple(module.key for module in TIKTOK_MODULES)
