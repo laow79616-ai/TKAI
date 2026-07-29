@@ -14,9 +14,7 @@ class Optimizer:
         cost_per_unit: float = 1.0,
         latency_per_task: float = 1.0,
     ) -> OptimizationResult:
-        normalized = {
-            key: max(0.0, float(value)) for key, value in resources.items()
-        }
+        normalized = {key: max(0.0, float(value)) for key, value in resources.items()}
         total = sum(normalized.values())
         allocation = (
             {key: value / total for key, value in normalized.items()}

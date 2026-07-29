@@ -47,14 +47,10 @@ class ReferenceOnlyPort:
     def pause(self, mission_id: str, scope: OperationScope) -> None:
         return None
 
-    def resume(
-        self, mission_id: str, checkpoint: str, scope: OperationScope
-    ) -> str:
+    def resume(self, mission_id: str, checkpoint: str, scope: OperationScope) -> str:
         return f"{self.module}://{mission_id}/resume/{checkpoint}"
 
-    def rollback(
-        self, mission_id: str, reference: str, scope: OperationScope
-    ) -> None:
+    def rollback(self, mission_id: str, reference: str, scope: OperationScope) -> None:
         return None
 
     def health(self, mission_id: str, scope: OperationScope) -> dict[str, object]:

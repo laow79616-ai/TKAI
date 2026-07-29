@@ -95,9 +95,7 @@ def test_analytics_security_audit_and_secret_protection() -> None:
     with pytest.raises(PermissionError):
         service.aggregate("profile", "subject", context("other"))
     with pytest.raises(PermissionError, match="RBAC"):
-        service.analytics(
-            KnowledgeContext("tenant", "workspace", "guest", frozenset())
-        )
+        service.analytics(KnowledgeContext("tenant", "workspace", "guest", frozenset()))
     unsafe = profile()
     unsafe.id = "unsafe"
     unsafe.metadata = {"token": "forbidden"}
@@ -110,9 +108,7 @@ def test_api_dashboard_metrics_and_read_only_contract() -> None:
         def __init__(self) -> None:
             self.routes: list[tuple[str, list[str]]] = []
 
-        def add_api_route(
-            self, path: str, endpoint: object, **kwargs: object
-        ) -> None:
+        def add_api_route(self, path: str, endpoint: object, **kwargs: object) -> None:
             self.routes.append((path, list(kwargs["methods"])))
 
     service = TikTokKnowledgeEvolutionCenter()

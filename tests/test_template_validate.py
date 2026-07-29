@@ -34,7 +34,6 @@ def test_validate_all():
     assert len(results) >= 1
 
     for result in results:
-
         assert "name" in result
         assert "valid" in result
         assert "errors" in result

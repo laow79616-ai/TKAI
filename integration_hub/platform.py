@@ -160,7 +160,13 @@ class Mapping:
 
     def __post_init__(self) -> None:
         allowed = {
-            "identity", "string", "integer", "number", "boolean", "lower", "upper"
+            "identity",
+            "string",
+            "integer",
+            "number",
+            "boolean",
+            "lower",
+            "upper",
         }
         if set(self.transformations.values()) - allowed:
             raise ValueError("Only declarative transformations are permitted.")
@@ -337,31 +343,38 @@ class IntegrationHub:
 
     TRANSITIONS = {
         ConnectorStatus.DRAFT: {
-            ConnectorStatus.CONFIGURED, ConnectorStatus.ARCHIVED,
+            ConnectorStatus.CONFIGURED,
+            ConnectorStatus.ARCHIVED,
             ConnectorStatus.DELETED,
         },
         ConnectorStatus.CONFIGURED: {
-            ConnectorStatus.VALIDATED, ConnectorStatus.DISABLED,
+            ConnectorStatus.VALIDATED,
+            ConnectorStatus.DISABLED,
             ConnectorStatus.FAILED,
         },
         ConnectorStatus.VALIDATED: {
-            ConnectorStatus.ENABLED, ConnectorStatus.DISABLED,
+            ConnectorStatus.ENABLED,
+            ConnectorStatus.DISABLED,
             ConnectorStatus.FAILED,
         },
         ConnectorStatus.ENABLED: {
-            ConnectorStatus.DISABLED, ConnectorStatus.FAILED,
+            ConnectorStatus.DISABLED,
+            ConnectorStatus.FAILED,
             ConnectorStatus.DEPRECATED,
         },
         ConnectorStatus.DISABLED: {
-            ConnectorStatus.CONFIGURED, ConnectorStatus.ENABLED,
+            ConnectorStatus.CONFIGURED,
+            ConnectorStatus.ENABLED,
             ConnectorStatus.ARCHIVED,
         },
         ConnectorStatus.FAILED: {
-            ConnectorStatus.CONFIGURED, ConnectorStatus.DISABLED,
+            ConnectorStatus.CONFIGURED,
+            ConnectorStatus.DISABLED,
             ConnectorStatus.ARCHIVED,
         },
         ConnectorStatus.DEPRECATED: {
-            ConnectorStatus.DISABLED, ConnectorStatus.ARCHIVED
+            ConnectorStatus.DISABLED,
+            ConnectorStatus.ARCHIVED,
         },
         ConnectorStatus.ARCHIVED: {ConnectorStatus.DELETED},
         ConnectorStatus.DELETED: set(),
@@ -486,9 +499,7 @@ class IntegrationHub:
     def create_schedule(self, schedule: Schedule, scope: HubScope) -> Schedule:
         return self._add(self.schedules, schedule, scope, "schedule")
 
-    def create_flow(
-        self, flow: IntegrationFlow, scope: HubScope
-    ) -> IntegrationFlow:
+    def create_flow(self, flow: IntegrationFlow, scope: HubScope) -> IntegrationFlow:
         self._get(self.instances, flow.source, scope)
         self._get(self.instances, flow.target, scope)
         self._get(self.mappings, flow.mapping_id, scope)
@@ -504,9 +515,7 @@ class IntegrationHub:
             raise ValueError("Templates must not contain plaintext secrets.")
         return self._add(self.templates, template, scope, "template")
 
-    def export_template(
-        self, template_id: str, scope: HubScope
-    ) -> dict[str, Any]:
+    def export_template(self, template_id: str, scope: HubScope) -> dict[str, Any]:
         self._require(scope, "integration_hub:read")
         return self._get(self.templates, template_id, scope).to_dict()
 
@@ -558,11 +567,7 @@ class IntegrationHub:
         if self._contains_secret(payload):
             raise ValueError("Secrets are not allowed in integration payloads.")
         cache_key = (flow.id, idempotency_key or "")
-        if (
-            policy.idempotency
-            and idempotency_key
-            and cache_key in self.idempotency
-        ):
+        if policy.idempotency and idempotency_key and cache_key in self.idempotency:
             return self.idempotency[cache_key]
         mapped = self._get(self.mappings, flow.mapping_id, scope).apply(payload)
         handler = self.handlers.get(flow.target)
@@ -575,9 +580,7 @@ class IntegrationHub:
             try:
                 result = handler(mapped)
                 latency = (utcnow() - started).total_seconds()
-                self._record_run(
-                    flow, scope, "success", attempts, latency, len(body)
-                )
+                self._record_run(flow, scope, "success", attempts, latency, len(body))
                 if idempotency_key:
                     self.idempotency[cache_key] = result
                 return result
@@ -620,20 +623,14 @@ class IntegrationHub:
         self.metrics.set("integration_hub_latency_seconds", latency)
         if status == "failed":
             self.metrics.increment("integration_hub_failures_total")
-        self._audit(
-            "flow.run", scope, flow_id=flow.id, run_id=run.id, status=status
-        )
+        self._audit("flow.run", scope, flow_id=flow.id, run_id=run.id, status=status)
         return run
 
-    def record_health(
-        self, health: HealthRecord, scope: HubScope
-    ) -> HealthRecord:
+    def record_health(self, health: HealthRecord, scope: HubScope) -> HealthRecord:
         self._require(scope, "integration_hub:health")
         instance = self._get(self.instances, health.instance_id, scope)
         healthy = (
-            health.connectivity
-            and health.authentication
-            and health.error_rate < 0.05
+            health.connectivity and health.authentication and health.error_rate < 0.05
         )
         health.status = "healthy" if healthy else "unhealthy"
         instance.health = health.status
@@ -663,32 +660,20 @@ class IntegrationHub:
             "catalog": [item.to_dict() for item in connectors],
             "connectors": [item.to_dict() for item in connectors],
             "instances": [item.to_dict() for item in instances],
-            "mappings": [
-                item.to_dict() for item in scoped(self.mappings.values())
-            ],
+            "mappings": [item.to_dict() for item in scoped(self.mappings.values())],
             "flows": [item.to_dict() for item in scoped(self.flows.values())],
             "credentials": [
                 item.to_dict() for item in scoped(self.credentials.values())
             ],
-            "health": [
-                item.to_dict() for item in scoped(self.health_records.values())
-            ],
-            "schedules": [
-                item.to_dict() for item in scoped(self.schedules.values())
-            ],
-            "failures": [
-                item.to_dict() for item in runs if item.status == "failed"
-            ],
-            "dead_letter": [
-                item.to_dict() for item in scoped(self.dead_letters)
-            ],
+            "health": [item.to_dict() for item in scoped(self.health_records.values())],
+            "schedules": [item.to_dict() for item in scoped(self.schedules.values())],
+            "failures": [item.to_dict() for item in runs if item.status == "failed"],
+            "dead_letter": [item.to_dict() for item in scoped(self.dead_letters)],
             "analytics": {
                 "runs": len(runs),
                 "successes": successes,
                 "failures": failures,
-                "retries": self.metrics.snapshot()[
-                    "integration_hub_retries_total"
-                ],
+                "retries": self.metrics.snapshot()["integration_hub_retries_total"],
                 "latency": (
                     sum(item.latency_seconds for item in runs) / len(runs)
                     if runs

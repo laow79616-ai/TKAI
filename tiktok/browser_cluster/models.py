@@ -1,4 +1,5 @@
 """Domain models for the bounded local TikTok browser cluster."""
+
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
@@ -150,13 +151,17 @@ class ResourcePolicy:
     account_limit: int = 1
 
     def validate(self) -> None:
-        if self.cpu_budget <= 0 or min(
-            self.memory_budget_mb,
-            self.maximum_browser_count,
-            self.maximum_parallel_launches,
-            self.workspace_limit,
-            self.account_limit,
-        ) < 1:
+        if (
+            self.cpu_budget <= 0
+            or min(
+                self.memory_budget_mb,
+                self.maximum_browser_count,
+                self.maximum_parallel_launches,
+                self.workspace_limit,
+                self.account_limit,
+            )
+            < 1
+        ):
             raise ValueError("Cluster resource limits must be positive.")
         if self.maximum_parallel_launches > self.maximum_browser_count:
             raise ValueError("Parallel launches cannot exceed browser count.")
@@ -170,9 +175,10 @@ class RecoveryPolicy:
     manual_approval: bool = False
 
     def validate(self) -> None:
-        if self.maximum_attempts < 1 or min(
-            self.backoff_seconds, self.cooldown_seconds
-        ) < 0:
+        if (
+            self.maximum_attempts < 1
+            or min(self.backoff_seconds, self.cooldown_seconds) < 0
+        ):
             raise ValueError("Recovery policy values are invalid.")
 
 

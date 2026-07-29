@@ -22,9 +22,7 @@ class BusinessIntelligenceAPI:
         "exports",
         "governance",
     )
-    ROUTES = tuple(
-        f"/business-intelligence/{resource}" for resource in RESOURCES
-    )
+    ROUTES = tuple(f"/business-intelligence/{resource}" for resource in RESOURCES)
 
     def __init__(self, platform: BusinessIntelligencePlatform) -> None:
         self.platform = platform

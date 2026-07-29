@@ -14,9 +14,7 @@ class Designer:
     def workflow(self) -> Workflow:
         return self._versions[self._cursor]
 
-    def update(
-        self, *, nodes: tuple[Node, ...], edges: tuple[Edge, ...]
-    ) -> Workflow:
+    def update(self, *, nodes: tuple[Node, ...], edges: tuple[Edge, ...]) -> Workflow:
         updated = replace(
             self.workflow,
             nodes=nodes,

@@ -176,9 +176,7 @@ def test_tenant_workspace_rbac_and_execution_limits() -> None:
     with pytest.raises(PermissionError, match="Cross-workspace"):
         engine.get(identifier, other_workspace)
     with pytest.raises(ValueError, match="subtask"):
-        engine.create_plan(
-            identifier, [{"id": "a"}, {"id": "b"}], scope
-        )
+        engine.create_plan(identifier, [{"id": "a"}, {"id": "b"}], scope)
     unprivileged = ReasoningScope("tenant-a", "workspace-a", "bob")
     with pytest.raises(PermissionError, match="reasoning:write"):
         engine.create_session({"agent": "agent", "goal": "goal"}, unprivileged)

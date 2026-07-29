@@ -143,12 +143,8 @@ def test_rbac_abac_delegation_tokens_sessions_and_least_privilege() -> None:
     )
     assert "incident:read" in platform.permissions_for("agent-a", scope)
     with pytest.raises(PermissionError):
-        platform.issue_token(
-            TokenKind.AGENT, "agent-a", ("security:write",), scope
-        )
-    token = platform.issue_token(
-        TokenKind.AGENT, "agent-a", ("incident:read",), scope
-    )
+        platform.issue_token(TokenKind.AGENT, "agent-a", ("security:write",), scope)
+    token = platform.issue_token(TokenKind.AGENT, "agent-a", ("incident:read",), scope)
     assert token.active
     platform.revoke_token(token.id, scope)
     assert not token.active

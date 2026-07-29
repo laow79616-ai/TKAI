@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+## 6.0.0 - 2026-07-29
+
+- Consolidated the completed TikTok module set into the TKAI V6.0 production
+  release without changing functional scope.
+- Synchronized Python, API, Dashboard, AI Studio, Helm, and release metadata.
+- Normalized Python formatting and verified registry, package, import, health,
+  metrics, audit, isolation, RBAC, secret filtering, and safe-default coverage.
+- Hardened source packaging, release metadata, integrity manifests, and
+  operational validation.
+- Added V6 architecture, deployment, Windows operations, troubleshooting,
+  upgrade, validation, and production-readiness documentation.
+
 ## 3.0.0 - 2026-07-26
 
 - Consolidated the Enterprise Platform, Agent Runtime, Plugin Marketplace,

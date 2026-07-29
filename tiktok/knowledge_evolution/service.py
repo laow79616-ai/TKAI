@@ -61,9 +61,7 @@ class TikTokKnowledgeEvolutionCenter:
         ):
             raise PermissionError("Cross-tenant or cross-workspace access denied.")
 
-    def _record(
-        self, context: KnowledgeContext, action: str, resource: str
-    ) -> None:
+    def _record(self, context: KnowledgeContext, action: str, resource: str) -> None:
         self.audit.append(
             {
                 "actor": context.actor,
@@ -116,9 +114,7 @@ class TikTokKnowledgeEvolutionCenter:
                     reference=f"{source}://{subject}",
                     summary=str(snapshot.get("summary", "")),
                     confidence=confidence,
-                    integrity_reference=str(
-                        snapshot.get("integrity_reference", "")
-                    ),
+                    integrity_reference=str(snapshot.get("integrity_reference", "")),
                 )
             )
         return tuple(evidence)
@@ -276,9 +272,7 @@ class TikTokKnowledgeEvolutionCenter:
                 if versions
                 else 0.0
             ),
-            "latency_seconds": self.metrics.values[
-                "tiktok_knowledge_latency_seconds"
-            ],
+            "latency_seconds": self.metrics.values["tiktok_knowledge_latency_seconds"],
         }
 
     def dashboard(self, context: KnowledgeContext) -> dict[str, Any]:

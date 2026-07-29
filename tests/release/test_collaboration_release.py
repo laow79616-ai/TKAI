@@ -3,9 +3,9 @@ from pathlib import Path
 
 def test_collaboration_release_documentation_and_preserved_platforms() -> None:
     root = Path(__file__).parents[2]
-    architecture = (
-        root / "docs/collaboration/Architecture.md"
-    ).read_text(encoding="utf-8")
+    architecture = (root / "docs/collaboration/Architecture.md").read_text(
+        encoding="utf-8"
+    )
     for platform in (
         "Reasoning Engine",
         "Memory Engine",

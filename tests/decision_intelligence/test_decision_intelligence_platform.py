@@ -114,9 +114,7 @@ def test_evaluation_recommendation_explanation_and_insight(
         evidence_references=("evidence://analysis/42",),
     )
     assert recommendation.ranked_options == ("build", "buy")
-    explanation = platform.explain(
-        recommendation.id, "reasoning://trace/42", scope
-    )
+    explanation = platform.explain(recommendation.id, "reasoning://trace/42", scope)
     assert explanation.evidence_references == ("evidence://analysis/42",)
     insight = platform.generate_insight("decision-1", scope)
     assert insight.decision_quality == 1
@@ -128,13 +126,13 @@ def test_simulation_forecast_and_metrics(
 ) -> None:
     platform, scope = system
     simulation = platform.simulate(
-        "decision-1", {"revenue": 25, "cost": -5}, scope,
+        "decision-1",
+        {"revenue": 25, "cost": -5},
+        scope,
         baseline={"revenue": 100, "cost": 50},
     )
     assert simulation.forecast == {"revenue": 125, "cost": 45}
-    assert simulation.rollback_impact == {
-        "restore": {"revenue": 100, "cost": 50}
-    }
+    assert simulation.rollback_impact == {"restore": {"revenue": 100, "cost": 50}}
     assert platform.metrics.snapshot()["decision_simulations_total"] == 1
 
 

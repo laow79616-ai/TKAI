@@ -44,7 +44,7 @@ class _FailingPolicy:
 
 
 def test_v12_public_modules_and_version_are_importable_without_side_effects() -> None:
-    assert tkai.__version__ == "5.0.0"
+    assert tkai.__version__ == "6.0.0"
     for name in (
         "tkai.policy",
         "tkai.retry",

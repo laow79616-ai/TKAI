@@ -89,3 +89,22 @@ at `tiktok/registry.py`. The API composes completed TikTok services in dependenc
 order; readiness and runtime health consume the same registry. Startup and
 shutdown ownership remains in the bounded Windows local-runtime layer. See
 [V5 Modules](V5Modules.md).
+# TKAI V6.0 Architecture Overview
+
+TKAI V6.0 retains the existing layered architecture: `src/tkai` supplies the
+versioned framework and SDK, top-level platform packages provide bounded
+domain services, `tiktok` contains the TikTok-only control-plane modules,
+`server` composes HTTP routes, and Dashboard and AI Studio remain independent
+production-built clients.
+
+The canonical TikTok module inventory is `tiktok.registry.TIKTOK_MODULES`.
+`local_runtime.integration` imports that inventory and the server application
+registers each module once. Tenant and workspace identifiers flow through
+service scopes; RBAC gates protected operations; adapters preserve existing
+execution boundaries. No V6 release-readiness change introduces a new
+execution path or external social-platform integration.
+
+Production signals are exposed through health, metrics, structured logging,
+audit records, and bounded error responses. Packaging is driven by
+`pyproject.toml`, `release.json`, and `scripts/build-release.ps1`; the release
+archive includes generated frontend assets and a SHA-256 integrity manifest.

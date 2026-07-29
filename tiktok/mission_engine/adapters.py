@@ -25,9 +25,7 @@ class MissionModulePort(Protocol):
 
     def dispatch(self, mission: Mission, scope: MissionScope) -> str: ...
 
-    def resume(
-        self, mission_id: str, checkpoint: str, scope: MissionScope
-    ) -> str: ...
+    def resume(self, mission_id: str, checkpoint: str, scope: MissionScope) -> str: ...
 
     def rollback(self, mission_id: str, scope: MissionScope) -> None: ...
 
@@ -50,9 +48,7 @@ class ReferenceOnlyPort:
     def dispatch(self, mission: Mission, scope: MissionScope) -> str:
         return f"{self.module}://{mission.id}/delegated"
 
-    def resume(
-        self, mission_id: str, checkpoint: str, scope: MissionScope
-    ) -> str:
+    def resume(self, mission_id: str, checkpoint: str, scope: MissionScope) -> str:
         return f"{self.module}://{mission_id}/resume/{checkpoint}"
 
     def rollback(self, mission_id: str, scope: MissionScope) -> None:

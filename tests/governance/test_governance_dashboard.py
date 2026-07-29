@@ -26,6 +26,5 @@ def test_governance_dashboard_contract() -> None:
         assert f'path="/{page}"' in app
         assert page in pages
     assert (
-        "/governance/dashboard?"
-        "tenant=default&workspace=default&actor=dashboard"
+        "/governance/dashboard?tenant=default&workspace=default&actor=dashboard"
     ) in client

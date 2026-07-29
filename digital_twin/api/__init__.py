@@ -33,9 +33,7 @@ class DigitalTwinAPI:
         raise KeyError("Unknown Digital Twin API route.")
 
 
-def register_digital_twin_routes(
-    app: Any, platform: DigitalTwinPlatform
-) -> None:
+def register_digital_twin_routes(app: Any, platform: DigitalTwinPlatform) -> None:
     """Register dashboard endpoints on a FastAPI-like application."""
 
     api = DigitalTwinAPI(platform)

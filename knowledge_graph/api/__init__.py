@@ -32,9 +32,7 @@ class KnowledgeGraphAPI:
         return self.platform.resource(resource, scope)
 
 
-def register_knowledge_graph_routes(
-    app: Any, platform: KnowledgeGraphPlatform
-) -> None:
+def register_knowledge_graph_routes(app: Any, platform: KnowledgeGraphPlatform) -> None:
     api = KnowledgeGraphAPI(platform)
     for path in api.ROUTES:
         app.add_api_route(

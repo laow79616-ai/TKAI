@@ -27,15 +27,19 @@ class Check:
 
 def command_version(command: tuple[str, ...]) -> str | None:
     """Return the first version line when a command is executable."""
-    if shutil.which(command[0]) is None:
+    executable = shutil.which(command[0])
+    if executable is None:
         return None
-    completed = subprocess.run(
-        command,
-        capture_output=True,
-        check=False,
-        text=True,
-        timeout=10,
-    )
+    try:
+        completed = subprocess.run(
+            (executable, *command[1:]),
+            capture_output=True,
+            check=False,
+            text=True,
+            timeout=10,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return None
     if completed.returncode != 0:
         return None
     return (completed.stdout or completed.stderr).strip().splitlines()[0]
@@ -67,15 +71,19 @@ def file_check(name: str, relative_path: str, *, required: bool = True) -> Check
 
 def docker_daemon_check() -> Check:
     """Confirm the Docker CLI can reach a daemon without exposing configuration."""
-    if shutil.which("docker") is None:
+    executable = shutil.which("docker")
+    if executable is None:
         return Check("FAIL", "Docker daemon", "Docker CLI is not available")
-    completed = subprocess.run(
-        ("docker", "info"),
-        capture_output=True,
-        check=False,
-        text=True,
-        timeout=15,
-    )
+    try:
+        completed = subprocess.run(
+            (executable, "info"),
+            capture_output=True,
+            check=False,
+            text=True,
+            timeout=15,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return Check("FAIL", "Docker daemon", "not reachable")
     if completed.returncode != 0:
         return Check("FAIL", "Docker daemon", "not reachable")
     return Check("PASS", "Docker daemon", "reachable")

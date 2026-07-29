@@ -9,6 +9,8 @@ from .errors import InstallerValidationError
 class ResolutionInstallationSource(Protocol):
     def coordinates(self) -> tuple[DependencyCoordinate, ...]: ...
     def dependency_order(self) -> tuple[DependencyCoordinate, ...]: ...
+
+
 class ReferenceResolutionInstallationSource:
     def __init__(self, result: ResolutionResult) -> None:
         if result.status is not ResolutionStatus.RESOLVED:

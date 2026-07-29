@@ -1,4 +1,5 @@
 """Resource-bounded scheduler for local TikTok browser runtimes."""
+
 from __future__ import annotations
 
 import heapq
@@ -160,12 +161,15 @@ class TikTokBrowserCluster:
         self._scoped(cluster, scope)
         if not node.id or node.id in self.nodes:
             raise ValueError("Node ID must be non-empty and unique.")
-        if min(
-            node.capacity,
-            node.cpu_capacity,
-            node.memory_capacity_mb,
-            node.browser_slots,
-        ) <= 0:
+        if (
+            min(
+                node.capacity,
+                node.cpu_capacity,
+                node.memory_capacity_mb,
+                node.browser_slots,
+            )
+            <= 0
+        ):
             raise ValueError("Node capacity values must be positive.")
         self.nodes[node.id] = node
         self._refresh_metrics()
@@ -279,8 +283,7 @@ class TikTokBrowserCluster:
             if (
                 len(active) >= self.resources.maximum_browser_count
                 or sum(
-                    value.tenant == scope.tenant
-                    and value.workspace == scope.workspace
+                    value.tenant == scope.tenant and value.workspace == scope.workspace
                     for value in active
                 )
                 >= self.resources.workspace_limit
@@ -356,9 +359,11 @@ class TikTokBrowserCluster:
             scope.tenant, scope.workspace, instance.account_reference
         )
         previous = sum(item.instance_id == instance.id for item in self.recoveries)
-        if restricted or (
-            self.recovery_policy.manual_approval and not approved
-        ) or previous >= self.recovery_policy.maximum_attempts:
+        if (
+            restricted
+            or (self.recovery_policy.manual_approval and not approved)
+            or previous >= self.recovery_policy.maximum_attempts
+        ):
             instance.status = InstanceStatus.PAUSED
             record = RecoveryRecord(
                 instance.id,
@@ -465,19 +470,12 @@ class TikTokBrowserCluster:
                 "browser_queue": len(self._queue),
                 "priority_queue": sum(item.priority > 0 for item in self._queue),
                 "workspace_queue": len(
-                    {
-                        (item.tenant, item.workspace)
-                        for item in self._queue
-                    }
+                    {(item.tenant, item.workspace) for item in self._queue}
                 ),
-                "account_queue": len(
-                    {item.account_reference for item in self._queue}
-                ),
+                "account_queue": len({item.account_reference for item in self._queue}),
                 "retry_queue": sum(item.attempts > 0 for item in self._queue),
                 "delayed_queue": 0,
-                "maximum_parallel_launches": (
-                    self.resources.maximum_parallel_launches
-                ),
+                "maximum_parallel_launches": (self.resources.maximum_parallel_launches),
                 "depth": len(self._queue),
             },
             "resources": serialize(self.resources),

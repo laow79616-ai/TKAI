@@ -39,9 +39,7 @@ def register_cognitive_routes(
             CognitiveStatus(str(payload.get("status", "draft"))),
             dict(payload.get("metadata", {})),
         )
-        return platform.create_model(
-            model, scope(payload, "cognitive:write")
-        ).to_dict()
+        return platform.create_model(model, scope(payload, "cognitive:write")).to_dict()
 
     def list_models(
         tenant: str,
@@ -58,9 +56,9 @@ def register_cognitive_routes(
     def section(name: str) -> Any:
         return lambda tenant, workspace: {
             "section": name,
-            "data": platform.dashboard(
-                CognitiveScope(tenant, workspace, "api")
-            ).get(name, []),
+            "data": platform.dashboard(CognitiveScope(tenant, workspace, "api")).get(
+                name, []
+            ),
         }
 
     add("/cognitive/models", list_models, ["GET"])

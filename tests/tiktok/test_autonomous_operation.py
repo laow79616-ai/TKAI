@@ -38,20 +38,14 @@ class Delegate:
     def pause(self, mission_id: str, scope: OperationScope) -> None:
         self.actions.append("pause")
 
-    def resume(
-        self, mission_id: str, checkpoint: str, scope: OperationScope
-    ) -> str:
+    def resume(self, mission_id: str, checkpoint: str, scope: OperationScope) -> str:
         self.actions.append("resume")
         return f"resumed://{mission_id}/{checkpoint}"
 
-    def rollback(
-        self, mission_id: str, reference: str, scope: OperationScope
-    ) -> None:
+    def rollback(self, mission_id: str, reference: str, scope: OperationScope) -> None:
         self.actions.append("rollback")
 
-    def health(
-        self, mission_id: str, scope: OperationScope
-    ) -> dict[str, object]:
+    def health(self, mission_id: str, scope: OperationScope) -> dict[str, object]:
         return dict(self.health_value)
 
 
@@ -202,9 +196,7 @@ def test_api_registration_uses_required_roots() -> None:
         def __init__(self) -> None:
             self.paths: list[str] = []
 
-        def add_api_route(
-            self, path: str, endpoint: object, **kwargs: object
-        ) -> None:
+        def add_api_route(self, path: str, endpoint: object, **kwargs: object) -> None:
             self.paths.append(path)
 
     app = App()

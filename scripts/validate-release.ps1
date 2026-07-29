@@ -6,6 +6,8 @@ if (-not $Archive) {
     $release = Get-Content "$repository\release.json" -Raw | ConvertFrom-Json
     $Archive = "artifacts\tkai-$($release.version).zip"
 }
+$release = Get-Content "$repository\release.json" -Raw | ConvertFrom-Json
+$sourceEntry = "source/tkai-$($release.version).tar.gz"
 $path = [System.IO.Path]::GetFullPath((Join-Path $repository $Archive))
 if (-not (Test-Path -LiteralPath $path)) { throw "Release archive not found: $path" }
 $forbidden = @(
@@ -25,7 +27,11 @@ try {
     foreach ($term in $forbidden) {
         if ($names | Where-Object { $_ -match $term }) { throw "Forbidden release entry: $term" }
     }
-    foreach ($required in @("release.json", "release-checklist.json", "sha256sums", "configuration/local.example.json")) {
+    foreach ($required in @(
+        "release.json", "release-checklist.json", "release_manifest.json",
+        "build_metadata.json", "sha256sums", "configuration/local.example.json",
+        $sourceEntry
+    )) {
         if (-not ($names | Where-Object { $_ -like "*/$required" -or $_ -eq $required })) {
             throw "Required release entry missing: $required"
         }

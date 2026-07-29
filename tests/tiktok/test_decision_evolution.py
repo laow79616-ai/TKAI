@@ -32,9 +32,7 @@ NOW = datetime(2026, 1, 15, tzinfo=timezone.utc)
 
 def context(
     workspace: str = "workspace",
-    permissions: frozenset[str] = frozenset(
-        {"tiktok:decision-evolution:admin"}
-    ),
+    permissions: frozenset[str] = frozenset({"tiktok:decision-evolution:admin"}),
 ) -> DecisionEvolutionContext:
     return DecisionEvolutionContext("tenant", workspace, "analyst", permissions)
 
@@ -245,9 +243,7 @@ def test_explainable_evaluation_and_confidence_calibration() -> None:
         name: (0.9 if name == "evidence_completeness" else 0.8, 1.0, f"{name}.")
         for name in names
     }
-    evaluation = service.evaluate(
-        "evaluation", "decision", components, context()
-    )
+    evaluation = service.evaluate("evaluation", "decision", components, context())
     confidence = service.analyze_confidence(
         "confidence",
         "decision",
@@ -312,13 +308,9 @@ def test_lessons_recommendations_handoffs_reviews_and_versions_are_advisory() ->
         "approved",
         "audit://review/1",
     )
-    review_only = context(
-        permissions=frozenset({"tiktok:decision-evolution:review"})
-    )
+    review_only = context(permissions=frozenset({"tiktok:decision-evolution:review"}))
     service.review(review, review_only)
-    first = service.version(
-        "v1", "evaluation", "evaluation", ("created",), context()
-    )
+    first = service.version("v1", "evaluation", "evaluation", ("created",), context())
     second = service.version(
         "v2", "evaluation", "evaluation", ("calibrated",), context()
     )
@@ -332,9 +324,7 @@ def test_dashboard_api_metrics_history_and_analytics_contract() -> None:
         def __init__(self) -> None:
             self.routes: list[tuple[str, list[str]]] = []
 
-        def add_api_route(
-            self, path: str, endpoint: object, **kwargs: object
-        ) -> None:
+        def add_api_route(self, path: str, endpoint: object, **kwargs: object) -> None:
             self.routes.append((path, list(kwargs["methods"])))
 
     service = configured_service()

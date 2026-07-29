@@ -17,8 +17,7 @@ def register_workflow_routes(app: Any, platform: WorkflowPlatform) -> None:
         "/workflows",
         lambda tenant, workspace: {
             "data": [
-                item.to_dict()
-                for item in platform.list(Scope(tenant, workspace))
+                item.to_dict() for item in platform.list(Scope(tenant, workspace))
             ],
             "error": None,
         },

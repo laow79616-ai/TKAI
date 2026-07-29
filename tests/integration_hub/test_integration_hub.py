@@ -43,12 +43,8 @@ def system() -> tuple[IntegrationHub, HubScope]:
             ),
             scope,
         )
-        hub.set_connector_status(
-            connector_id, ConnectorStatus.CONFIGURED, scope
-        )
-        hub.set_connector_status(
-            connector_id, ConnectorStatus.VALIDATED, scope
-        )
+        hub.set_connector_status(connector_id, ConnectorStatus.CONFIGURED, scope)
+        hub.set_connector_status(connector_id, ConnectorStatus.VALIDATED, scope)
         hub.set_connector_status(connector_id, ConnectorStatus.ENABLED, scope)
         credential_id = f"credential-{connector_id}"
         hub.add_credential(
@@ -86,9 +82,7 @@ def system() -> tuple[IntegrationHub, HubScope]:
         scope,
     )
     hub.create_policy(
-        IntegrationPolicy(
-            "policy", scope.tenant, scope.workspace, retry_limit=2
-        ),
+        IntegrationPolicy("policy", scope.tenant, scope.workspace, retry_limit=2),
         scope,
     )
     hub.create_schedule(
@@ -170,9 +164,7 @@ def test_retries_dead_letter_health_and_dashboard(system) -> None:
     assert len(hub.dead_letters) == 1
     assert hub.metrics.snapshot()["integration_hub_retries_total"] == 2
     hub.record_health(
-        HealthRecord(
-            "target", scope.tenant, scope.workspace, True, True, 0.01, 0
-        ),
+        HealthRecord("target", scope.tenant, scope.workspace, True, True, 0.01, 0),
         scope,
     )
     dashboard = hub.dashboard(scope)

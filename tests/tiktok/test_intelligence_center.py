@@ -96,9 +96,7 @@ def test_integrations_api_dashboard_and_metrics() -> None:
         def __init__(self) -> None:
             self.paths: list[str] = []
 
-        def add_api_route(
-            self, path: str, endpoint: object, **kwargs: object
-        ) -> None:
+        def add_api_route(self, path: str, endpoint: object, **kwargs: object) -> None:
             self.paths.append(path)
 
     service = TikTokAutonomousIntelligenceCenter()

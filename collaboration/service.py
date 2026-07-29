@@ -107,9 +107,7 @@ class EnterpriseAICollaborationPlatform:
             tenant=scope.tenant,
             workspace=scope.workspace,
             participants=self._strings(payload.get("participants", ())),
-            agent_participants=self._strings(
-                payload.get("agent_participants", ())
-            ),
+            agent_participants=self._strings(payload.get("agent_participants", ())),
             shared_context=SharedContext(
                 variables=dict(context.get("variables", {})),
                 artifacts=tuple(dict(v) for v in context.get("artifacts", ())),
@@ -154,9 +152,7 @@ class EnterpriseAICollaborationPlatform:
             body=str(payload["body"]),
             mentions=self._strings(payload.get("mentions", ())),
             reply_to=self._optional(payload.get("reply_to")),
-            attachments=tuple(
-                dict(value) for value in payload.get("attachments", ())
-            ),
+            attachments=tuple(dict(value) for value in payload.get("attachments", ())),
         )
         self.messages[item.id] = item
         self.metrics.increment("messages_total")
@@ -208,13 +204,9 @@ class EnterpriseAICollaborationPlatform:
         bucket[key] = value
         self._event(scope, "shared_memory", "written", f"{namespace}:{key}")
 
-    def read_memory(
-        self, namespace: str, key: str, scope: CollaborationScope
-    ) -> Any:
+    def read_memory(self, namespace: str, key: str, scope: CollaborationScope) -> Any:
         self.security.require(scope, "collaboration:memory:read")
-        return self.shared_memory[
-            (scope.tenant, scope.workspace, namespace)
-        ][key]
+        return self.shared_memory[(scope.tenant, scope.workspace, namespace)][key]
 
     def create_task(
         self, payload: dict[str, Any], scope: CollaborationScope
@@ -258,9 +250,7 @@ class EnterpriseAICollaborationPlatform:
         self._event(scope, "task", "updated", item.id)
         return updated
 
-    def handoff(
-        self, payload: dict[str, Any], scope: CollaborationScope
-    ) -> Handoff:
+    def handoff(self, payload: dict[str, Any], scope: CollaborationScope) -> Handoff:
         self.security.require(scope, "collaboration:handoff")
         item = Handoff(
             id=str(payload.get("id") or uuid4()),
@@ -343,9 +333,7 @@ class EnterpriseAICollaborationPlatform:
             "metrics": self.metrics.snapshot(),
         }
 
-    def timeline_for(
-        self, scope: CollaborationScope
-    ) -> tuple[TimelineEvent, ...]:
+    def timeline_for(self, scope: CollaborationScope) -> tuple[TimelineEvent, ...]:
         self.security.require(scope, "collaboration:read")
         return tuple(
             event

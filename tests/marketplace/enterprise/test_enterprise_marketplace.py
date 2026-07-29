@@ -52,15 +52,18 @@ def store() -> EnterpriseMarketplace:
 def test_catalog_search_filter_categories_tags_featured_verified_and_trending() -> None:
     marketplace = store()
     marketplace.download("acme.agent")
-    assert marketplace.search(
-        "agent",
-        category="automation",
-        tag="enterprise",
-        kind=StoreKind.AGENT,
-        featured=True,
-        verified=True,
-        trending=True,
-    )[0].downloads == 1
+    assert (
+        marketplace.search(
+            "agent",
+            category="automation",
+            tag="enterprise",
+            kind=StoreKind.AGENT,
+            featured=True,
+            verified=True,
+            trending=True,
+        )[0].downloads
+        == 1
+    )
     assert marketplace.categories() == ("automation",)
     assert marketplace.tags() == ("agent", "enterprise")
     assert marketplace.stores()["agent"][0].package_id == "acme.agent"
@@ -116,8 +119,7 @@ def test_package_integrity_and_signature_use_explicit_artifact_adapters() -> Non
     assert marketplace.verify_signature(
         "acme.agent",
         payload,
-        lambda artifact, signature: artifact == payload
-        and signature == "signed-value",
+        lambda artifact, signature: artifact == payload and signature == "signed-value",
     )
 
 
@@ -149,12 +151,13 @@ def test_reviews_moderation_ratings_billing_quota_and_metrics() -> None:
     )
     assert marketplace.rating("acme.agent") == 5
     assert marketplace.moderate_review("review-1", approved=True).moderated
-    assert marketplace.purchase(
-        Invoice("invoice-1", "account-1", "acme.agent", 9900)
-    ).currency == "USD"
-    assert marketplace.record_usage(
-        Usage("account-1", "acme.agent", 4, 10)
-    ).used == 4
+    assert (
+        marketplace.purchase(
+            Invoice("invoice-1", "account-1", "acme.agent", 9900)
+        ).currency
+        == "USD"
+    )
+    assert marketplace.record_usage(Usage("account-1", "acme.agent", 4, 10)).used == 4
     with pytest.raises(ValueError, match="quota"):
         marketplace.record_usage(Usage("account-1", "acme.agent", 11, 10))
 

@@ -40,4 +40,3 @@ class AgentRun:
             "events": [event.to_dict() for event in self.events],
             "metrics": self.metrics.to_dict(),
         }
-

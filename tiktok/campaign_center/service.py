@@ -32,9 +32,7 @@ from .models import (
 )
 
 TRANSITIONS: dict[CampaignStatus, frozenset[CampaignStatus]] = {
-    CampaignStatus.DRAFT: frozenset(
-        {CampaignStatus.PLANNING, CampaignStatus.DELETED}
-    ),
+    CampaignStatus.DRAFT: frozenset({CampaignStatus.PLANNING, CampaignStatus.DELETED}),
     CampaignStatus.PLANNING: frozenset(
         {CampaignStatus.REVIEW, CampaignStatus.DRAFT, CampaignStatus.DELETED}
     ),
@@ -50,9 +48,7 @@ TRANSITIONS: dict[CampaignStatus, frozenset[CampaignStatus]] = {
     CampaignStatus.RUNNING: frozenset(
         {CampaignStatus.PAUSED, CampaignStatus.COMPLETED}
     ),
-    CampaignStatus.PAUSED: frozenset(
-        {CampaignStatus.RUNNING, CampaignStatus.ARCHIVED}
-    ),
+    CampaignStatus.PAUSED: frozenset({CampaignStatus.RUNNING, CampaignStatus.ARCHIVED}),
     CampaignStatus.COMPLETED: frozenset({CampaignStatus.ARCHIVED}),
     CampaignStatus.ARCHIVED: frozenset({CampaignStatus.DELETED}),
     CampaignStatus.DELETED: frozenset(),
@@ -360,9 +356,7 @@ class TikTokCampaignCenter:
             for approval in self.approvals.values()
         )
 
-    def _plans_for(
-        self, campaign_id: str, scope: CampaignScope
-    ) -> list[CampaignPlan]:
+    def _plans_for(self, campaign_id: str, scope: CampaignScope) -> list[CampaignPlan]:
         return [
             item
             for item in self._visible(self.plans.values(), scope)
@@ -389,9 +383,7 @@ class TikTokCampaignCenter:
             )
         return results
 
-    def monitoring(
-        self, campaign_id: str, scope: CampaignScope
-    ) -> CampaignHealth:
+    def monitoring(self, campaign_id: str, scope: CampaignScope) -> CampaignHealth:
         self._require(scope, "read")
         campaign = self._campaign(campaign_id, scope)
         plans = self._plans_for(campaign_id, scope)

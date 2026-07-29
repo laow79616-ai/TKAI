@@ -36,15 +36,38 @@ def test_api_registration_structure_docs_metrics_and_frontends() -> None:
     assert [path for path, _ in app.routes] == list(api.ROUTES)
     root = Path(__file__).parents[2]
     for module in (
-        "graphs", "entities", "relationships", "ontologies", "taxonomies",
-        "schemas", "properties", "reasoning", "traversal", "queries", "lineage",
-        "provenance", "indexing", "analytics", "dashboard", "api",
+        "graphs",
+        "entities",
+        "relationships",
+        "ontologies",
+        "taxonomies",
+        "schemas",
+        "properties",
+        "reasoning",
+        "traversal",
+        "queries",
+        "lineage",
+        "provenance",
+        "indexing",
+        "analytics",
+        "dashboard",
+        "api",
     ):
         assert (root / "knowledge_graph" / module / "__init__.py").is_file()
     for document in (
-        "Architecture", "Ontology", "Taxonomy", "Schema", "Entities",
-        "Relationships", "Reasoning", "Traversal", "Queries", "Lineage",
-        "Analytics", "Security", "Operations",
+        "Architecture",
+        "Ontology",
+        "Taxonomy",
+        "Schema",
+        "Entities",
+        "Relationships",
+        "Reasoning",
+        "Traversal",
+        "Queries",
+        "Lineage",
+        "Analytics",
+        "Security",
+        "Operations",
     ):
         assert (root / "docs" / "knowledge_graph" / f"{document}.md").is_file()
     assert len(METRICS) == 8

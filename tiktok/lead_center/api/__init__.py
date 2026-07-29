@@ -171,9 +171,7 @@ def _collection_reader(collection: Any) -> Any:
             for item in collection.values()
             if (item.get("tenant") if isinstance(item, dict) else item.tenant)
             == scope.tenant
-            and (
-                item.get("workspace") if isinstance(item, dict) else item.workspace
-            )
+            and (item.get("workspace") if isinstance(item, dict) else item.workspace)
             == scope.workspace
         ]
 

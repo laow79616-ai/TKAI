@@ -614,9 +614,7 @@ class AutonomousIntelligencePlatform:
         self._audit("execution.recover", scope, execution_id=execution_id)
         return item
 
-    def coordinate(
-        self, item: Coordination, scope: IntelligenceScope
-    ) -> Coordination:
+    def coordinate(self, item: Coordination, scope: IntelligenceScope) -> Coordination:
         def validate(value: Coordination) -> None:
             if (
                 not value.agents

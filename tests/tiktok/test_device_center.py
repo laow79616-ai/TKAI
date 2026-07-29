@@ -72,9 +72,7 @@ def test_lifecycle_inventory_profiles_groups_and_secret_redaction() -> None:
     )
     center.create_profile(profile, scope())
     center.assign_profile(value.id, profile.id, scope())
-    group = DeviceGroup(
-        "group-1", "Primary", "tenant-a", "workspace-a", "owner"
-    )
+    group = DeviceGroup("group-1", "Primary", "tenant-a", "workspace-a", "owner")
     center.create_group(group, scope())
     center.add_to_group(value.id, group.id, scope())
     assert value.profile_id == profile.id
@@ -142,13 +140,9 @@ def test_expired_reservation_is_released_before_new_allocation() -> None:
         )
     )
     ready(center, device("one"))
-    center.enqueue(
-        scope(), requester="workflow-one", account_reference="account-1"
-    )
+    center.enqueue(scope(), requester="workflow-one", account_reference="account-1")
     first = center.allocate(scope())[0]
-    center.enqueue(
-        scope(), requester="workflow-two", account_reference="account-2"
-    )
+    center.enqueue(scope(), requester="workflow-two", account_reference="account-2")
     second = center.allocate(scope())[0]
     assert first.released_at is not None
     assert second.device_id == "one"
@@ -278,9 +272,7 @@ def test_dashboard_api_metrics_and_integration_notifications() -> None:
         def __init__(self) -> None:
             self.paths: list[str] = []
 
-        def add_api_route(
-            self, path: str, handler: Any, methods: list[str]
-        ) -> None:
+        def add_api_route(self, path: str, handler: Any, methods: list[str]) -> None:
             self.paths.append(path)
 
     app = App()

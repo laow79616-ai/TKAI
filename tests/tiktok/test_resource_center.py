@@ -57,9 +57,7 @@ def test_inventory_registration_search_lifecycle_validation_and_isolation() -> N
         scope(),
     )
     assert item.status is ResourceStatus.REGISTERED
-    assert center.search(scope(), query="browser", tags=frozenset({"chrome"})) == [
-        item
-    ]
+    assert center.search(scope(), query="browser", tags=frozenset({"chrome"})) == [item]
     assert center.transition(item.id, ResourceStatus.IDLE, scope()).version == 2
     assert center.transition(item.id, ResourceStatus.PAUSED, scope()).version == 3
     assert center.search(scope("other")) == []
@@ -147,9 +145,7 @@ def test_allocation_lease_renewal_expiration_release_cooldown_and_ownership() ->
 
 def test_approval_enforcement_uses_opaque_references() -> None:
     center = TikTokResourceCenter()
-    center.register(
-        resource("approved", metadata={"requires_approval": True}), scope()
-    )
+    center.register(resource("approved", metadata={"requires_approval": True}), scope())
     with pytest.raises(PermissionError):
         center.allocate("approved", "owner", scope())
     with pytest.raises(ValueError):

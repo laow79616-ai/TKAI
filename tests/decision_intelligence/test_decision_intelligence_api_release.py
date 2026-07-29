@@ -41,9 +41,7 @@ def test_release_structure_and_documentation() -> None:
         "api",
     )
     for module in modules:
-        assert (
-            root / "decision_intelligence" / module / "__init__.py"
-        ).is_file()
+        assert (root / "decision_intelligence" / module / "__init__.py").is_file()
     for document in (
         "Architecture",
         "DecisionLifecycle",
@@ -56,12 +54,8 @@ def test_release_structure_and_documentation() -> None:
         "Security",
         "Operations",
     ):
-        assert (
-            root / "docs" / "decision_intelligence" / f"{document}.md"
-        ).is_file()
-    assert "decision_intelligence*" in (
-        root / "pyproject.toml"
-    ).read_text("utf-8")
+        assert (root / "docs" / "decision_intelligence" / f"{document}.md").is_file()
+    assert "decision_intelligence*" in (root / "pyproject.toml").read_text("utf-8")
 
 
 def test_metrics_contract() -> None:

@@ -80,9 +80,10 @@ def test_gateway_routes_api_contract_and_dashboard_fallback() -> None:
         "/live",
         "/metrics",
     ):
-        assert f"location {'=' if route != '/api/' else ''} {route}".replace(
-            "  ", " "
-        ) in common
+        assert (
+            f"location {'=' if route != '/api/' else ''} {route}".replace("  ", " ")
+            in common
+        )
     assert "proxy_pass http://api:8000/;" in common
     assert "proxy_pass http://dashboard:4173;" in common
     assert "proxy_pass http://api:8000/health/ready;" in common
@@ -111,9 +112,9 @@ def test_gateway_hardening_compression_and_asset_cache_are_configured() -> None:
 
 def test_gateway_environment_and_documentation_cover_both_modes() -> None:
     environment = (ROOT / ".env.example").read_text(encoding="utf-8")
-    documentation = (
-        ROOT / "docs" / "deployment" / "NginxGateway.md"
-    ).read_text(encoding="utf-8")
+    documentation = (ROOT / "docs" / "deployment" / "NginxGateway.md").read_text(
+        encoding="utf-8"
+    )
 
     for variable in (
         "HTTP_PORT",

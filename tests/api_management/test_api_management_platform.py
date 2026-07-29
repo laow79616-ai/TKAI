@@ -223,6 +223,7 @@ def test_authentication_rate_limit_quota_subscription_and_payload_bounds(
         scope,
     )
     request = GatewayRequest("/ai/v1/generate", "POST", {}, b"{}", "consumer-a", 5)
+
     def upstream(route: Route, item: GatewayRequest) -> GatewayResponse:
         return GatewayResponse(200, {}, b"ok")
 

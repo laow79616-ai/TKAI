@@ -1,4 +1,5 @@
 """Enterprise TikTok Browser Cluster public API."""
+
 from .models import (
     BrowserCluster,
     BrowserProfileTemplate,

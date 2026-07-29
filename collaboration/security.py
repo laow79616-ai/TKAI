@@ -15,9 +15,7 @@ class CollaborationSecurity:
         self._grants[(scope.tenant, scope.workspace, scope.actor)].update(permissions)
 
     def require(self, scope: CollaborationScope, permission: str) -> None:
-        if permission not in self._grants[
-            (scope.tenant, scope.workspace, scope.actor)
-        ]:
+        if permission not in self._grants[(scope.tenant, scope.workspace, scope.actor)]:
             raise PermissionError(f"{permission} is required.")
 
     def isolate(self, scope: CollaborationScope, tenant: str, workspace: str) -> None:

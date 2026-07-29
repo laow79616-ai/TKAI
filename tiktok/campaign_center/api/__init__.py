@@ -45,9 +45,7 @@ def register_campaign_routes(app: Any, service: TikTokCampaignCenter) -> None:
     def decide_approval(approval: CampaignApproval) -> CampaignApproval:
         return service.decide_approval(approval, _scope())
 
-    def transition_campaign(
-        campaign_id: str, target: CampaignStatus
-    ) -> Campaign:
+    def transition_campaign(campaign_id: str, target: CampaignStatus) -> Campaign:
         return service.transition(campaign_id, target, _scope())
 
     app.add_api_route(
@@ -79,8 +77,7 @@ def register_campaign_routes(app: Any, service: TikTokCampaignCenter) -> None:
         lambda: [
             item
             for item in service.approvals.values()
-            if item.tenant == _scope().tenant
-            and item.workspace == _scope().workspace
+            if item.tenant == _scope().tenant and item.workspace == _scope().workspace
         ],
         methods=["GET"],
         tags=["tiktok-campaign-center"],
@@ -120,8 +117,7 @@ def register_campaign_routes(app: Any, service: TikTokCampaignCenter) -> None:
         lambda: [
             item
             for item in service.plans.values()
-            if item.tenant == _scope().tenant
-            and item.workspace == _scope().workspace
+            if item.tenant == _scope().tenant and item.workspace == _scope().workspace
         ],
         methods=["GET"],
         tags=["tiktok-campaign-center"],
@@ -137,8 +133,7 @@ def register_campaign_routes(app: Any, service: TikTokCampaignCenter) -> None:
         lambda: [
             item
             for item in service.schedules.values()
-            if item.tenant == _scope().tenant
-            and item.workspace == _scope().workspace
+            if item.tenant == _scope().tenant and item.workspace == _scope().workspace
         ],
         methods=["GET"],
         tags=["tiktok-campaign-center"],
@@ -152,8 +147,7 @@ def register_campaign_routes(app: Any, service: TikTokCampaignCenter) -> None:
     app.add_api_route(
         ROUTES[3],
         lambda: [
-            service.monitoring(item.id, _scope())
-            for item in service.list(_scope())
+            service.monitoring(item.id, _scope()) for item in service.list(_scope())
         ],
         methods=["GET"],
         tags=["tiktok-campaign-center"],
@@ -167,8 +161,7 @@ def register_campaign_routes(app: Any, service: TikTokCampaignCenter) -> None:
     app.add_api_route(
         ROUTES[4],
         lambda: [
-            service.analytics(item.id, _scope())
-            for item in service.list(_scope())
+            service.analytics(item.id, _scope()) for item in service.list(_scope())
         ],
         methods=["GET"],
         tags=["tiktok-campaign-center"],

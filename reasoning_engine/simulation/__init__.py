@@ -14,9 +14,7 @@ class Simulator:
         rollback_plan: tuple[str, ...] = (),
     ) -> SimulationResult:
         normalized = {key: float(value) for key, value in variables.items()}
-        evaluation = (
-            sum(normalized.values()) / len(normalized) if normalized else 0.0
-        )
+        evaluation = sum(normalized.values()) / len(normalized) if normalized else 0.0
         comparison = {
             key: value - float((baselines or {}).get(key, 0))
             for key, value in normalized.items()

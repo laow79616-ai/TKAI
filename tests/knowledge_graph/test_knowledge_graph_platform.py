@@ -141,9 +141,7 @@ def test_query_reasoning_lineage_provenance_analytics(
         scope,
     )
     platform.record_lineage(
-        LineageRecord(
-            "l1", "g1", "e1", "tenant-a", "workspace-a", "crm", "normalize"
-        ),
+        LineageRecord("l1", "g1", "e1", "tenant-a", "workspace-a", "crm", "normalize"),
         scope,
     )
     assert platform.analytics("g1", scope)["growth"]["entities"] == 1

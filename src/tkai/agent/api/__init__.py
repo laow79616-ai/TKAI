@@ -57,4 +57,3 @@ class AgentApi:
     def delete_run(self, run_id: str) -> dict[str, bool]:
         self.runtime.delete_run(run_id)
         return {"deleted": True}
-

@@ -222,9 +222,7 @@ class TikTokAutonomousOperationCenter:
         mission = self._mission(reference, scope)
         execution = self.executions.get(reference)
         health = self._health(mission, scope)
-        usage = [
-            float(value.get("resource_usage", 0.0)) for value in health.values()
-        ]
+        usage = [float(value.get("resource_usage", 0.0)) for value in health.values()]
         return {
             "mission_health": "healthy",
             "mission_progress": execution.progress if execution else 0.0,
@@ -336,9 +334,7 @@ class TikTokAutonomousOperationCenter:
             "mission_success": float(completed),
             "mission_failure": failed,
             "mission_runtime": sum(runtimes) / len(runtimes) if runtimes else 0.0,
-            "mission_recovery": self.metrics.values[
-                "tiktok_autonomous_recoveries"
-            ],
+            "mission_recovery": self.metrics.values["tiktok_autonomous_recoveries"],
             "mission_utilization": (
                 sum(
                     self.monitor(item.id, scope)["resource_usage"]
@@ -371,8 +367,7 @@ class TikTokAutonomousOperationCenter:
                 for mission in self.scoped_values(self.missions.values(), scope)
             ],
             "plans": [
-                asdict(plan)
-                for plan in self.scoped_values(self.plans.values(), scope)
+                asdict(plan) for plan in self.scoped_values(self.plans.values(), scope)
             ],
             "analytics": self.analytics(scope),
         }

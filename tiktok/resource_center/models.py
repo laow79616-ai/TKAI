@@ -244,15 +244,18 @@ class UtilizationSample:
 
     @property
     def ratio(self) -> float:
-        return sum(
-            (
-                self.cpu,
-                self.memory,
-                self.browser_slots,
-                self.devices,
-                self.workers,
-                self.queue_usage,
-                self.proxy_usage,
-                self.account_usage,
+        return (
+            sum(
+                (
+                    self.cpu,
+                    self.memory,
+                    self.browser_slots,
+                    self.devices,
+                    self.workers,
+                    self.queue_usage,
+                    self.proxy_usage,
+                    self.account_usage,
+                )
             )
-        ) / 8
+            / 8
+        )

@@ -71,3 +71,40 @@ PostgreSQL adapter in V2.
 Python quality gates and offline wheel validation can pass, but a clean sdist
 install and a real Docker Compose/API/Dashboard smoke test must be completed
 in an environment with the required build and container tooling.
+# TKAI V6.0 Production Readiness Validation
+
+Validated on 2026-07-29 from
+`feature/tiktok-v6-production-readiness`.
+
+| Gate | Result |
+| --- | --- |
+| Repository path and branch | PASS |
+| Ruff lint | PASS |
+| Ruff formatting | PASS; 133 existing files normalized |
+| Full pytest | PASS; 1,256 passed, 1 skipped |
+| TikTok/deployment/release/local/production suites | PASS; 344 passed |
+| Dashboard production build | PASS |
+| AI Studio production build | PASS |
+| OpenAPI generation | PASS; 650 unique paths |
+| Operational PowerShell syntax | PASS |
+| Source distribution | PASS; `tkai-6.0.0.tar.gz` |
+| Windows release package | PASS; manifests and SHA-256 verified |
+| Dependency integrity | PASS; `pip check` |
+| Module registry/import graph | PASS; 38 unique importable modules |
+| Tracked-source secret scan | PASS |
+| Full mypy | KNOWN ISSUE; stops on duplicate generated modules under `artifacts/` |
+| GA host prerequisites | WARNING; optional twine, SQLAlchemy, Alembic, and psycopg are not installed on the validation host |
+
+The full and targeted suites cover metrics registration, structured logging,
+audit records, error reporting, health endpoints, RBAC, tenant/workspace
+isolation, secret filtering, safe defaults, and execution boundaries. No
+source-package duplicate modules, plaintext secrets, or execution bypasses
+were detected.
+
+The only known repository-wide issue is duplicate packaged modules in existing
+generated artifact directories. Generated artifacts are excluded from source
+control and must not be added to Python or mypy import roots.
+
+No code release blocker remains. Deployment operators must install and verify
+the optional production database and publication dependencies before an
+external deployment or package publication.

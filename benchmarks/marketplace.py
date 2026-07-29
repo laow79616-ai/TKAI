@@ -186,11 +186,15 @@ def benchmark_installer_dependency(iterations: int = 10) -> BenchmarkResult:
 
 def benchmark_installer_transaction(iterations: int = 10) -> BenchmarkResult:
     return _runner(iterations).run(
-        lambda: ReferenceInstallerService()
-        .install(
-            InstallationRequest(InstallationId("transaction"), _resolution("package"))
+        lambda: (
+            ReferenceInstallerService()
+            .install(
+                InstallationRequest(
+                    InstallationId("transaction"), _resolution("package")
+                )
+            )
+            .session
         )
-        .session
     )
 
 

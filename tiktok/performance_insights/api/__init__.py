@@ -9,9 +9,20 @@ from ..models import RequestScope
 from ..service import TikTokPerformanceInsightsCenter
 
 RESOURCES = (
-    "profiles", "datasets", "metrics", "benchmarks", "comparisons", "trends",
-    "anomalies", "forecasts", "insights", "recommendations", "reports",
-    "snapshots", "history", "analytics",
+    "profiles",
+    "datasets",
+    "metrics",
+    "benchmarks",
+    "comparisons",
+    "trends",
+    "anomalies",
+    "forecasts",
+    "insights",
+    "recommendations",
+    "reports",
+    "snapshots",
+    "history",
+    "analytics",
 )
 ROUTES = tuple(f"/tiktok/performance-insights/{name}" for name in RESOURCES)
 
@@ -51,20 +62,26 @@ def register_performance_insights_routes(
             tags=["tiktok-performance-insights"],
         )
     app.add_api_route(
-        ROUTES[12], lambda: service.history(scope), methods=["GET"],
+        ROUTES[12],
+        lambda: service.history(scope),
+        methods=["GET"],
         tags=["tiktok-performance-insights"],
     )
     app.add_api_route(
-        ROUTES[13], lambda: service.analytics(scope), methods=["GET"],
+        ROUTES[13],
+        lambda: service.analytics(scope),
+        methods=["GET"],
         tags=["tiktok-performance-insights"],
     )
     app.add_api_route(
         "/tiktok/performance-insights/dashboard",
-        lambda: service.dashboard(scope), methods=["GET"],
+        lambda: service.dashboard(scope),
+        methods=["GET"],
         tags=["tiktok-performance-insights"],
     )
     app.add_api_route(
         "/tiktok/performance-insights/metrics-exposure",
-        service.metrics.render_prometheus, methods=["GET"],
+        service.metrics.render_prometheus,
+        methods=["GET"],
         tags=["tiktok-performance-insights"],
     )

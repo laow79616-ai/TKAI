@@ -67,13 +67,14 @@ def register_security_routes(app: Any, platform: SecurityPlatform) -> None:
     )
     add(
         "/security/policy",
-        lambda identity_id, action, resource, tenant, workspace, actor="dashboard":
-        platform.authorize(
-            identity_id,
-            action,
-            resource,
-            scope(tenant, workspace, actor),
-        ).to_dict(),
+        lambda identity_id, action, resource, tenant, workspace, actor="dashboard": (
+            platform.authorize(
+                identity_id,
+                action,
+                resource,
+                scope(tenant, workspace, actor),
+            ).to_dict()
+        ),
         ["GET"],
     )
     add(

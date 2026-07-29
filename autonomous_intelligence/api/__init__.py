@@ -72,11 +72,9 @@ def register_autonomous_intelligence_routes(
             profile.workspace,
             str(payload.get("actor", "api")),
             frozenset(
-                str(
-                    payload.get(
-                        "permissions", "autonomous_intelligence:write"
-                    )
-                ).split(",")
+                str(payload.get("permissions", "autonomous_intelligence:write")).split(
+                    ","
+                )
             ),
         )
         return platform.create_profile(profile, scope).to_dict()

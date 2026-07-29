@@ -120,9 +120,7 @@ class TikTokRuntimeManager:
     def _transition(self, status: RuntimeStatus, scope: RuntimeScope) -> None:
         if status not in TRANSITIONS[self.runtime.status]:
             source = self.runtime.status.value
-            raise ValueError(
-                f"Invalid runtime transition: {source} -> {status.value}"
-            )
+            raise ValueError(f"Invalid runtime transition: {source} -> {status.value}")
         self.runtime.status = status
         self.runtime.updated_at = utcnow()
         self._record(scope, "lifecycle", detail=status.value)

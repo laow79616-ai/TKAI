@@ -453,12 +453,12 @@ class TikTokContentCenter:
 
     def dashboard(self, scope: ContentScope) -> dict[str, Any]:
         self._require(scope, "read")
+
         def scoped(values: Any) -> list[Any]:
             return [
                 value
                 for value in values
-                if value.tenant == scope.tenant
-                and value.workspace == scope.workspace
+                if value.tenant == scope.tenant and value.workspace == scope.workspace
             ]
 
         jobs = scoped(self.queue.values())

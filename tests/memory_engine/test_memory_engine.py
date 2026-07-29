@@ -27,9 +27,7 @@ PERMISSIONS = {
 def configured(
     *, cache_limit: int = 10, policy: RetentionPolicy | None = None
 ) -> tuple[EnterpriseAIMemoryEngine, MemoryScope]:
-    engine = EnterpriseAIMemoryEngine(
-        cache_limit=cache_limit, retention_policy=policy
-    )
+    engine = EnterpriseAIMemoryEngine(cache_limit=cache_limit, retention_policy=policy)
     scope = MemoryScope("tenant-a", "workspace-a", "alice")
     engine.security.grant(scope, PERMISSIONS)
     return engine, scope
@@ -89,9 +87,7 @@ def test_keyword_similarity_hybrid_filters_top_k_and_threshold() -> None:
 
     keyword = engine.search(SearchQuery("beta", mode="keyword", threshold=0.5), scope)
     assert [result.memory.id for result in keyword] == ["one"]
-    similarity = engine.search(
-        SearchQuery("alpha", mode="similarity", top_k=1), scope
-    )
+    similarity = engine.search(SearchQuery("alpha", mode="similarity", top_k=1), scope)
     assert len(similarity) == 1
     hybrid = engine.search(
         SearchQuery(
@@ -144,9 +140,7 @@ def test_namespace_tenant_workspace_owner_rbac_secrets_and_audit() -> None:
     with pytest.raises(PermissionError):
         engine.get(memory.id, MemoryScope("tenant-a", "workspace-b", "alice"))
     with pytest.raises(ValueError):
-        engine.create(
-            {**payload("unsafe"), "metadata": {"secret": "plaintext"}}, scope
-        )
+        engine.create({**payload("unsafe"), "metadata": {"secret": "plaintext"}}, scope)
     assert any(event["action"] == "memory:created" for event in engine.security.audit)
 
 

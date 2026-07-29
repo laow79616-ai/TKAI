@@ -189,9 +189,9 @@ class LocalServiceRegistry:
     def register(self, instance: ServiceInstance) -> ServiceInstance:
         """Register or replace one immutable local instance snapshot."""
         with self._lock:
-            self._services.setdefault(instance.service, {})[
-                instance.instance_id
-            ] = instance
+            self._services.setdefault(instance.service, {})[instance.instance_id] = (
+                instance
+            )
         return instance
 
     def deregister(self, service: str, instance_id: str) -> bool:

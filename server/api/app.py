@@ -563,9 +563,7 @@ def create_app(
             "browser_cluster": MissionModulePort(
                 "browser_cluster", tiktok_browser_cluster
             ),
-            "device_center": MissionModulePort(
-                "device_center", tiktok_device_center
-            ),
+            "device_center": MissionModulePort("device_center", tiktok_device_center),
             "risk_control": MissionModulePort(
                 "risk_control", tiktok_risk_control_center
             ),
@@ -627,9 +625,7 @@ def create_app(
         workflow=CampaignRegistryAdapter(tiktok_workflow_center, "workflows"),
         automation=CampaignRegistryAdapter(tiktok_automation_engine, "automations"),
         execution=CampaignRegistryAdapter(tiktok_execution_engine, "plans"),
-        publishing_status=CampaignStatusAdapter(
-            tiktok_publishing_center, "jobs"
-        ),
+        publishing_status=CampaignStatusAdapter(tiktok_publishing_center, "jobs"),
         workflow_status=CampaignStatusAdapter(tiktok_workflow_center, "workflows"),
         execution_status=CampaignStatusAdapter(tiktok_execution_engine, "plans"),
         risk_status=CampaignStatusAdapter(tiktok_risk_control_center, "restrictions"),

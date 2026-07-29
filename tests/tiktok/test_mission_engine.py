@@ -22,18 +22,14 @@ class Module:
         self.health_value = {"healthy": True, **health}
         self.actions: list[str] = []
 
-    def health(
-        self, mission_id: str, scope: MissionScope
-    ) -> dict[str, object]:
+    def health(self, mission_id: str, scope: MissionScope) -> dict[str, object]:
         return dict(self.health_value)
 
     def dispatch(self, mission: Mission, scope: MissionScope) -> str:
         self.actions.append("dispatch")
         return f"existing://{mission.id}"
 
-    def resume(
-        self, mission_id: str, checkpoint: str, scope: MissionScope
-    ) -> str:
+    def resume(self, mission_id: str, checkpoint: str, scope: MissionScope) -> str:
         self.actions.append("resume")
         return f"existing://{mission_id}/resume/{checkpoint}"
 
@@ -173,9 +169,7 @@ def test_api_dashboard_analytics_metrics_and_openapi_contracts() -> None:
         def __init__(self) -> None:
             self.paths: list[str] = []
 
-        def add_api_route(
-            self, path: str, endpoint: object, **kwargs: object
-        ) -> None:
+        def add_api_route(self, path: str, endpoint: object, **kwargs: object) -> None:
             self.paths.append(path)
 
     service = TikTokAutonomousMissionEngine()

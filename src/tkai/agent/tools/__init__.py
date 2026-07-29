@@ -65,7 +65,4 @@ class ToolRegistry:
 
     def list(self) -> tuple[ToolDefinition, ...]:
         with self._lock:
-            return tuple(
-                self._tools[name].definition for name in sorted(self._tools)
-            )
-
+            return tuple(self._tools[name].definition for name in sorted(self._tools))

@@ -38,8 +38,15 @@ def configured_cluster(**kwargs: object) -> TikTokBrowserCluster:
     service.transition("cluster-1", ClusterStatus.RUNNING, scope())
     service.register_node(
         ClusterNode(
-            "node-1", "cluster-1", "tenant-a", "workspace-a", "localhost",
-            4, 4.0, 4096, 4,
+            "node-1",
+            "cluster-1",
+            "tenant-a",
+            "workspace-a",
+            "localhost",
+            4,
+            4.0,
+            4096,
+            4,
         ),
         scope(),
     )
@@ -136,9 +143,7 @@ def test_metrics_api_dashboard_and_secret_redaction() -> None:
         def __init__(self) -> None:
             self.paths: list[str] = []
 
-        def add_api_route(
-            self, path: str, handler: object, methods: list[str]
-        ) -> None:
+        def add_api_route(self, path: str, handler: object, methods: list[str]) -> None:
             self.paths.append(path)
 
     app = App()

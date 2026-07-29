@@ -13,9 +13,9 @@ class ProviderFactory:
     """Register local builders and construct clients only when callers request one."""
 
     def __init__(self) -> None:
-        self._builders: dict[str, Callable[[ProviderConfiguration], ProviderClient]] = (
-            {}
-        )
+        self._builders: dict[
+            str, Callable[[ProviderConfiguration], ProviderClient]
+        ] = {}
 
     def register(
         self, name: str, builder: Callable[[ProviderConfiguration], ProviderClient]

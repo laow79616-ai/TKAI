@@ -353,17 +353,16 @@ class TikTokDecisionEvolutionCenter:
         )
         if set(components) != set(expected):
             raise ValueError("Every explainable score component is required.")
-        breakdown = tuple(
-            ScoreComponent(name, *components[name]) for name in expected
-        )
+        breakdown = tuple(ScoreComponent(name, *components[name]) for name in expected)
         for component in breakdown:
             validate_ratio(component.score, component.name)
             if component.weight <= 0 or not component.explanation:
                 raise ValueError("Score weights and explanations are required.")
         total_weight = sum(component.weight for component in breakdown)
-        quality = sum(
-            component.score * component.weight for component in breakdown
-        ) / total_weight
+        quality = (
+            sum(component.score * component.weight for component in breakdown)
+            / total_weight
+        )
         values = {component.name: component.score for component in breakdown}
         item = DecisionEvaluation(
             evaluation_id,
@@ -412,8 +411,10 @@ class TikTokDecisionEvolutionCenter:
         for value in distribution:
             validate_ratio(value, "Confidence distribution value")
         difference = observed_accuracy - decision.confidence
-        trend = "calibrated" if abs(difference) <= 0.05 else (
-            "underconfident" if difference > 0 else "overconfident"
+        trend = (
+            "calibrated"
+            if abs(difference) <= 0.05
+            else ("underconfident" if difference > 0 else "overconfident")
         )
         item = ConfidenceAnalysis(
             analysis_id,
@@ -456,9 +457,7 @@ class TikTokDecisionEvolutionCenter:
         validate_references(evidence_references)
         self._scoped(self.decisions[decision_id], context)
         refs = {
-            destination: ReferenceOnlyHandoff.create(
-                destination, recommendation_id
-            )
+            destination: ReferenceOnlyHandoff.create(destination, recommendation_id)
             for destination in handoffs
         }
         item = EvolutionRecommendation(

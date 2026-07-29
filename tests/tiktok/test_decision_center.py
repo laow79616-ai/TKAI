@@ -112,8 +112,7 @@ def test_evaluation_covers_inputs_constraints_scores_and_encrypted_evidence() ->
     assert all(item.passed for item in evaluation.constraints)
     assert len(evaluation.evidence_references) == len(DECISION_INPUTS)
     assert all(
-        ref.startswith("sealed-ref://")
-        for ref in evaluation.evidence_references
+        ref.startswith("sealed-ref://") for ref in evaluation.evidence_references
     )
     assert all(
         "mock://" not in item.reference

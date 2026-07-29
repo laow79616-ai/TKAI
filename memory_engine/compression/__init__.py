@@ -25,6 +25,4 @@ class MemoryCompressor:
         return value
 
     def optimized_size(self, content: str, metadata: dict[str, Any]) -> int:
-        return len(self.compress_chunk(content)) + len(
-            self.compress_metadata(metadata)
-        )
+        return len(self.compress_chunk(content)) + len(self.compress_metadata(metadata))

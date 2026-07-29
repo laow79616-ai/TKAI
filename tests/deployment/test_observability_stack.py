@@ -38,10 +38,7 @@ def test_observability_override_has_expected_optional_services() -> None:
 
 def test_prometheus_scrapes_only_supported_targets_and_loads_rules() -> None:
     config = _yaml(OBSERVABILITY / "prometheus" / "prometheus.yml")
-    jobs = {
-        item["job_name"]: item
-        for item in config["scrape_configs"]
-    }
+    jobs = {item["job_name"]: item for item in config["scrape_configs"]}
 
     assert set(jobs) == {"prometheus", "api", "postgres", "nginx"}
     assert jobs["api"]["metrics_path"] == "/metrics"
@@ -49,18 +46,14 @@ def test_prometheus_scrapes_only_supported_targets_and_loads_rules() -> None:
     assert jobs["postgres"]["static_configs"][0]["targets"] == [
         "postgres-exporter:9187"
     ]
-    assert jobs["nginx"]["static_configs"][0]["targets"] == [
-        "nginx-exporter:9113"
-    ]
+    assert jobs["nginx"]["static_configs"][0]["targets"] == ["nginx-exporter:9113"]
     assert config["rule_files"] == ["/etc/prometheus/alerts.yml"]
 
 
 def test_alerts_cover_availability_targets_and_supported_5xx_metric() -> None:
     rules = _yaml(OBSERVABILITY / "prometheus" / "alerts.yml")
     alerts = {
-        rule["alert"]: rule
-        for group in rules["groups"]
-        for rule in group["rules"]
+        rule["alert"]: rule for group in rules["groups"] for rule in group["rules"]
     }
 
     assert {
@@ -73,24 +66,17 @@ def test_alerts_cover_availability_targets_and_supported_5xx_metric() -> None:
     assert "tkai_http_responses_total" in alerts["TKAIAPIElevated5xxRate"]["expr"]
     assert not any("latency" in item.lower() for item in alerts)
 
-    alertmanager = _yaml(
-        OBSERVABILITY / "alertmanager" / "alertmanager.yml"
-    )
+    alertmanager = _yaml(OBSERVABILITY / "alertmanager" / "alertmanager.yml")
     assert alertmanager["route"]["receiver"] == "local"
     assert alertmanager["receivers"] == [{"name": "local"}]
 
 
 def test_grafana_provisions_both_sources_and_complete_overview() -> None:
     datasources = _yaml(
-        OBSERVABILITY
-        / "grafana"
-        / "provisioning"
-        / "datasources"
-        / "datasources.yml"
+        OBSERVABILITY / "grafana" / "provisioning" / "datasources" / "datasources.yml"
     )
     assert {
-        (source["name"], source["url"])
-        for source in datasources["datasources"]
+        (source["name"], source["url"]) for source in datasources["datasources"]
     } == {
         ("Prometheus", "http://prometheus:9090"),
         ("Loki", "http://loki:3100"),

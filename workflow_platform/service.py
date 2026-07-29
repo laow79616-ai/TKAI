@@ -97,9 +97,7 @@ class WorkflowPlatform:
     def list(self, scope: Scope) -> tuple[Workflow, ...]:
         return tuple(item for item in self.workflows.values() if item.scope == scope)
 
-    def transition(
-        self, workflow_id: str, scope: Scope, status: str
-    ) -> Workflow:
+    def transition(self, workflow_id: str, scope: Scope, status: str) -> Workflow:
         item = self.get(workflow_id, scope)
         target = WorkflowStatus(status)
         if target not in TRANSITIONS[item.status]:

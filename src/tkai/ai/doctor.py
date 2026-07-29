@@ -265,12 +265,12 @@ class DoctorService:
         conflicting_aliases = sorted(set(names).intersection(aliases))
         if conflicting_aliases:
             issues.append(
-                "aliases conflict with providers: " f"{', '.join(conflicting_aliases)}"
+                f"aliases conflict with providers: {', '.join(conflicting_aliases)}"
             )
         unknown_targets = sorted(set(aliases.values()).difference(names))
         if unknown_targets:
             issues.append(
-                "aliases target unknown providers: " f"{', '.join(unknown_targets)}"
+                f"aliases target unknown providers: {', '.join(unknown_targets)}"
             )
         if issues:
             return (

@@ -353,9 +353,7 @@ class DecisionIntelligencePlatform:
             )
         )
 
-    def create_decision(
-        self, decision: Decision, scope: DecisionScope
-    ) -> Decision:
+    def create_decision(self, decision: Decision, scope: DecisionScope) -> Decision:
         self._require(scope, "decision_intelligence:write")
         if not self._in_scope(decision, scope):
             raise PermissionError("Cross-tenant or cross-workspace write denied.")
@@ -431,10 +429,7 @@ class DecisionIntelligencePlatform:
             for item in decision.alternatives
         }
         sensitivity = {
-            option: {
-                key: values[key] * weight
-                for key, weight in weights.items()
-            }
+            option: {key: values[key] * weight for key, weight in weights.items()}
             for option, values in scores.items()
         }
         evaluation = Evaluation(
@@ -583,9 +578,7 @@ class DecisionIntelligencePlatform:
         scope: DecisionScope,
     ) -> Explanation:
         self._require(scope, "decision_intelligence:read")
-        recommendation = self._get(
-            self.recommendations, recommendation_id, scope
-        )
+        recommendation = self._get(self.recommendations, recommendation_id, scope)
         decision = self._get(self.decisions, recommendation.decision_id, scope)
         top = recommendation.ranked_options[0]
         option = next(item for item in decision.alternatives if item.id == top)
@@ -648,9 +641,7 @@ class DecisionIntelligencePlatform:
         )
         return simulation
 
-    def generate_insight(
-        self, decision_id: str, scope: DecisionScope
-    ) -> Insight:
+    def generate_insight(self, decision_id: str, scope: DecisionScope) -> Insight:
         self._require(scope, "decision_intelligence:read")
         decision = self._get(self.decisions, decision_id, scope)
         evaluations = [
@@ -716,9 +707,7 @@ class DecisionIntelligencePlatform:
             "recommendations": [
                 item.to_dict() for item in scoped(self.recommendations.values())
             ],
-            "approvals": [
-                item.to_dict() for item in scoped(self.approvals.values())
-            ],
+            "approvals": [item.to_dict() for item in scoped(self.approvals.values())],
             "insights": [item.to_dict() for item in scoped(self.insights.values())],
             "simulations": [
                 item.to_dict() for item in scoped(self.simulations.values())

@@ -450,12 +450,8 @@ class BusinessIntelligencePlatform:
         )
         return record
 
-    def create_workspace(
-        self, record: BIWorkspace, scope: BIScope
-    ) -> BIWorkspace:
-        return self._create(
-            self.workspaces, record, scope, "bi_workspaces_total"
-        )
+    def create_workspace(self, record: BIWorkspace, scope: BIScope) -> BIWorkspace:
+        return self._create(self.workspaces, record, scope, "bi_workspaces_total")
 
     def set_workspace_status(
         self, workspace_id: str, status: WorkspaceStatus, scope: BIScope
@@ -473,18 +469,14 @@ class BusinessIntelligencePlatform:
         )
         return record
 
-    def add_data_source(
-        self, record: DataSource, scope: BIScope
-    ) -> DataSource:
+    def add_data_source(self, record: DataSource, scope: BIScope) -> DataSource:
         if record.credential_reference and not self.CREDENTIAL_REFERENCE.fullmatch(
             record.credential_reference
         ):
             raise ValueError(
                 "Use an opaque credential reference, never plaintext credentials."
             )
-        return self._create(
-            self.data_sources, record, scope, "bi_data_sources_total"
-        )
+        return self._create(self.data_sources, record, scope, "bi_data_sources_total")
 
     def add_dataset(self, record: Dataset, scope: BIScope) -> Dataset:
         self._get(self.data_sources, record.data_source_id, scope)
@@ -508,19 +500,14 @@ class BusinessIntelligencePlatform:
             self._get(self.datasets, dataset_id, scope)
         return self._create(self.semantic_models, record, scope)
 
-    def execute_query(
-        self, query: BIQuery, scope: BIScope
-    ) -> dict[str, Any]:
+    def execute_query(self, query: BIQuery, scope: BIScope) -> dict[str, Any]:
         self._require(scope, "business_intelligence:query")
         started = time.monotonic()
         try:
             self._get(self.datasets, query.dataset_id, scope)
             if query.row_limit < 1 or query.row_limit > self.max_rows:
                 raise ValueError("Query row limit exceeds policy.")
-            if (
-                query.timeout_seconds < 1
-                or query.timeout_seconds > self.max_timeout
-            ):
+            if query.timeout_seconds < 1 or query.timeout_seconds > self.max_timeout:
                 raise ValueError("Query timeout exceeds policy.")
             for value in (*query.metrics, *query.dimensions, *query.sorting):
                 self._validate_expression(value)
@@ -552,13 +539,9 @@ class BusinessIntelligencePlatform:
         return self._create(self.reports, record, scope, "bi_reports_total")
 
     def add_dashboard(self, record: Dashboard, scope: BIScope) -> Dashboard:
-        return self._create(
-            self.dashboards, record, scope, "bi_dashboards_total"
-        )
+        return self._create(self.dashboards, record, scope, "bi_dashboards_total")
 
-    def add_visualization(
-        self, record: Visualization, scope: BIScope
-    ) -> Visualization:
+    def add_visualization(self, record: Visualization, scope: BIScope) -> Visualization:
         if record.type is VisualizationType.CUSTOM:
             self._validate_safe(record.configuration)
         return self._create(self.visualizations, record, scope)
@@ -569,19 +552,12 @@ class BusinessIntelligencePlatform:
     def add_alert(self, record: Alert, scope: BIScope) -> Alert:
         return self._create(self.alerts, record, scope, "bi_alerts_total")
 
-    def add_subscription(
-        self, record: Subscription, scope: BIScope
-    ) -> Subscription:
+    def add_subscription(self, record: Subscription, scope: BIScope) -> Subscription:
         return self._create(self.subscriptions, record, scope)
 
-    def request_export(
-        self, record: ExportRequest, scope: BIScope
-    ) -> ExportRequest:
+    def request_export(self, record: ExportRequest, scope: BIScope) -> ExportRequest:
         self._require(scope, "business_intelligence:export")
-        if (
-            record.row_limit > self.max_rows
-            or record.size_limit_bytes > 50_000_000
-        ):
+        if record.row_limit > self.max_rows or record.size_limit_bytes > 50_000_000:
             raise ValueError("Export exceeds policy limits.")
         elevated = BIScope(
             scope.tenant,
@@ -589,9 +565,7 @@ class BusinessIntelligencePlatform:
             scope.actor,
             scope.permissions | {"business_intelligence:write"},
         )
-        return self._create(
-            self.exports, record, elevated, "bi_exports_total"
-        )
+        return self._create(self.exports, record, elevated, "bi_exports_total")
 
     def add_governance_policy(
         self, record: GovernancePolicy, scope: BIScope
@@ -617,9 +591,7 @@ class BusinessIntelligencePlatform:
         }
         records = mapping[name]
         return [
-            asdict(item)
-            for item in records.values()
-            if self._in_scope(item, scope)
+            asdict(item) for item in records.values() if self._in_scope(item, scope)
         ]
 
     def dashboard(self, scope: BIScope) -> dict[str, Any]:

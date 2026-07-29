@@ -78,9 +78,7 @@ class ExistingRegistryAdapter:
     def exists(self, reference: str, tenant: str, workspace: str) -> bool:
         reference_id = reference.rsplit("/", 1)[-1]
         item = getattr(self.service, self.collection, {}).get(reference_id)
-        return bool(
-            item and item.tenant == tenant and item.workspace == workspace
-        )
+        return bool(item and item.tenant == tenant and item.workspace == workspace)
 
 
 class ExistingStatusAdapter:

@@ -52,16 +52,32 @@ TRANSITIONS: dict[PerformanceStatus, frozenset[PerformanceStatus]] = {
 
 DIMENSIONS = frozenset(
     {
-        "account", "workspace", "project", "campaign", "content_type", "workflow",
-        "task_type", "resource_type", "browser_node", "device_type", "proxy_region",
-        "status", "risk_level", "time",
+        "account",
+        "workspace",
+        "project",
+        "campaign",
+        "content_type",
+        "workflow",
+        "task_type",
+        "resource_type",
+        "browser_node",
+        "device_type",
+        "proxy_region",
+        "status",
+        "risk_level",
+        "time",
     }
 )
 
 UNSAFE_TERMS = (
-    "captcha bypass", "restriction circumvention", "security bypass",
-    "anti-detection guarantee", "spam automation", "engagement manipulation",
-    "unsolicited bulk", "mass action",
+    "captcha bypass",
+    "restriction circumvention",
+    "security bypass",
+    "anti-detection guarantee",
+    "spam automation",
+    "engagement manipulation",
+    "unsolicited bulk",
+    "mass action",
 )
 
 
@@ -107,7 +123,8 @@ class TikTokPerformanceInsightsCenter:
         if not 1 <= limit <= MAX_RESULTS:
             raise ValueError("Result limit must be within [1, 500].")
         return [
-            item for item in values
+            item
+            for item in values
             if item.tenant == scope.tenant and item.workspace == scope.workspace
         ][:limit]
 
@@ -235,8 +252,10 @@ class TikTokPerformanceInsightsCenter:
         self._evidence(item.evidence_references)
         self._safe(f"{item.summary} {item.finding} {item.recommended_review}")
         for reference in (
-            item.comparison_reference, item.trend_reference,
-            item.anomaly_reference, item.forecast_reference,
+            item.comparison_reference,
+            item.trend_reference,
+            item.anomaly_reference,
+            item.forecast_reference,
         ):
             if reference:
                 validate_reference(reference)
@@ -244,9 +263,7 @@ class TikTokPerformanceInsightsCenter:
         self.metrics.increment("tiktok_performance_insights_total")
         return item
 
-    def recommend(
-        self, item: Recommendation, scope: RequestScope
-    ) -> Recommendation:
+    def recommend(self, item: Recommendation, scope: RequestScope) -> Recommendation:
         self._safe(f"{item.title} {item.rationale}")
         self._evidence(item.evidence_references)
         if item.approved or (
@@ -322,7 +339,8 @@ class TikTokPerformanceInsightsCenter:
             "reports_generated": self.reports,
         }
         confidences = [
-            item.confidence for store in (self.trends, self.forecasts, self.insights)
+            item.confidence
+            for store in (self.trends, self.forecasts, self.insights)
             for item in self.scoped_values(store.values(), scope)
         ]
         freshness = [
@@ -338,8 +356,7 @@ class TikTokPerformanceInsightsCenter:
                 "average_analysis_time": self.metrics.values[
                     "tiktok_performance_analysis_seconds"
                 ],
-                "data_freshness": sum(freshness) / len(freshness)
-                if freshness else 0.0,
+                "data_freshness": sum(freshness) / len(freshness) if freshness else 0.0,
                 "confidence_distribution": {
                     "low": sum(value < 0.5 for value in confidences),
                     "medium": sum(0.5 <= value < 0.8 for value in confidences),
@@ -353,12 +370,14 @@ class TikTokPerformanceInsightsCenter:
         self._require(scope, "read")
         return {
             "profile_history": [
-                item for item in self.profile_history
+                item
+                for item in self.profile_history
                 if item["tenant"] == scope.tenant
                 and item["workspace"] == scope.workspace
             ],
             "entity_history": [
-                item for item in self.entity_history
+                item
+                for item in self.entity_history
                 if item["tenant"] == scope.tenant
                 and item["workspace"] == scope.workspace
             ][:MAX_RESULTS],
@@ -370,9 +389,20 @@ class TikTokPerformanceInsightsCenter:
     def dashboard(self, scope: RequestScope) -> dict[str, Any]:
         return {
             "sections": [
-                "Performance Overview", "Profiles", "Datasets", "Metrics",
-                "Benchmarks", "Comparisons", "Trends", "Anomalies", "Forecasts",
-                "Insights", "Recommendations", "Reports", "Snapshots", "History",
+                "Performance Overview",
+                "Profiles",
+                "Datasets",
+                "Metrics",
+                "Benchmarks",
+                "Comparisons",
+                "Trends",
+                "Anomalies",
+                "Forecasts",
+                "Insights",
+                "Recommendations",
+                "Reports",
+                "Snapshots",
+                "History",
                 "Analytics",
             ],
             "performance_overview": self.analytics(scope),

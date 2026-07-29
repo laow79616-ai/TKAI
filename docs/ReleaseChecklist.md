@@ -1,6 +1,20 @@
-# TKAI V5.0 Local Production Release Checklist
+# TKAI V6.0 Production Readiness Checklist
 
-- [ ] Confirm 5.0.0 across Python, Dashboard, AI Studio, API, and release metadata.
+- [x] Confirm 6.0.0 across Python, Dashboard, AI Studio, API, Helm, and release metadata.
+- [x] Verify the canonical TikTok registry is unique, complete, and importable.
+- [x] Verify package structure, import boundaries, and dependency graph integrity.
+- [x] Run Ruff lint and normalize formatting.
+- [x] Record full pytest, TikTok regression, deployment, release, production,
+  and local-runtime results in `docs/ReleaseValidation.md`.
+- [x] Record Dashboard and AI Studio production builds.
+- [x] Generate and validate OpenAPI.
+- [x] Validate operational PowerShell scripts.
+- [x] Build source and release packages plus SHA-256 integrity manifests.
+- [x] Confirm metrics, structured logging, audit, error reporting, and health endpoints.
+- [x] Confirm secret filtering, RBAC, tenant/workspace isolation, safe defaults,
+  plaintext-secret scanning, and absence of execution bypasses.
+- [x] Repository-wide mypy duplicate-module failures are allowed only for known
+  generated copies under `artifacts/`; record them as an existing issue.
 - [ ] Run Ruff, focused mypy, repository mypy, and full pytest.
 - [ ] Run TikTok, deployment, release, and local-runtime regression suites.
 - [ ] Build Dashboard and AI Studio production assets.

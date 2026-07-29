@@ -1,4 +1,5 @@
 """Declarative Browser Cluster API bindings."""
+
 from __future__ import annotations
 
 from collections.abc import Callable
@@ -25,9 +26,7 @@ ROUTES = tuple(
 )
 
 
-def register_browser_cluster_routes(
-    app: Any, cluster: TikTokBrowserCluster
-) -> None:
+def register_browser_cluster_routes(app: Any, cluster: TikTokBrowserCluster) -> None:
     def scoped(tenant: str, workspace: str, actor: str) -> ClusterScope:
         return ClusterScope(tenant, workspace, actor)
 

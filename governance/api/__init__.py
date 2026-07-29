@@ -13,9 +13,7 @@ def register_governance_routes(
     app: Any, platform: EnterpriseAIGovernancePlatform
 ) -> None:
     def add(path: str, endpoint: Callable[..., Any], methods: list[str]) -> None:
-        app.add_api_route(
-            path, endpoint, methods=methods, tags=["governance"]
-        )
+        app.add_api_route(path, endpoint, methods=methods, tags=["governance"])
 
     def scope(tenant: str, workspace: str, actor: str) -> GovernanceScope:
         return GovernanceScope(tenant, workspace, actor)
@@ -32,14 +30,8 @@ def register_governance_routes(
         return {"data": data, "total": len(data), "error": None}
 
     def list_endpoint(store: dict[str, Any]) -> Callable[..., dict[str, Any]]:
-        def endpoint(
-            tenant: str, workspace: str, actor: str
-        ) -> dict[str, Any]:
-            return listed(
-                platform.list_records(
-                    store, scope(tenant, workspace, actor)
-                )
-            )
+        def endpoint(tenant: str, workspace: str, actor: str) -> dict[str, Any]:
+            return listed(platform.list_records(store, scope(tenant, workspace, actor)))
 
         return endpoint
 
@@ -54,9 +46,7 @@ def register_governance_routes(
     def resource_list_endpoint(
         kind: str,
     ) -> Callable[..., dict[str, Any]]:
-        def endpoint(
-            tenant: str, workspace: str, actor: str
-        ) -> dict[str, Any]:
+        def endpoint(tenant: str, workspace: str, actor: str) -> dict[str, Any]:
             values = platform.list_records(
                 platform.resources, scope(tenant, workspace, actor)
             )

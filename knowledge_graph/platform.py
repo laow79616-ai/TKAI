@@ -304,9 +304,7 @@ class KnowledgeGraphPlatform:
         self._audit("entity.create", scope, entity_id=entity.id)
         return entity
 
-    def add_relationship(
-        self, edge: Relationship, scope: GraphScope
-    ) -> Relationship:
+    def add_relationship(self, edge: Relationship, scope: GraphScope) -> Relationship:
         self._require(scope, "knowledge_graph:write")
         self._get(self.graphs, edge.graph_id, scope)
         source = self._get(self.entities, edge.source_id, scope)
@@ -367,9 +365,7 @@ class KnowledgeGraphPlatform:
             - entity.properties.keys()
         )
         if missing:
-            raise ValueError(
-                f"Missing required entity properties: {sorted(missing)}"
-            )
+            raise ValueError(f"Missing required entity properties: {sorted(missing)}")
 
     def lookup_entity(self, entity_id: str, scope: GraphScope) -> Entity:
         self._require(scope, "knowledge_graph:read")
@@ -381,9 +377,7 @@ class KnowledgeGraphPlatform:
         self._require(scope, "knowledge_graph:read")
         return self._get(self.relationships, relationship_id, scope)
 
-    def _adjacency(
-        self, graph_id: str, scope: GraphScope
-    ) -> dict[str, list[str]]:
+    def _adjacency(self, graph_id: str, scope: GraphScope) -> dict[str, list[str]]:
         self._get(self.graphs, graph_id, scope)
         adjacency: dict[str, list[str]] = {}
         for edge in self.relationships.values():
@@ -486,12 +480,7 @@ class KnowledgeGraphPlatform:
         timeout_seconds: float = 5,
     ) -> dict[str, Any]:
         self._require(scope, "knowledge_graph:query")
-        if (
-            limit < 1
-            or limit > 10_000
-            or timeout_seconds <= 0
-            or timeout_seconds > 30
-        ):
+        if limit < 1 or limit > 10_000 or timeout_seconds <= 0 or timeout_seconds > 30:
             raise ValueError("Invalid query controls.")
         started = time.monotonic()
         self._get(self.graphs, graph_id, scope)
@@ -504,8 +493,7 @@ class KnowledgeGraphPlatform:
             if entity_type is not None and entity.type is not entity_type:
                 continue
             if properties and any(
-                entity.properties.get(key) != value
-                for key, value in properties.items()
+                entity.properties.get(key) != value for key, value in properties.items()
             ):
                 continue
             matches.append(entity.to_dict())
@@ -541,10 +529,7 @@ class KnowledgeGraphPlatform:
                     raise ValueError("Unsupported inference rule.")
                 source_type = rule.get("if_type")
                 for entity in self.entities.values():
-                    if (
-                        entity.graph_id == graph_id
-                        and entity.type.value == source_type
-                    ):
+                    if entity.graph_id == graph_id and entity.type.value == source_type:
                         inferred.append(
                             {
                                 "entity_id": entity.id,
@@ -580,9 +565,7 @@ class KnowledgeGraphPlatform:
             union = source_tokens | tokens
             score = len(source_tokens & tokens) / len(union) if union else 0
             results.append({"entity": entity.to_dict(), "score": score})
-        return sorted(
-            results, key=lambda item: item["score"], reverse=True
-        )[:limit]
+        return sorted(results, key=lambda item: item["score"], reverse=True)[:limit]
 
     def record_provenance(
         self, record: ProvenanceRecord, scope: GraphScope
@@ -598,9 +581,7 @@ class KnowledgeGraphPlatform:
         self._audit("provenance.record", scope, provenance_id=record.id)
         return record
 
-    def record_lineage(
-        self, record: LineageRecord, scope: GraphScope
-    ) -> LineageRecord:
+    def record_lineage(self, record: LineageRecord, scope: GraphScope) -> LineageRecord:
         self._require(scope, "knowledge_graph:write")
         self._get(self.graphs, record.graph_id, scope)
         if not self._in_scope(record, scope):
@@ -651,9 +632,7 @@ class KnowledgeGraphPlatform:
         result = {
             "centrality": centrality,
             "connectivity": len(edges) / max(1, len(entities)),
-            "communities": self._components(
-                (entity.id for entity in entities), edges
-            ),
+            "communities": self._components((entity.id for entity in entities), edges),
             "path_analysis": {"edges": len(edges), "nodes": len(entities)},
             "influence": sorted(
                 centrality, key=lambda item: centrality[item], reverse=True
@@ -668,9 +647,7 @@ class KnowledgeGraphPlatform:
         return result
 
     @staticmethod
-    def _components(
-        nodes: Iterable[str], edges: list[Relationship]
-    ) -> list[list[str]]:
+    def _components(nodes: Iterable[str], edges: list[Relationship]) -> list[list[str]]:
         adjacency: dict[str, set[str]] = {node: set() for node in nodes}
         for edge in edges:
             adjacency.setdefault(edge.source_id, set()).add(edge.target_id)
@@ -700,17 +677,13 @@ class KnowledgeGraphPlatform:
         if name == "entities":
             return [item.to_dict() for item in scoped(self.entities.values())]
         if name == "relationships":
-            return [
-                item.to_dict() for item in scoped(self.relationships.values())
-            ]
+            return [item.to_dict() for item in scoped(self.relationships.values())]
         if name == "ontology":
             return [asdict(item) for item in scoped(self.ontologies.values())]
         if name == "taxonomy":
             return [asdict(item) for item in scoped(self.taxonomies.values())]
         if name == "queries":
-            return {
-                "total": self.metrics.snapshot()["knowledge_queries_total"]
-            }
+            return {"total": self.metrics.snapshot()["knowledge_queries_total"]}
         if name == "lineage":
             return [self._serialize(item) for item in scoped(self.lineage)]
         if name == "analytics":

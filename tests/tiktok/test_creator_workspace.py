@@ -78,9 +78,7 @@ def move_to_review(center: TikTokCreatorWorkspace) -> None:
     center.transition("project-1", WorkspaceStatus.REVIEW, scope())
 
 
-def approve(
-    center: TikTokCreatorWorkspace, kind: ApprovalKind, reference: str
-) -> None:
+def approve(center: TikTokCreatorWorkspace, kind: ApprovalKind, reference: str) -> None:
     center.decide_approval(
         Approval(
             reference,
@@ -150,9 +148,7 @@ def test_encrypted_assets_calendar_views_and_templates() -> None:
     )
     clone = center.clone_template("template-1", "template-2", scope())
     assert asset.kind is AssetKind.VIDEO
-    assert center.calendar(
-        scope(), start=starts_at - timedelta(minutes=1)
-    ) == [entry]
+    assert center.calendar(scope(), start=starts_at - timedelta(minutes=1)) == [entry]
     assert template.version == clone.version == 1
     assert clone.source_reference == "template-1"
 

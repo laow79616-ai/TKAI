@@ -39,9 +39,7 @@ def test_release_structure_documentation_and_metrics() -> None:
         "dashboard",
     )
     for module in modules:
-        assert (
-            root / "business_intelligence" / module / "__init__.py"
-        ).is_file()
+        assert (root / "business_intelligence" / module / "__init__.py").is_file()
     for document in (
         "Architecture",
         "WorkspaceLifecycle",
@@ -59,10 +57,6 @@ def test_release_structure_documentation_and_metrics() -> None:
         "Security",
         "Operations",
     ):
-        assert (
-            root / "docs" / "business_intelligence" / f"{document}.md"
-        ).is_file()
+        assert (root / "docs" / "business_intelligence" / f"{document}.md").is_file()
     assert len(METRICS) == 11
-    assert "business_intelligence*" in (root / "pyproject.toml").read_text(
-        "utf-8"
-    )
+    assert "business_intelligence*" in (root / "pyproject.toml").read_text("utf-8")

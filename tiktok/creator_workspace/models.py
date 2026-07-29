@@ -112,9 +112,7 @@ class CreatorWorkspace:
     updated_at: datetime = field(default_factory=utcnow)
 
     def validate(self) -> None:
-        if not all(
-            (self.id, self.name, self.owner, self.tenant, self.workspace)
-        ):
+        if not all((self.id, self.name, self.owner, self.tenant, self.workspace)):
             raise ValueError("Workspace identity, owner, and scope are required.")
         if self.version < 1:
             raise ValueError("Workspace version must be positive.")
@@ -283,9 +281,8 @@ class Approval:
 
     @property
     def active(self) -> bool:
-        return (
-            self.status is ApprovalStatus.APPROVED
-            and (self.expires_at is None or self.expires_at > utcnow())
+        return self.status is ApprovalStatus.APPROVED and (
+            self.expires_at is None or self.expires_at > utcnow()
         )
 
 

@@ -107,8 +107,7 @@ class TikTokResourceCenter:
                 f"Unknown bounded Resource Center ports: {sorted(unknown)}"
             )
         self.ports: dict[str, InventoryPort] = {
-            name: supplied.get(name, EmptyInventoryPort())
-            for name in INTEGRATION_NAMES
+            name: supplied.get(name, EmptyInventoryPort()) for name in INTEGRATION_NAMES
         }
         self.resources: dict[str, Resource] = {}
         self.reservations: dict[str, Reservation] = {}
@@ -183,9 +182,10 @@ class TikTokResourceCenter:
         resource.validate()
         if resource.id in self.resources:
             raise ValueError("Resource ID must be unique.")
-        if len(self.scoped_values(self.resources.values(), scope)) >= self.quota_for(
-            scope
-        ).workspace:
+        if (
+            len(self.scoped_values(self.resources.values(), scope))
+            >= self.quota_for(scope).workspace
+        ):
             raise OverflowError("Workspace resource quota reached.")
         type_limit = self._quota_limit(resource.resource_type, self.quota_for(scope))
         same_type = sum(
@@ -507,9 +507,7 @@ class TikTokResourceCenter:
                     self.transition(resource.id, ResourceStatus.RELEASED, scope)
                 leases += 1
         if reservations or leases:
-            self._record(
-                scope, "expiration.cleaned", "*", f"{reservations}:{leases}"
-            )
+            self._record(scope, "expiration.cleaned", "*", f"{reservations}:{leases}")
         return {"reservations": reservations, "leases": leases}
 
     def record_utilization(
@@ -630,13 +628,13 @@ class TikTokResourceCenter:
             for item in self.scoped_values(self.reservations.values(), scope)
             if not item.cancelled
         ]
-        allocation = 100.0 if all(
-            item.resource_id in self.resources for item in active_allocations
-        ) else 0.0
-        lease = (
+        allocation = (
             100.0
-            if all(item.expires_at > utcnow() for item in active_leases)
-            else 50.0
+            if all(item.resource_id in self.resources for item in active_allocations)
+            else 0.0
+        )
+        lease = (
+            100.0 if all(item.expires_at > utcnow() for item in active_leases) else 50.0
         )
         reservation = (
             100.0
@@ -647,9 +645,9 @@ class TikTokResourceCenter:
         utilization = max(
             0.0, 100.0 - self.utilization(scope)["utilization_rate"] * 30.0
         )
-        composite = sum(
-            (inventory, allocation, lease, reservation, capacity, utilization)
-        ) / 6
+        composite = (
+            sum((inventory, allocation, lease, reservation, capacity, utilization)) / 6
+        )
         self.metrics.set("tiktok_resource_health_score", composite)
         return {
             "inventory_health": inventory,
@@ -735,9 +733,7 @@ class TikTokResourceCenter:
                     and item["workspace"] == scope.workspace
                 ]
             ),
-            "recovery": sum(
-                self.recovery_attempts[item.id] for item in resources
-            ),
+            "recovery": sum(self.recovery_attempts[item.id] for item in resources),
         }
 
     def statistics(self, scope: ResourceScope) -> dict[str, Any]:

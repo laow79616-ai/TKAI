@@ -621,6 +621,7 @@ class TikTokLeadManagementCenter:
     def history(self, scope: LeadScope) -> dict[str, Any]:
         def scoped(values: Any) -> list[dict[str, Any]]:
             return [asdict(item) for item in self.scoped_values(values, scope)]
+
         return {
             "lead_history": [
                 item

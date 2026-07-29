@@ -138,9 +138,7 @@ class EnterpriseAIGovernancePlatform:
             )
         return updated
 
-    def create_risk(
-        self, payload: dict[str, Any], scope: GovernanceScope
-    ) -> Risk:
+    def create_risk(self, payload: dict[str, Any], scope: GovernanceScope) -> Risk:
         self.security.require(scope, "governance:risk:write")
         item = Risk(
             id=str(payload.get("id") or uuid4()),
@@ -215,9 +213,7 @@ class EnterpriseAIGovernancePlatform:
         item = self._get(self.approvals, approval_id, scope)
         if item.status is not GovernanceStatus.PENDING:
             raise ValueError("Approval has already been decided.")
-        updated = replace(
-            item, status=GovernanceStatus(decision), approver=scope.actor
-        )
+        updated = replace(item, status=GovernanceStatus(decision), approver=scope.actor)
         self.approvals[item.id] = updated
         return updated
 
@@ -278,9 +274,7 @@ class EnterpriseAIGovernancePlatform:
             timeline=tuple(dict(value) for value in payload.get("timeline", ())),
             containment=str(payload.get("containment", "")),
             resolution=str(payload.get("resolution", "")),
-            postmortem_reference=self._optional(
-                payload.get("postmortem_reference")
-            ),
+            postmortem_reference=self._optional(payload.get("postmortem_reference")),
         )
         self._add(self.incidents, item.id, item, "Incident")
         self.metrics.increment("governance_incidents_total")
@@ -341,41 +335,39 @@ class EnterpriseAIGovernancePlatform:
         self.security.require(scope, "governance:report:read")
         policies = self.list_records(self.policies, scope, "governance:report:read")
         risks = self.list_records(self.risks, scope, "governance:report:read")
-        compliance = self.list_records(
-            self.compliance, scope, "governance:report:read"
-        )
+        compliance = self.list_records(self.compliance, scope, "governance:report:read")
         return cast(
             dict[str, Any],
             self.security.redact(
-            {
-                "policy_coverage": {
-                    "total": len(policies),
-                    "active": sum(
-                        item.status is PolicyStatus.ACTIVE for item in policies
+                {
+                    "policy_coverage": {
+                        "total": len(policies),
+                        "active": sum(
+                            item.status is PolicyStatus.ACTIVE for item in policies
+                        ),
+                    },
+                    "risk_summary": {
+                        level.value: sum(item.severity is level for item in risks)
+                        for level in Severity
+                    },
+                    "control_status": self._status_counts(self.controls, scope),
+                    "open_findings": sum(bool(item.finding) for item in compliance),
+                    "exceptions": len(
+                        self.list_records(
+                            self.exceptions, scope, "governance:report:read"
+                        )
+                    ),
+                    "incidents": len(
+                        self.list_records(
+                            self.incidents, scope, "governance:report:read"
+                        )
+                    ),
+                    "approval_status": self._status_counts(self.approvals, scope),
+                    "disclaimer": (
+                        "Framework mappings and assessments do not constitute "
+                        "certification or legal compliance."
                     ),
                 },
-                "risk_summary": {
-                    level.value: sum(item.severity is level for item in risks)
-                    for level in Severity
-                },
-                "control_status": self._status_counts(self.controls, scope),
-                "open_findings": sum(bool(item.finding) for item in compliance),
-                "exceptions": len(
-                    self.list_records(
-                        self.exceptions, scope, "governance:report:read"
-                    )
-                ),
-                "incidents": len(
-                    self.list_records(
-                        self.incidents, scope, "governance:report:read"
-                    )
-                ),
-                "approval_status": self._status_counts(self.approvals, scope),
-                "disclaimer": (
-                    "Framework mappings and assessments do not constitute "
-                    "certification or legal compliance."
-                ),
-            },
             ),
         )
 
@@ -406,9 +398,7 @@ class EnterpriseAIGovernancePlatform:
             "metrics": self.metrics.snapshot(),
         }
 
-    def _get(
-        self, store: dict[str, T], identifier: str, scope: GovernanceScope
-    ) -> T:
+    def _get(self, store: dict[str, T], identifier: str, scope: GovernanceScope) -> T:
         item = store.get(identifier)
         if item is None:
             raise KeyError(identifier)
@@ -445,9 +435,7 @@ class EnterpriseAIGovernancePlatform:
         return result
 
     @staticmethod
-    def _validate_resource_attributes(
-        kind: str, attributes: dict[str, Any]
-    ) -> None:
+    def _validate_resource_attributes(kind: str, attributes: dict[str, Any]) -> None:
         requirements = {
             "model": {"provider", "allowed_use", "restricted_use"},
             "prompt": {"risk_classification", "sensitive_variables"},

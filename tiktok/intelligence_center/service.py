@@ -229,9 +229,7 @@ class TikTokAutonomousIntelligenceCenter:
     def analytics(self, context: IntelligenceContext) -> dict[str, float]:
         return {
             "profiles_total": float(len(self._items(self.profiles, context))),
-            "reasoning_total": float(
-                len(self._items(self.reasoning_results, context))
-            ),
+            "reasoning_total": float(len(self._items(self.reasoning_results, context))),
             "predictions_total": float(len(self._items(self.predictions, context))),
             "recommendations_total": float(
                 len(self._items(self.recommendations, context))

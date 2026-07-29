@@ -195,9 +195,7 @@ def test_risk_compliance_approvals_controls_and_reports() -> None:
         ),
     ],
 )
-def test_governed_resource_contracts(
-    kind: str, attributes: dict[str, Any]
-) -> None:
+def test_governed_resource_contracts(kind: str, attributes: dict[str, Any]) -> None:
     platform, scope = configured()
     item = platform.register_resource(
         kind,
@@ -290,9 +288,7 @@ def test_tenant_workspace_rbac_and_sensitive_metadata_redaction() -> None:
     unprivileged = GovernanceScope("tenant-a", "workspace-a", "bob")
     with pytest.raises(PermissionError, match="governance:policy:write"):
         platform.create_policy({**policy_payload(), "id": "policy-2"}, unprivileged)
-    redacted = platform.security.redact(
-        platform.policies["policy-1"].to_dict()
-    )
+    redacted = platform.security.redact(platform.policies["policy-1"].to_dict())
     assert redacted["metadata"]["token"] == "[REDACTED]"
     assert redacted["metadata"]["nested"]["password"] == "[REDACTED]"
 

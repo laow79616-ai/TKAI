@@ -25,9 +25,7 @@ class CoordinationLimits:
     timeout_seconds: float = 300.0
 
     def __post_init__(self) -> None:
-        if min(
-            self.maximum_depth, self.maximum_agents, self.timeout_seconds
-        ) <= 0:
+        if min(self.maximum_depth, self.maximum_agents, self.timeout_seconds) <= 0:
             raise ValueError("Coordinator limits must be positive.")
 
 

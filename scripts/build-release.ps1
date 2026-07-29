@@ -6,9 +6,11 @@ $output = [System.IO.Path]::GetFullPath((Join-Path $repository $OutputDirectory)
 $release = Get-Content "$repository\release.json" -Raw | ConvertFrom-Json
 $stage = Join-Path $output "tkai-$($release.version)"
 $archive = Join-Path $output "tkai-$($release.version).zip"
+$sourceArchive = Join-Path $output "tkai-$($release.version).tar.gz"
 
 if (-not (Test-Path "$repository\dashboard\frontend\dist")) { throw "Dashboard build is missing." }
 if (-not (Test-Path "$repository\studio\frontend\dist")) { throw "AI Studio build is missing." }
+if (-not (Test-Path -LiteralPath $sourceArchive)) { throw "Source package is missing: $sourceArchive" }
 New-Item -ItemType Directory -Force -Path $output | Out-Null
 if (Test-Path $stage) { Remove-Item -LiteralPath $stage -Recurse -Force }
 if (Test-Path $archive) { Remove-Item -LiteralPath $archive -Force }
@@ -17,7 +19,8 @@ New-Item -ItemType Directory -Path $stage | Out-Null
 $include = @(
     "src", "server", "tiktok", "local_runtime", "dashboard\frontend\dist",
     "studio\frontend\dist", "configuration\local.example.json", "deployment",
-    "scripts", "docs", "pyproject.toml", "README.md", "LICENSE",
+    "scripts", "docs", "pyproject.toml", "README.md", "CHANGELOG.md",
+    "RELEASE_NOTES_V6.md", "LICENSE",
     "release.json", "release-checklist.json", "docker-compose.local.yml"
 )
 foreach ($relative in $include) {
@@ -27,6 +30,8 @@ foreach ($relative in $include) {
     New-Item -ItemType Directory -Force -Path (Split-Path $destination) | Out-Null
     Copy-Item -LiteralPath $source -Destination $destination -Recurse -Force
 }
+New-Item -ItemType Directory -Force -Path "$stage\source" | Out-Null
+Copy-Item -LiteralPath $sourceArchive -Destination "$stage\source" -Force
 Get-ChildItem $stage -Recurse -Directory | Where-Object {
     $_.Name -in @("__pycache__", "node_modules", "runtime", ".venv")
 } | Sort-Object FullName -Descending | Remove-Item -Recurse -Force
@@ -47,6 +52,24 @@ $commit = (git -C $repository rev-parse HEAD).Trim()
 $metadata = Get-Content "$stage\release.json" -Raw | ConvertFrom-Json
 $metadata.git_commit = $commit
 $metadata | ConvertTo-Json | Set-Content "$stage\release.json" -Encoding UTF8
+$buildMetadata = [ordered]@{
+    product = $release.product
+    version = $release.version
+    git_commit = $commit
+    built_at_utc = [DateTime]::UtcNow.ToString("o")
+    python = (& python --version 2>&1).ToString()
+    powershell = $PSVersionTable.PSVersion.ToString()
+}
+$buildMetadata | ConvertTo-Json | Set-Content "$stage\BUILD_METADATA.json" -Encoding UTF8
+$releaseManifest = [ordered]@{
+    version = $release.version
+    git_commit = $commit
+    source_distribution = "source/tkai-$($release.version).tar.gz"
+    included_roots = $include
+    file_count = @(Get-ChildItem $stage -Recurse -File).Count
+}
+$releaseManifest | ConvertTo-Json -Depth 3 |
+    Set-Content "$stage\RELEASE_MANIFEST.json" -Encoding UTF8
 Get-ChildItem $stage -Recurse -File | Sort-Object FullName | ForEach-Object {
     $relative = $_.FullName.Substring($stage.Length + 1).Replace("\", "/")
     "$((Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower())  $relative"

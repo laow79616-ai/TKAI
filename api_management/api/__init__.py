@@ -21,9 +21,7 @@ from api_management import (
 )
 
 
-def register_api_management_routes(
-    app: Any, platform: ApiManagementPlatform
-) -> None:
+def register_api_management_routes(app: Any, platform: ApiManagementPlatform) -> None:
     """Register the API-management control-plane resource contract."""
 
     def add(path: str, endpoint: Any, methods: list[str]) -> None:
@@ -36,9 +34,7 @@ def register_api_management_routes(
 
     def scope(payload: dict[str, Any] | None = None, **values: str) -> ApiScope:
         data: dict[str, Any] = payload or values
-        permissions = str(
-            data.get("permissions", "api-management:read")
-        ).split(",")
+        permissions = str(data.get("permissions", "api-management:read")).split(",")
         return ApiScope(
             str(data["tenant"]),
             str(data["workspace"]),

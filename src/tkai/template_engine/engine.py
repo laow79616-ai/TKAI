@@ -33,7 +33,6 @@ class TemplateEngine:
         )
 
         for source in template_dir.rglob("*"):
-
             relative = source.relative_to(template_dir)
 
             target = output_dir / relative

@@ -97,8 +97,7 @@ class TikTokAutonomousMissionEngine:
             for name, module in self.modules.items()
         }
         if any(
-            value.get("restriction_unresolved")
-            or value.get("challenge_unresolved")
+            value.get("restriction_unresolved") or value.get("challenge_unresolved")
             for value in health.values()
         ):
             raise PermissionError(
@@ -164,7 +163,7 @@ class TikTokAutonomousMissionEngine:
         reference: str,
         checkpoint_reference: str,
         progress: float,
-        scope: MissionScope
+        scope: MissionScope,
     ) -> Checkpoint:
         self._require(scope, "write")
         mission = self._mission(reference, scope)
@@ -209,9 +208,7 @@ class TikTokAutonomousMissionEngine:
         self._record(mission, scope, "mission.failed")
         return mission
 
-    def _update_terminal_metrics(
-        self, mission: Mission, scope: MissionScope
-    ) -> None:
+    def _update_terminal_metrics(self, mission: Mission, scope: MissionScope) -> None:
         self.metrics.set(
             "tiktok_missions_running",
             sum(
@@ -292,10 +289,7 @@ class TikTokAutonomousMissionEngine:
         return {
             "mission_health": mission.state.value,
             **{
-                group: all(
-                    bool(modules[name].get("healthy", False))
-                    for name in names
-                )
+                group: all(bool(modules[name].get("healthy", False)) for name in names)
                 for group, names in groups.items()
             },
             "modules": modules,
@@ -335,8 +329,7 @@ class TikTokAutonomousMissionEngine:
             "recovery": [
                 item.to_dict()
                 for item in missions
-                if item.state
-                in {MissionState.RECOVERING, MissionState.ROLLED_BACK}
+                if item.state in {MissionState.RECOVERING, MissionState.ROLLED_BACK}
             ],
             "analytics": self.analytics(scope),
         }

@@ -16,7 +16,6 @@ class TemplateRenderer:
     ) -> str:
 
         for key, value in variables.items():
-
             text = text.replace(
                 "{{ " + key + " }}",
                 str(value),

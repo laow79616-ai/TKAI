@@ -550,9 +550,7 @@ class DigitalTwinPlatform:
         self._audit("simulation.run", scope, twin_id=twin_id, run_id=run.id)
         return run
 
-    def add_prediction(
-        self, prediction: Prediction, scope: TwinScope
-    ) -> Prediction:
+    def add_prediction(self, prediction: Prediction, scope: TwinScope) -> Prediction:
         self._require(scope, "digital_twin:predict")
         self._get(self.twins, prediction.twin_id, scope)
         if not self._in_scope(prediction, scope):
@@ -592,9 +590,7 @@ class DigitalTwinPlatform:
             "telemetry": [item.to_dict() for item in scoped(self.telemetry)],
             "simulation": [item.to_dict() for item in scoped(self.simulations)],
             "predictions": [item.to_dict() for item in scoped(self.predictions)],
-            "optimization": [
-                item.to_dict() for item in scoped(self.optimizations)
-            ],
+            "optimization": [item.to_dict() for item in scoped(self.optimizations)],
             "metrics": self.metrics.snapshot(),
         }
 

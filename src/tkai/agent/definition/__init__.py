@@ -27,9 +27,7 @@ class AgentDefinition:
             raise ValueError("Agent id, name, version, and prompt are required.")
         object.__setattr__(self, "tools", tuple(dict.fromkeys(self.tools)))
         object.__setattr__(self, "memory", tuple(dict.fromkeys(self.memory)))
-        object.__setattr__(
-            self, "permissions", tuple(sorted(set(self.permissions)))
-        )
+        object.__setattr__(self, "permissions", tuple(sorted(set(self.permissions))))
         object.__setattr__(self, "metadata", immutable_mapping(self.metadata))
 
     def to_dict(self) -> dict[str, Any]:
@@ -49,4 +47,3 @@ class AgentDefinition:
             },
             "metadata": dict(self.metadata),
         }
-

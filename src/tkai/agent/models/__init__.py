@@ -70,4 +70,3 @@ class RunMetrics:
             "tool_calls": self.tool_calls,
             "tool_failures": self.tool_failures,
         }
-

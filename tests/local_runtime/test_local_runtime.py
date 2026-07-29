@@ -90,19 +90,14 @@ def test_restore_preserves_external_secret_reference(tmp_path: Path) -> None:
     configuration.mkdir()
     local_config = configuration / "local.json"
     local_config.write_text(
-        json.dumps(
-            {"secret_reference": "windows-credential-manager://TKAI/local"}
-        ),
+        json.dumps({"secret_reference": "windows-credential-manager://TKAI/local"}),
         encoding="utf-8",
     )
     manager = LocalRuntimeManager(runtime_config)
     backup = manager.backup()
     manager.restore(backup, force=True)
     restored = json.loads(local_config.read_text(encoding="utf-8"))
-    assert (
-        restored["secret_reference"]
-        == "windows-credential-manager://TKAI/local"
-    )
+    assert restored["secret_reference"] == "windows-credential-manager://TKAI/local"
 
 
 def test_diagnostic_secret_sanitization() -> None:

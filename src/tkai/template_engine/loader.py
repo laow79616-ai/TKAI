@@ -19,7 +19,6 @@ class TemplateLoader:
         template = self.templates / template_name
 
         if not template.is_dir():
-
             raise FileNotFoundError(f"Template '{template_name}' not found.")
 
         return template

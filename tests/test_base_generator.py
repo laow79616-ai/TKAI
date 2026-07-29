@@ -5,7 +5,6 @@ from tkai.generators.base import BaseGenerator
 
 
 class DemoGenerator(BaseGenerator):
-
     def generate(self, **kwargs):
         return "ok"
 

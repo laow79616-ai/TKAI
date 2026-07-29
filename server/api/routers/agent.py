@@ -26,4 +26,3 @@ def get_run_endpoint(api: AgentApi) -> Callable[[str], dict[str, Any]]:
 
 def delete_run_endpoint(api: AgentApi) -> Callable[[str], dict[str, bool]]:
     return api.delete_run
-

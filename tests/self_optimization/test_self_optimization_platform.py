@@ -44,9 +44,7 @@ def scope():
     }
     permissions = {"self_optimization:read"}
     permissions.update(f"self_optimization:{action}" for action in actions)
-    return OptimizationScope(
-        "tenant-a", "workspace-a", "owner", frozenset(permissions)
-    )
+    return OptimizationScope("tenant-a", "workspace-a", "owner", frozenset(permissions))
 
 
 @pytest.fixture
@@ -115,9 +113,7 @@ def test_optimization_lineage_metrics_rollback_and_kill_switch(
     platform.activate_kill_switch(profile.id, scope, "risk threshold")
     with pytest.raises(RuntimeError):
         platform.record_resource(
-            ResourcePlan(
-                "blocked", profile.id, scope.tenant, scope.workspace, cpu=1
-            ),
+            ResourcePlan("blocked", profile.id, scope.tenant, scope.workspace, cpu=1),
             scope,
         )
     platform.release_kill_switch(profile.id, scope)
@@ -219,9 +215,7 @@ def test_resources_performance_cost_latency_capacity(platform, scope, profile):
         )
 
 
-def test_experiments_recommendations_evaluation_monitoring(
-    platform, scope, profile
-):
+def test_experiments_recommendations_evaluation_monitoring(platform, scope, profile):
     platform.experiment(
         Experiment(
             "experiment-1",

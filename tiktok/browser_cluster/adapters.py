@@ -1,4 +1,5 @@
 """Narrow ports that reuse existing TikTok centers without owning them."""
+
 from __future__ import annotations
 
 from typing import Protocol

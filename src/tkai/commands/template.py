@@ -1,4 +1,4 @@
-﻿"""
+"""
 TKAI Template Command
 """
 

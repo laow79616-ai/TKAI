@@ -15,9 +15,7 @@ class PluginApi:
     def list_plugins(
         self, query: str = "", category: str = "", tag: str = ""
     ) -> dict[str, object]:
-        records = self.marketplace.catalog.search(
-            query, category=category, tag=tag
-        )
+        records = self.marketplace.catalog.search(query, category=category, tag=tag)
         return {"data": [item.to_dict() for item in records], "total": len(records)}
 
     def install(self, payload: dict[str, object]) -> dict[str, object]:

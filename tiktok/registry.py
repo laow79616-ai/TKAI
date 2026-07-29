@@ -1,4 +1,4 @@
-"""Canonical registry for completed TKAI V5 TikTok modules."""
+"""Canonical registry for completed TKAI V6 TikTok modules."""
 
 from __future__ import annotations
 

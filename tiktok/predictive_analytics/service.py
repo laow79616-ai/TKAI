@@ -94,9 +94,7 @@ class TikTokPredictiveAnalyticsCenter:
         ):
             raise PermissionError("Cross-tenant or cross-workspace access denied.")
 
-    def _record(
-        self, context: PredictiveContext, action: str, resource: str
-    ) -> None:
+    def _record(self, context: PredictiveContext, action: str, resource: str) -> None:
         self.audit.append(
             {
                 "timestamp": utcnow(),
@@ -195,14 +193,14 @@ class TikTokPredictiveAnalyticsCenter:
             "tiktok_predictive_trends_total",
         )
 
-    def generate_forecast(
-        self, item: Forecast, context: PredictiveContext
-    ) -> Forecast:
+    def generate_forecast(self, item: Forecast, context: PredictiveContext) -> Forecast:
         started = perf_counter()
         profile = self.profiles[item.profile_id]
         self._scoped(profile, context)
-        if not 1 <= item.horizon_days <= min(
-            profile.horizon_days, self.max_horizon_days
+        if (
+            not 1
+            <= item.horizon_days
+            <= min(profile.horizon_days, self.max_horizon_days)
         ):
             raise ValueError("Forecast horizon exceeds profile bounds.")
         if not item.lower_bound <= item.predicted_value <= item.upper_bound:
@@ -226,9 +224,7 @@ class TikTokPredictiveAnalyticsCenter:
         )
         return result
 
-    def compare_scenario(
-        self, item: Scenario, context: PredictiveContext
-    ) -> Scenario:
+    def compare_scenario(self, item: Scenario, context: PredictiveContext) -> Scenario:
         validate_ratio(item.risk_score, "Risk score")
         validate_ratio(item.confidence, "Confidence")
         if not item.assumptions:
@@ -345,9 +341,7 @@ class TikTokPredictiveAnalyticsCenter:
             "scenarios_total": len(self.items(self.scenarios, context)),
             "capacity_forecasts_total": len(self.items(self.capacity, context)),
             "risk_forecasts_total": len(self.items(self.risk, context)),
-            "recommendations_total": len(
-                self.items(self.recommendations, context)
-            ),
+            "recommendations_total": len(self.items(self.recommendations, context)),
             "evaluations_total": len(scoped_evaluations),
             "average_confidence": mean(confidences) if confidences else 0.0,
             "mean_absolute_error": mean(errors) if errors else 0.0,

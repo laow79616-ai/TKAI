@@ -124,10 +124,7 @@ def test_shared_context_memory_retention_namespace_and_isolation() -> None:
     platform.write_memory("session-1:retention-30d", "decision", "approved", scope)
     assert updated.variables["approved"] is True
     assert (
-        platform.read_memory(
-            "session-1:retention-30d", "decision", scope
-        )
-        == "approved"
+        platform.read_memory("session-1:retention-30d", "decision", scope) == "approved"
     )
     other = CollaborationScope("tenant-b", "workspace-a", "alice")
     platform.security.grant(other, PERMISSIONS)

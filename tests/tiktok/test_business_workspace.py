@@ -163,9 +163,7 @@ def test_roles_permissions_members_and_isolation() -> None:
             "Analyst",
             "default",
             "default",
-            frozenset(
-                {Permission.WORKSPACE_ACCESS, Permission.ANALYTICS_ACCESS}
-            ),
+            frozenset({Permission.WORKSPACE_ACCESS, Permission.ANALYTICS_ACCESS}),
             BuiltinRole.ANALYST,
         ),
         scope(),
@@ -181,12 +179,8 @@ def test_roles_permissions_members_and_isolation() -> None:
         ),
         scope(),
     )
-    assert center.authorize_member(
-        member.id, Permission.ANALYTICS_ACCESS, scope()
-    )
-    assert not center.authorize_member(
-        member.id, Permission.APPROVAL_ACCESS, scope()
-    )
+    assert center.authorize_member(member.id, Permission.ANALYTICS_ACCESS, scope())
+    assert not center.authorize_member(member.id, Permission.APPROVAL_ACCESS, scope())
     with pytest.raises(PermissionError, match="Cross-tenant"):
         center.create_workspace(workspace(), scope("other"))
     reader = BusinessScope("default", "default", "reader")
@@ -205,9 +199,7 @@ def test_metadata_reference_and_role_validation() -> None:
     center.create_workspace(workspace(), scope())
     with pytest.raises(ValueError, match="opaque"):
         center.create_project(invalid, scope())
-    empty_role = Role(
-        "empty", "Empty", "default", "default", frozenset()
-    )
+    empty_role = Role("empty", "Empty", "default", "default", frozenset())
     with pytest.raises(ValueError, match="permission"):
         center.add_role(empty_role, scope())
 

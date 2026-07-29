@@ -495,9 +495,7 @@ class SelfOptimizationPlatform:
             "capacity.plan",
         )
 
-    def experiment(
-        self, item: Experiment, scope: OptimizationScope
-    ) -> Experiment:
+    def experiment(self, item: Experiment, scope: OptimizationScope) -> Experiment:
         if item.mode not in self.EXPERIMENT_MODES:
             raise ValueError("Unsupported experiment mode.")
         if (
@@ -532,9 +530,7 @@ class SelfOptimizationPlatform:
             "recommendation.create",
         )
 
-    def evaluate(
-        self, item: Evaluation, scope: OptimizationScope
-    ) -> Evaluation:
+    def evaluate(self, item: Evaluation, scope: OptimizationScope) -> Evaluation:
         self._ratio(item.risk_assessment, "Risk assessment")
         self._ratio(item.confidence, "Confidence")
         if not item.benchmark or not item.quality_metrics:
@@ -577,9 +573,7 @@ class SelfOptimizationPlatform:
             profile.status = OptimizationStatus.PAUSED
         self._audit("safety.kill_switch", scope, profile_id=profile_id, reason=reason)
 
-    def release_kill_switch(
-        self, profile_id: str, scope: OptimizationScope
-    ) -> None:
+    def release_kill_switch(self, profile_id: str, scope: OptimizationScope) -> None:
         self._require(scope, "self_optimization:safety")
         self._profile(profile_id, scope)
         self.kill_switches.discard(profile_id)

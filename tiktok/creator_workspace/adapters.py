@@ -91,6 +91,4 @@ class ExistingRegistryAdapter:
 
     def reference_exists(self, reference: str, tenant: str, workspace: str) -> bool:
         item = getattr(self.service, self.collection, {}).get(reference)
-        return bool(
-            item and item.tenant == tenant and item.workspace == workspace
-        )
+        return bool(item and item.tenant == tenant and item.workspace == workspace)

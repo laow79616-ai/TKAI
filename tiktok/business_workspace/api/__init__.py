@@ -181,9 +181,7 @@ def _register_collection(
     app.add_api_route(path, creator, methods=["POST"], tags=TAG)
 
 
-def _scoped_values(
-    collection: dict[str, Any], scope: BusinessScope
-) -> list[Any]:
+def _scoped_values(collection: dict[str, Any], scope: BusinessScope) -> list[Any]:
     return [
         item
         for item in collection.values()

@@ -495,17 +495,13 @@ class TikTokPublishingCenter:
                 if item.status is PublishingStatus.SCHEDULED
             ],
             "approvals": [
-                item
-                for key, item in self.approvals.items()
-                if key in job_ids
+                item for key, item in self.approvals.items() if key in job_ids
             ],
             "failures": [
                 item for item in self.failures if item.job_reference in job_ids
             ],
             "retries": [item.to_dict() for item in jobs if item.attempts > 0],
-            "history": [
-                item for item in self.history if item.job_reference in job_ids
-            ],
+            "history": [item for item in self.history if item.job_reference in job_ids],
             "analytics": self.analytics(scope),
             "statistics": self.metrics.snapshot(),
             "notifications": [

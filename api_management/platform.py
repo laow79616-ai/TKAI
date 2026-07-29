@@ -515,9 +515,7 @@ class ApiManagementPlatform:
             del self._cache[key]
         return len(keys)
 
-    def subscribe(
-        self, subscription: Subscription, scope: ApiScope
-    ) -> Subscription:
+    def subscribe(self, subscription: Subscription, scope: ApiScope) -> Subscription:
         self._require(scope, "api-management:subscribe")
         self._check(subscription, scope)
         self._check(self.apis[subscription.api_id], scope)
@@ -737,8 +735,7 @@ class ApiManagementPlatform:
     ) -> None:
         policy = self.caches.get(api.id)
         sensitive = any(
-            name.lower() in {"authorization", "set-cookie"}
-            for name in response.headers
+            name.lower() in {"authorization", "set-cookie"} for name in response.headers
         )
         if (
             policy is None

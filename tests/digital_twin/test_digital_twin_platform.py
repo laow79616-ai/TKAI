@@ -68,14 +68,22 @@ def test_entities_relationships_and_topology(
     platform, scope = system
     platform.add_entity(
         TwinEntity(
-            "machine", "twin-1", scope.tenant, scope.workspace, "M1",
+            "machine",
+            "twin-1",
+            scope.tenant,
+            scope.workspace,
+            "M1",
             EntityType.MACHINE,
         ),
         scope,
     )
     platform.add_entity(
         TwinEntity(
-            "model", "twin-1", scope.tenant, scope.workspace, "Predictor",
+            "model",
+            "twin-1",
+            scope.tenant,
+            scope.workspace,
+            "Predictor",
             EntityType.MODEL,
         ),
         scope,
@@ -110,9 +118,7 @@ def test_state_synchronization_diff_and_failure_metric(
         SynchronizationMode.EVENT_DRIVEN,
     )
     platform.configure_sync(policy, scope)
-    snapshot = platform.synchronize(
-        "twin-1", {"load": 9}, scope, expected_version=1
-    )
+    snapshot = platform.synchronize("twin-1", {"load": 9}, scope, expected_version=1)
     assert snapshot.version == 2
     assert platform.state_diff("twin-1", 1, 2, scope)["load"]["after"] == 9
     with pytest.raises(ValueError, match="conflict"):
@@ -133,15 +139,26 @@ def test_simulation_prediction_optimization_dashboard_and_metrics(
     assert run.impact["capacity"]["after"] == 90
     platform.add_prediction(
         Prediction(
-            "p-1", "twin-1", scope.tenant, scope.workspace,
-            PredictionType.CAPACITY, 90, 0.9, "P7D",
+            "p-1",
+            "twin-1",
+            scope.tenant,
+            scope.workspace,
+            PredictionType.CAPACITY,
+            90,
+            0.9,
+            "P7D",
         ),
         scope,
     )
     platform.add_optimization(
         Optimization(
-            "o-1", "twin-1", scope.tenant, scope.workspace,
-            OptimizationType.ENERGY_INTERFACE, {"reduce_watts": 20}, 0.2,
+            "o-1",
+            "twin-1",
+            scope.tenant,
+            scope.workspace,
+            OptimizationType.ENERGY_INTERFACE,
+            {"reduce_watts": 20},
+            0.2,
         ),
         scope,
     )

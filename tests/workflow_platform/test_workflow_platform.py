@@ -75,9 +75,7 @@ def test_execution_retry_checkpoint_resume_rollback_cancel_and_metrics() -> None
     assert platform.metrics.snapshot()["workflow_success_total"] == 1
     assert platform.engine.rollback(result.id, 1).checkpoint == 1
 
-    resumed = platform.engine.run(
-        workflow, {}, execution_id="resume", resume_from=1
-    )
+    resumed = platform.engine.run(workflow, {}, execution_id="resume", resume_from=1)
     assert resumed.checkpoint == 2
     platform.engine.cancel("cancelled")
     cancelled = platform.engine.run(workflow, {}, execution_id="cancelled")
@@ -85,9 +83,7 @@ def test_execution_retry_checkpoint_resume_rollback_cancel_and_metrics() -> None
 
 
 def test_variables_conditions_forms_approvals_connectors_security_dashboard() -> None:
-    variables = Variables(
-        inputs={"name": "TKAI"}, secrets={"key": "never returned"}
-    )
+    variables = Variables(inputs={"name": "TKAI"}, secrets={"key": "never returned"})
     assert variables.resolve("${input.name}") == "TKAI"
     assert variables.resolve("${secret.key}") == {"secret_reference": "key"}
     assert evaluate("regex", "TKAI-31", r"TKAI-\d+")

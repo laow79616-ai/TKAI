@@ -15,9 +15,7 @@ class DecisionIntelligenceAPI:
         "simulations",
         "insights",
     )
-    ROUTES = tuple(
-        f"/decision-intelligence/{resource}" for resource in RESOURCES
-    )
+    ROUTES = tuple(f"/decision-intelligence/{resource}" for resource in RESOURCES)
 
     def __init__(self, platform: DecisionIntelligencePlatform) -> None:
         self.platform = platform

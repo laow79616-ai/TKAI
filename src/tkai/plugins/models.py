@@ -96,9 +96,7 @@ class InstalledPlugin:
         data = self.definition.to_dict()
         data["state"] = self.state.value
         data["installed_at"] = self.installed_at
-        data["previous_versions"] = [
-            item.version for item in self.previous_versions
-        ]
+        data["previous_versions"] = [item.version for item in self.previous_versions]
         return data
 
 

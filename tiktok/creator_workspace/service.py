@@ -210,9 +210,7 @@ class TikTokCreatorWorkspace:
         self._audit(f"project.{status.value}", project.id, scope)
         return project
 
-    def add_asset(
-        self, asset: CreativeAsset, scope: CreatorScope
-    ) -> CreativeAsset:
+    def add_asset(self, asset: CreativeAsset, scope: CreatorScope) -> CreativeAsset:
         started = monotonic()
         self._require(scope, "write")
         self._scoped(asset, scope)
@@ -323,9 +321,7 @@ class TikTokCreatorWorkspace:
         self._audit("review.complete", review.id, scope)
         return review
 
-    def decide_approval(
-        self, approval: Approval, scope: CreatorScope
-    ) -> Approval:
+    def decide_approval(self, approval: Approval, scope: CreatorScope) -> Approval:
         self._require(scope, "approve")
         self._scoped(approval, scope)
         self._scoped(self.projects[approval.project_reference], scope)

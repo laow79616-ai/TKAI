@@ -35,7 +35,7 @@ def test_integration_health_detects_duplicate_routes(tmp_path: Path) -> None:
     assert result["live_tiktok_required"] is False
 
 
-def test_application_registers_every_v5_module_without_duplicate_routes() -> None:
+def test_application_registers_every_v6_module_without_duplicate_routes() -> None:
     from server.api.app import create_app
 
     root = Path(__file__).resolve().parents[2]
@@ -61,7 +61,7 @@ def test_release_metadata_and_checklist_are_machine_readable() -> None:
     checklist = json.loads(
         (root / "release-checklist.json").read_text(encoding="utf-8")
     )
-    assert metadata["version"] == "5.0.0"
+    assert metadata["version"] == "6.0.0"
     assert {"openapi", "backup", "restore", "secret_scan", "checksums"} <= set(
         checklist["checks"]
     )
@@ -71,8 +71,8 @@ def test_release_scripts_define_private_data_exclusions() -> None:
     root = Path(__file__).resolve().parents[2]
     build = (root / "scripts/build-release.ps1").read_text(encoding="utf-8").lower()
     validate = (
-        root / "scripts/validate-release.ps1"
-    ).read_text(encoding="utf-8").lower()
+        (root / "scripts/validate-release.ps1").read_text(encoding="utf-8").lower()
+    )
     forbidden_entries = (
         "node_modules",
         ".venv",
@@ -83,3 +83,10 @@ def test_release_scripts_define_private_data_exclusions() -> None:
     )
     for forbidden in forbidden_entries:
         assert forbidden in build or forbidden in validate
+    for required in (
+        "release_manifest.json",
+        "build_metadata.json",
+        "sha256sums",
+        "sourcearchive",
+    ):
+        assert required in build or required in validate

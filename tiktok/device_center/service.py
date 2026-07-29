@@ -1,4 +1,5 @@
 """Inventory, fair scheduling, health, and bounded recovery for local devices."""
+
 from __future__ import annotations
 
 import heapq
@@ -272,9 +273,7 @@ class TikTokDeviceCenter:
         self._audit("group.create", group.id, scope)
         return group
 
-    def add_to_group(
-        self, device_id: str, group_id: str, scope: DeviceScope
-    ) -> None:
+    def add_to_group(self, device_id: str, group_id: str, scope: DeviceScope) -> None:
         self._require(scope, "control")
         device = self.devices[device_id]
         group = self.groups[group_id]
@@ -336,9 +335,7 @@ class TikTokDeviceCenter:
                 seconds=self.allocation_policy.cooldown_seconds
             )
 
-    def _eligible_device(
-        self, item: DeviceQueueItem, now: datetime
-    ) -> Device | None:
+    def _eligible_device(self, item: DeviceQueueItem, now: datetime) -> Device | None:
         active_ids = {value.device_id for value in self._active_reservations(now)}
         candidates = [
             device
@@ -494,8 +491,7 @@ class TikTokDeviceCenter:
         device = self.devices[device_id]
         self._scoped(device, scope)
         prior = sum(
-            item.device_id == device_id and item.attempt > 0
-            for item in self.recoveries
+            item.device_id == device_id and item.attempt > 0 for item in self.recoveries
         )
         restricted = self.risk_control.has_unresolved_restriction(
             scope.tenant, scope.workspace, device.account_reference
@@ -577,17 +573,14 @@ class TikTokDeviceCenter:
             if item.device_id in {device.id for device in devices}
         ]
         active = sum(
-            item.status in {DeviceStatus.RUNNING, DeviceStatus.BUSY}
-            for item in devices
+            item.status in {DeviceStatus.RUNNING, DeviceStatus.BUSY} for item in devices
         )
         failures = sum(item.failed for item in snapshots)
         return {
             "available_devices": sum(
                 item.status is DeviceStatus.READY for item in devices
             ),
-            "busy_devices": sum(
-                item.status is DeviceStatus.BUSY for item in devices
-            ),
+            "busy_devices": sum(item.status is DeviceStatus.BUSY for item in devices),
             "offline_devices": sum(
                 item.status is DeviceStatus.OFFLINE for item in devices
             ),
@@ -696,9 +689,7 @@ class TikTokDeviceCenter:
         )
         self.metrics.set(
             "tiktok_device_cpu_usage",
-            sum(item.cpu for item in snapshots) / len(snapshots)
-            if snapshots
-            else 0.0,
+            sum(item.cpu for item in snapshots) / len(snapshots) if snapshots else 0.0,
         )
         self.metrics.set(
             "tiktok_device_memory_usage",

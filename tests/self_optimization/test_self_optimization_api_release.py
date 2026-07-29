@@ -25,9 +25,7 @@ def test_api_dashboard_and_metrics_contract():
     assert set(SelfOptimizationAPI.ROUTES) <= paths
     assert "/self-optimization/metrics" in paths
     scope = OptimizationScope("tenant", "workspace", "api")
-    assert SelfOptimizationAPI(platform).get(
-        "/self-optimization/profiles", scope
-    ) == []
+    assert SelfOptimizationAPI(platform).get("/self-optimization/profiles", scope) == []
     assert set(SECTIONS) <= platform.dashboard(scope).keys()
     assert all(name in platform.metrics.render_prometheus() for name in METRICS)
 

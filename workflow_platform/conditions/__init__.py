@@ -27,9 +27,7 @@ def evaluate(operator: str, left: Any, right: Any = None) -> bool:
         left_date = datetime.fromisoformat(str(left))
         right_date = datetime.fromisoformat(str(right))
         return (
-            left_date < right_date
-            if operator == "before"
-            else left_date > right_date
+            left_date < right_date if operator == "before" else left_date > right_date
         )
     raise ValueError("Unsupported condition operator.")
 

@@ -10,9 +10,7 @@ def register_collaboration_routes(
     app: Any, platform: EnterpriseAICollaborationPlatform
 ) -> None:
     def add(path: str, endpoint: Any, methods: list[str]) -> None:
-        app.add_api_route(
-            path, endpoint, methods=methods, tags=["collaboration"]
-        )
+        app.add_api_route(path, endpoint, methods=methods, tags=["collaboration"])
 
     def scope(tenant: str, workspace: str, actor: str) -> CollaborationScope:
         return CollaborationScope(tenant, workspace, actor)

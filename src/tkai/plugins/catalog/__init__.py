@@ -34,9 +34,7 @@ class PluginCatalog:
 
     def list(self) -> tuple[PluginDefinition, ...]:
         with self._lock:
-            return tuple(
-                self.get(plugin_id) for plugin_id in sorted(self._items)
-            )
+            return tuple(self.get(plugin_id) for plugin_id in sorted(self._items))
 
     def search(
         self, query: str = "", *, category: str = "", tag: str = ""

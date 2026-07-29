@@ -315,9 +315,7 @@ class TikTokBusinessWorkspace:
         self._audit(f"lifecycle.{target.value}", resource_id, scope)
         return item
 
-    def coordinate(
-        self, request: CoordinationRequest, scope: BusinessScope
-    ) -> str:
+    def coordinate(self, request: CoordinationRequest, scope: BusinessScope) -> str:
         started = monotonic()
         self._require(scope, "coordinate")
         self._scoped(request, scope)
@@ -365,20 +363,29 @@ class TikTokBusinessWorkspace:
             for item in workspaces
         }
         return {
-            "workspace_kpis": {"total": len(workspaces), "active": sum(
-                item.status is LifecycleStatus.ACTIVE for item in workspaces
-            )},
-            "project_kpis": {"total": len(projects), "completed": sum(
-                item.status is LifecycleStatus.COMPLETED for item in projects
-            )},
+            "workspace_kpis": {
+                "total": len(workspaces),
+                "active": sum(
+                    item.status is LifecycleStatus.ACTIVE for item in workspaces
+                ),
+            },
+            "project_kpis": {
+                "total": len(projects),
+                "completed": sum(
+                    item.status is LifecycleStatus.COMPLETED for item in projects
+                ),
+            },
             "campaign_kpis": {"referenced": campaigns},
-            "operational_kpis": {"total": len(operations), "running": sum(
-                item.status is LifecycleStatus.RUNNING for item in operations
-            )},
+            "operational_kpis": {
+                "total": len(operations),
+                "running": sum(
+                    item.status is LifecycleStatus.RUNNING for item in operations
+                ),
+            },
             "execution_kpis": {"proposals": len(self.coordination)},
-            "resource_kpis": {"references": sum(
-                len(item.resource_references) for item in operations
-            )},
+            "resource_kpis": {
+                "references": sum(len(item.resource_references) for item in operations)
+            },
             "trend": external,
         }
 
@@ -387,8 +394,7 @@ class TikTokBusinessWorkspace:
         audit = [
             item
             for item in self.audit
-            if item["tenant"] == scope.tenant
-            and item["workspace"] == scope.workspace
+            if item["tenant"] == scope.tenant and item["workspace"] == scope.workspace
         ]
         return {
             "workspace_history": [

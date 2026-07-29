@@ -1,4 +1,5 @@
 """Domain models for the enterprise local TikTok Device Center."""
+
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
@@ -120,13 +121,15 @@ class AllocationPolicy:
     cooldown_seconds: float = 30.0
 
     def validate(self) -> None:
-        if min(
-            self.maximum_concurrent_devices,
-            self.workspace_limit,
-            self.account_limit,
-        ) < 1 or min(
-            self.reservation_timeout_seconds, self.cooldown_seconds
-        ) < 0:
+        if (
+            min(
+                self.maximum_concurrent_devices,
+                self.workspace_limit,
+                self.account_limit,
+            )
+            < 1
+            or min(self.reservation_timeout_seconds, self.cooldown_seconds) < 0
+        ):
             raise ValueError("Resource allocation limits are invalid.")
         if self.workspace_limit > self.maximum_concurrent_devices:
             raise ValueError("Workspace limit cannot exceed the global limit.")

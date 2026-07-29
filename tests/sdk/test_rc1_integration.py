@@ -58,9 +58,9 @@ def test_sdk_chain_covers_agent_workflow_tool_provider_memory_and_plugins() -> N
                 ),
                 Node(
                     "tool",
-                    handler=lambda _context: tool.execute(
-                        ToolRequest("echo", {"value": "tool"})
-                    ).output,
+                    handler=lambda _context: (
+                        tool.execute(ToolRequest("echo", {"value": "tool"})).output
+                    ),
                 ),
             ),
             "agent",

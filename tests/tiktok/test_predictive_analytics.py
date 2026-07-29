@@ -298,9 +298,7 @@ def test_dashboard_api_metrics_history_and_registry_contract() -> None:
         def __init__(self) -> None:
             self.routes: list[tuple[str, list[str]]] = []
 
-        def add_api_route(
-            self, path: str, endpoint: object, **kwargs: object
-        ) -> None:
+        def add_api_route(self, path: str, endpoint: object, **kwargs: object) -> None:
             self.routes.append((path, list(kwargs["methods"])))
 
     service = configured_service()

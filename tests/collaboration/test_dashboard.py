@@ -19,7 +19,6 @@ def test_collaboration_dashboard_contract() -> None:
         assert f'path="/{page}"' in app
         assert page in pages
     dashboard_path = (
-        "/collaboration/dashboard?"
-        "tenant=default&workspace=default&actor=dashboard"
+        "/collaboration/dashboard?tenant=default&workspace=default&actor=dashboard"
     )
     assert dashboard_path in client
