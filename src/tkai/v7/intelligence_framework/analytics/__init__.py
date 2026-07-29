@@ -1,0 +1,1 @@
+"""Bounded intelligence analytics projections."""
