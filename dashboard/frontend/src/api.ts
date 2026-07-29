@@ -236,6 +236,11 @@ export class MarketplaceApiClient {
       `/v8/${encodeURIComponent(resource)}`,
     );
   }
+  hyperCoordination(resource = "profiles") {
+    return this.request<Record<string, unknown>>(
+      `/v8/coordination/${encodeURIComponent(resource)}`,
+    );
+  }
   capabilities(resource = "catalog") {
     return this.request<Record<string, unknown>>(
       `/v7/capabilities/${encodeURIComponent(resource)}`,

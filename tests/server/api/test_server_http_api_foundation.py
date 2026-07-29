@@ -107,6 +107,15 @@ def test_create_app_registers_read_only_routes_openapi_and_middleware() -> None:
         "/auth/login",
         "/auth/me",
         "/auth/logout",
+        "/v8/coordination/profiles",
+        "/v8/coordination/frameworks",
+        "/v8/coordination/dependencies",
+        "/v8/coordination/relationships",
+        "/v8/coordination/synchronization",
+        "/v8/coordination/compatibility",
+        "/v8/coordination/governance",
+        "/v8/coordination/health",
+        "/v8/coordination/metrics",
     }.issubset({route[0] for route in app.routes})
     assert all(
         route[1] == ("GET",)

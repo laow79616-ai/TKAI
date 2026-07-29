@@ -12,3 +12,9 @@ cross-cutting and secret-filtered. Existing V6/V7 imports remain unchanged.
 All Feature-1 state is in-memory and opt-in. Registry records are immutable and
 tenant-, workspace-, and framework-scoped. Future persistence or execution
 integrations must remain behind contracts and are outside Feature-1.
+
+Feature 2 adds `tkai.v8.hyper_coordination` as an additive layer above the
+kernel. It owns immutable coordination profiles, framework descriptors,
+reference graphs, synchronization plans, governance evidence, diagnostics,
+and read-only projections. It neither changes Feature-1 composition nor
+imports an executor. Approved references remain advisory.
