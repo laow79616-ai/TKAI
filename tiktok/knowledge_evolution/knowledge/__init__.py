@@ -1,0 +1,1 @@
+"""Aggregated knowledge boundary."""

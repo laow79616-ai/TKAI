@@ -1,0 +1,1 @@
+"""Bounded knowledge source adapters."""

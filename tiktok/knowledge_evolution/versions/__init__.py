@@ -1,0 +1,1 @@
+"""Immutable knowledge version boundary."""

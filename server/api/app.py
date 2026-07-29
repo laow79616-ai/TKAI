@@ -135,6 +135,10 @@ from tiktok.intelligence_center import TikTokAutonomousIntelligenceCenter
 from tiktok.intelligence_center.api import register_intelligence_routes
 from tiktok.interaction_center import TikTokInteractionCenter
 from tiktok.interaction_center.api import register_interaction_routes
+from tiktok.knowledge_evolution import TikTokKnowledgeEvolutionCenter
+from tiktok.knowledge_evolution.api import (
+    register_knowledge_evolution_routes,
+)
 from tiktok.lead_center import TikTokLeadManagementCenter
 from tiktok.lead_center.api import register_lead_routes
 from tiktok.mission_engine import TikTokAutonomousMissionEngine
@@ -566,6 +570,9 @@ def create_app(
     tiktok_intelligence_center = TikTokAutonomousIntelligenceCenter()
     register_intelligence_routes(app, tiktok_intelligence_center)
     app.state.tiktok_intelligence_center = tiktok_intelligence_center
+    tiktok_knowledge_evolution = TikTokKnowledgeEvolutionCenter()
+    register_knowledge_evolution_routes(app, tiktok_knowledge_evolution)
+    app.state.tiktok_knowledge_evolution = tiktok_knowledge_evolution
     tiktok_optimization_center = TikTokAIContinuousOptimizationCenter()
     register_optimization_routes(app, tiktok_optimization_center)
     app.state.tiktok_optimization_center = tiktok_optimization_center
