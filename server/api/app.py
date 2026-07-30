@@ -216,6 +216,9 @@ from tkai.v8.hyper_intelligence.api import (
 from tkai.v8.hyper_knowledge.api import (
     register_routes as register_v8_knowledge_routes,
 )
+from tkai.v8.hyper_recovery.api import (
+    register_routes as register_v8_recovery_routes,
+)
 from workflow_platform import WorkflowPlatform
 from workflow_platform.api import register_workflow_routes
 
@@ -871,6 +874,7 @@ def create_app(
     register_v8_intelligence_routes(app)
     register_v8_governance_routes(app)
     register_v8_knowledge_routes(app)
+    register_v8_recovery_routes(app)
     return app
 
 
