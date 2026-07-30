@@ -1,1 +1,1 @@
-﻿"""Adaptive Governance Mesh tests."""
+"""Adaptive Governance Mesh tests."""

@@ -1,4 +1,4 @@
-﻿"""Mock-only tests for the V9 Adaptive Governance Mesh."""
+"""Mock-only tests for the V9 Adaptive Governance Mesh."""
 
 from __future__ import annotations
 
@@ -280,4 +280,3 @@ def test_dashboard_api_and_openapi_are_read_only() -> None:
     assert fabric.mutates_runtime_state() is False
     assert fabric.approves_execution() is False
     assert fabric.enforces_compliance() is False
-

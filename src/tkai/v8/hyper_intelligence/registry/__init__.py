@@ -55,9 +55,7 @@ class IntelligenceRegistry(Generic[RecordT]):
             self._records[key] = record
         return record
 
-    def discover(
-        self, scope: IntelligenceScope | None = None
-    ) -> tuple[RecordT, ...]:
+    def discover(self, scope: IntelligenceScope | None = None) -> tuple[RecordT, ...]:
         records: Iterable[RecordT] = self._records.values()
         if scope is not None:
             records = (

@@ -1,4 +1,4 @@
-﻿"""GET-only transport adapter for the V9 Adaptive Governance Mesh."""
+"""GET-only transport adapter for the V9 Adaptive Governance Mesh."""
 
 from __future__ import annotations
 
@@ -103,4 +103,3 @@ __all__ = (
     "register_routes",
     "route_handlers",
 )
-

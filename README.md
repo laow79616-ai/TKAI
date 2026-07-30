@@ -1,5 +1,11 @@
 # TKAI
 
+Current release candidate: **9.0.0**. TKAI V9 adds ten read-only adaptive
+platform components while preserving V6, V7, V8, TikTok, local-runtime,
+dashboard, AI Studio, deployment, configuration, storage, security, and
+extension behavior. See [the V9 overview](docs/v9/README.md) and
+[release notes](RELEASE_NOTES_V9.md).
+
 TKAI is a typed, offline-testable Python framework for project scaffolding,
 plugins, workflows, and provider-neutral AI integrations.
 

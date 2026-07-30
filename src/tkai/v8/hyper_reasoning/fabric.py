@@ -81,9 +81,7 @@ class HyperReasoningFabric:
     def aggregate_evidence_metadata(
         self,
         *,
-        v8_hyper_knowledge: tuple[
-            ReasoningReference | Mapping[str, object], ...
-        ] = (),
+        v8_hyper_knowledge: tuple[ReasoningReference | Mapping[str, object], ...] = (),
         v8_hyper_intelligence: tuple[
             ReasoningReference | Mapping[str, object], ...
         ] = (),
@@ -199,8 +197,7 @@ class HyperReasoningFabric:
             "hidden_reasoning_storage": "prohibited",
             "chain_of_thought_retrieval": "prohibited",
             "sources": {
-                source: len(references)
-                for source, references in self._sources.items()
+                source: len(references) for source, references in self._sources.items()
             },
             "diagnostics": self.diagnostics(),
         }
@@ -251,9 +248,7 @@ class HyperReasoningFabric:
             "metrics": self.metrics(),
             "diagnostics": self.diagnostics(),
             "logs": self.observability.logs(),
-            "traces": [
-                serialize_record(item) for item in self.observability.traces()
-            ],
+            "traces": [serialize_record(item) for item in self.observability.traces()],
             "audit": self.observability.audit_records(),
         }
 

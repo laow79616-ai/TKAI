@@ -77,9 +77,7 @@ def openapi_contract() -> dict[str, object]:
                 "get": {
                     "operationId": "get_" + path.removeprefix("/").replace("/", "_"),
                     "responses": {
-                        "200": {
-                            "description": "Advisory reasoning metadata projection"
-                        }
+                        "200": {"description": "Advisory reasoning metadata projection"}
                     },
                 }
             }

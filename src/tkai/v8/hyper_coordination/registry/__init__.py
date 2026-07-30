@@ -50,9 +50,7 @@ class CoordinationRegistry(Generic[RecordT]):
             self._records[key] = record
         return record
 
-    def discover(
-        self, scope: CoordinationScope | None = None
-    ) -> tuple[RecordT, ...]:
+    def discover(self, scope: CoordinationScope | None = None) -> tuple[RecordT, ...]:
         records: Iterable[RecordT] = self._records.values()
         if scope is not None:
             records = (
@@ -77,7 +75,7 @@ class CoordinationRegistryCatalog:
         )
         self.frameworks: CoordinationRegistry[FrameworkDescriptor] = (
             CoordinationRegistry(
-            "frameworks", lambda item: item.identifier, lambda item: item.scope
+                "frameworks", lambda item: item.identifier, lambda item: item.scope
             )
         )
 

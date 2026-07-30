@@ -24,9 +24,7 @@ class ReasoningPrincipal:
 class ReasoningAccessController:
     ROLE_PERMISSIONS = {
         "reasoning_viewer": frozenset({"reasoning:read"}),
-        "reasoning_auditor": frozenset(
-            {"reasoning:read", "reasoning:audit:read"}
-        ),
+        "reasoning_auditor": frozenset({"reasoning:read", "reasoning:audit:read"}),
         "administrator": frozenset({"*"}),
     }
 

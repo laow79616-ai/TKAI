@@ -61,9 +61,7 @@ class GovernanceRegistryCatalog:
             lambda item: item.compliance_id
         )
         self.reviews = MetadataRegistry[ReviewRecord](lambda item: item.review_id)
-        self.approvals = MetadataRegistry[ApprovalRecord](
-            lambda item: item.approval_id
-        )
+        self.approvals = MetadataRegistry[ApprovalRecord](lambda item: item.approval_id)
         self.compatibility = MetadataRegistry[CompatibilityRecord](
             lambda item: item.compatibility_id
         )

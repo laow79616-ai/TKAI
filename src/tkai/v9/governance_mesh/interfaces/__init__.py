@@ -1,4 +1,4 @@
-﻿"""Protocols implemented by governance metadata providers."""
+"""Protocols implemented by governance metadata providers."""
 
 from __future__ import annotations
 
@@ -13,4 +13,3 @@ class GovernanceMetadataProvider(Protocol):
 
 
 __all__ = ("GovernanceMetadataProvider",)
-

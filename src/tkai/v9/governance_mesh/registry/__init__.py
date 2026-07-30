@@ -1,4 +1,4 @@
-﻿"""Typed in-memory registries for immutable governance metadata."""
+"""Typed in-memory registries for immutable governance metadata."""
 
 from __future__ import annotations
 
@@ -61,13 +61,10 @@ class GovernanceRegistryCatalog:
             lambda item: item.compliance_id
         )
         self.reviews = MetadataRegistry[ReviewRecord](lambda item: item.review_id)
-        self.approvals = MetadataRegistry[ApprovalRecord](
-            lambda item: item.approval_id
-        )
+        self.approvals = MetadataRegistry[ApprovalRecord](lambda item: item.approval_id)
         self.compatibility = MetadataRegistry[CompatibilityRecord](
             lambda item: item.compatibility_id
         )
 
 
 __all__ = ("GovernanceRegistryCatalog", "MetadataRegistry")
-

@@ -1,4 +1,4 @@
-﻿"""Policy aggregation and non-authorizing governance semantics."""
+"""Policy aggregation and non-authorizing governance semantics."""
 
 from __future__ import annotations
 
@@ -38,9 +38,7 @@ def normalize_reference(
         raise ValueError("reference version, uri, and kind must be strings")
     if not isinstance(metadata, Mapping):
         raise ValueError("reference metadata must be a mapping")
-    return GovernanceReference(
-        identifier, version, uri, kind, generation, metadata
-    )
+    return GovernanceReference(identifier, version, uri, kind, generation, metadata)
 
 
 class PolicyFabric:
@@ -59,20 +57,13 @@ class PolicyFabric:
         v6_governance_centers: tuple[
             GovernanceReference | Mapping[str, object], ...
         ] = (),
-        v7_frameworks: tuple[
-            GovernanceReference | Mapping[str, object], ...
-        ] = (),
-        v8_frameworks: tuple[
-            GovernanceReference | Mapping[str, object], ...
-        ] = (),
-        v9_components: tuple[
-            GovernanceReference | Mapping[str, object], ...
-        ] = (),
+        v7_frameworks: tuple[GovernanceReference | Mapping[str, object], ...] = (),
+        v8_frameworks: tuple[GovernanceReference | Mapping[str, object], ...] = (),
+        v9_components: tuple[GovernanceReference | Mapping[str, object], ...] = (),
     ) -> dict[str, tuple[GovernanceReference, ...]]:
         return {
             "v6_governance_centers": tuple(
-                normalize_reference(item, "v6")
-                for item in v6_governance_centers
+                normalize_reference(item, "v6") for item in v6_governance_centers
             ),
             "v7_frameworks": tuple(
                 normalize_reference(item, "v7") for item in v7_frameworks
@@ -101,4 +92,3 @@ def authorizes_execution(_: object) -> bool:
 
 
 __all__ = ("PolicyFabric", "authorizes_execution", "normalize_reference")
-

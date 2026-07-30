@@ -1,4 +1,4 @@
-﻿"""Governance metadata event names."""
+"""Governance metadata event names."""
 
 GOVERNANCE_EVENTS = (
     "governance.initialized",
@@ -13,4 +13,3 @@ GOVERNANCE_EVENTS = (
 )
 
 __all__ = ("GOVERNANCE_EVENTS",)
-

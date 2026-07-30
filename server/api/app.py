@@ -253,6 +253,9 @@ from tkai.v9.knowledge_mesh.api import (
 from tkai.v9.operations_mesh.api import (
     register_routes as register_v9_operations_mesh_routes,
 )
+from tkai.v9.planning_mesh.api import (
+    register_routes as register_v9_planning_mesh_routes,
+)
 from tkai.v9.reasoning_mesh.api import (
     register_routes as register_v9_reasoning_mesh_routes,
 )
@@ -926,6 +929,7 @@ def create_app(
     register_v9_knowledge_mesh_routes(app)
     register_v9_reasoning_mesh_routes(app)
     register_v9_decision_mesh_routes(app)
+    register_v9_planning_mesh_routes(app)
     register_v9_operations_mesh_routes(app)
     register_v9_recovery_mesh_routes(app)
     register_v9_compatibility_mesh_routes(app)

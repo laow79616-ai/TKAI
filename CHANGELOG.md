@@ -236,3 +236,11 @@
 - Completed all 11 TKAI V8 Hyper components.
 - Added production-readiness audit, compatibility evidence, documentation, and deterministic packaging.
 - Preserved V6, V7, and TikTok business behavior.
+# 9.0.0
+
+- Completed the ten-component TKAI V9 adaptive platform architecture.
+- Added production-readiness, integrity, OpenAPI, compatibility, security,
+  observability, packaging, and release-validation automation.
+- Preserved all V6, V7, V8, TikTok, dashboard, AI Studio, local-runtime,
+  deployment, configuration, storage, extension, and security behavior.
+- Registered the completed Adaptive Planning Mesh in the aggregate server API.

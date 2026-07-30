@@ -32,9 +32,7 @@ def route_handlers(
         "/v8/coordination/frameworks": lambda: {
             "items": framework.snapshot()["frameworks"]
         },
-        "/v8/coordination/dependencies": lambda: framework.snapshot()[
-            "dependencies"
-        ],
+        "/v8/coordination/dependencies": lambda: framework.snapshot()["dependencies"],
         "/v8/coordination/relationships": lambda: {
             "items": framework.snapshot()["relationships"]
         },
@@ -42,9 +40,7 @@ def route_handlers(
             "items": framework.snapshot()["synchronization"],
             "runtime_synchronization": "disabled",
         },
-        "/v8/coordination/compatibility": lambda: framework.snapshot()[
-            "compatibility"
-        ],
+        "/v8/coordination/compatibility": lambda: framework.snapshot()["compatibility"],
         "/v8/coordination/governance": lambda: framework.snapshot()["governance"],
         "/v8/coordination/health": framework.health,
         "/v8/coordination/metrics": framework.metrics,

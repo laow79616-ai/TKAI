@@ -18,9 +18,7 @@ class KnowledgeGraph:
         return value
 
     def relationships(self) -> tuple[KnowledgeRelationship, ...]:
-        return tuple(
-            self._relationships[key] for key in sorted(self._relationships)
-        )
+        return tuple(self._relationships[key] for key in sorted(self._relationships))
 
     @staticmethod
     def executes_graph_processing() -> bool:

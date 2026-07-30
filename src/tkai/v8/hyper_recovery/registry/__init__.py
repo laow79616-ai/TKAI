@@ -71,6 +71,7 @@ class RecoveryRegistryCatalog:
 
     def __init__(self) -> None:
         for name, _record_type, identifier in self.DEFINITIONS:
+
             def identify(value: Any, key: str = identifier) -> str:
                 return str(getattr(value, key))
 

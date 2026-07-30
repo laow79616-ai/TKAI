@@ -63,7 +63,7 @@ def route_handlers(
             "/v9/knowledge/confidence": lambda: items("confidence"),
             "/v9/knowledge/diagnostics": lambda: {"items": fabric.diagnostics()},
             "/v9/knowledge/health": fabric.health,
-        "/v9/knowledge/metrics": lambda: metrics_snapshot(fabric),
+            "/v9/knowledge/metrics": lambda: metrics_snapshot(fabric),
             "/v9/knowledge/audit": lambda: {"items": fabric.snapshot()["audit"]},
             "/v9/knowledge/lifecycle": lambda: {
                 "states": tuple(item.value for item in KnowledgeLifecycle),

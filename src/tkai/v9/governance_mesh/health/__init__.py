@@ -1,4 +1,4 @@
-﻿"""Governance health projection."""
+"""Governance health projection."""
 
 from __future__ import annotations
 
@@ -10,4 +10,3 @@ def health(fabric: AdaptiveGovernanceMesh) -> dict[str, object]:
 
 
 __all__ = ("health",)
-

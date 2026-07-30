@@ -140,18 +140,14 @@ class HyperIntelligenceFabric:
         self, value: Recommendation, actor: str = "system"
     ) -> Recommendation:
         registered = self.registries.recommendations.register(value)
-        self._audit_registration(
-            "recommendations", value.recommendation_id, actor
-        )
+        self._audit_registration("recommendations", value.recommendation_id, actor)
         return registered
 
     def register_compatibility(
         self, value: CompatibilityRecord, actor: str = "system"
     ) -> CompatibilityRecord:
         registered = self.registries.compatibility.register(value)
-        self._audit_registration(
-            "compatibility", value.compatibility_id, actor
-        )
+        self._audit_registration("compatibility", value.compatibility_id, actor)
         return registered
 
     def add_relationship(
@@ -173,8 +169,7 @@ class HyperIntelligenceFabric:
             "execution": "disabled",
             "runtime_mutation": "disabled",
             "sources": {
-                generation: len(items)
-                for generation, items in self._sources.items()
+                generation: len(items) for generation, items in self._sources.items()
             },
             "diagnostics": self.diagnostics(),
         }
@@ -202,9 +197,9 @@ class HyperIntelligenceFabric:
                 continue
             missing_evidence.append(
                 {
-                "code": "knowledge-without-evidence",
-                "severity": "info",
-                "knowledge_id": item.knowledge_id,
+                    "code": "knowledge-without-evidence",
+                    "severity": "info",
+                    "knowledge_id": item.knowledge_id,
                 }
             )
         return tuple(missing_evidence)
@@ -252,9 +247,7 @@ class HyperIntelligenceFabric:
             "metrics": self.metrics(),
             "diagnostics": self.diagnostics(),
             "logs": self.observability.logs(),
-            "traces": [
-                serialize_record(item) for item in self.observability.traces()
-            ],
+            "traces": [serialize_record(item) for item in self.observability.traces()],
             "audit": self.observability.audit_records(),
         }
 

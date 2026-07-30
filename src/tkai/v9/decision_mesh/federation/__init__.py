@@ -9,11 +9,18 @@ from tkai.v9.decision_mesh.contracts import Reference
 
 ALLOWED_FRAMEWORKS = frozenset(
     {
-        "v9_components", "v9_adaptive_meta_kernel", "v9_adaptive_intelligence_mesh",
-        "v9_adaptive_governance_mesh", "v9_adaptive_knowledge_mesh",
-        "v9_adaptive_reasoning_mesh", "v8_frameworks", "v7_frameworks",
-        "v6_decision_centers", "v6_decision_evolution_center",
-        "v6_intelligent_decision_center", "v6_business_intelligence_center",
+        "v9_components",
+        "v9_adaptive_meta_kernel",
+        "v9_adaptive_intelligence_mesh",
+        "v9_adaptive_governance_mesh",
+        "v9_adaptive_knowledge_mesh",
+        "v9_adaptive_reasoning_mesh",
+        "v8_frameworks",
+        "v7_frameworks",
+        "v6_decision_centers",
+        "v6_decision_evolution_center",
+        "v6_intelligent_decision_center",
+        "v6_business_intelligence_center",
     }
 )
 
@@ -29,7 +36,9 @@ class ReadOnlyFederation:
         self, sources: Iterable[Reference | Mapping[str, object]]
     ) -> tuple[Reference, ...]:
         values = tuple(
-            item if isinstance(item, Reference) else Reference(
+            item
+            if isinstance(item, Reference)
+            else Reference(
                 identifier=str(item["identifier"]),
                 version=str(item.get("version", "")),
                 kind=str(item.get("kind", "metadata")),

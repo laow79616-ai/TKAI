@@ -50,9 +50,7 @@ class KnowledgeRegistryCatalog:
         self.relationships = KnowledgeRegistry[KnowledgeRelationship](
             lambda item: item.relationship_id
         )
-        self.evidence = KnowledgeRegistry[EvidenceRecord](
-            lambda item: item.evidence_id
-        )
+        self.evidence = KnowledgeRegistry[EvidenceRecord](lambda item: item.evidence_id)
         self.lineage = KnowledgeRegistry[LineageRecord](lambda item: item.lineage_id)
         self.compatibility = KnowledgeRegistry[CompatibilityRecord](
             lambda item: item.compatibility_id

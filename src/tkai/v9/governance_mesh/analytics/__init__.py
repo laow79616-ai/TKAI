@@ -1,4 +1,4 @@
-﻿"""Read-only governance coverage analytics."""
+"""Read-only governance coverage analytics."""
 
 from __future__ import annotations
 
@@ -19,4 +19,3 @@ def coverage_summary(record: ComplianceRecord) -> dict[str, float]:
 
 
 __all__ = ("coverage_summary",)
-

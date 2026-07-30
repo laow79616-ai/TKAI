@@ -1,4 +1,4 @@
-﻿"""Governance diagnostics projection."""
+"""Governance diagnostics projection."""
 
 from __future__ import annotations
 
@@ -10,4 +10,3 @@ def diagnostics(fabric: AdaptiveGovernanceMesh) -> tuple[dict[str, object], ...]
 
 
 __all__ = ("diagnostics",)
-

@@ -1,4 +1,4 @@
-﻿"""Immutable contracts for the advisory V9 Adaptive Governance Mesh."""
+"""Immutable contracts for the advisory V9 Adaptive Governance Mesh."""
 
 from __future__ import annotations
 
@@ -264,4 +264,3 @@ __all__ = (
     "ReviewRecord",
     "immutable_metadata",
 )
-

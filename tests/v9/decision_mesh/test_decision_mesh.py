@@ -40,14 +40,17 @@ def test_registers_decision_resources_and_keeps_them_non_executable() -> None:
     recommendation = Recommendation("recommendation-1", "Review A")
     approval = Approval("approval-1", reference(), reference("reviewer"))
     for name, record in (
-        ("decisions", decision), ("recommendations", recommendation),
+        ("decisions", decision),
+        ("recommendations", recommendation),
         ("approvals", approval),
     ):
         mesh.register(name, record)
     snapshot = mesh.snapshot()
     assert snapshot["decisions"][0]["executable"] is False
     assert snapshot["recommendations"][0] == {
-        **snapshot["recommendations"][0], "advisory": True, "executable": False
+        **snapshot["recommendations"][0],
+        "advisory": True,
+        "executable": False,
     }
     assert snapshot["approvals"][0]["authorizes_execution"] is False
 
@@ -67,9 +70,7 @@ def test_decision_alternative_evaluation_review_and_compatibility() -> None:
     records = (
         (
             "alternatives",
-            Alternative(
-                "alt-1", reference(), "Alternative", ("Outcome",), ("Risk",)
-            ),
+            Alternative("alt-1", reference(), "Alternative", ("Outcome",), ("Risk",)),
         ),
         (
             "comparisons",
@@ -154,11 +155,16 @@ def test_health_metrics_dashboard_and_audit_are_read_only() -> None:
 def test_api_is_get_only_and_has_no_execution_or_automatic_approval_endpoint() -> None:
     mesh = AdaptiveDecisionMesh()
     required = {
-        "/v9/decision/profiles", "/v9/decision/federation",
-        "/v9/decision/decisions", "/v9/decision/alternatives",
-        "/v9/decision/comparisons", "/v9/decision/recommendations",
-        "/v9/decision/confidence", "/v9/decision/compatibility",
-        "/v9/decision/health", "/v9/decision/metrics",
+        "/v9/decision/profiles",
+        "/v9/decision/federation",
+        "/v9/decision/decisions",
+        "/v9/decision/alternatives",
+        "/v9/decision/comparisons",
+        "/v9/decision/recommendations",
+        "/v9/decision/confidence",
+        "/v9/decision/compatibility",
+        "/v9/decision/health",
+        "/v9/decision/metrics",
     }
     assert required <= set(GET_ROUTES)
     assert set(route_handlers(mesh)) == set(GET_ROUTES)

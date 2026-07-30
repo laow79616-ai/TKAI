@@ -3,9 +3,17 @@
 from tkai.v9.decision_mesh.fabric import AdaptiveDecisionMesh
 
 DASHBOARD_SECTIONS = (
-    "Decision Mesh Overview", "Federation", "Decisions", "Alternatives",
-    "Comparisons", "Recommendations", "Confidence", "Compatibility", "Health",
-    "Metrics", "Audit",
+    "Decision Mesh Overview",
+    "Federation",
+    "Decisions",
+    "Alternatives",
+    "Comparisons",
+    "Recommendations",
+    "Confidence",
+    "Compatibility",
+    "Health",
+    "Metrics",
+    "Audit",
 )
 
 

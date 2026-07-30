@@ -253,8 +253,22 @@ DecisionMeshProfile = Profile
 DecisionReference = Reference
 
 __all__ = (
-    "Approval", "Alternative", "COMPARISON_TYPES", "Comparison", "Compatibility",
-    "Confidence", "Context", "Decision", "DecisionLifecycle", "DecisionMeshProfile",
-    "DecisionReference", "DecisionScope", "Evaluation", "Profile", "Recommendation",
-    "Reference", "Review", "safe_metadata",
+    "Approval",
+    "Alternative",
+    "COMPARISON_TYPES",
+    "Comparison",
+    "Compatibility",
+    "Confidence",
+    "Context",
+    "Decision",
+    "DecisionLifecycle",
+    "DecisionMeshProfile",
+    "DecisionReference",
+    "DecisionScope",
+    "Evaluation",
+    "Profile",
+    "Recommendation",
+    "Reference",
+    "Review",
+    "safe_metadata",
 )

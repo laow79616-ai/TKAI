@@ -38,7 +38,9 @@ class Registry(Generic[T]):
 
     def register(self, record: T) -> T:
         key = (
-            record.scope.tenant, record.scope.workspace, record.scope.decision,
+            record.scope.tenant,
+            record.scope.workspace,
+            record.scope.decision,
             self._identifier(record),
         )
         with self._lock:
@@ -55,7 +57,8 @@ class Registry(Generic[T]):
         records: Iterable[T] = self._records.values()
         if scope:
             records = (
-                item for item in records
+                item
+                for item in records
                 if item.scope.tenant == scope.tenant
                 and item.scope.workspace == scope.workspace
                 and scope.decision in {"*", item.scope.decision}
@@ -81,17 +84,20 @@ class RegistryCatalog:
 
     def __init__(self) -> None:
         definitions = {
-            "profiles": (Profile, "profile_id"), "contexts": (Context, "context_id"),
+            "profiles": (Profile, "profile_id"),
+            "contexts": (Context, "context_id"),
             "decisions": (Decision, "decision_id"),
             "alternatives": (Alternative, "alternative_id"),
             "comparisons": (Comparison, "comparison_id"),
             "evaluations": (Evaluation, "evaluation_id"),
             "recommendations": (Recommendation, "recommendation_id"),
             "confidence": (Confidence, "confidence_id"),
-            "reviews": (Review, "review_id"), "approvals": (Approval, "approval_id"),
+            "reviews": (Review, "review_id"),
+            "approvals": (Approval, "approval_id"),
             "compatibility": (Compatibility, "compatibility_id"),
         }
         for name, (_, identifier) in definitions.items():
+
             def identify(item: ScopedRecord, key: str = identifier) -> str:
                 return str(getattr(item, key))
 
@@ -99,8 +105,16 @@ class RegistryCatalog:
 
     def named(self) -> tuple[tuple[str, Registry[ScopedRecord]], ...]:
         names = (
-            "profiles", "contexts", "decisions", "alternatives", "comparisons",
-            "evaluations", "recommendations", "confidence", "reviews", "approvals",
+            "profiles",
+            "contexts",
+            "decisions",
+            "alternatives",
+            "comparisons",
+            "evaluations",
+            "recommendations",
+            "confidence",
+            "reviews",
+            "approvals",
             "compatibility",
         )
         return tuple(

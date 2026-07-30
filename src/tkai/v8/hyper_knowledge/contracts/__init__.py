@@ -163,9 +163,7 @@ class LineageRecord:
     superseded_references: tuple[KnowledgeReference, ...] = ()
     derived_references: tuple[KnowledgeReference, ...] = ()
     compatibility_history: tuple[KnowledgeReference, ...] = ()
-    evolution_metadata: Mapping[str, object] = field(
-        default_factory=immutable_metadata
-    )
+    evolution_metadata: Mapping[str, object] = field(default_factory=immutable_metadata)
 
     def __post_init__(self) -> None:
         if not self.lineage_id:

@@ -38,9 +38,7 @@ def normalize_reference(
         raise ValueError("reference version, uri, and kind must be strings")
     if not isinstance(metadata, Mapping):
         raise ValueError("reference metadata must be a mapping")
-    return GovernanceReference(
-        identifier, version, uri, kind, generation, metadata
-    )
+    return GovernanceReference(identifier, version, uri, kind, generation, metadata)
 
 
 class PolicyFabric:
@@ -51,15 +49,9 @@ class PolicyFabric:
     def aggregate(
         self,
         *,
-        v6_governance: tuple[
-            GovernanceReference | Mapping[str, object], ...
-        ] = (),
-        v7_frameworks: tuple[
-            GovernanceReference | Mapping[str, object], ...
-        ] = (),
-        v8_frameworks: tuple[
-            GovernanceReference | Mapping[str, object], ...
-        ] = (),
+        v6_governance: tuple[GovernanceReference | Mapping[str, object], ...] = (),
+        v7_frameworks: tuple[GovernanceReference | Mapping[str, object], ...] = (),
+        v8_frameworks: tuple[GovernanceReference | Mapping[str, object], ...] = (),
     ) -> dict[str, tuple[GovernanceReference, ...]]:
         return {
             "v6_governance": tuple(

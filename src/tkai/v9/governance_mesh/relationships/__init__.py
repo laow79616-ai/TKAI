@@ -1,4 +1,4 @@
-﻿"""Cross-framework governance relationships."""
+"""Cross-framework governance relationships."""
 
 from __future__ import annotations
 
@@ -36,4 +36,3 @@ class RelationshipGraph:
 
 
 __all__ = ("GovernanceRelationship", "RelationshipGraph")
-

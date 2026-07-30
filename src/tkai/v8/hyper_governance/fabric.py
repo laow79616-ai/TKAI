@@ -73,15 +73,9 @@ class HyperGovernanceFabric:
     def aggregate_metadata(
         self,
         *,
-        v6_governance: tuple[
-            GovernanceReference | Mapping[str, object], ...
-        ] = (),
-        v7_frameworks: tuple[
-            GovernanceReference | Mapping[str, object], ...
-        ] = (),
-        v8_frameworks: tuple[
-            GovernanceReference | Mapping[str, object], ...
-        ] = (),
+        v6_governance: tuple[GovernanceReference | Mapping[str, object], ...] = (),
+        v7_frameworks: tuple[GovernanceReference | Mapping[str, object], ...] = (),
+        v8_frameworks: tuple[GovernanceReference | Mapping[str, object], ...] = (),
         actor: str = "system",
     ) -> dict[str, tuple[GovernanceReference, ...]]:
         """Replace only the local reference projection."""
@@ -205,8 +199,7 @@ class HyperGovernanceFabric:
             "runtime_mutation": "disabled",
             "automatic_approval": "disabled",
             "sources": {
-                generation: len(items)
-                for generation, items in self._sources.items()
+                generation: len(items) for generation, items in self._sources.items()
             },
             "diagnostics": self.diagnostics(),
         }
@@ -278,9 +271,7 @@ class HyperGovernanceFabric:
             "metrics": self.metrics(),
             "diagnostics": self.diagnostics(),
             "logs": self.observability.logs(),
-            "traces": [
-                serialize_record(item) for item in self.observability.traces()
-            ],
+            "traces": [serialize_record(item) for item in self.observability.traces()],
             "audit": self.observability.audit_records(),
         }
 

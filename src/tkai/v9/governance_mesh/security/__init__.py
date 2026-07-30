@@ -1,4 +1,4 @@
-﻿"""RBAC-compatible isolation and secret filtering."""
+"""RBAC-compatible isolation and secret filtering."""
 
 from __future__ import annotations
 
@@ -63,4 +63,3 @@ __all__ = (
     "GovernancePrincipal",
     "secure_metadata",
 )
-

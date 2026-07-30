@@ -44,9 +44,7 @@ class FakeApp:
         return decorator
 
 
-def reference(
-    identifier: str, generation: str = "v8"
-) -> IntelligenceReference:
+def reference(identifier: str, generation: str = "v8") -> IntelligenceReference:
     return IntelligenceReference(identifier, "1.0", generation=generation)
 
 
@@ -155,9 +153,7 @@ def test_cross_version_compatibility_metadata() -> None:
 
 
 def test_security_isolation_secret_filtering_observability_and_audit() -> None:
-    fabric = HyperIntelligenceFabric(
-        metadata={"api_key": "secret", "visible": "safe"}
-    )
+    fabric = HyperIntelligenceFabric(metadata={"api_key": "secret", "visible": "safe"})
     controller = IntelligenceAccessController()
     principal = IntelligencePrincipal(
         "reader",
@@ -188,9 +184,7 @@ def test_security_isolation_secret_filtering_observability_and_audit() -> None:
 def test_health_metrics_dashboard_and_get_only_api() -> None:
     fabric = HyperIntelligenceFabric()
     fabric.register_profile(profile())
-    fabric.register_signal(
-        SignalRecord("signal-1", "mock", reference("mock-source"))
-    )
+    fabric.register_signal(SignalRecord("signal-1", "mock", reference("mock-source")))
     dashboard = dashboard_snapshot(fabric)
     assert dashboard["sections"] == DASHBOARD_SECTIONS
     assert set(DASHBOARD_SECTIONS) == {

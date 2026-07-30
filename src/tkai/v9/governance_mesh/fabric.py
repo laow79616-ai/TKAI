@@ -1,4 +1,4 @@
-﻿"""Composition root for the V9 Adaptive Governance Mesh."""
+"""Composition root for the V9 Adaptive Governance Mesh."""
 
 from __future__ import annotations
 
@@ -76,15 +76,9 @@ class AdaptiveGovernanceMesh:
         v6_governance_centers: tuple[
             GovernanceReference | Mapping[str, object], ...
         ] = (),
-        v7_frameworks: tuple[
-            GovernanceReference | Mapping[str, object], ...
-        ] = (),
-        v8_frameworks: tuple[
-            GovernanceReference | Mapping[str, object], ...
-        ] = (),
-        v9_components: tuple[
-            GovernanceReference | Mapping[str, object], ...
-        ] = (),
+        v7_frameworks: tuple[GovernanceReference | Mapping[str, object], ...] = (),
+        v8_frameworks: tuple[GovernanceReference | Mapping[str, object], ...] = (),
+        v9_components: tuple[GovernanceReference | Mapping[str, object], ...] = (),
         actor: str = "system",
     ) -> dict[str, tuple[GovernanceReference, ...]]:
         """Replace only the local reference projection."""
@@ -209,8 +203,7 @@ class AdaptiveGovernanceMesh:
             "runtime_mutation": "disabled",
             "automatic_approval": "disabled",
             "sources": {
-                generation: len(items)
-                for generation, items in self._sources.items()
+                generation: len(items) for generation, items in self._sources.items()
             },
             "diagnostics": self.diagnostics(),
         }
@@ -282,9 +275,7 @@ class AdaptiveGovernanceMesh:
             "metrics": self.metrics(),
             "diagnostics": self.diagnostics(),
             "logs": self.observability.logs(),
-            "traces": [
-                serialize_record(item) for item in self.observability.traces()
-            ],
+            "traces": [serialize_record(item) for item in self.observability.traces()],
             "audit": self.observability.audit_records(),
         }
 
@@ -308,4 +299,3 @@ class AdaptiveGovernanceMesh:
 GovernanceFabric = AdaptiveGovernanceMesh
 
 __all__ = ("GovernanceFabric", "AdaptiveGovernanceMesh", "serialize_record")
-

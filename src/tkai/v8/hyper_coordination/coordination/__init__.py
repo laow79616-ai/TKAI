@@ -142,9 +142,7 @@ class HyperCoordinationFramework:
             FrameworkDescriptor(
                 "v7-frameworks", "7.x", "v7", ("framework-coordination",)
             ),
-            FrameworkDescriptor(
-                "v6-ai-centers", "6.x", "v6", ("center-coordination",)
-            ),
+            FrameworkDescriptor("v6-ai-centers", "6.x", "v6", ("center-coordination",)),
             FrameworkDescriptor(
                 "future-frameworks",
                 "future",
@@ -197,9 +195,7 @@ class HyperCoordinationFramework:
         )
 
     def health(self) -> dict[str, object]:
-        cycles = {
-            kind.value: len(self.graph.cycles(kind)) for kind in GraphKind
-        }
+        cycles = {kind.value: len(self.graph.cycles(kind)) for kind in GraphKind}
         return {
             "status": "degraded" if any(cycles.values()) else "healthy",
             "frameworks": len(self.registries.frameworks),
@@ -248,8 +244,7 @@ class HyperCoordinationFramework:
         return {
             "overview": self.overview(),
             "profiles": [
-                serialize_profile(item)
-                for item in self.registries.profiles.discover()
+                serialize_profile(item) for item in self.registries.profiles.discover()
             ],
             "frameworks": [
                 serialize_framework(item)

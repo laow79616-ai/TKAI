@@ -37,9 +37,7 @@ class MetadataRegistry:
             self._records[key] = record
         return record
 
-    def get(
-        self, identifier: str, scope: Scope | None = None
-    ) -> RegistryRecord:
+    def get(self, identifier: str, scope: Scope | None = None) -> RegistryRecord:
         selected_scope = scope or Scope()
         try:
             return self._records[
@@ -68,8 +66,7 @@ class MetadataRegistry:
                 if record.scope.tenant == scope.tenant
                 and record.scope.workspace == scope.workspace
                 and (
-                    scope.framework == "*"
-                    or record.scope.framework == scope.framework
+                    scope.framework == "*" or record.scope.framework == scope.framework
                 )
             )
         if kind is not None:

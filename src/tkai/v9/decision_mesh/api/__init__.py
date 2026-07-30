@@ -9,10 +9,26 @@ from tkai.v9.decision_mesh.contracts import DecisionLifecycle
 from tkai.v9.decision_mesh.fabric import AdaptiveDecisionMesh
 
 RESOURCES = (
-    "profiles", "federation", "contexts", "decisions", "alternatives",
-    "comparisons", "evaluations", "recommendations", "confidence", "governance",
-    "reviews", "approvals", "compatibility", "history", "analytics", "diagnostics",
-    "health", "metrics", "audit", "lifecycle",
+    "profiles",
+    "federation",
+    "contexts",
+    "decisions",
+    "alternatives",
+    "comparisons",
+    "evaluations",
+    "recommendations",
+    "confidence",
+    "governance",
+    "reviews",
+    "approvals",
+    "compatibility",
+    "history",
+    "analytics",
+    "diagnostics",
+    "health",
+    "metrics",
+    "audit",
+    "lifecycle",
 )
 GET_ROUTES = tuple(f"/v9/decision/{resource}" for resource in RESOURCES)
 
@@ -23,6 +39,7 @@ def route_handlers(mesh: AdaptiveDecisionMesh) -> dict[str, Callable[[], object]
 
     handlers: dict[str, Callable[[], object]] = {}
     for resource in RESOURCES:
+
         def handler(name: str = resource) -> object:
             return item(name)
 

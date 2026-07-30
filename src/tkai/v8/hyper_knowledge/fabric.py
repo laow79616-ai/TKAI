@@ -173,8 +173,7 @@ class HyperKnowledgeFabric:
             "graph_processing": "disabled",
             "sensitive_payload_storage": "prohibited",
             "sources": {
-                generation: len(items)
-                for generation, items in self._sources.items()
+                generation: len(items) for generation, items in self._sources.items()
             },
             "diagnostics": self.diagnostics(),
         }
@@ -225,9 +224,7 @@ class HyperKnowledgeFabric:
             "metrics": self.metrics(),
             "diagnostics": self.diagnostics(),
             "logs": self.observability.logs(),
-            "traces": [
-                serialize_record(item) for item in self.observability.traces()
-            ],
+            "traces": [serialize_record(item) for item in self.observability.traces()],
             "audit": self.observability.audit_records(),
         }
 

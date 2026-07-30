@@ -203,9 +203,7 @@ class HyperKernel:
             "metadata": dict(diagnostic.metadata),
         }
 
-    def authorize_read(
-        self, principal: Principal, scope: Scope | None = None
-    ) -> None:
+    def authorize_read(self, principal: Principal, scope: Scope | None = None) -> None:
         self.access.authorize(principal, "kernel:read", scope or Scope())
 
 

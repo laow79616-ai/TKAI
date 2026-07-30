@@ -56,9 +56,7 @@ class AccessController:
         "administrator": frozenset({"*"}),
     }
 
-    def authorize(
-        self, principal: Principal, permission: str, scope: Scope
-    ) -> None:
+    def authorize(self, principal: Principal, permission: str, scope: Scope) -> None:
         permissions = {
             permission_name
             for role in principal.roles

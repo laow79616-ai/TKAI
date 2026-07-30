@@ -65,12 +65,8 @@ class EvidenceAggregator:
     def aggregate(
         self,
         *,
-        v8_hyper_knowledge: Iterable[
-            ReasoningReference | Mapping[str, object]
-        ] = (),
-        v8_hyper_intelligence: Iterable[
-            ReasoningReference | Mapping[str, object]
-        ] = (),
+        v8_hyper_knowledge: Iterable[ReasoningReference | Mapping[str, object]] = (),
+        v8_hyper_intelligence: Iterable[ReasoningReference | Mapping[str, object]] = (),
         v8_frameworks: Iterable[ReasoningReference | Mapping[str, object]] = (),
         v7_frameworks: Iterable[ReasoningReference | Mapping[str, object]] = (),
         v6_ai_centers: Iterable[ReasoningReference | Mapping[str, object]] = (),

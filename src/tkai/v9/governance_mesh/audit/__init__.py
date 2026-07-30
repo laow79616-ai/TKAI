@@ -1,4 +1,4 @@
-﻿"""Read-only audit projection helpers."""
+"""Read-only audit projection helpers."""
 
 from __future__ import annotations
 
@@ -10,4 +10,3 @@ def audit_records(fabric: AdaptiveGovernanceMesh) -> tuple[dict[str, object], ..
 
 
 __all__ = ("audit_records",)
-

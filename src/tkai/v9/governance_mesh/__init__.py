@@ -1,4 +1,4 @@
-﻿"""TKAI V9 Adaptive Governance Mesh."""
+"""TKAI V9 Adaptive Governance Mesh."""
 
 from tkai.v9.governance_mesh.contracts import (
     ApprovalRecord,
@@ -33,4 +33,3 @@ __all__ = (
     "PolicyRecord",
     "ReviewRecord",
 )
-

@@ -18,7 +18,7 @@ def test_tkai_2_rc3_report_records_packaging_validation_and_version_source() -> 
         "project"
     ]
 
-    assert project["version"] == tkai.__version__ == "8.0.0"
+    assert project["version"] == tkai.__version__ == "9.0.0"
     assert "single version\nsource is `1.3.0`" in report
     assert "wheel" in report.lower()
     assert "sdist" in report.lower()

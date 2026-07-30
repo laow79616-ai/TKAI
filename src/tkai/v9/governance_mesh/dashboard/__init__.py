@@ -1,4 +1,4 @@
-﻿"""Read-only dashboard projection for Hyper Governance."""
+"""Read-only dashboard projection for Hyper Governance."""
 
 from __future__ import annotations
 
@@ -29,4 +29,3 @@ def dashboard_snapshot(fabric: AdaptiveGovernanceMesh) -> dict[str, object]:
 
 
 __all__ = ("DASHBOARD_SECTIONS", "dashboard_snapshot")
-

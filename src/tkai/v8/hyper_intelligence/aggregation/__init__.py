@@ -49,15 +49,9 @@ class MetadataAggregator:
     def aggregate_all(
         self,
         *,
-        v6_ai_centers: Iterable[
-            IntelligenceReference | Mapping[str, object]
-        ] = (),
-        v7_frameworks: Iterable[
-            IntelligenceReference | Mapping[str, object]
-        ] = (),
-        v8_frameworks: Iterable[
-            IntelligenceReference | Mapping[str, object]
-        ] = (),
+        v6_ai_centers: Iterable[IntelligenceReference | Mapping[str, object]] = (),
+        v7_frameworks: Iterable[IntelligenceReference | Mapping[str, object]] = (),
+        v8_frameworks: Iterable[IntelligenceReference | Mapping[str, object]] = (),
     ) -> dict[str, tuple[IntelligenceReference, ...]]:
         return {
             "v6_ai_centers": self.aggregate("v6", v6_ai_centers),

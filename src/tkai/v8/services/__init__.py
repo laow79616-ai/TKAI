@@ -20,9 +20,7 @@ class DiscoveryService:
     def services(self, scope: Scope | None = None) -> tuple[RegistryRecord, ...]:
         return self._registries.modules.discover(scope=scope, kind="service")
 
-    def capabilities(
-        self, scope: Scope | None = None
-    ) -> tuple[RegistryRecord, ...]:
+    def capabilities(self, scope: Scope | None = None) -> tuple[RegistryRecord, ...]:
         return self._registries.capabilities.discover(scope=scope)
 
 

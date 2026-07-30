@@ -57,9 +57,7 @@ def register_routes(app: Any, kernel: HyperKernel | None = None) -> HyperKernel:
     selected = kernel or HyperKernel()
     for path, handler in route_handlers(selected).items():
         if hasattr(app, "add_api_route"):
-            app.add_api_route(
-                path, handler, methods=["GET"], tags=["V8 Hyper Kernel"]
-            )
+            app.add_api_route(path, handler, methods=["GET"], tags=["V8 Hyper Kernel"])
         else:
             app.get(path, tags=["V8 Hyper Kernel"])(handler)
     return selected

@@ -82,10 +82,16 @@ class AdaptiveDecisionMesh:
 
     def overview(self) -> dict[str, object]:
         return {
-            "mesh_id": self.ID, "version": self.VERSION, "mode": self.MODE,
-            "metadata_only": True, "reference_only": True, "advisory": True,
-            "execution": "disabled", "runtime_mutation": "disabled",
-            "automatic_approval": "disabled", "tiktok_actions": "disabled",
+            "mesh_id": self.ID,
+            "version": self.VERSION,
+            "mode": self.MODE,
+            "metadata_only": True,
+            "reference_only": True,
+            "advisory": True,
+            "execution": "disabled",
+            "runtime_mutation": "disabled",
+            "automatic_approval": "disabled",
+            "tiktok_actions": "disabled",
             "supported_generations": ("v6", "v7", "v8", "v9"),
             "metadata": dict(self.metadata),
         }
@@ -93,23 +99,26 @@ class AdaptiveDecisionMesh:
     def compatibility(self) -> dict[str, object]:
         return {
             "generations": ("v6", "v7", "v8", "v9"),
-            "reference_only": True, "automatic_migration": False,
+            "reference_only": True,
+            "automatic_migration": False,
         }
 
     def governance(self) -> dict[str, object]:
         return {
             "governance_references": (
-                "v9_adaptive_governance_mesh", "v8_hyper_governance_fabric",
-                "v7_runtime_governance_framework", "v6_autonomous_governance_center",
+                "v9_adaptive_governance_mesh",
+                "v8_hyper_governance_fabric",
+                "v7_runtime_governance_framework",
+                "v6_autonomous_governance_center",
             ),
-            "rbac_compatible": True, "approval_authorizes_execution": False,
+            "rbac_compatible": True,
+            "approval_authorizes_execution": False,
             "runtime_execution": False,
         }
 
     def analytics(self) -> dict[str, object]:
         counts: dict[str, object] = {
-            f"{name}_total": len(registry)
-            for name, registry in self.registries.named()
+            f"{name}_total": len(registry) for name, registry in self.registries.named()
         }
         values = [item.value for item in self.registries.confidence.discover()]
         counts["average_confidence"] = sum(values) / len(values) if values else 0.0
@@ -128,11 +137,21 @@ class AdaptiveDecisionMesh:
 
     def health(self) -> dict[str, object]:
         components = (
-            "registry", "federation", "decisions", "alternatives", "comparisons",
-            "recommendations", "confidence", "compatibility", "security", "audit",
+            "registry",
+            "federation",
+            "decisions",
+            "alternatives",
+            "comparisons",
+            "recommendations",
+            "confidence",
+            "compatibility",
+            "security",
+            "audit",
         )
         return {
-            "status": "healthy", "readiness": True, "liveness": True,
+            "status": "healthy",
+            "readiness": True,
+            "liveness": True,
             "components": {name: "healthy" for name in components},
             "diagnostics": self.diagnostics(),
         }
@@ -172,11 +191,15 @@ class AdaptiveDecisionMesh:
             for name, registry in self.registries.named()
         }
         return {
-            "overview": self.overview(), **records,
+            "overview": self.overview(),
+            **records,
             "federation": [_serialize(item) for item in self.federation.references()],
-            "governance": self.governance(), "history": self.history(limit),
-            "analytics": self.analytics(), "diagnostics": self.diagnostics(),
-            "health": self.health(), "metrics": self.metrics(),
+            "governance": self.governance(),
+            "history": self.history(limit),
+            "analytics": self.analytics(),
+            "diagnostics": self.diagnostics(),
+            "health": self.health(),
+            "metrics": self.metrics(),
             "audit": self.observability.audit_records(),
         }
 
