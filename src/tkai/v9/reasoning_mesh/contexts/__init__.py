@@ -1,0 +1,1 @@
+"""Immutable reasoning context metadata."""

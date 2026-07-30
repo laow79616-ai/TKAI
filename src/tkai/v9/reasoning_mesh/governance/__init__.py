@@ -1,0 +1,1 @@
+"""Reference-only governance integration."""

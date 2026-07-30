@@ -1,0 +1,1 @@
+"""Advisory artifact lifecycle metadata."""

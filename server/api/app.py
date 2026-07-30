@@ -244,6 +244,9 @@ from tkai.v9.intelligence_mesh.api import (
 from tkai.v9.knowledge_mesh.api import (
     register_routes as register_v9_knowledge_mesh_routes,
 )
+from tkai.v9.reasoning_mesh.api import (
+    register_routes as register_v9_reasoning_mesh_routes,
+)
 from workflow_platform import WorkflowPlatform
 from workflow_platform.api import register_workflow_routes
 
@@ -909,6 +912,7 @@ def create_app(
     register_v9_intelligence_mesh_routes(app)
     register_v9_governance_mesh_routes(app)
     register_v9_knowledge_mesh_routes(app)
+    register_v9_reasoning_mesh_routes(app)
     return app
 
 
