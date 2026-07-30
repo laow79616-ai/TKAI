@@ -1,0 +1,1 @@
+"""Supported immutable version metadata."""
