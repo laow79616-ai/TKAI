@@ -92,7 +92,8 @@ def test_architecture_packages_import_without_side_effects() -> None:
     )
     for package in packages:
         assert importlib.import_module(f"tkai.v7.{package}")
-    assert tkai.__version__ == "7.0.0"
+    assert tkai.__version__ == "8.0.0"
+    assert importlib.import_module("tkai.v7").__version__ == "7.0.0"
 
 
 def test_kernel_registers_and_manages_module_lifecycle() -> None:

@@ -61,7 +61,7 @@ def test_release_metadata_and_checklist_are_machine_readable() -> None:
     checklist = json.loads(
         (root / "release-checklist.json").read_text(encoding="utf-8")
     )
-    assert metadata["version"] == "7.0.0"
+    assert metadata["version"] == "8.0.0"
     assert {"openapi", "backup", "restore", "secret_scan", "checksums"} <= set(
         checklist["checks"]
     )

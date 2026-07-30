@@ -1,8 +1,8 @@
 {
   "name": "@tkai/marketplace-server-dashboard",
   "private": true,
-  "version": "7.0.0",
-  "description": "TKAI V7.0 TikTok Cloud Control Platform dashboard",
+  "version": "8.0.0",
+  "description": "TKAI V8.0 TikTok Cloud Control Platform dashboard",
   "scripts": {
     "dev": "vite",
     "preview": "vite preview",

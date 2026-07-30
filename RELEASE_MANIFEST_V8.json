@@ -1,0 +1,9 @@
+{
+    "version":  "8.0.0",
+    "framework_manifest":  "FRAMEWORK_MANIFEST_V8.json",
+    "branch":  "feature/tkai-v8-production-readiness",
+    "product":  "TKAI TikTok Cloud Control Platform",
+    "release_type":  "production-candidate",
+    "base_commit":  "fa840e21f996f46010a5144dd15a3c3a2c5b086b",
+    "framework_count":  11
+}

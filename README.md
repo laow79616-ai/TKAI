@@ -95,3 +95,7 @@ and [Enterprise RC-3 validation](docs/release/enterprise-v3-rc3.md).
 ## License
 
 TKAI is released under the [MIT License](LICENSE).
+
+## TKAI V8
+
+Version 8.0.0 provides 11 additive Hyper components with read-only advisory APIs. See [V8 release notes](RELEASE_NOTES_V8.md) and [production operations](docs/v8/Production-Operations-Guide.md).

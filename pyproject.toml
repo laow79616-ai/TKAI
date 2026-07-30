@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tkai"
-version = "7.0.0"
+version = "8.0.0"
 description = "TKAI TikTok Cloud Control Platform"
 readme = "README.md"
 license = "MIT"
@@ -174,7 +174,7 @@ line-length = 88
 target-version = ["py310"]
 
 [tool.vulture]
-paths = ["src/tkai/v7"]
+paths = ["src/tkai/v8"]
 min_confidence = 100
 # Protocol declarations intentionally name parameters for implementer clarity.
 ignore_names = ["kernel"]

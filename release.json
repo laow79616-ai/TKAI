@@ -1,9 +1,16 @@
 {
-  "product": "TKAI TikTok Cloud Control Platform",
-  "version": "7.0.0",
-  "api_version": "v7",
-  "release_date": "2026-07-30",
-  "git_commit": "${TKAI_GIT_COMMIT}",
-  "deployment_profile": "production",
-  "compatibility": ["v6", "tiktok", "dashboard", "ai-studio"]
+    "api_version":  "v8",
+    "version":  "8.0.0",
+    "deployment_profile":  "production",
+    "git_commit":  "${TKAI_GIT_COMMIT}",
+    "product":  "TKAI TikTok Cloud Control Platform",
+    "compatibility":  [
+                          "v6",
+                          "v7",
+                          "tiktok",
+                          "dashboard",
+                          "ai-studio",
+                          "local-runtime"
+                      ],
+    "release_date":  "2026-07-30"
 }

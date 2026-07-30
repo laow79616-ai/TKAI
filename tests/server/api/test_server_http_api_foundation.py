@@ -160,7 +160,7 @@ def test_read_only_endpoints_delegate_to_explicit_reference_dependencies() -> No
 
     assert health_data["checks"][0]["name"] == "reference"
     assert version_data["server_version"] == "6.0"
-    assert version_data["framework_version"] == "7.0.0"
+    assert version_data["framework_version"] == "8.0.0"
     assert metadata_data["server_name"] == "tkai-marketplace-server"
     assert metadata_data["supported_modules"] == list(dependencies.supported_modules)
 

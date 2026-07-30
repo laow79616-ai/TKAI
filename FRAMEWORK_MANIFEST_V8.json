@@ -1,0 +1,62 @@
+{
+    "schema_version":  1,
+    "framework_count":  11,
+    "release":  "8.0.0",
+    "frameworks":  [
+                       {
+                           "module":  "tkai.v8",
+                           "status":  "completed",
+                           "name":  "Hyper Kernel Architecture"
+                       },
+                       {
+                           "module":  "tkai.v8.hyper_coordination",
+                           "status":  "completed",
+                           "name":  "Hyper Coordination Framework"
+                       },
+                       {
+                           "module":  "tkai.v8.hyper_intelligence",
+                           "status":  "completed",
+                           "name":  "Hyper Intelligence Fabric"
+                       },
+                       {
+                           "module":  "tkai.v8.hyper_governance",
+                           "status":  "completed",
+                           "name":  "Hyper Governance Fabric"
+                       },
+                       {
+                           "module":  "tkai.v8.hyper_knowledge",
+                           "status":  "completed",
+                           "name":  "Hyper Knowledge Fabric"
+                       },
+                       {
+                           "module":  "tkai.v8.hyper_reasoning",
+                           "status":  "completed",
+                           "name":  "Hyper Reasoning Fabric"
+                       },
+                       {
+                           "module":  "tkai.v8.hyper_decision",
+                           "status":  "completed",
+                           "name":  "Hyper Decision Fabric"
+                       },
+                       {
+                           "module":  "tkai.v8.hyper_planning",
+                           "status":  "completed",
+                           "name":  "Hyper Autonomous Planning Fabric"
+                       },
+                       {
+                           "module":  "tkai.v8.hyper_simulation",
+                           "status":  "completed",
+                           "name":  "Hyper Simulation \u0026 Forecasting Fabric"
+                       },
+                       {
+                           "module":  "tkai.v8.hyper_operations",
+                           "status":  "completed",
+                           "name":  "Hyper Autonomous Operations Fabric"
+                       },
+                       {
+                           "module":  "tkai.v8.hyper_recovery",
+                           "status":  "completed",
+                           "name":  "Hyper Recovery \u0026 Resilience Fabric"
+                       }
+                   ]
+}

@@ -207,6 +207,9 @@ from tkai.v8.api import register_routes as register_v8_kernel_routes
 from tkai.v8.hyper_coordination.api import (
     register_routes as register_v8_coordination_routes,
 )
+from tkai.v8.hyper_decision.api import (
+    register_routes as register_v8_decision_routes,
+)
 from tkai.v8.hyper_governance.api import (
     register_routes as register_v8_governance_routes,
 )
@@ -216,8 +219,20 @@ from tkai.v8.hyper_intelligence.api import (
 from tkai.v8.hyper_knowledge.api import (
     register_routes as register_v8_knowledge_routes,
 )
+from tkai.v8.hyper_operations.api import (
+    register_routes as register_v8_operations_routes,
+)
+from tkai.v8.hyper_planning.api import (
+    register_routes as register_v8_planning_routes,
+)
+from tkai.v8.hyper_reasoning.api import (
+    register_routes as register_v8_reasoning_routes,
+)
 from tkai.v8.hyper_recovery.api import (
     register_routes as register_v8_recovery_routes,
+)
+from tkai.v8.hyper_simulation.api import (
+    register_routes as register_v8_simulation_routes,
 )
 from workflow_platform import WorkflowPlatform
 from workflow_platform.api import register_workflow_routes
@@ -874,6 +889,11 @@ def create_app(
     register_v8_intelligence_routes(app)
     register_v8_governance_routes(app)
     register_v8_knowledge_routes(app)
+    register_v8_reasoning_routes(app)
+    register_v8_decision_routes(app)
+    register_v8_planning_routes(app)
+    register_v8_simulation_routes(app)
+    register_v8_operations_routes(app)
     register_v8_recovery_routes(app)
     return app
 

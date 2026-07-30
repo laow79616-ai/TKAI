@@ -218,3 +218,9 @@
   documentation.
 - Preserved V6 APIs, TikTok business behavior, configuration, storage,
   Dashboard, AI Studio, and extension compatibility.
+
+## 8.0.0 - 2026-07-30
+
+- Completed all 11 TKAI V8 Hyper components.
+- Added production-readiness audit, compatibility evidence, documentation, and deterministic packaging.
+- Preserved V6, V7, and TikTok business behavior.

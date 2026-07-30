@@ -18,7 +18,7 @@ def test_runtime_metadata_readme_and_current_release_report_agree() -> None:
     report = (root / "docs/release/V3.0.md").read_text(encoding="utf-8")
     readme = (root / "README.md").read_text(encoding="utf-8")
 
-    assert tkai.__version__ == "7.0.0"
+    assert tkai.__version__ == "8.0.0"
     assert metadata["project"]["version"] == tkai.__version__
     assert tkai.__version__ in readme
     assert "Release status" in report
@@ -29,4 +29,4 @@ def test_existing_version_command_reports_the_current_candidate() -> None:
     result = CliRunner().invoke(app, ["version", "show"])
 
     assert result.exit_code == 0
-    assert "TKAI v7.0.0" in result.stdout
+    assert "TKAI v8.0.0" in result.stdout
