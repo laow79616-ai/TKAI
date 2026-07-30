@@ -1,0 +1,63 @@
+"""TKAI V8 Adaptive Knowledge Mesh public API."""
+
+from tkai.v9.knowledge_mesh.contracts import (
+    CompatibilityRecord,
+    ConfidenceRecord,
+    EvidenceRecord,
+    FederationProfile,
+    KnowledgeLifecycle,
+    KnowledgeMeshProfile,
+    KnowledgeRecord,
+    KnowledgeReference,
+    KnowledgeScope,
+    ReasoningSummary,
+    Recommendation,
+    Reference,
+    SignalRecord,
+)
+from tkai.v9.knowledge_mesh.fabric import (
+    AdaptiveKnowledgeMesh,
+    KnowledgeMeshFabric,
+)
+from tkai.v9.knowledge_mesh.models import (
+    Concept,
+    Confidence,
+    Domain,
+    Entity,
+    Evidence,
+    Lineage,
+    Ontology,
+    Provenance,
+    QualityScore,
+    Taxonomy,
+    VersionMetadata,
+)
+
+__all__ = (
+    "CompatibilityRecord",
+    "ConfidenceRecord",
+    "EvidenceRecord",
+    "AdaptiveKnowledgeMesh",
+    "FederationProfile",
+    "KnowledgeMeshFabric",
+    "KnowledgeLifecycle",
+    "KnowledgeMeshProfile",
+    "KnowledgeReference",
+    "KnowledgeScope",
+    "KnowledgeRecord",
+    "ReasoningSummary",
+    "Recommendation",
+    "Reference",
+    "SignalRecord",
+    "Concept",
+    "Confidence",
+    "Domain",
+    "Entity",
+    "Evidence",
+    "Lineage",
+    "Ontology",
+    "Provenance",
+    "QualityScore",
+    "Taxonomy",
+    "VersionMetadata",
+)
