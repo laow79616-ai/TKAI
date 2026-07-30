@@ -1,0 +1,1 @@
+"""Claim summary metadata."""

@@ -1,0 +1,1 @@
+"""Safe user-facing explanations."""

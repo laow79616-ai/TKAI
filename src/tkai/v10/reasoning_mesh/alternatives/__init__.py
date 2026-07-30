@@ -1,0 +1,1 @@
+"""Non-selected alternative metadata."""

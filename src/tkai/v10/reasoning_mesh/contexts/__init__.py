@@ -1,0 +1,1 @@
+"""Immutable bounded contexts."""

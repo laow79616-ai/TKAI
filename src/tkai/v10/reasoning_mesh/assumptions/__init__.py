@@ -1,0 +1,1 @@
+"""Explicit assumption metadata."""
