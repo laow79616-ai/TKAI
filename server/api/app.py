@@ -262,6 +262,7 @@ from tkai.v9.reasoning_mesh.api import (
 from tkai.v9.recovery_mesh.api import (
     register_routes as register_v9_recovery_mesh_routes,
 )
+from tkai.v10.api import register_routes as register_v10_sovereign_core_routes
 from workflow_platform import WorkflowPlatform
 from workflow_platform.api import register_workflow_routes
 
@@ -932,6 +933,7 @@ def create_app(
     register_v9_planning_mesh_routes(app)
     register_v9_operations_mesh_routes(app)
     register_v9_recovery_mesh_routes(app)
+    register_v10_sovereign_core_routes(app)
     register_v9_compatibility_mesh_routes(app)
     return app
 
