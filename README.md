@@ -1,6 +1,6 @@
 # TKAI
 
-Current release candidate: **9.0.0**. TKAI V9 adds ten read-only adaptive
+Current release: **9.0.0**. TKAI V9 adds ten read-only adaptive
 platform components while preserving V6, V7, V8, TikTok, local-runtime,
 dashboard, AI Studio, deployment, configuration, storage, security, and
 extension behavior. See [the V9 overview](docs/v9/README.md) and
@@ -9,10 +9,24 @@ extension behavior. See [the V9 overview](docs/v9/README.md) and
 TKAI is a typed, offline-testable Python framework for project scaffolding,
 plugins, workflows, and provider-neutral AI integrations.
 
-Current release: **8.0.0**.
-Previous general availability releases: **7.0.0** and **6.0.0**.
+Previous general availability releases: **8.0.0**, **7.0.0**, and **6.0.0**.
 Historical release documentation, including **1.2.0**, remains available in
 `docs/release`.
+
+## TKAI V9.0 General Availability Release
+
+TKAI V9.0 finalizes exactly ten adaptive, authenticated, read-only components.
+It introduces no new business features and changes neither TikTok nor existing
+framework behavior. V6, V7, and V8 APIs, configuration, storage, extensions,
+Dashboard, AI Studio, OpenAPI, deployment, and local-runtime contracts remain
+backward compatible. See the [V9 component overview](docs/v9/README.md),
+[deployment guide](docs/v9/Deployment-Guide.md),
+[operations guide](docs/v9/Production-Operations-Guide.md),
+[Windows guide](docs/v9/Windows-Local-Guide.md),
+[upgrade guide](docs/v9/Upgrade-V8-to-V9.md),
+[known issues](docs/v9/Known-Issues.md),
+[security notes](docs/v9/Security-Guide.md), and
+[compatibility notes](docs/v9/Compatibility-Guide.md).
 
 ## TKAI V8.0 General Availability Release
 

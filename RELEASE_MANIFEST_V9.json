@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "product": "TKAI TikTok Cloud Control Platform",
+  "version": "9.0.0",
+  "tag": "v9.0.0",
+  "release_date": "2026-07-31",
+  "base_commit": "da6e5016e2b0fdceaafe4fdae15a1a9c03275ecc",
+  "branch": "release/tkai-v9.0.0",
+  "release_type": "general-availability",
+  "component_count": 10,
+  "compatibility": ["v6", "v7", "v8", "v9", "tiktok", "dashboard", "ai-studio", "openapi", "configuration", "storage", "extensions"],
+  "assets": [
+    "artifacts/tkai-9.0.0.tar.gz",
+    "artifacts/tkai-9.0.0.zip",
+    "artifacts/RELEASE_MANIFEST_V9.json",
+    "artifacts/COMPONENT_MANIFEST_V9.json",
+    "artifacts/BUILD_METADATA_V9.json",
+    "artifacts/INTEGRITY_MANIFEST_V9.json",
+    "artifacts/CHECKSUMS_V9.txt"
+  ]
+}

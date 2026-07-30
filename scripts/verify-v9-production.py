@@ -23,8 +23,8 @@ V9_SOURCE = SOURCE / "tkai" / "v9"
 ARTIFACTS = ROOT / "artifacts"
 VERSION = "9.0.0"
 TAG = "v9.0.0"
-BRANCH = "feature/tkai-v9-production-readiness"
-BASE_COMMIT = "37e0135ece2888947ab8c234176490f2a2f53aca"
+BRANCH = "release/tkai-v9.0.0"
+BASE_COMMIT = "da6e5016e2b0fdceaafe4fdae15a1a9c03275ecc"
 sys.path[:0] = [str(SOURCE), str(ROOT)]
 
 FRAMEWORKS = {
@@ -289,7 +289,7 @@ def build(summary: str) -> dict[str, object]:
         "product": "TKAI TikTok Cloud Control Platform",
         "version": VERSION,
         "release_type": "general-availability",
-        "tag": None,
+        "tag": TAG,
         "branch": BRANCH,
         "source_base_commit": BASE_COMMIT,
         "source_commit": report["source_commit"],
@@ -305,7 +305,7 @@ def build(summary: str) -> dict[str, object]:
     }
     build_metadata = {
         "version": VERSION,
-        "tag": None,
+        "tag": TAG,
         "branch": BRANCH,
         "base_commit": BASE_COMMIT,
         "source_commit": report["source_commit"],

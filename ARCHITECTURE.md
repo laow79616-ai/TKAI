@@ -1,5 +1,16 @@
 # TKAI Architecture
 
+## V9 production architecture
+
+V9 is an additive, authenticated, read-only advisory layer composed of exactly
+ten completed adaptive components. The Adaptive Meta-Kernel supplies stable
+registration and compatibility contracts; the nine meshes cover intelligence,
+governance, knowledge, reasoning, decision, planning, operations, recovery,
+and compatibility. V9 components project metrics, logs, traces, diagnostics,
+health, audit, and dashboard metadata without mutating V6–V8 framework state,
+TikTok business state, configuration, storage, schedules, workflows, or
+recovery state. See `docs/v9/README.md` for the final component inventory.
+
 ## V7 production architecture
 
 V7 is an opt-in framework layer under `tkai.v7`. The V6 runtime and TikTok

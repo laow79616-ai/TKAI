@@ -1,0 +1,28 @@
+{
+  "version": "9.0.0",
+  "checks": [
+    "repository",
+    "version",
+    "ruff",
+    "mypy",
+    "vulture",
+    "import_validation",
+    "public_api",
+    "v9_tests",
+    "v8_tests",
+    "v7_tests",
+    "full_pytest",
+    "tiktok_regression",
+    "deployment_tests",
+    "release_tests",
+    "local_runtime",
+    "dashboard_build",
+    "ai_studio_build",
+    "openapi",
+    "powershell_syntax",
+    "release_assets",
+    "checksums",
+    "secret_scan",
+    "git_diff_check"
+  ]
+}

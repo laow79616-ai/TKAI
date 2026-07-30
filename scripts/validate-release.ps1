@@ -1,4 +1,4 @@
-param([string]$Archive = "artifacts\tkai-8.0.0.zip")
+param([string]$Archive = "artifacts\tkai-9.0.0.zip")
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 $repository = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot ".."))

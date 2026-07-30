@@ -10,5 +10,5 @@ No automatic migration is performed. V8 deployments may upgrade in place after
 backing up configuration and storage, validating environment prerequisites, and
 running `python scripts/verify-v9-production.py`.
 
-No known release-blocking issue is present. The final `v9.0.0` tag is
-intentionally deferred to the release process.
+No known release-blocking issue is present. The annotated `v9.0.0` tag marks
+the final GA release commit.
