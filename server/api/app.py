@@ -235,6 +235,9 @@ from tkai.v8.hyper_simulation.api import (
     register_routes as register_v8_simulation_routes,
 )
 from tkai.v9.api import register_routes as register_v9_meta_kernel_routes
+from tkai.v9.compatibility_mesh.api import (
+    register_routes as register_v9_compatibility_mesh_routes,
+)
 from tkai.v9.decision_mesh.api import (
     register_routes as register_v9_decision_mesh_routes,
 )
@@ -925,6 +928,7 @@ def create_app(
     register_v9_decision_mesh_routes(app)
     register_v9_operations_mesh_routes(app)
     register_v9_recovery_mesh_routes(app)
+    register_v9_compatibility_mesh_routes(app)
     return app
 
 
