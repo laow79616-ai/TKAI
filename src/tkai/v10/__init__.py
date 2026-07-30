@@ -15,6 +15,7 @@ from tkai.v10.contracts import (
     TopologyEdge,
     TrustDomain,
 )
+from tkai.v10.governance_mesh import SovereignGovernanceMesh
 from tkai.v10.integrity_mesh import SovereignIntegrityMesh
 from tkai.v10.sovereign_core import SovereignCore
 from tkai.v10.trust_mesh import SovereignTrustMesh
@@ -33,6 +34,7 @@ __all__ = (
     "SovereignCore",
     "SovereignCoreModel",
     "SovereignIntegrityMesh",
+    "SovereignGovernanceMesh",
     "SovereignTrustMesh",
     "TopologyEdge",
     "TrustDomain",
