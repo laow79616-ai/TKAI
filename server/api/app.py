@@ -234,6 +234,7 @@ from tkai.v8.hyper_recovery.api import (
 from tkai.v8.hyper_simulation.api import (
     register_routes as register_v8_simulation_routes,
 )
+from tkai.v9.api import register_routes as register_v9_meta_kernel_routes
 from workflow_platform import WorkflowPlatform
 from workflow_platform.api import register_workflow_routes
 
@@ -895,6 +896,7 @@ def create_app(
     register_v8_simulation_routes(app)
     register_v8_operations_routes(app)
     register_v8_recovery_routes(app)
+    register_v9_meta_kernel_routes(app)
     return app
 
 
