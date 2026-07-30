@@ -3,10 +3,29 @@
 TKAI is a typed, offline-testable Python framework for project scaffolding,
 plugins, workflows, and provider-neutral AI integrations.
 
-Current release: **7.0.0**.
-Previous general availability release: **6.0.0**.
+Current release: **8.0.0**.
+Previous general availability releases: **7.0.0** and **6.0.0**.
 Historical release documentation, including **1.2.0**, remains available in
 `docs/release`.
+
+## TKAI V8.0 General Availability Release
+
+TKAI V8.0 finalizes the Hyper Kernel and ten additive Hyper frameworks as an
+official GA release. It introduces no new business features, does not modify
+TikTok behavior, and does not change existing framework behavior. V6 and V7
+APIs, configuration, storage, extensions, Dashboard, AI Studio, OpenAPI, and
+deployment contracts remain backward compatible.
+
+The final V8 inventory contains exactly 11 completed frameworks. See the
+[V8 release notes](RELEASE_NOTES_V8.md), [architecture overview](docs/v8/Architecture.md),
+[framework overview](docs/v8/FrameworkOverview.md),
+[deployment guide](docs/v8/Deployment-Guide.md),
+[operations guide](docs/v8/Operations-Guide.md),
+[Windows guide](docs/v8/Windows-Guide.md),
+[upgrade guide](docs/v8/Upgrade-V7-to-V8.md),
+[known issues](docs/v8/Known-Issues.md),
+[security notes](docs/v8/Security-Guide.md), and
+[compatibility notes](docs/v8/Compatibility.md).
 
 ## TKAI V7.0 Production Release
 

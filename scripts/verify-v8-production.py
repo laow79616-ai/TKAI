@@ -22,7 +22,9 @@ SOURCE = ROOT / "src"
 V8_SOURCE = SOURCE / "tkai" / "v8"
 ARTIFACTS = ROOT / "artifacts"
 VERSION = "8.0.0"
-BASE_COMMIT = "fa840e21f996f46010a5144dd15a3c3a2c5b086b"
+TAG = "v8.0.0"
+BRANCH = "release/tkai-v8.0.0"
+BASE_COMMIT = "ba45499c4ff6efaf72ba3e9ecc94a12c6d8ea075"
 sys.path[:0] = [str(SOURCE), str(ROOT)]
 
 FRAMEWORKS = {
@@ -43,6 +45,8 @@ EXCLUDED_PARTS = {
     ".venv",
     "venv",
     "node_modules",
+    "dist",
+    "runtime",
     ".pytest_cache",
     ".mypy_cache",
     ".ruff_cache",
@@ -196,6 +200,17 @@ def audit() -> dict[str, object]:
     )
     found_cycles = cycles(graph)
     api = openapi_inventory()
+    branch = git("branch", "--show-current")
+    if branch != BRANCH:
+        errors.append(f"unexpected release branch: {branch}")
+    try:
+        subprocess.run(
+            ["git", "merge-base", "--is-ancestor", BASE_COMMIT, "HEAD"],
+            cwd=ROOT,
+            check=True,
+        )
+    except subprocess.CalledProcessError:
+        errors.append(f"{BASE_COMMIT} is not an ancestor of HEAD")
     if duplicates:
         errors.append(f"duplicate packages: {duplicates}")
     if found_cycles:
@@ -209,7 +224,7 @@ def audit() -> dict[str, object]:
         "version": VERSION,
         "base_commit": BASE_COMMIT,
         "source_commit": git("rev-parse", "HEAD"),
-        "branch": git("branch", "--show-current"),
+        "branch": branch,
         "framework_count": len(framework_results),
         "frameworks": framework_results,
         "repository": {
@@ -245,8 +260,15 @@ def build(summary: str) -> dict[str, object]:
     report = audit()
     if report["status"] != "ready":
         raise RuntimeError("; ".join(report["errors"]))
+    if git("status", "--porcelain"):
+        raise RuntimeError("release assets must be built from a clean worktree")
+    try:
+        tag_commit = git("rev-parse", f"{TAG}^{{}}")
+    except subprocess.CalledProcessError as exc:
+        raise RuntimeError(f"annotated tag {TAG} is required") from exc
+    if tag_commit != report["source_commit"]:
+        raise RuntimeError(f"{TAG} does not point to the release commit")
     ARTIFACTS.mkdir(exist_ok=True)
-    api = openapi_inventory()
     files = inventory()
     secret_hits = []
     config_suffixes = {".env", ".ini", ".json", ".toml", ".yaml", ".yml"}
@@ -273,7 +295,9 @@ def build(summary: str) -> dict[str, object]:
         "schema_version": 1,
         "product": "TKAI TikTok Cloud Control Platform",
         "version": VERSION,
-        "release_type": "production-candidate",
+        "release_type": "general-availability",
+        "tag": TAG,
+        "branch": BRANCH,
         "source_base_commit": BASE_COMMIT,
         "source_commit": report["source_commit"],
         "framework_count": 11,
@@ -288,6 +312,9 @@ def build(summary: str) -> dict[str, object]:
     }
     build_metadata = {
         "version": VERSION,
+        "tag": TAG,
+        "branch": BRANCH,
+        "base_commit": BASE_COMMIT,
         "source_commit": report["source_commit"],
         "source_date_epoch": int(os.environ.get("SOURCE_DATE_EPOCH", "0")),
         "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -297,7 +324,6 @@ def build(summary: str) -> dict[str, object]:
     write_json(ARTIFACTS / "FRAMEWORK_MANIFEST_V8.json", framework_manifest)
     write_json(ARTIFACTS / "RELEASE_MANIFEST_V8.json", release_manifest)
     write_json(ARTIFACTS / "BUILD_METADATA_V8.json", build_metadata)
-    write_json(ARTIFACTS / "openapi-v8.json", api["schema"])
 
     prefix = f"tkai-{VERSION}"
     epoch = int(os.environ.get("SOURCE_DATE_EPOCH", "0"))
@@ -332,6 +358,7 @@ def build(summary: str) -> dict[str, object]:
         ).hexdigest(),
         "archives": {zip_path.name: sha256(zip_path), tar_path.name: sha256(tar_path)},
         "secret_scan": "passed",
+        "archive_readability": "validated",
         "unsafe_paths": [],
         "duplicate_entries": [],
     }
@@ -343,27 +370,11 @@ def build(summary: str) -> dict[str, object]:
         ARTIFACTS / "FRAMEWORK_MANIFEST_V8.json",
         ARTIFACTS / "BUILD_METADATA_V8.json",
         ARTIFACTS / "INTEGRITY_MANIFEST_V8.json",
-        ARTIFACTS / "openapi-v8.json",
     ]
     checksums = (
         "\n".join(f"{sha256(path)}  {path.name}" for path in package_files) + "\n"
     )
     (ARTIFACTS / "CHECKSUMS_V8.txt").write_text(checksums, encoding="utf-8")
-    readiness = (
-        "# TKAI V8 Production Readiness\n\n"
-        f"- Status: **{report['status'].upper()}**\n"
-        f"- Frameworks: {report['framework_count']}/11 completed\n"
-        f"- OpenAPI: {report['openapi']['path_count']} paths, "
-        f"{report['openapi']['operation_count']} operations\n"
-        "- Compatibility: V6, V7, TikTok, dashboard, AI Studio, "
-        "and local runtime\n"
-        "- Security: V8 routes are GET-only advisory surfaces; secret scan passed\n"
-        f"- Validation: {summary}\n"
-        "- Known issues: Optional integrations require documented "
-        "external services.\n"
-        "- Release blockers: None detected by the deterministic audit.\n"
-    )
-    (ARTIFACTS / "PRODUCTION_READINESS_V8.md").write_text(readiness, encoding="utf-8")
     return report
 
 

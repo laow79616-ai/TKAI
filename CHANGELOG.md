@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+## 8.0.0 - 2026-07-30
+
+- Finalized TKAI V8.0.0 for general availability with exactly 11 completed
+  Hyper frameworks.
+- Synchronized package, runtime, Dashboard, AI Studio, API, OpenAPI, build,
+  and release metadata at version 8.0.0.
+- Finalized V8 architecture, framework, deployment, operations, Windows,
+  upgrade, known-issues, security, and compatibility documentation.
+- Verified V6 and V7 backward compatibility and unchanged TikTok behavior.
+- Added deterministic local GA archives, integrity manifests, and SHA-256
+  validation without adding business features or execution privileges.
+
 ## 6.0.0 - 2026-07-29
 
 - Finalized the official V6.0.0 release metadata, integrity inputs,

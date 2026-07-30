@@ -4,10 +4,12 @@ $ErrorActionPreference = "Stop"
 $repository = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot ".."))
 $python = Join-Path $repository ".venv\Scripts\python.exe"
 $releaseInputs = @(
+    "RELEASE_NOTES_V8.md",
+    "FRAMEWORK_MANIFEST_V8.json",
     "RELEASE_NOTES_V7.md",
     "FRAMEWORK_MANIFEST.json",
     "INTEGRITY_MANIFEST.json",
-    "RELEASE_MANIFEST.json",
+    "RELEASE_MANIFEST_V8.json",
     "BUILD_METADATA.json"
 )
 foreach ($relative in $releaseInputs) {
@@ -15,8 +17,8 @@ foreach ($relative in $releaseInputs) {
         throw "Release input missing: $relative"
     }
 }
-# The V7 CHECKSUMS_V7.txt catalog supersedes the packaged SHA256SUMS file.
-# $sourceArchive is produced as artifacts\tkai-7.0.0.tar.gz by the Python builder.
+# CHECKSUMS_V8.txt supersedes the historical SHA256SUMS catalog.
+# $sourceArchive is produced as artifacts\tkai-8.0.0.tar.gz by the Python builder.
 if (-not (Test-Path -LiteralPath $python)) {
     throw "Release Python environment is missing: $python"
 }
