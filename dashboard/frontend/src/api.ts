@@ -246,6 +246,11 @@ export class MarketplaceApiClient {
       `/v8/intelligence/${encodeURIComponent(resource)}`,
     );
   }
+  adaptiveIntelligenceMesh(resource = "profiles") {
+    return this.request<Record<string, unknown>>(
+      `/v9/intelligence/${encodeURIComponent(resource)}`,
+    );
+  }
   capabilities(resource = "catalog") {
     return this.request<Record<string, unknown>>(
       `/v7/capabilities/${encodeURIComponent(resource)}`,
