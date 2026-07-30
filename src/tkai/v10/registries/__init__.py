@@ -32,6 +32,12 @@ class BoundedRegistry:
             "attestation_id",
             "boundary_id",
             "change_plan_id",
+            "profile_id",
+            "domain_id",
+            "identity_id",
+            "relationship_id",
+            "score_id",
+            "compatibility_id",
         ):
             value = getattr(record, name, None)
             if isinstance(value, str):

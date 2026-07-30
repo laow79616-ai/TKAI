@@ -16,6 +16,7 @@ from tkai.v10.contracts import (
     TrustDomain,
 )
 from tkai.v10.sovereign_core import SovereignCore
+from tkai.v10.trust_mesh import SovereignTrustMesh
 
 __all__ = (
     "Attestation",
@@ -30,6 +31,7 @@ __all__ = (
     "Scope",
     "SovereignCore",
     "SovereignCoreModel",
+    "SovereignTrustMesh",
     "TopologyEdge",
     "TrustDomain",
 )
