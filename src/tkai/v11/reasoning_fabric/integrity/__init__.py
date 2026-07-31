@@ -1,0 +1,1 @@
+"""Graph integrity metadata."""
