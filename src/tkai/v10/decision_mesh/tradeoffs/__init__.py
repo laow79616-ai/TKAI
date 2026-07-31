@@ -1,0 +1,1 @@
+"""Decision trade-off contracts."""

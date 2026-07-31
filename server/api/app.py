@@ -266,6 +266,9 @@ from tkai.v10.api import register_routes as register_v10_sovereign_core_routes
 from tkai.v10.compatibility_mesh.api import (
     register_routes as register_v10_sovereign_compatibility_mesh_routes,
 )
+from tkai.v10.decision_mesh.api import (
+    register_routes as register_v10_sovereign_decision_mesh_routes,
+)
 from tkai.v10.governance_mesh.api import (
     register_routes as register_v10_sovereign_governance_mesh_routes,
 )
@@ -958,6 +961,7 @@ def create_app(
     register_v10_sovereign_compatibility_mesh_routes(app)
     register_v10_sovereign_knowledge_mesh_routes(app)
     register_v10_sovereign_reasoning_mesh_routes(app)
+    register_v10_sovereign_decision_mesh_routes(app)
     register_v9_compatibility_mesh_routes(app)
     return app
 

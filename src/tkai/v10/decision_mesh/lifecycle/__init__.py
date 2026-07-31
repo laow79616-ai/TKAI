@@ -1,0 +1,1 @@
+"""Decision Mesh lifecycle metadata."""

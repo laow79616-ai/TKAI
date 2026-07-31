@@ -1,0 +1,1 @@
+"""Decision Mesh health metadata."""
