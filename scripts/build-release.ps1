@@ -4,13 +4,13 @@ $ErrorActionPreference = "Stop"
 $repository = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot ".."))
 $python = Join-Path $repository ".venv\Scripts\python.exe"
 $releaseInputs = @(
-    "RELEASE_NOTES_V9.md",
-    "docs\v9\README.md",
+    "RELEASE_NOTES_V10.md",
+    "docs\v10\ARCHITECTURE_OVERVIEW.md",
     "RELEASE_NOTES_V7.md",
     "FRAMEWORK_MANIFEST.json",
     "INTEGRITY_MANIFEST.json",
-    "RELEASE_MANIFEST_V9.json",
-    "BUILD_METADATA_V9.json"
+    "release.json",
+    "pyproject.toml"
 )
 foreach ($relative in $releaseInputs) {
     if (-not (Test-Path -LiteralPath (Join-Path $repository $relative))) {
@@ -25,7 +25,7 @@ foreach ($relative in $releaseInputs) {
 if (-not (Test-Path -LiteralPath $python)) {
     throw "Release Python environment is missing: $python"
 }
-& $python (Join-Path $PSScriptRoot "verify-v9-production.py") `
+& $python (Join-Path $PSScriptRoot "verify-v10-production.py") `
     --build --validate-archives --test-summary $PytestSummary
 if ($LASTEXITCODE -ne 0) {
     throw "Final release asset generation failed."

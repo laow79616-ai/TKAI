@@ -23,8 +23,8 @@ V10_SOURCE = SOURCE / "tkai" / "v10"
 ARTIFACTS = ROOT / "artifacts"
 VERSION = "10.0.0"
 TAG = "v10.0.0"
-BRANCH = "feature/tkai-v10-production-readiness"
-BASE_COMMIT = "30633b1bab648083bc38610125d0972832d3b959"
+BRANCH = "release/tkai-v10.0.0"
+BASE_COMMIT = "5bd61cdd1a6631e148fbc7adb211acb57f8b8115"
 sys.path[:0] = [str(SOURCE), str(ROOT)]
 
 FRAMEWORKS = {
@@ -402,6 +402,8 @@ def build(summary: str) -> dict[str, object]:
     write_json(ARTIFACTS / "RELEASE_MANIFEST_V10.json", release_manifest)
     write_json(ARTIFACTS / "BUILD_METADATA_V10.json", build_metadata)
     write_json(ARTIFACTS / "openapi-v10.json", openapi_inventory()["schema"])
+    release_notes = ARTIFACTS / "RELEASE_NOTES_V10.md"
+    release_notes.write_bytes((ROOT / "RELEASE_NOTES_V10.md").read_bytes())
 
     prefix = f"tkai-{VERSION}"
     epoch = int(os.environ.get("SOURCE_DATE_EPOCH", "0"))
@@ -451,7 +453,8 @@ def build(summary: str) -> dict[str, object]:
         f"{report['openapi']['operation_count']} operations\n"
         f"- V10 OpenAPI: {report['openapi']['v10_path_count']} paths, "
         f"{report['openapi']['v10_operation_count']} operations\n"
-        "- Compatibility: V6, V7, V8 and V10 supported; no TikTok behavior changes\n"
+        "- Compatibility: V6, V7, V8, V9 and V10 supported; "
+        "no TikTok behavior changes\n"
         "- Security: advisory V10 surface is GET-only; "
         "no execution or runtime mutation\n"
         "- Known issues: none identified by the deterministic release audit\n"
@@ -467,7 +470,7 @@ def build(summary: str) -> dict[str, object]:
         ARTIFACTS / "BUILD_METADATA_V10.json",
         ARTIFACTS / "INTEGRITY_MANIFEST_V10.json",
         ARTIFACTS / "openapi-v10.json",
-        report_path,
+        release_notes,
     ]
     checksums = (
         "\n".join(f"{sha256(path)}  {path.name}" for path in package_files) + "\n"

@@ -1,4 +1,4 @@
-"""Compatibility entry point for the TKAI V8.0.0 final release builder."""
+"""Compatibility entry point for the TKAI V10.0.0 final release builder."""
 
 from __future__ import annotations
 
@@ -8,8 +8,8 @@ from pathlib import Path
 
 
 def load_builder():
-    path = Path(__file__).with_name("verify-v8-production.py")
-    spec = importlib.util.spec_from_file_location("verify_v8_production", path)
+    path = Path(__file__).with_name("verify-v10-production.py")
+    spec = importlib.util.spec_from_file_location("verify_v10_production", path)
     if spec is None or spec.loader is None:
         raise RuntimeError(f"Unable to load release builder: {path}")
     module = importlib.util.module_from_spec(spec)
