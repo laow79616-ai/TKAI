@@ -66,6 +66,7 @@ from tiktok.business_intelligence_center import TikTokBusinessIntelligenceCenter
 from tiktok.business_intelligence_center.api import (
     register_business_intelligence_routes,
 )
+from tiktok.business_platform import BusinessPlatform, register_business_platform_routes
 from tiktok.business_workspace import (
     CoordinationTarget as BusinessCoordinationTarget,
 )
@@ -794,6 +795,7 @@ def create_app(
     )
     register_business_workspace_routes(app, tiktok_business_workspace)
     app.state.tiktok_business_workspace = tiktok_business_workspace
+    register_business_platform_routes(app, BusinessPlatform())
     tiktok_lead_center = TikTokLeadManagementCenter()
     register_lead_routes(app, tiktok_lead_center)
     app.state.tiktok_lead_center = tiktok_lead_center

@@ -19,10 +19,26 @@ export type StudioPage =
   | "tools"
   | "plugins"
   | "settings"
-  | "logs";
+  | "logs"
+  | "prompt-center"
+  | "skill-center"
+  | "agent-center"
+  | "workflow-center"
+  | "knowledge-center"
+  | "model-center"
+  | "memory-center"
+  | "validation-center";
 
 export const studioPages: readonly StudioPage[] = [
   "dashboard",
+  "prompt-center",
+  "skill-center",
+  "agent-center",
+  "workflow-center",
+  "knowledge-center",
+  "model-center",
+  "memory-center",
+  "validation-center",
   "projects",
   "prompt-studio",
   "chat-studio",

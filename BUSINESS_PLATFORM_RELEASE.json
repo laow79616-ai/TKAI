@@ -1,0 +1,8 @@
+{
+  "product": "TKAI Business Platform",
+  "version": "1.0.0",
+  "branch": "release/business-platform-v1.0",
+  "tag": "business-platform-v1.0",
+  "status": "release-candidate",
+  "base": "v12.0.0"
+}

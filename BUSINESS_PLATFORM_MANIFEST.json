@@ -1,0 +1,8 @@
+{
+  "product": "TKAI Business Platform",
+  "version": "1.0.0",
+  "base_release": "v12.0.0",
+  "compatibility": ["v6", "v7", "v8", "v9", "v10", "v11", "v12"],
+  "modules": ["accounts", "browsers", "proxies", "tasks", "content", "data", "dashboard", "ai-studio", "enterprise-admin", "openapi"],
+  "safety": {"metadata_only": true, "execution_routes": 0, "publishing": false, "browser_launch": false, "proxy_switching": false}
+}

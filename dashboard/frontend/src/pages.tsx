@@ -4,6 +4,12 @@ import { type ApiListResponse, type EnterpriseRecord, type SearchEntry } from ".
 import { useAuth } from "./auth";
 import { Card, Loading, SearchBar, Table } from "./components";
 
+export const businessPlatformDashboardPages = [
+  "business-home", "business-accounts", "business-browsers", "business-proxies",
+  "business-tasks", "business-content", "business-data", "business-health",
+  "business-audit", "business-settings", "business-ai-studio", "business-admin",
+] as const;
+
 export const dashboardPages = ["dashboard", "orchestrator", "execution-plans", "orchestrator-queues", "orchestrator-executions", "orchestrator-failures", "orchestrator-retries", "orchestrator-performance", "app-store", "app-store-categories", "app-store-details", "app-store-installed", "app-store-updates", "app-store-licenses", "app-store-subscriptions", "app-store-publishers", "app-store-reviews", "app-store-moderation", "app-store-analytics", "knowledge-bases", "collections", "documents", "ingestion", "knowledge-search", "knowledge-permissions", "connectors", "evaluation", "applications", "application-templates", "deployments", "application-usage", "application-versions", "application-permissions", "agents", "agent-runs", "plugins", "marketplace", "installed", "updates", "registry", "publishers", "packages", "downloads", "licenses", "reviews", "versions", "search", "statistics", "health", "users", "organizations", "tenants", "teams", "roles", "permissions", "license", "billing", "api-keys", "audit"] as const;
 export const hyperKernelDashboardPages = ["v8-kernel", "v8-frameworks", "v8-capabilities", "v8-runtime", "v8-health", "v8-metrics", "v8-diagnostics", "v8-audit"] as const;
 export const hyperCoordinationDashboardPages = ["v8-coordination", "v8-coordination-frameworks", "v8-coordination-dependencies", "v8-coordination-relationships", "v8-coordination-synchronization", "v8-coordination-compatibility", "v8-coordination-governance", "v8-coordination-health", "v8-coordination-metrics", "v8-coordination-audit"] as const;
@@ -37,6 +43,13 @@ function useRequest<T>(load: () => Promise<T>) {
 function RecordList({ title, load }: { title: string; load(): Promise<ApiListResponse<unknown>> }) {
   const { value, error } = useRequest(load);
   return <Card><h1>{title}</h1>{error && <p role="alert">{error}</p>}{!value && !error && <Loading />}{value && <Table><tbody>{value.data.map((item, index) => { const record = item as Record<string, unknown>; return <tr key={String(record.registry_id ?? record.publisher_id ?? record.package_id ?? record.version_id ?? index)}><td>{JSON.stringify(record)}</td></tr>; })}</tbody></Table>}</Card>;
+}
+
+export function BusinessPlatformPage({ resource = "dashboard" }: { resource?: string }) {
+  const { client } = useAuth();
+  const state = useRequest(() => client.businessPlatform(resource));
+  const title = resource === "dashboard" ? "Home" : resource.replaceAll("-", " ");
+  return <div className="operations-v2"><div className="operations-hero"><div><p className="operations-eyebrow">TKAI Business Platform V1.0</p><h1>{title}</h1><p>Tenant-scoped TikTok business metadata, health, governance, and advisory intelligence.</p></div><div className="operations-overall healthy"><span className="operations-pulse" /><div><small>Safety boundary</small><strong>Metadata only</strong></div></div></div>{state.error && <p role="alert">{state.error}</p>}{state.value ? <Card><pre>{JSON.stringify(state.value, null, 2)}</pre></Card> : <Loading />}</div>;
 }
 
 export function LoginPage() {
