@@ -1,0 +1,1 @@
+"""Operational assessment metadata namespace."""

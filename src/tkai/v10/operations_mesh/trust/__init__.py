@@ -1,0 +1,1 @@
+"""Trust reference metadata namespace."""

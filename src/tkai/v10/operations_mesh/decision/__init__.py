@@ -1,0 +1,1 @@
+"""Decision reference metadata namespace."""

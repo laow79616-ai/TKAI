@@ -1,0 +1,1 @@
+"""Dependency reference metadata namespace."""

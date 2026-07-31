@@ -1,0 +1,1 @@
+"""Knowledge reference metadata namespace."""

@@ -1,0 +1,1 @@
+"""Integrity reference metadata namespace."""

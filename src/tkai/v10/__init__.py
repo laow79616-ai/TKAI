@@ -18,6 +18,7 @@ from tkai.v10.contracts import (
 from tkai.v10.decision_mesh import SovereignDecisionMesh
 from tkai.v10.governance_mesh import SovereignGovernanceMesh
 from tkai.v10.integrity_mesh import SovereignIntegrityMesh
+from tkai.v10.operations_mesh import SovereignOperationsMesh
 from tkai.v10.planning_mesh import SovereignPlanningMesh
 from tkai.v10.reasoning_mesh import SovereignReasoningMesh
 from tkai.v10.sovereign_core import SovereignCore
@@ -38,6 +39,7 @@ __all__ = (
     "SovereignCoreModel",
     "SovereignDecisionMesh",
     "SovereignIntegrityMesh",
+    "SovereignOperationsMesh",
     "SovereignPlanningMesh",
     "SovereignReasoningMesh",
     "SovereignGovernanceMesh",

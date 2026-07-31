@@ -1,0 +1,1 @@
+"""Governance reference metadata namespace."""

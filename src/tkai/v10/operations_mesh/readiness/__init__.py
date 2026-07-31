@@ -1,0 +1,1 @@
+"""Operational readiness metadata namespace."""

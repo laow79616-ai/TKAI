@@ -1,0 +1,1 @@
+"""Planning reference metadata namespace."""

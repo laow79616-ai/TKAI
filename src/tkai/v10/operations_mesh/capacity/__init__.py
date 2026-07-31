@@ -1,0 +1,1 @@
+"""Capacity reference metadata namespace."""

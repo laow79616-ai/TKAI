@@ -1,0 +1,1 @@
+"""Operational reference metadata namespace."""
