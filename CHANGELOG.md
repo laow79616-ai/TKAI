@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### Enterprise productization
+
+- Added enterprise lifecycle documentation and repository governance templates.
+- Added local and CI quality-gate orchestration without behavior or API changes.
+
+## Unreleased
+
 ## 10.0.0 - 2026-07-31
 
 - Prepared exactly 11 completed V10 sovereign components for release.

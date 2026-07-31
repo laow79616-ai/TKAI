@@ -200,7 +200,6 @@ def audit() -> dict[str, object]:
     found_cycles = cycles(graph)
     api = openapi_inventory()
     branch = git("branch", "--show-current")
-    release = json.loads((ROOT / "release.json").read_text(encoding="utf-8"))
     historical_branch_prefix = f"release/tkai-v{VERSION}"
     if branch.startswith(historical_branch_prefix) and branch != BRANCH:
         errors.append(f"unexpected release branch: {branch}")

@@ -1,4 +1,7 @@
-.PHONY: dev-up dev-down dev-logs dev-reset observability-up observability-down observability-status observability-logs helm-lint helm-template kubernetes-validate kubernetes-install kubernetes-upgrade kubernetes-uninstall kubernetes-status kubernetes-logs
+.PHONY: validate enterprise-validate dev-up dev-down dev-logs dev-reset observability-up observability-down observability-status observability-logs helm-lint helm-template kubernetes-validate kubernetes-install kubernetes-upgrade kubernetes-uninstall kubernetes-status kubernetes-logs
+
+validate enterprise-validate:
+	python scripts/validate-enterprise.py
 
 dev-up:
 	docker compose up --build

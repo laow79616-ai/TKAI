@@ -1,0 +1,23 @@
+name: Bug report
+description: Report a reproducible TKAI defect without secrets or personal data.
+title: "[Bug]: "
+labels: [bug, triage]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: TKAI version and commit
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment and sanitized configuration
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction, expected result, actual result, and sanitized logs
+    validations:
+      required: true

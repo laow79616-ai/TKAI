@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "owner": "replace-me",
+  "data_classification": "internal",
+  "environments": ["development", "staging", "production"],
+  "validation": "python scripts/validate-enterprise.py",
+  "support": {
+    "service_owner": "replace-me",
+    "security_owner": "replace-me"
+  }
+}

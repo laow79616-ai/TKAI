@@ -1,0 +1,17 @@
+name: Product proposal
+description: Propose a product or lifecycle improvement.
+title: "[Proposal]: "
+labels: [proposal, triage]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem and enterprise impact
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Outcome, acceptance criteria, and compatibility impact
+    validations:
+      required: true
