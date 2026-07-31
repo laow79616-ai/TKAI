@@ -1,0 +1,698 @@
+{
+  "component_count": 22,
+  "components": [
+    {
+      "architecture": {
+        "advisory": true,
+        "deterministic": true,
+        "local_first": true,
+        "metadata_driven": true,
+        "read_only": true
+      },
+      "capabilities": [
+        "contextualize",
+        "catalog",
+        "project"
+      ],
+      "dependencies": [],
+      "execution": {
+        "automatic_migration": false,
+        "automatic_rollback": false,
+        "automatic_upgrade": false,
+        "browser_automation": false,
+        "deployment_execution": false,
+        "enabled": false,
+        "runtime_mutation": false,
+        "scheduler_execution": false,
+        "tiktok_account_operations": false,
+        "workflow_execution": false
+      },
+      "name": "Autonomous Intelligence Core",
+      "section": "intelligence",
+      "slug": "intelligence-core",
+      "version": "11.0.0"
+    },
+    {
+      "architecture": {
+        "advisory": true,
+        "deterministic": true,
+        "local_first": true,
+        "metadata_driven": true,
+        "read_only": true
+      },
+      "capabilities": [
+        "nodes",
+        "edges",
+        "lineage"
+      ],
+      "dependencies": [],
+      "execution": {
+        "automatic_migration": false,
+        "automatic_rollback": false,
+        "automatic_upgrade": false,
+        "browser_automation": false,
+        "deployment_execution": false,
+        "enabled": false,
+        "runtime_mutation": false,
+        "scheduler_execution": false,
+        "tiktok_account_operations": false,
+        "workflow_execution": false
+      },
+      "name": "Autonomous Knowledge Graph",
+      "section": "intelligence",
+      "slug": "knowledge-graph",
+      "version": "11.0.0"
+    },
+    {
+      "architecture": {
+        "advisory": true,
+        "deterministic": true,
+        "local_first": true,
+        "metadata_driven": true,
+        "read_only": true
+      },
+      "capabilities": [
+        "evidence",
+        "inference",
+        "explanation"
+      ],
+      "dependencies": [],
+      "execution": {
+        "automatic_migration": false,
+        "automatic_rollback": false,
+        "automatic_upgrade": false,
+        "browser_automation": false,
+        "deployment_execution": false,
+        "enabled": false,
+        "runtime_mutation": false,
+        "scheduler_execution": false,
+        "tiktok_account_operations": false,
+        "workflow_execution": false
+      },
+      "name": "Autonomous Reasoning Fabric",
+      "section": "intelligence",
+      "slug": "reasoning-fabric",
+      "version": "11.0.0"
+    },
+    {
+      "architecture": {
+        "advisory": true,
+        "deterministic": true,
+        "local_first": true,
+        "metadata_driven": true,
+        "read_only": true
+      },
+      "capabilities": [
+        "alternatives",
+        "scoring",
+        "recommendation"
+      ],
+      "dependencies": [
+        "reasoning-fabric"
+      ],
+      "execution": {
+        "automatic_migration": false,
+        "automatic_rollback": false,
+        "automatic_upgrade": false,
+        "browser_automation": false,
+        "deployment_execution": false,
+        "enabled": false,
+        "runtime_mutation": false,
+        "scheduler_execution": false,
+        "tiktok_account_operations": false,
+        "workflow_execution": false
+      },
+      "name": "Autonomous Decision Fabric",
+      "section": "intelligence",
+      "slug": "decision-fabric",
+      "version": "11.0.0"
+    },
+    {
+      "architecture": {
+        "advisory": true,
+        "deterministic": true,
+        "local_first": true,
+        "metadata_driven": true,
+        "read_only": true
+      },
+      "capabilities": [
+        "objectives",
+        "constraints",
+        "plans"
+      ],
+      "dependencies": [
+        "decision-fabric"
+      ],
+      "execution": {
+        "automatic_migration": false,
+        "automatic_rollback": false,
+        "automatic_upgrade": false,
+        "browser_automation": false,
+        "deployment_execution": false,
+        "enabled": false,
+        "runtime_mutation": false,
+        "scheduler_execution": false,
+        "tiktok_account_operations": false,
+        "workflow_execution": false
+      },
+      "name": "Autonomous Planning Fabric",
+      "section": "intelligence",
+      "slug": "planning-fabric",
+      "version": "11.0.0"
+    },
+    {
+      "architecture": {
+        "advisory": true,
+        "deterministic": true,
+        "local_first": true,
+        "metadata_driven": true,
+        "read_only": true
+      },
+      "capabilities": [
+        "topology",
+        "readiness",
+        "advisories"
+      ],
+      "dependencies": [
+        "planning-fabric"
+      ],
+      "execution": {
+        "automatic_migration": false,
+        "automatic_rollback": false,
+        "automatic_upgrade": false,
+        "browser_automation": false,
+        "deployment_execution": false,
+        "enabled": false,
+        "runtime_mutation": false,
+        "scheduler_execution": false,
+        "tiktok_account_operations": false,
+        "workflow_execution": false
+      },
+      "name": "Autonomous Operations Fabric",
+      "section": "intelligence",
+      "slug": "operations-fabric",
+      "version": "11.0.0"
+    },
+    {
+      "architecture": {
+        "advisory": true,
+        "deterministic": true,
+        "local_first": true,
+        "metadata_driven": true,
+        "read_only": true
+      },
+      "capabilities": [
+        "failure-analysis",
+        "recovery-options",
+        "rollback-advisory"
+      ],
+      "dependencies": [
+        "operations-fabric"
+      ],
+      "execution": {
+        "automatic_migration": false,
+        "automatic_rollback": false,
+        "automatic_upgrade": false,
+        "browser_automation": false,
+        "deployment_execution": false,
+        "enabled": false,
+        "runtime_mutation": false,
+        "scheduler_execution": false,
+        "tiktok_account_operations": false,
+        "workflow_execution": false
+      },
+      "name": "Autonomous Recovery Fabric",
+      "section": "intelligence",
+      "slug": "recovery-fabric",
+      "version": "11.0.0"
+    },
+    {
+      "architecture": {
+        "advisory": true,
+        "deterministic": true,
+        "local_first": true,
+        "metadata_driven": true,
+        "read_only": true
+      },
+      "capabilities": [
+        "attestations",
+        "trust-domains",
+        "confidence"
+      ],
+      "dependencies": [],
+      "execution": {
+        "automatic_migration": false,
+        "automatic_rollback": false,
+        "automatic_upgrade": false,
+        "browser_automation": false,
+        "deployment_execution": false,
+        "enabled": false,
+        "runtime_mutation": false,
+        "scheduler_execution": false,
+        "tiktok_account_operations": false,
+        "workflow_execution": false
+      },
+      "name": "Autonomous Trust Fabric",
+      "section": "governance",
+      "slug": "trust-fabric",
+      "version": "11.0.0"
+    },
+    {
+      "architecture": {
+        "advisory": true,
+        "deterministic": true,
+        "local_first": true,
+        "metadata_driven": true,
+        "read_only": true
+      },
+      "capabilities": [
+        "digests",
+        "provenance",
+        "verification"
+      ],
+      "dependencies": [],
+      "execution": {
+        "automatic_migration": false,
+        "automatic_rollback": false,
+        "automatic_upgrade": false,
+        "browser_automation": false,
+        "deployment_execution": false,
+        "enabled": false,
+        "runtime_mutation": false,
+        "scheduler_execution": false,
+        "tiktok_account_operations": false,
+        "workflow_execution": false
+      },
+      "name": "Autonomous Integrity Fabric",
+      "section": "governance",
+      "slug": "integrity-fabric",
+      "version": "11.0.0"
+    },
+    {
+      "architecture": {
+        "advisory": true,
+        "deterministic": true,
+        "local_first": true,
+        "metadata_driven": true,
+        "read_only": true
+      },
+      "capabilities": [
+        "v6",
+        "v7",
+        "v8",
+        "v9",
+        "v10"
+      ],
+      "dependencies": [],
+      "execution": {
+        "automatic_migration": false,
+        "automatic_rollback": false,
+        "automatic_upgrade": false,
+        "browser_automation": false,
+        "deployment_execution": false,
+        "enabled": false,
+        "runtime_mutation": false,
+        "scheduler_execution": false,
+        "tiktok_account_operations": false,
+        "workflow_execution": false
+      },
+      "name": "Autonomous Compatibility Fabric",
+      "section": "governance",
+      "slug": "compatibility-fabric",
+      "version": "11.0.0"
+    },
+    {
+      "architecture": {
+        "advisory": true,
+        "deterministic": true,
+        "local_first": true,
+        "metadata_driven": true,
+        "read_only": true
+      },
+      "capabilities": [
+        "policies",
+        "controls",
+        "compliance"
+      ],
+      "dependencies": [],
+      "execution": {
+        "automatic_migration": false,
+        "automatic_rollback": false,
+        "automatic_upgrade": false,
+        "browser_automation": false,
+        "deployment_execution": false,
+        "enabled": false,
+        "runtime_mutation": false,
+        "scheduler_execution": false,
+        "tiktok_account_operations": false,
+        "workflow_execution": false
+      },
+      "name": "Autonomous Governance Fabric",
+      "section": "governance",
+      "slug": "governance-fabric",
+      "version": "11.0.0"
+    },
+    {
+      "architecture": {
+        "advisory": true,
+        "deterministic": true,
+        "local_first": true,
+        "metadata_driven": true,
+        "read_only": true
+      },
+      "capabilities": [
+        "contracts",
+        "dependencies",
+        "security"
+      ],
+      "dependencies": [],
+      "execution": {
+        "automatic_migration": false,
+        "automatic_rollback": false,
+        "automatic_upgrade": false,
+        "browser_automation": false,
+        "deployment_execution": false,
+        "enabled": false,
+        "runtime_mutation": false,
+        "scheduler_execution": false,
+        "tiktok_account_operations": false,
+        "workflow_execution": false
+      },
+      "name": "Autonomous Validation Fabric",
+      "section": "governance",
+      "slug": "validation-fabric",
+      "version": "11.0.0"
+    },
+    {
+      "architecture": {
+        "advisory": true,
+        "deterministic": true,
+        "local_first": true,
+        "metadata_driven": true,
+        "read_only": true
+      },
+      "capabilities": [
+        "scope",
+        "profiles",
+        "boundaries"
+      ],
+      "dependencies": [],
+      "execution": {
+        "automatic_migration": false,
+        "automatic_rollback": false,
+        "automatic_upgrade": false,
+        "browser_automation": false,
+        "deployment_execution": false,
+        "enabled": false,
+        "runtime_mutation": false,
+        "scheduler_execution": false,
+        "tiktok_account_operations": false,
+        "workflow_execution": false
+      },
+      "name": "Context Engine",
+      "section": "services",
+      "slug": "context-engine",
+      "version": "11.0.0"
+    },
+    {
+      "architecture": {
+        "advisory": true,
+        "deterministic": true,
+        "local_first": true,
+        "metadata_driven": true,
+        "read_only": true
+      },
+      "capabilities": [
+        "components",
+        "versions",
+        "capabilities"
+      ],
+      "dependencies": [],
+      "execution": {
+        "automatic_migration": false,
+        "automatic_rollback": false,
+        "automatic_upgrade": false,
+        "browser_automation": false,
+        "deployment_execution": false,
+        "enabled": false,
+        "runtime_mutation": false,
+        "scheduler_execution": false,
+        "tiktok_account_operations": false,
+        "workflow_execution": false
+      },
+      "name": "Registry Engine",
+      "section": "services",
+      "slug": "registry-engine",
+      "version": "11.0.0"
+    },
+    {
+      "architecture": {
+        "advisory": true,
+        "deterministic": true,
+        "local_first": true,
+        "metadata_driven": true,
+        "read_only": true
+      },
+      "capabilities": [
+        "relationships",
+        "lineage",
+        "topology"
+      ],
+      "dependencies": [],
+      "execution": {
+        "automatic_migration": false,
+        "automatic_rollback": false,
+        "automatic_upgrade": false,
+        "browser_automation": false,
+        "deployment_execution": false,
+        "enabled": false,
+        "runtime_mutation": false,
+        "scheduler_execution": false,
+        "tiktok_account_operations": false,
+        "workflow_execution": false
+      },
+      "name": "Relationship Engine",
+      "section": "services",
+      "slug": "relationship-engine",
+      "version": "11.0.0"
+    },
+    {
+      "architecture": {
+        "advisory": true,
+        "deterministic": true,
+        "local_first": true,
+        "metadata_driven": true,
+        "read_only": true
+      },
+      "capabilities": [
+        "dependencies",
+        "cycles",
+        "compatibility"
+      ],
+      "dependencies": [],
+      "execution": {
+        "automatic_migration": false,
+        "automatic_rollback": false,
+        "automatic_upgrade": false,
+        "browser_automation": false,
+        "deployment_execution": false,
+        "enabled": false,
+        "runtime_mutation": false,
+        "scheduler_execution": false,
+        "tiktok_account_operations": false,
+        "workflow_execution": false
+      },
+      "name": "Dependency Engine",
+      "section": "services",
+      "slug": "dependency-engine",
+      "version": "11.0.0"
+    },
+    {
+      "architecture": {
+        "advisory": true,
+        "deterministic": true,
+        "local_first": true,
+        "metadata_driven": true,
+        "read_only": true
+      },
+      "capabilities": [
+        "schemas",
+        "invariants",
+        "validation"
+      ],
+      "dependencies": [],
+      "execution": {
+        "automatic_migration": false,
+        "automatic_rollback": false,
+        "automatic_upgrade": false,
+        "browser_automation": false,
+        "deployment_execution": false,
+        "enabled": false,
+        "runtime_mutation": false,
+        "scheduler_execution": false,
+        "tiktok_account_operations": false,
+        "workflow_execution": false
+      },
+      "name": "Contract Engine",
+      "section": "services",
+      "slug": "contract-engine",
+      "version": "11.0.0"
+    },
+    {
+      "architecture": {
+        "advisory": true,
+        "deterministic": true,
+        "local_first": true,
+        "metadata_driven": true,
+        "read_only": true
+      },
+      "capabilities": [
+        "interfaces",
+        "routes",
+        "projections"
+      ],
+      "dependencies": [],
+      "execution": {
+        "automatic_migration": false,
+        "automatic_rollback": false,
+        "automatic_upgrade": false,
+        "browser_automation": false,
+        "deployment_execution": false,
+        "enabled": false,
+        "runtime_mutation": false,
+        "scheduler_execution": false,
+        "tiktok_account_operations": false,
+        "workflow_execution": false
+      },
+      "name": "Interface Engine",
+      "section": "services",
+      "slug": "interface-engine",
+      "version": "11.0.0"
+    },
+    {
+      "architecture": {
+        "advisory": true,
+        "deterministic": true,
+        "local_first": true,
+        "metadata_driven": true,
+        "read_only": true
+      },
+      "capabilities": [
+        "findings",
+        "severity",
+        "remediation"
+      ],
+      "dependencies": [],
+      "execution": {
+        "automatic_migration": false,
+        "automatic_rollback": false,
+        "automatic_upgrade": false,
+        "browser_automation": false,
+        "deployment_execution": false,
+        "enabled": false,
+        "runtime_mutation": false,
+        "scheduler_execution": false,
+        "tiktok_account_operations": false,
+        "workflow_execution": false
+      },
+      "name": "Diagnostics Engine",
+      "section": "services",
+      "slug": "diagnostics-engine",
+      "version": "11.0.0"
+    },
+    {
+      "architecture": {
+        "advisory": true,
+        "deterministic": true,
+        "local_first": true,
+        "metadata_driven": true,
+        "read_only": true
+      },
+      "capabilities": [
+        "counters",
+        "gauges",
+        "summaries"
+      ],
+      "dependencies": [],
+      "execution": {
+        "automatic_migration": false,
+        "automatic_rollback": false,
+        "automatic_upgrade": false,
+        "browser_automation": false,
+        "deployment_execution": false,
+        "enabled": false,
+        "runtime_mutation": false,
+        "scheduler_execution": false,
+        "tiktok_account_operations": false,
+        "workflow_execution": false
+      },
+      "name": "Metrics Engine",
+      "section": "services",
+      "slug": "metrics-engine",
+      "version": "11.0.0"
+    },
+    {
+      "architecture": {
+        "advisory": true,
+        "deterministic": true,
+        "local_first": true,
+        "metadata_driven": true,
+        "read_only": true
+      },
+      "capabilities": [
+        "evidence",
+        "events",
+        "provenance"
+      ],
+      "dependencies": [],
+      "execution": {
+        "automatic_migration": false,
+        "automatic_rollback": false,
+        "automatic_upgrade": false,
+        "browser_automation": false,
+        "deployment_execution": false,
+        "enabled": false,
+        "runtime_mutation": false,
+        "scheduler_execution": false,
+        "tiktok_account_operations": false,
+        "workflow_execution": false
+      },
+      "name": "Audit Engine",
+      "section": "services",
+      "slug": "audit-engine",
+      "version": "11.0.0"
+    },
+    {
+      "architecture": {
+        "advisory": true,
+        "deterministic": true,
+        "local_first": true,
+        "metadata_driven": true,
+        "read_only": true
+      },
+      "capabilities": [
+        "boundaries",
+        "redaction",
+        "least-privilege"
+      ],
+      "dependencies": [],
+      "execution": {
+        "automatic_migration": false,
+        "automatic_rollback": false,
+        "automatic_upgrade": false,
+        "browser_automation": false,
+        "deployment_execution": false,
+        "enabled": false,
+        "runtime_mutation": false,
+        "scheduler_execution": false,
+        "tiktok_account_operations": false,
+        "workflow_execution": false
+      },
+      "name": "Security Engine",
+      "section": "services",
+      "slug": "security-engine",
+      "version": "11.0.0"
+    }
+  ],
+  "version": "11.0.0"
+}

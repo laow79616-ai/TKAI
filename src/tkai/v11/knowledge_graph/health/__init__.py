@@ -1,0 +1,1 @@
+"""Graph health metadata."""

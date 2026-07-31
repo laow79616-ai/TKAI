@@ -61,6 +61,7 @@ export class MarketplaceApiClient {
   logout() { return this.request<{ revoked: boolean }>("/auth/logout", { method: "POST" }); }
   version() { return this.request<ServerVersion>("/version"); }
   health() { return this.request<HealthSnapshot>("/health"); }
+  v11(resource = "") { return this.request<Record<string, unknown>>(`/v11${resource ? `/${resource}` : ""}`); }
   statistics() { return this.request<ApiResourceResponse<StatisticsSnapshot>>("/statistics"); }
   registries() { return this.request<ApiListResponse<Registry>>("/registry"); }
   registry(id: string) { return this.request<ApiResourceResponse<Registry>>(`/registry/${encodeURIComponent(id)}`); }

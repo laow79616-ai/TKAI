@@ -1,6 +1,6 @@
 {
   "api_version": "v10",
-  "version": "10.0.0",
+  "version": "11.0.0",
   "deployment_profile": "production",
   "git_commit": "${TKAI_GIT_COMMIT}",
   "product": "TKAI TikTok Cloud Control Platform",

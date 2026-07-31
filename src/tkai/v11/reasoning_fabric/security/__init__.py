@@ -1,0 +1,1 @@
+"""Graph security metadata."""

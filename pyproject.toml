@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tkai"
-version = "10.0.0"
+version = "11.0.0"
 description = "TKAI TikTok Cloud Control Platform"
 readme = "README.md"
 license = "MIT"

@@ -25,6 +25,7 @@ export const businessIntelligenceDashboardPages = ["business-intelligence-worksp
 export const commandCenterDashboardPages = ["command-center", "command-center-operations", "command-center-agents", "command-center-automation", "command-center-incidents", "command-center-alerts", "command-center-topology", "command-center-health", "command-center-activity", "command-center-audit"] as const;
 export const tiktokDashboardPages = ["tiktok-autonomous-intelligence-center", "tiktok-autonomous-operation", "tiktok-autonomous-mission-engine", "tiktok-business-intelligence", "tiktok-lead-management", "tiktok-business-workspace", "tiktok-performance-insights", "tiktok-ai-growth-center", "tiktok-ai-control-tower", "tiktok-ai-intelligent-decision-center", "tiktok-content-pipeline", "tiktok-account-center", "tiktok-browser-runtime", "tiktok-browser-cluster", "tiktok-device-center", "tiktok-proxy-center", "tiktok-ai-publishing-center", "tiktok-creator-workspace", "tiktok-campaign-center", "tiktok-data-collection", "tiktok-ai-interaction-center", "tiktok-ai-risk-control-center", "tiktok-operations-command-center", "tiktok-resource-center", "tiktok-ai-automation-engine", "tiktok-ai-execution-engine", "tiktok-local-runtime"] as const;
 export const knowledgeGraphDashboardPages = ["knowledge-graphs", "knowledge-graph-entities", "knowledge-graph-relationships", "knowledge-graph-ontology", "knowledge-graph-taxonomy", "knowledge-graph-lineage", "knowledge-graph-analytics", "knowledge-graph-queries"] as const;
+export const v11DashboardPages = ["v11-overview", "v11-health", "v11-diagnostics", "v11-knowledge", "v11-reasoning", "v11-decision", "v11-planning", "v11-operations", "v11-recovery", "v11-governance", "v11-trust", "v11-integrity", "v11-compatibility", "v11-validation", "v11-metrics", "v11-audit"] as const;
 
 function useRequest<T>(load: () => Promise<T>) {
   const [value, setValue] = useState<T | null>(null);
@@ -50,6 +51,21 @@ export function DashboardHome() {
   const health = useRequest(() => client.health());
   const statistics = useRequest(() => client.statistics());
   return <><h1>Dashboard</h1><div className="cards"><Card><h2>Server Version</h2><p>{version.value?.server_version ?? "Loading..."}</p></Card><Card><h2>Health Summary</h2><p>{health.value?.checks.length ?? "..."} checks</p></Card><Card><h2>Statistics Summary</h2><p>{statistics.value?.data.counters.total_records ?? "..."} records</p></Card></div></>;
+}
+
+const v11ResourceMap: Record<string, string> = {
+  overview: "", health: "intelligence-core/health", diagnostics: "diagnostics-engine",
+  knowledge: "knowledge-graph", reasoning: "reasoning-fabric", decision: "decision-fabric",
+  planning: "planning-fabric", operations: "operations-fabric", recovery: "recovery-fabric",
+  governance: "governance-fabric", trust: "trust-fabric", integrity: "integrity-fabric",
+  compatibility: "compatibility-fabric", validation: "validation-fabric",
+  metrics: "metrics-engine", audit: "audit-engine",
+};
+
+export function V11DashboardPage({ section }: { section: string }) {
+  const { client } = useAuth();
+  const state = useRequest(() => client.v11(v11ResourceMap[section] ?? ""));
+  return <Card><h1>TKAI V11 {section[0].toUpperCase() + section.slice(1)}</h1><p>Local-first, deterministic, advisory and read-only autonomous intelligence metadata.</p>{state.error && <p role="alert">{state.error}</p>}{state.value ? <pre>{JSON.stringify(state.value, null, 2)}</pre> : <Loading />}</Card>;
 }
 
 export function CapabilityFrameworkPage({ title = "Capability Catalog", resource = "catalog" }: { title?: string; resource?: string }) {

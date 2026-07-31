@@ -1,0 +1,30 @@
+{
+  "api_inventory": {
+    "operation_count": 1627,
+    "path_count": 1533,
+    "v11_get_operation_count": 192,
+    "v11_operation_count": 192,
+    "v11_path_count": 192
+  },
+  "branch": "release/tkai-v11.0.0",
+  "compatibility": {
+    "supported_versions": [
+      "6.0.0",
+      "7.0.0",
+      "8.0.0",
+      "9.0.0",
+      "10.0.0",
+      "11.0.0"
+    ],
+    "tiktok_business_behavior_changed": false
+  },
+  "component_count": 22,
+  "environment_prerequisites": [
+    "Python >=3.10",
+    "Node.js >=18",
+    "PowerShell 7 recommended"
+  ],
+  "product": "TKAI Autonomous Intelligence Platform",
+  "tag": "v11.0.0",
+  "version": "11.0.0"
+}

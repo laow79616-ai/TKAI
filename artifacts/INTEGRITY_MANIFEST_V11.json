@@ -1,0 +1,12 @@
+{
+  "algorithm": "SHA-256",
+  "archive_readability": "validated",
+  "archives": {
+    "tkai-11.0.0.tar.gz": "949fa2dca022fe585b15fae280090847c0c751cbb91931a1f834e2d66773d4d4",
+    "tkai-11.0.0.zip": "8339813bb759fac5043e5229f5059436418736c8ad82b5ac48b77b41e4ab30b8"
+  },
+  "secret_scan": "passed",
+  "source_tree_digest": "f2a8d7827881b44c253c80a25d04d15e1927396b2c45a34a8d10ee3462c98f20",
+  "source_tree_file_count": 5390,
+  "version": "11.0.0"
+}
