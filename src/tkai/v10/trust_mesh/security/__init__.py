@@ -14,9 +14,7 @@ def authorize_metadata_read(
 ) -> None:
     """Authorize a read without granting trust or runtime permissions."""
     authorize_scope(requested, available)
-    if not {"reader", "auditor", "trust-metadata-reader"}.intersection(
-        role_references
-    ):
+    if not {"reader", "auditor", "trust-metadata-reader"}.intersection(role_references):
         raise PermissionError("RBAC metadata read denied")
 
 

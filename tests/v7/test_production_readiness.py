@@ -16,8 +16,8 @@ def test_release_and_framework_manifests_are_consistent() -> None:
         (ROOT / "INTEGRITY_MANIFEST.json").read_text(encoding="utf-8")
     )
 
-    assert manifest["version"] == frameworks["release"] == "7.0.0"
-    assert release["version"] == "8.0.0"
+    assert manifest["version"] == release["version"] == "10.0.0"
+    assert frameworks["release"] == "7.0.0"
     assert len(frameworks["frameworks"]) == 15
     assert len({item["name"] for item in frameworks["frameworks"]}) == 15
     assert integrity["algorithm"] == "SHA-256"

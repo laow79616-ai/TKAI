@@ -70,8 +70,16 @@ def test_repository_package_structure_and_profile() -> None:
 def test_domains_identities_principals_and_relationships() -> None:
     mesh = SovereignTrustMesh()
     assert {kind.value for kind in TrustDomainKind} == {
-        "local_host", "tenant", "workspace", "namespace", "framework",
-        "capability", "service", "module", "extension", "runtime",
+        "local_host",
+        "tenant",
+        "workspace",
+        "namespace",
+        "framework",
+        "capability",
+        "service",
+        "module",
+        "extension",
+        "runtime",
     }
     scope = Scope("tenant", "workspace", "namespace")
     mesh.register(
@@ -99,7 +107,11 @@ def test_integrity_attestations_and_scores_are_metadata_only() -> None:
         "attestation", "subject", "local:issuer", evidence_references=("e",)
     )
     score = TrustScore(
-        "score", "subject", 0.7, "Local evidence was observed.", ("e",),
+        "score",
+        "subject",
+        0.7,
+        "Local evidence was observed.",
+        ("e",),
         ("Evidence freshness is not verified.",),
     )
     mesh.register("integrity", integrity)
@@ -123,8 +135,7 @@ def test_v6_to_v10_federation_and_compatibility_are_reference_only() -> None:
     records = mesh.discover("compatibility")
     assert len(records) == 5
     assert all(
-        isinstance(item, CompatibilityMetadata)
-        and item.automatic_migration is False
+        isinstance(item, CompatibilityMetadata) and item.automatic_migration is False
         for item in records
     )
 
@@ -136,7 +147,8 @@ def test_security_isolation_rbac_and_secret_filtering() -> None:
         authorize_metadata_read(scope, scope)
     with pytest.raises(PermissionError, match="tenant isolation"):
         authorize_metadata_read(
-            scope, Scope("other", "workspace", "namespace"),
+            scope,
+            Scope("other", "workspace", "namespace"),
             role_references=("reader",),
         )
     authorize_trust_domain("domain", "domain")
@@ -169,9 +181,9 @@ def test_api_openapi_and_server_integration_are_get_only() -> None:
         set(operations) == {"get"}
         for operations in openapi_contract()["paths"].values()
     )
-    source = (
-        Path(__file__).resolve().parents[3] / "server/api/app.py"
-    ).read_text(encoding="utf-8")
+    source = (Path(__file__).resolve().parents[3] / "server/api/app.py").read_text(
+        encoding="utf-8"
+    )
     assert "register_v10_sovereign_trust_mesh_routes(app)" in source
 
 
@@ -183,7 +195,14 @@ def test_local_advisory_surface_has_no_action_capabilities() -> None:
     assert overview["automatic_trust"] is False
     assert overview["external_network_calls"] is False
     forbidden = (
-        "execute", "apply", "mutate", "grant_trust", "attest_externally",
-        "verify_remotely", "network_client", "browser", "publish",
+        "execute",
+        "apply",
+        "mutate",
+        "grant_trust",
+        "attest_externally",
+        "verify_remotely",
+        "network_client",
+        "browser",
+        "publish",
     )
     assert not any(hasattr(mesh, name) for name in forbidden)

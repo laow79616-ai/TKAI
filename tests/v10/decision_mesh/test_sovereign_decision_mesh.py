@@ -57,7 +57,11 @@ def test_repository_structure_profiles_and_compatibility() -> None:
     mesh = SovereignDecisionMesh()
     mesh.register("profiles", profile)
     assert {item.generation for item in mesh.discover("compatibility")} == {
-        "v6", "v7", "v8", "v9", "v10"
+        "v6",
+        "v7",
+        "v8",
+        "v9",
+        "v10",
     }
 
 
@@ -90,7 +94,9 @@ def test_recommendations_confidence_limitations_are_advisory_and_explainable() -
     recommendation = Recommendation(
         "recommendation", ("option",), RecommendationStatus.REVIEW_REQUIRED
     )
-    confidence = DecisionConfidence("confidence", 0.6, "medium", "partial", "Inputs cited")
+    confidence = DecisionConfidence(
+        "confidence", 0.6, "medium", "partial", "Inputs cited"
+    )
     limitation = Limitation(
         "limitation", LimitationType.MANUAL_REVIEW_REQUIRED, "Human review required"
     )
@@ -112,7 +118,9 @@ def test_bounds_rbac_tenant_isolation_secrets_and_hidden_reasoning() -> None:
     with pytest.raises(ValueError, match="hidden"):
         mesh.register(
             "profiles",
-            DecisionProfile("bad", "subject", safe_metadata={"chain_of_thought": "secret"}),
+            DecisionProfile(
+                "bad", "subject", safe_metadata={"chain_of_thought": "secret"}
+            ),
         )
     with pytest.raises(ValueError, match="between 0 and 1"):
         mesh.register(
@@ -141,25 +149,51 @@ def test_api_openapi_get_only_and_server_registration() -> None:
     register_routes(app)
     assert len(GET_ROUTES) == 11
     assert {method for method, _ in app.routes.values()} == {"GET"}
-    assert all(set(operations) == {"get"} for operations in openapi_contract()["paths"].values())
+    assert all(
+        set(operations) == {"get"}
+        for operations in openapi_contract()["paths"].values()
+    )
     assert set(GET_ROUTES) == {
         f"/v10/decision/{name}"
         for name in (
-            "profiles", "contexts", "options", "evaluations", "criteria", "tradeoffs",
-            "recommendations", "confidence", "validation", "health", "metrics"
+            "profiles",
+            "contexts",
+            "options",
+            "evaluations",
+            "criteria",
+            "tradeoffs",
+            "recommendations",
+            "confidence",
+            "validation",
+            "health",
+            "metrics",
         )
     }
     root = Path(__file__).resolve().parents[3]
-    assert "register_v10_sovereign_decision_mesh_routes(app)" in (
-        root / "server/api/app.py"
-    ).read_text()
+    assert (
+        "register_v10_sovereign_decision_mesh_routes(app)"
+        in (root / "server/api/app.py").read_text()
+    )
 
 
 def test_no_execution_write_planning_approval_or_hidden_reasoning_endpoints() -> None:
     mesh = SovereignDecisionMesh()
     forbidden = (
-        "execute", "apply", "plan", "approve", "mutate", "write", "create", "update",
-        "delete", "post", "put", "patch", "deploy", "chain-of-thought", "scratchpad",
+        "execute",
+        "apply",
+        "plan",
+        "approve",
+        "mutate",
+        "write",
+        "create",
+        "update",
+        "delete",
+        "post",
+        "put",
+        "patch",
+        "deploy",
+        "chain-of-thought",
+        "scratchpad",
         "hidden-prompt",
     )
     assert not any(any(term in path for term in forbidden) for path in GET_ROUTES)
@@ -168,7 +202,15 @@ def test_no_execution_write_planning_approval_or_hidden_reasoning_endpoints() ->
     assert not any(
         hasattr(mesh, name)
         for name in (
-            "execute", "apply", "plan", "approve", "mutate", "deploy", "start",
-            "stop", "restart", "rollback",
+            "execute",
+            "apply",
+            "plan",
+            "approve",
+            "mutate",
+            "deploy",
+            "start",
+            "stop",
+            "restart",
+            "rollback",
         )
     )

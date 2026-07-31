@@ -11,7 +11,8 @@ def test_v8_release_metadata_is_consistent() -> None:
     frameworks = json.loads(
         (ROOT / "FRAMEWORK_MANIFEST_V8.json").read_text(encoding="utf-8")
     )
-    assert release["version"] == frameworks["release"] == "8.0.0"
+    assert release["version"] == "10.0.0"
+    assert frameworks["release"] == "8.0.0"
     assert frameworks["framework_count"] == len(frameworks["frameworks"]) == 11
     assert len({item["module"] for item in frameworks["frameworks"]}) == 11
 

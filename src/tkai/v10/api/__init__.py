@@ -79,6 +79,7 @@ def route_handlers(core: SovereignCore) -> dict[str, Callable[[], object]]:
 
     handlers: dict[str, Callable[[], object]] = {"/v10/core": core.overview}
     for resource in RESOURCES:
+
         def handler(resource: str = resource) -> object:
             return projection(resource)
 

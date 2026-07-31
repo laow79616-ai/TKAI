@@ -55,18 +55,43 @@ def test_repository_structure_profiles_and_compatibility() -> None:
     mesh = SovereignPlanningMesh()
     mesh.register("profiles", profile)
     assert {item.generation for item in mesh.discover("compatibility")} == {
-        "v6", "v7", "v8", "v9", "v10"
+        "v6",
+        "v7",
+        "v8",
+        "v9",
+        "v10",
     }
 
 
 def test_contexts_objectives_milestones_timelines_dependencies() -> None:
     mesh = SovereignPlanningMesh()
     records = (
-        ("contexts", PlanningContext("context", "subject", "bounded", "tenant", "workspace")),
-        ("objectives", Objective("objective", "subject", "metadata goal", ObjectiveStatus.CANDIDATE)),
-        ("milestones", Milestone("milestone", "objective", ("dependency",), ("validation",), ("readiness",), "audit")),
+        (
+            "contexts",
+            PlanningContext("context", "subject", "bounded", "tenant", "workspace"),
+        ),
+        (
+            "objectives",
+            Objective(
+                "objective", "subject", "metadata goal", ObjectiveStatus.CANDIDATE
+            ),
+        ),
+        (
+            "milestones",
+            Milestone(
+                "milestone",
+                "objective",
+                ("dependency",),
+                ("validation",),
+                ("readiness",),
+                "audit",
+            ),
+        ),
         ("timelines", Timeline("timeline", "objective", TimelineStatus.TENTATIVE)),
-        ("dependencies", Dependency("dependency", "objective", "v10:core", DependencyType.FRAMEWORK)),
+        (
+            "dependencies",
+            Dependency("dependency", "objective", "v10:core", DependencyType.FRAMEWORK),
+        ),
     )
     for registry, record in records:
         mesh.register(registry, record)
@@ -97,7 +122,9 @@ def test_bounds_rbac_tenant_isolation_secrets_and_hidden_reasoning() -> None:
     with pytest.raises(ValueError, match="hidden"):
         mesh.register(
             "profiles",
-            PlanningProfile("bad", "subject", safe_metadata={"chain_of_thought": "secret"}),
+            PlanningProfile(
+                "bad", "subject", safe_metadata={"chain_of_thought": "secret"}
+            ),
         )
     assert mesh.serialize({"api_key": "secret"}) == {"api_key": "[REDACTED]"}
     with pytest.raises(ValueError, match="between 0 and 100"):
@@ -122,26 +149,53 @@ def test_api_and_openapi_are_exactly_ten_get_only_routes() -> None:
     register_routes(app)
     assert len(GET_ROUTES) == 10
     assert {method for method, _ in app.routes.values()} == {"GET"}
-    assert all(set(operations) == {"get"} for operations in openapi_contract()["paths"].values())
+    assert all(
+        set(operations) == {"get"}
+        for operations in openapi_contract()["paths"].values()
+    )
     assert set(GET_ROUTES) == {
         f"/v10/planning/{name}"
         for name in (
-            "profiles", "contexts", "objectives", "milestones", "dependencies",
-            "timelines", "readiness", "validation", "health", "metrics",
+            "profiles",
+            "contexts",
+            "objectives",
+            "milestones",
+            "dependencies",
+            "timelines",
+            "readiness",
+            "validation",
+            "health",
+            "metrics",
         )
     }
     root = Path(__file__).resolve().parents[3]
-    assert "register_v10_sovereign_planning_mesh_routes(app)" in (
-        root / "server/api/app.py"
-    ).read_text()
+    assert (
+        "register_v10_sovereign_planning_mesh_routes(app)"
+        in (root / "server/api/app.py").read_text()
+    )
 
 
 def test_no_execution_scheduler_resource_write_or_hidden_reasoning_endpoints() -> None:
     mesh = SovereignPlanningMesh()
     forbidden = (
-        "execute", "apply", "schedule", "scheduler", "allocate", "resource", "mutate",
-        "write", "create", "update", "delete", "post", "put", "patch", "deploy",
-        "chain-of-thought", "scratchpad", "hidden-prompt",
+        "execute",
+        "apply",
+        "schedule",
+        "scheduler",
+        "allocate",
+        "resource",
+        "mutate",
+        "write",
+        "create",
+        "update",
+        "delete",
+        "post",
+        "put",
+        "patch",
+        "deploy",
+        "chain-of-thought",
+        "scratchpad",
+        "hidden-prompt",
     )
     assert not any(any(term in path for term in forbidden) for path in GET_ROUTES)
     assert all(value is False for value in mesh.diagnostics().values())

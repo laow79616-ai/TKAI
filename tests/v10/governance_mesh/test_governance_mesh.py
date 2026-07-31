@@ -118,9 +118,7 @@ def test_risks_compliance_relationships_and_validation() -> None:
         mesh.register("relationships", item)
         assert item.reference_only is True
     for kind in ValidationType:
-        item = GovernanceValidation(
-            kind.value, "s", kind, ValidationStatus.PENDING
-        )
+        item = GovernanceValidation(kind.value, "s", kind, ValidationStatus.PENDING)
         mesh.register("validation", item)
         assert item.metadata_only is True
 

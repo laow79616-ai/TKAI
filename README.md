@@ -1,17 +1,29 @@
 # TKAI
 
-Current release: **9.0.0**. TKAI V9 adds ten read-only adaptive
-platform components while preserving V6, V7, V8, TikTok, local-runtime,
+Current release candidate: **10.0.0**. TKAI V10 adds eleven read-only sovereign
+platform components while preserving V6, V7, V8, V9, TikTok, local-runtime,
 dashboard, AI Studio, deployment, configuration, storage, security, and
-extension behavior. See [the V9 overview](docs/v9/README.md) and
-[release notes](RELEASE_NOTES_V9.md).
+extension behavior. See [the V10 overview](docs/v10/COMPONENT_OVERVIEW.md) and
+[release notes](RELEASE_NOTES_V10.md).
 
 TKAI is a typed, offline-testable Python framework for project scaffolding,
 plugins, workflows, and provider-neutral AI integrations.
 
-Previous general availability releases: **8.0.0**, **7.0.0**, and **6.0.0**.
+Previous general availability releases: **9.0.0**, **8.0.0**, **7.0.0**, and
+**6.0.0**.
 Historical release documentation, including **1.2.0**, remains available in
 `docs/release`.
+
+## TKAI V10.0 Production Readiness
+
+TKAI V10 consists of exactly eleven sovereign, authenticated, read-only
+components. It adds no business functionality, execution capability, runtime
+mutation, automatic migration, or automatic approval. Existing V6 through V9
+APIs and operational behavior remain compatible. Operators should review the
+[architecture](docs/v10/ARCHITECTURE_OVERVIEW.md),
+[security guide](docs/v10/SECURITY_GUIDE.md),
+[operations guide](docs/v10/PRODUCTION_OPERATIONS_GUIDE.md), and
+[V9 upgrade guide](docs/v10/UPGRADE_V9_TO_V10.md).
 
 ## TKAI V9.0 General Availability Release
 

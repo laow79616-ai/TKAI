@@ -1,19 +1,21 @@
 {
   "product": "TKAI TikTok Cloud Control Platform",
-  "version": "7.0.0",
-  "tag": "v7.0.0",
-  "release_date": "2026-07-30",
-  "base_commit": "0e31fe02c2afcac597aae9f839e3fb0679014af3",
-  "branch": "release/tkai-v7.0.0",
+  "version": "10.0.0",
+  "tag": "v10.0.0",
+  "release_date": "2026-07-31",
+  "base_commit": "30633b1bab648083bc38610125d0972832d3b959",
+  "branch": "feature/tkai-v10-production-readiness",
   "release_type": "general-availability",
   "assets": [
-    "artifacts/tkai-7.0.0.tar.gz",
-    "artifacts/tkai-7.0.0.zip",
-    "artifacts/RELEASE_MANIFEST_V7.json",
-    "artifacts/FRAMEWORK_MANIFEST_V7.json",
-    "artifacts/BUILD_METADATA_V7.json",
-    "artifacts/INTEGRITY_MANIFEST_V7.json",
-    "artifacts/CHECKSUMS_V7.txt"
+    "artifacts/tkai-10.0.0.tar.gz",
+    "artifacts/tkai-10.0.0.zip",
+    "artifacts/RELEASE_MANIFEST_V10.json",
+    "artifacts/COMPONENT_MANIFEST_V10.json",
+    "artifacts/BUILD_METADATA_V10.json",
+    "artifacts/INTEGRITY_MANIFEST_V10.json",
+    "artifacts/CHECKSUMS_V10.txt",
+    "artifacts/PRODUCTION_READINESS_V10.md",
+    "artifacts/openapi-v10.json"
   ],
   "framework_manifest": "FRAMEWORK_MANIFEST.json",
   "integrity_manifest": "INTEGRITY_MANIFEST.json"

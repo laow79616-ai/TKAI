@@ -38,9 +38,7 @@ class SovereignTrustMesh:
         self.register("profiles", TrustMeshProfile("tkai-v10-sovereign-trust-mesh"))
         self.register(
             "domains",
-            TrustDomainRecord(
-                "local-host", TrustDomainKind.LOCAL_HOST, "Local Host"
-            ),
+            TrustDomainRecord("local-host", TrustDomainKind.LOCAL_HOST, "Local Host"),
         )
         for generation in FEDERATED_GENERATIONS:
             self.register(
@@ -140,8 +138,7 @@ class SovereignTrustMesh:
             "federation": self.federation(),
             "health": self.health(),
             "registries": {
-                name: len(self.registries.get(name))
-                for name in self.registries.NAMES
+                name: len(self.registries.get(name)) for name in self.registries.NAMES
             },
             "advisory": True,
             "read_only": True,

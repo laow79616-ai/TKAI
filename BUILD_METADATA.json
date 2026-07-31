@@ -1,10 +1,10 @@
 {
   "product": "TKAI TikTok Cloud Control Platform",
-  "version": "8.0.0",
-  "tag": "v8.0.0",
-  "release_date": "2026-07-30",
-  "source_base_commit": "ba45499c4ff6efaf72ba3e9ecc94a12c6d8ea075",
-  "source_branch": "release/tkai-v8.0.0",
-  "build_script": "scripts/verify-v8-production.py --build",
+  "version": "10.0.0",
+  "tag": "v10.0.0",
+  "release_date": "2026-07-31",
+  "source_base_commit": "30633b1bab648083bc38610125d0972832d3b959",
+  "source_branch": "feature/tkai-v10-production-readiness",
+  "build_script": "scripts/verify-v10-production.py --build",
   "reproducibility": "Build locally from the tagged commit using the documented release validation sequence."
 }

@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+## 10.0.0 - 2026-07-31
+
+- Prepared exactly 11 completed V10 sovereign components for release.
+- Synchronized authoritative version, build, release, component, API, and
+  compatibility metadata.
+- Added deterministic packaging, OpenAPI inventory, secret scanning, archive
+  safety validation, integrity hashes, and SHA-256 checksums.
+- Verified that V10 remains authenticated, advisory, and GET-only, with no
+  TikTok behavior changes or runtime mutation.
+- Documented production operations, deployment, security, observability,
+  troubleshooting, known issues, Windows operation, and V9 upgrade guidance.
+
 ## 8.0.0 - 2026-07-30
 
 - Finalized TKAI V8.0.0 for general availability with exactly 11 completed

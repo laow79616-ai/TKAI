@@ -37,6 +37,7 @@ def route_handlers(mesh: SovereignDecisionMesh) -> dict[str, Callable[[], object
 
     handlers: dict[str, Callable[[], object]] = {}
     for resource in RESOURCES:
+
         def handler(resource: str = resource) -> object:
             return projection(resource)
 

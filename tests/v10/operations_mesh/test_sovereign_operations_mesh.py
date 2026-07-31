@@ -54,7 +54,11 @@ def test_repository_structure_profile_and_generation_compatibility() -> None:
     mesh = SovereignOperationsMesh()
     mesh.register("profiles", profile)
     assert {item.generation for item in mesh.discover("compatibility")} == {
-        "v6", "v7", "v8", "v9", "v10"
+        "v6",
+        "v7",
+        "v8",
+        "v9",
+        "v10",
     }
 
 
@@ -82,7 +86,9 @@ def test_readiness_and_maintenance_never_execute_or_schedule() -> None:
     assert maintenance.metadata_only
     assert not maintenance.executable
     assert not maintenance.schedulable
-    assert not any(hasattr(mesh, name) for name in ("execute", "schedule", "start", "stop"))
+    assert not any(
+        hasattr(mesh, name) for name in ("execute", "schedule", "start", "stop")
+    )
 
 
 def test_capacity_is_reference_only_and_never_allocates() -> None:
@@ -137,7 +143,9 @@ def test_validation_bounds_rbac_isolation_and_secret_filtering() -> None:
     with pytest.raises(PermissionError):
         authorize_metadata_read(scope, scope)
     with pytest.raises(PermissionError):
-        authorize_metadata_read(scope, Scope("other", "workspace"), role_references=("reader",))
+        authorize_metadata_read(
+            scope, Scope("other", "workspace"), role_references=("reader",)
+        )
     with pytest.raises(ValueError, match="hidden"):
         mesh.register(
             "profiles",

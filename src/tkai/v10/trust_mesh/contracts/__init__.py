@@ -58,13 +58,9 @@ class TrustMeshProfile:
     governance_references: tuple[str, ...] = ()
     compatibility_references: tuple[str, ...] = ()
     health: str = "healthy"
-    metrics: Mapping[str, float] = field(
-        default_factory=lambda: MappingProxyType({})
-    )
+    metrics: Mapping[str, float] = field(default_factory=lambda: MappingProxyType({}))
     audit: tuple[str, ...] = ()
-    metadata: Mapping[str, object] = field(
-        default_factory=lambda: MappingProxyType({})
-    )
+    metadata: Mapping[str, object] = field(default_factory=lambda: MappingProxyType({}))
     created_at: datetime = field(default_factory=utc_now)
 
 
@@ -76,9 +72,7 @@ class TrustDomainRecord:
     scope: Scope = field(default_factory=Scope)
     parent_reference: str | None = None
     governance_references: tuple[str, ...] = ()
-    metadata: Mapping[str, object] = field(
-        default_factory=lambda: MappingProxyType({})
-    )
+    metadata: Mapping[str, object] = field(default_factory=lambda: MappingProxyType({}))
 
 
 @dataclass(frozen=True)
@@ -88,9 +82,7 @@ class IdentityRecord:
     provider_reference: str
     scope: Scope = field(default_factory=Scope)
     principal_references: tuple[str, ...] = ()
-    metadata: Mapping[str, object] = field(
-        default_factory=lambda: MappingProxyType({})
-    )
+    metadata: Mapping[str, object] = field(default_factory=lambda: MappingProxyType({}))
 
 
 @dataclass(frozen=True)

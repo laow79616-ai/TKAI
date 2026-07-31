@@ -39,7 +39,7 @@ from tkai.routing import RoutingDecision
 
 def test_rc_public_facades_and_legacy_imports_are_available() -> None:
     """Keep documented public and historical imports independent of order."""
-    assert tkai.__version__ == "9.0.0"
+    assert tkai.__version__ == "10.0.0"
     assert callable(AIClient.generate)
     assert callable(ProviderManager.chat)
     assert callable(DoctorService.run)

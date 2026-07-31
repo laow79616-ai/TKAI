@@ -78,11 +78,20 @@ class SovereignOperationsMesh:
             metadata = getattr(record, name, None)
             if metadata is not None:
                 validate_operations_metadata(metadata)
-        for item in fields(record) if is_dataclass(record) and not isinstance(record, type) else ():
+        for item in (
+            fields(record)
+            if is_dataclass(record) and not isinstance(record, type)
+            else ()
+        ):
             normalized = item.name.casefold()
             if any(
                 term in normalized
-                for term in ("chain_of_thought", "scratchpad", "hidden_prompt", "token_trace")
+                for term in (
+                    "chain_of_thought",
+                    "scratchpad",
+                    "hidden_prompt",
+                    "token_trace",
+                )
             ):
                 raise ValueError("hidden reasoning fields are forbidden")
 
@@ -192,7 +201,10 @@ class SovereignOperationsMesh:
         if isinstance(value, dict):
             safe = filter_secrets(value)
             assert isinstance(safe, dict)
-            return {str(key): SovereignOperationsMesh.serialize(item) for key, item in safe.items()}
+            return {
+                str(key): SovereignOperationsMesh.serialize(item)
+                for key, item in safe.items()
+            }
         if isinstance(value, (tuple, list, set, frozenset)):
             return [SovereignOperationsMesh.serialize(item) for item in value]
         if isinstance(value, Enum):

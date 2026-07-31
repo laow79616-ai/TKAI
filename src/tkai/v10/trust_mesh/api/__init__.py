@@ -36,6 +36,7 @@ def route_handlers(mesh: SovereignTrustMesh) -> dict[str, Callable[[], object]]:
 
     handlers: dict[str, Callable[[], object]] = {}
     for resource in RESOURCES:
+
         def handler(resource: str = resource) -> object:
             return projection(resource)
 
@@ -71,8 +72,7 @@ def openapi_contract() -> dict[str, object]:
     return {
         "openapi": "3.1.0",
         "paths": {
-            path: {"get": {"tags": ["V10 Sovereign Trust Mesh"]}}
-            for path in GET_ROUTES
+            path: {"get": {"tags": ["V10 Sovereign Trust Mesh"]}} for path in GET_ROUTES
         },
     }
 
