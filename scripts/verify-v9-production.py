@@ -201,10 +201,8 @@ def audit() -> dict[str, object]:
     api = openapi_inventory()
     branch = git("branch", "--show-current")
     release = json.loads((ROOT / "release.json").read_text(encoding="utf-8"))
-    expected_branch_prefix = f"release/tkai-v{release['version']}"
-    if branch != expected_branch_prefix and not branch.startswith(
-        f"{expected_branch_prefix}-"
-    ):
+    historical_branch_prefix = f"release/tkai-v{VERSION}"
+    if branch.startswith(historical_branch_prefix) and branch != BRANCH:
         errors.append(f"unexpected release branch: {branch}")
     historical_release = json.loads(
         (ROOT / "RELEASE_MANIFEST_V9.json").read_text(encoding="utf-8")

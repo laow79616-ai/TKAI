@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "algorithm": "SHA-256",
-  "checksum_file": "CHECKSUMS_V11.txt",
-  "release_archive_checksum": "artifacts/CHECKSUMS_V11.txt",
-  "generated_by": "scripts/verify-v11-production.py --build --validate-archives",
+  "checksum_file": "CHECKSUMS_V12.txt",
+  "release_archive_checksum": "artifacts/CHECKSUMS_V12.txt",
+  "generated_by": "scripts/verify-v12-production.py --build --validate-archives",
   "excludes": [".git", ".venv", "node_modules", "runtime", "credentials", "sessions", "secrets"]
 }

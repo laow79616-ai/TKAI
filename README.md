@@ -1,6 +1,6 @@
 # TKAI
 
-Current release: **11.0.0**. TKAI V11 completes 22 metadata-driven,
+Current release: **12.0.0**. TKAI V12 adds 28 metadata-driven,
 authenticated, read-only platform components while preserving V6, V7, V8, V9,
 V10, TikTok, local-runtime, dashboard, AI Studio, deployment, configuration,
 storage, security, and extension behavior. See
@@ -158,3 +158,6 @@ TKAI is released under the [MIT License](LICENSE).
 ## TKAI V8
 
 Version 8.0.0 provides 11 additive Hyper components with read-only advisory APIs. See [V8 release notes](RELEASE_NOTES_V8.md) and [production operations](docs/v8/Production-Operations-Guide.md).
+## TKAI V12
+
+V12 provides a local-first, metadata-only Autonomous AI Platform. See `docs/v12/Architecture_Overview.md`.

@@ -1,0 +1,148 @@
+{
+  "api_operation_count": 127,
+  "api_path_count": 127,
+  "component_count": 28,
+  "components": [
+    {
+      "name": "Autonomous Agent Runtime",
+      "section": "runtime",
+      "slug": "agents"
+    },
+    {
+      "name": "Agent Registry and Discovery",
+      "section": "runtime",
+      "slug": "agent-registry"
+    },
+    {
+      "name": "Multi-Agent Coordination Metadata",
+      "section": "runtime",
+      "slug": "coordination"
+    },
+    {
+      "name": "Memory Fabric",
+      "section": "intelligence",
+      "slug": "memory"
+    },
+    {
+      "name": "Skill Framework",
+      "section": "capabilities",
+      "slug": "skills"
+    },
+    {
+      "name": "Plugin Framework",
+      "section": "capabilities",
+      "slug": "plugins"
+    },
+    {
+      "name": "Workflow Intelligence",
+      "section": "intelligence",
+      "slug": "workflows"
+    },
+    {
+      "name": "Model Fabric",
+      "section": "intelligence",
+      "slug": "models"
+    },
+    {
+      "name": "Knowledge Compiler",
+      "section": "intelligence",
+      "slug": "knowledge"
+    },
+    {
+      "name": "Cognitive Engine",
+      "section": "intelligence",
+      "slug": "cognitive"
+    },
+    {
+      "name": "Enterprise AI Fabric",
+      "section": "governance",
+      "slug": "enterprise"
+    },
+    {
+      "name": "Contract Engine",
+      "section": "control",
+      "slug": "contracts"
+    },
+    {
+      "name": "Interface Engine",
+      "section": "control",
+      "slug": "interfaces"
+    },
+    {
+      "name": "Relationship Engine",
+      "section": "control",
+      "slug": "relationships"
+    },
+    {
+      "name": "Dependency Engine",
+      "section": "control",
+      "slug": "dependencies"
+    },
+    {
+      "name": "Compatibility Fabric",
+      "section": "governance",
+      "slug": "compatibility"
+    },
+    {
+      "name": "Governance Fabric",
+      "section": "governance",
+      "slug": "governance"
+    },
+    {
+      "name": "Trust Fabric",
+      "section": "governance",
+      "slug": "trust"
+    },
+    {
+      "name": "Integrity Fabric",
+      "section": "governance",
+      "slug": "integrity"
+    },
+    {
+      "name": "Security Fabric",
+      "section": "governance",
+      "slug": "security"
+    },
+    {
+      "name": "Validation Engine",
+      "section": "control",
+      "slug": "validation"
+    },
+    {
+      "name": "Diagnostics and Health",
+      "section": "operations",
+      "slug": "diagnostics"
+    },
+    {
+      "name": "Observability and Metrics",
+      "section": "operations",
+      "slug": "observability"
+    },
+    {
+      "name": "Audit Fabric",
+      "section": "governance",
+      "slug": "audit"
+    },
+    {
+      "name": "Dashboard",
+      "section": "experience",
+      "slug": "dashboard"
+    },
+    {
+      "name": "GET-only Advisory API",
+      "section": "experience",
+      "slug": "api"
+    },
+    {
+      "name": "Cross-Version Integration",
+      "section": "compatibility",
+      "slug": "cross-version"
+    },
+    {
+      "name": "Release Engineering",
+      "section": "operations",
+      "slug": "release"
+    }
+  ],
+  "version": "12.0.0"
+}

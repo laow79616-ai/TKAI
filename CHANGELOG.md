@@ -256,3 +256,7 @@
 - Preserved all V6, V7, V8, TikTok, dashboard, AI Studio, local-runtime,
   deployment, configuration, storage, extension, and security behavior.
 - Registered the completed Adaptive Planning Mesh in the aggregate server API.
+## 12.0.0
+
+- Added the bounded, read-only TKAI V12 Autonomous AI Platform and GET-only advisory API.
+- Preserved V6-V11 and TikTok compatibility.

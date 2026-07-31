@@ -1,6 +1,6 @@
 {
-  "api_version": "v11",
-  "version": "11.0.0",
+  "api_version": "v12",
+  "version": "12.0.0",
   "deployment_profile": "production",
   "git_commit": "${TKAI_GIT_COMMIT}",
   "product": "TKAI TikTok Cloud Control Platform",
@@ -11,6 +11,7 @@
     "v9",
     "v10",
     "v11",
+    "v12",
     "tiktok",
     "dashboard",
     "ai-studio",
