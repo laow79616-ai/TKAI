@@ -287,6 +287,9 @@ from tkai.v10.planning_mesh.api import (
 from tkai.v10.reasoning_mesh.api import (
     register_routes as register_v10_sovereign_reasoning_mesh_routes,
 )
+from tkai.v10.recovery_mesh.api import (
+    register_routes as register_v10_sovereign_recovery_mesh_routes,
+)
 from tkai.v10.trust_mesh.api import (
     register_routes as register_v10_sovereign_trust_mesh_routes,
 )
@@ -970,6 +973,7 @@ def create_app(
     register_v10_sovereign_decision_mesh_routes(app)
     register_v10_sovereign_planning_mesh_routes(app)
     register_v10_sovereign_operations_mesh_routes(app)
+    register_v10_sovereign_recovery_mesh_routes(app)
     register_v9_compatibility_mesh_routes(app)
     return app
 

@@ -21,6 +21,7 @@ from tkai.v10.integrity_mesh import SovereignIntegrityMesh
 from tkai.v10.operations_mesh import SovereignOperationsMesh
 from tkai.v10.planning_mesh import SovereignPlanningMesh
 from tkai.v10.reasoning_mesh import SovereignReasoningMesh
+from tkai.v10.recovery_mesh import SovereignRecoveryMesh
 from tkai.v10.sovereign_core import SovereignCore
 from tkai.v10.trust_mesh import SovereignTrustMesh
 
@@ -40,6 +41,7 @@ __all__ = (
     "SovereignDecisionMesh",
     "SovereignIntegrityMesh",
     "SovereignOperationsMesh",
+    "SovereignRecoveryMesh",
     "SovereignPlanningMesh",
     "SovereignReasoningMesh",
     "SovereignGovernanceMesh",
