@@ -1,0 +1,1 @@
+"""Graph reference metadata."""

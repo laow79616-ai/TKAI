@@ -294,6 +294,9 @@ from tkai.v10.trust_mesh.api import (
     register_routes as register_v10_sovereign_trust_mesh_routes,
 )
 from tkai.v11.api import register_routes as register_v11_intelligence_routes
+from tkai.v11.knowledge_graph.api import (
+    register_routes as register_v11_knowledge_graph_routes,
+)
 from workflow_platform import WorkflowPlatform
 from workflow_platform.api import register_workflow_routes
 
@@ -976,6 +979,7 @@ def create_app(
     register_v10_sovereign_operations_mesh_routes(app)
     register_v10_sovereign_recovery_mesh_routes(app)
     register_v11_intelligence_routes(app)
+    register_v11_knowledge_graph_routes(app)
     register_v9_compatibility_mesh_routes(app)
     return app
 
