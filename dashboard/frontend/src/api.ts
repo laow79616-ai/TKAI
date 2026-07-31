@@ -141,8 +141,14 @@ export class MarketplaceApiClient {
     return this.request<Record<string, unknown>>(`/tiktok/dashboard?${query}`);
   }
   businessPlatform(resource = "dashboard") {
-    const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });
-    return this.request<Record<string, unknown>>(`/business/v1/${resource}?${query}`);
+    const modules = new Set(["accounts", "browsers", "proxies", "tasks", "content", "data", "ai-studio", "admin"]);
+    if (modules.has(resource)) {
+      return this.request<Record<string, unknown>>(`/business/v2/records?module=${encodeURIComponent(resource)}`);
+    }
+    if (resource === "dashboard" || resource === "audit") {
+      return this.request<Record<string, unknown>>(`/business/v2/${resource}`);
+    }
+    return this.request<Record<string, unknown>>(`/business/v1/${resource}?tenant=default&workspace=default`);
   }
   tiktokBrowserRuntime() {
     const query = new URLSearchParams({ tenant: "default", workspace: "default", actor: "dashboard" });

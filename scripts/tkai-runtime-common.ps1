@@ -18,6 +18,24 @@ function Get-TkaiConfiguration {
         throw "Missing configuration\local.json. Copy configuration\local.example.json first."
     }
     $config = Get-Content -Raw -LiteralPath $path | ConvertFrom-Json
+    $portOverrides = @{
+        backend_port = "TKAI_API_PORT"
+        dashboard_port = "TKAI_DASHBOARD_PORT"
+        studio_port = "TKAI_AI_STUDIO_PORT"
+    }
+    foreach ($property in $portOverrides.Keys) {
+        $value = [Environment]::GetEnvironmentVariable($portOverrides[$property])
+        if ($value) {
+            $parsed = 0
+            if (-not [int]::TryParse($value, [ref]$parsed) -or $parsed -lt 1024 -or $parsed -gt 65535) {
+                throw "$($portOverrides[$property]) must be a port from 1024 through 65535."
+            }
+            $config.$property = $parsed
+        }
+    }
+    $env:TKAI_BACKEND_PORT = [string]$config.backend_port
+    $env:TKAI_DASHBOARD_PORT = [string]$config.dashboard_port
+    $env:TKAI_STUDIO_PORT = [string]$config.studio_port
     foreach ($hostName in @("backend_host", "dashboard_host", "studio_host")) {
         if ($config.$hostName -notin @("127.0.0.1", "localhost", "::1")) {
             throw "$hostName must use loopback for local single-user mode."

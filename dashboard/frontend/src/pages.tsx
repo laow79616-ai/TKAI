@@ -49,7 +49,7 @@ export function BusinessPlatformPage({ resource = "dashboard" }: { resource?: st
   const { client } = useAuth();
   const state = useRequest(() => client.businessPlatform(resource));
   const title = resource === "dashboard" ? "Home" : resource.replaceAll("-", " ");
-  return <div className="operations-v2"><div className="operations-hero"><div><p className="operations-eyebrow">TKAI Business Platform V1.0</p><h1>{title}</h1><p>Tenant-scoped TikTok business metadata, health, governance, and advisory intelligence.</p></div><div className="operations-overall healthy"><span className="operations-pulse" /><div><small>Safety boundary</small><strong>Metadata only</strong></div></div></div>{state.error && <p role="alert">{state.error}</p>}{state.value ? <Card><pre>{JSON.stringify(state.value, null, 2)}</pre></Card> : <Loading />}</div>;
+  return <div className="operations-v2"><div className="operations-hero"><div><p className="operations-eyebrow">TKAI Business Platform V2.0</p><h1>{title}</h1><p>Persistent, tenant-scoped business operations with approval, audit, and safe metadata controls.</p></div><div className="operations-overall healthy"><span className="operations-pulse" /><div><small>Safety boundary</small><strong>Authorized metadata only</strong></div></div></div>{state.error && <p role="alert">{state.error}</p>}{state.value ? <Card><pre>{JSON.stringify(state.value, null, 2)}</pre></Card> : <Loading />}</div>;
 }
 
 export function LoginPage() {

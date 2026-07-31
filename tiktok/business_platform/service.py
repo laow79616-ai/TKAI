@@ -2,10 +2,14 @@
 
 from __future__ import annotations
 
+import json
+import re
 from collections import Counter
+from pathlib import Path
 from typing import Any
 
 from .models import BusinessScope, MetadataRecord, ModuleDefinition
+from .repository import BusinessRepository
 
 MODULES: tuple[ModuleDefinition, ...] = (
     ModuleDefinition(
@@ -125,11 +129,172 @@ MODULES: tuple[ModuleDefinition, ...] = (
 class BusinessPlatform:
     """Tenant-scoped product catalog that never launches, switches, or executes."""
 
-    version = "1.0.0"
+    version = "2.0.0"
     compatibility = ("v6", "v7", "v8", "v9", "v10", "v11", "v12")
 
-    def __init__(self) -> None:
+    SECRET_KEYS = {
+        "password",
+        "cookie",
+        "cookies",
+        "session",
+        "token",
+        "secret",
+        "credential",
+    }
+
+    def __init__(self, database: str | Path = ":memory:") -> None:
         self._records: tuple[MetadataRecord, ...] = ()
+        self.repository = BusinessRepository(database)
+
+    @classmethod
+    def redact(cls, value: Any) -> Any:
+        if isinstance(value, dict):
+            return {
+                key: "[REDACTED]"
+                if any(word in key.casefold() for word in cls.SECRET_KEYS)
+                else cls.redact(item)
+                for key, item in value.items()
+            }
+        if isinstance(value, list):
+            return [cls.redact(item) for item in value]
+        return value
+
+    @staticmethod
+    def _validate(scope: BusinessScope, payload: dict[str, Any]) -> None:
+        if not scope.tenant.strip() or not scope.workspace.strip():
+            raise ValueError("Tenant and workspace are required.")
+        for field in ("id", "name", "module", "kind"):
+            if not str(payload.get(field, "")).strip():
+                raise ValueError(f"{field} is required.")
+        if payload["module"] not in {item.id for item in MODULES}:
+            raise ValueError("Unknown business module.")
+        if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}", str(payload["id"])):
+            raise ValueError("Invalid record id.")
+        raw = json.dumps(payload, sort_keys=True).casefold()
+        if any(
+            f'"{key}":' in raw
+            for key in ("password", "cookie", "session", "token", "secret")
+        ):
+            raise ValueError(
+                "Secret values are forbidden; store an opaque reference instead."
+            )
+
+    def create(self, scope: BusinessScope, payload: dict[str, Any]) -> dict[str, Any]:
+        self._validate(scope, payload)
+        now = self.repository.now()
+        with self.repository.transaction() as db:
+            db.execute(
+                """INSERT INTO business_records
+                (tenant,workspace,id,module,kind,name,status,health,owner,group_name,
+                 tags_json,references_json,metadata_json,created_at,updated_at)
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                (
+                    scope.tenant,
+                    scope.workspace,
+                    payload["id"],
+                    payload["module"],
+                    payload["kind"],
+                    payload["name"],
+                    payload.get("status", "active"),
+                    payload.get("health", "unknown"),
+                    payload.get("owner", scope.actor),
+                    payload.get("group", ""),
+                    json.dumps(payload.get("tags", [])),
+                    json.dumps(payload.get("references", {})),
+                    json.dumps(self.redact(payload.get("metadata", {}))),
+                    now,
+                    now,
+                ),
+            )
+            self._audit(db, scope, "create", payload["id"], payload["module"])
+        return self.get(scope, payload["id"])
+
+    def get(self, scope: BusinessScope, record_id: str) -> dict[str, Any]:
+        row = self.repository._shared.execute(
+            "SELECT * FROM business_records WHERE tenant=? AND workspace=? AND id=?",
+            (scope.tenant, scope.workspace, record_id),
+        ).fetchone()
+        if row is None:
+            raise KeyError("Record not found.")
+        return self.redact(self.repository.decode(row))
+
+    def update(
+        self, scope: BusinessScope, record_id: str, payload: dict[str, Any]
+    ) -> dict[str, Any]:
+        current = self.get(scope, record_id)
+        merged = {**current, **payload, "id": record_id}
+        self._validate(scope, merged)
+        allowed = {
+            "name",
+            "kind",
+            "status",
+            "health",
+            "owner",
+            "group",
+            "tags",
+            "references",
+            "metadata",
+        }
+        values = {key: merged[key] for key in allowed if key in merged}
+        with self.repository.transaction() as db:
+            db.execute(
+                """UPDATE business_records SET
+                name=?,kind=?,status=?,health=?,owner=?,group_name=?,
+                tags_json=?,references_json=?,metadata_json=?,updated_at=?
+                WHERE tenant=? AND workspace=? AND id=?""",
+                (
+                    values["name"],
+                    values["kind"],
+                    values["status"],
+                    values["health"],
+                    values["owner"],
+                    values["group"],
+                    json.dumps(values["tags"]),
+                    json.dumps(values["references"]),
+                    json.dumps(self.redact(values["metadata"])),
+                    self.repository.now(),
+                    scope.tenant,
+                    scope.workspace,
+                    record_id,
+                ),
+            )
+            self._audit(db, scope, "update", record_id, current["module"])
+        return self.get(scope, record_id)
+
+    def archive(self, scope: BusinessScope, record_id: str) -> dict[str, Any]:
+        current = self.get(scope, record_id)
+        with self.repository.transaction() as db:
+            db.execute(
+                "UPDATE business_records SET archived=1,status='archived',"
+                "updated_at=? WHERE tenant=? AND workspace=? AND id=?",
+                (self.repository.now(), scope.tenant, scope.workspace, record_id),
+            )
+            self._audit(db, scope, "archive", record_id, current["module"])
+        return self.get(scope, record_id)
+
+    def _audit(
+        self,
+        db: Any,
+        scope: BusinessScope,
+        action: str,
+        resource_id: str,
+        module: str,
+        details: dict[str, Any] | None = None,
+    ) -> None:
+        db.execute(
+            "INSERT INTO business_audit(tenant,workspace,actor,action,resource_id,"
+            "module,at,details_json) VALUES(?,?,?,?,?,?,?,?)",
+            (
+                scope.tenant,
+                scope.workspace,
+                scope.actor,
+                action,
+                resource_id,
+                module,
+                self.repository.now(),
+                json.dumps(self.redact(details or {})),
+            ),
+        )
 
     def inventory(
         self,
@@ -144,23 +309,72 @@ class BusinessPlatform:
         query: str = "",
     ) -> dict[str, Any]:
         query_folded = query.casefold()
+        persisted = self.repository._shared.execute(
+            "SELECT * FROM business_records WHERE tenant=? AND workspace=? "
+            "AND archived=0",
+            (scope.tenant, scope.workspace),
+        ).fetchall()
+        source = list(self._records) + [
+            self.repository.decode(row) for row in persisted
+        ]
         items = [
             item
-            for item in self._records
-            if item.tenant == scope.tenant
-            and item.workspace == scope.workspace
-            and (not module or item.module == module)
-            and (not kind or item.kind == kind)
-            and (not status or item.status == status)
-            and (not health or item.health.value == health)
-            and (not tag or tag in item.tags)
-            and (not group or item.group == group)
+            for item in source
+            if (item.tenant if isinstance(item, MetadataRecord) else item["tenant"])
+            == scope.tenant
+            and (
+                item.workspace
+                if isinstance(item, MetadataRecord)
+                else item["workspace"]
+            )
+            == scope.workspace
+            and (
+                not module
+                or (item.module if isinstance(item, MetadataRecord) else item["module"])
+                == module
+            )
+            and (
+                not kind
+                or (item.kind if isinstance(item, MetadataRecord) else item["kind"])
+                == kind
+            )
+            and (
+                not status
+                or (item.status if isinstance(item, MetadataRecord) else item["status"])
+                == status
+            )
+            and (
+                not health
+                or (
+                    item.health.value
+                    if isinstance(item, MetadataRecord)
+                    else item["health"]
+                )
+                == health
+            )
+            and (
+                not tag
+                or tag
+                in (item.tags if isinstance(item, MetadataRecord) else item["tags"])
+            )
+            and (
+                not group
+                or (item.group if isinstance(item, MetadataRecord) else item["group"])
+                == group
+            )
             and (
                 not query_folded or query_folded in f"{item.id} {item.name}".casefold()
+                if isinstance(item, MetadataRecord)
+                else not query_folded
+                or query_folded in f"{item['id']} {item['name']}".casefold()
             )
         ]
+        data = [
+            item.to_dict() if isinstance(item, MetadataRecord) else self.redact(item)
+            for item in items
+        ]
         return {
-            "data": [item.to_dict() for item in items],
+            "data": data,
             "total": len(items),
             "error": None,
         }
@@ -232,9 +446,17 @@ class BusinessPlatform:
         }
 
     def audit(self, scope: BusinessScope) -> dict[str, Any]:
+        rows = self.repository._shared.execute(
+            "SELECT * FROM business_audit WHERE tenant=? AND workspace=? "
+            "ORDER BY sequence DESC LIMIT 500",
+            (scope.tenant, scope.workspace),
+        ).fetchall()
         return {
-            "data": [],
-            "total": 0,
+            "data": [
+                {**dict(row), "details": json.loads(row["details_json"])}
+                for row in rows
+            ],
+            "total": len(rows),
             "scope": {"tenant": scope.tenant, "workspace": scope.workspace},
             "immutable": True,
         }

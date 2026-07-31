@@ -117,7 +117,8 @@ class LocalRuntimeManager:
         if not path.exists():
             return None
         try:
-            payload = json.loads(path.read_text(encoding="utf-8"))
+            # Windows PowerShell 5.1 writes a UTF-8 BOM for PID reference files.
+            payload = json.loads(path.read_text(encoding="utf-8-sig"))
         except (OSError, json.JSONDecodeError):
             return None
         if (

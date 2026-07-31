@@ -33,6 +33,7 @@ class MetadataRecord:
     health: Health = Health.UNKNOWN
     tags: tuple[str, ...] = ()
     group: str = ""
+    owner: str = ""
     references: dict[str, str] = field(default_factory=dict)
     metadata: dict[str, Any] = field(default_factory=dict)
     updated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))

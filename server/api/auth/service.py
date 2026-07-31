@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from datetime import datetime, timedelta, timezone
+from hashlib import pbkdf2_hmac
 from hmac import compare_digest
 from threading import RLock
 
@@ -45,7 +46,7 @@ class ReferenceAuthenticationService:
                 "Single administrator credentials are not configured."
             )
         valid_username = compare_digest(request.username, administrator.username)
-        valid_password = compare_digest(request.password, administrator.password)
+        valid_password = _verify_password(request.password, administrator.password)
         if not valid_username or not valid_password:
             raise AuthenticationError("Invalid administrator credentials.")
         return AuthenticatedUser(username=administrator.username)
@@ -114,3 +115,17 @@ class ReferenceAuthenticationService:
 
 def _utc_now() -> datetime:
     return datetime.now(timezone.utc)
+
+
+def _verify_password(candidate: str, encoded: str) -> bool:
+    """Verify a salted PBKDF2-SHA256 credential in constant time."""
+    try:
+        algorithm, iterations, salt, expected = encoded.split("$", 3)
+        if algorithm != "pbkdf2_sha256":
+            return False
+        actual = pbkdf2_hmac(
+            "sha256", candidate.encode(), bytes.fromhex(salt), int(iterations)
+        ).hex()
+    except (ValueError, TypeError):
+        return False
+    return compare_digest(actual, expected)

@@ -795,7 +795,12 @@ def create_app(
     )
     register_business_workspace_routes(app, tiktok_business_workspace)
     app.state.tiktok_business_workspace = tiktok_business_workspace
-    register_business_platform_routes(app, BusinessPlatform())
+    register_business_platform_routes(
+        app,
+        BusinessPlatform(environ.get("TKAI_BUSINESS_DATABASE", ":memory:")),
+        selected.authentication_service,
+        fastapi_module=fastapi_module,
+    )
     tiktok_lead_center = TikTokLeadManagementCenter()
     register_lead_routes(app, tiktok_lead_center)
     app.state.tiktok_lead_center = tiktok_lead_center

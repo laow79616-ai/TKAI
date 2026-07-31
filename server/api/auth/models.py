@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 from datetime import datetime
+from hashlib import pbkdf2_hmac
+from secrets import token_hex
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -18,6 +20,16 @@ class AdministratorCredentials(BaseModel):
 
     username: str = Field(min_length=1, max_length=256)
     password: str = Field(min_length=1, max_length=1024, repr=False)
+
+    def model_post_init(self, _context: object) -> None:
+        """Replace submitted plaintext with a salted PBKDF2 verifier immediately."""
+        if self.password.startswith("pbkdf2_sha256$"):
+            return
+        salt = token_hex(16)
+        digest = pbkdf2_hmac(
+            "sha256", self.password.encode(), bytes.fromhex(salt), 310_000
+        ).hex()
+        object.__setattr__(self, "password", f"pbkdf2_sha256$310000${salt}${digest}")
 
 
 class AuthenticationConfiguration(BaseModel):
