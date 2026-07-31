@@ -2,7 +2,7 @@
   "name": "@tkai/studio-frontend",
   "private": true,
   "version": "11.0.0",
-  "description": "TKAI V10.0 AI Studio frontend",
+  "description": "TKAI V11.0 AI Studio frontend",
   "scripts": {
     "dev": "vite",
     "preview": "vite preview",

@@ -34462,39 +34462,23 @@
     },
     "/v11/audit-engine": {
       "get": {
-        "operationId": "_lambda__v11_audit_engine_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "audit-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_audit_engine_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Audit Engine Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -34502,39 +34486,23 @@
     },
     "/v11/audit-engine/audit": {
       "get": {
-        "operationId": "_lambda__v11_audit_engine_audit_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "audit-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_audit_engine_audit_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Audit Engine Audit Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -34542,39 +34510,23 @@
     },
     "/v11/audit-engine/diagnostics": {
       "get": {
-        "operationId": "_lambda__v11_audit_engine_diagnostics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "audit-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_audit_engine_diagnostics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Audit Engine Diagnostics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -34582,39 +34534,23 @@
     },
     "/v11/audit-engine/health": {
       "get": {
-        "operationId": "_lambda__v11_audit_engine_health_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "audit-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_audit_engine_health_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Audit Engine Health Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -34622,39 +34558,23 @@
     },
     "/v11/audit-engine/metrics": {
       "get": {
-        "operationId": "_lambda__v11_audit_engine_metrics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "audit-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_audit_engine_metrics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Audit Engine Metrics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -34662,39 +34582,23 @@
     },
     "/v11/audit-engine/overview": {
       "get": {
-        "operationId": "_lambda__v11_audit_engine_overview_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "audit-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_audit_engine_overview_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Audit Engine Overview Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -34702,39 +34606,23 @@
     },
     "/v11/compatibility-fabric": {
       "get": {
-        "operationId": "_lambda__v11_compatibility_fabric_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "compatibility-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_compatibility_fabric_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Compatibility Fabric Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -34742,39 +34630,23 @@
     },
     "/v11/compatibility-fabric/audit": {
       "get": {
-        "operationId": "_lambda__v11_compatibility_fabric_audit_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "compatibility-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_compatibility_fabric_audit_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Compatibility Fabric Audit Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -34782,39 +34654,23 @@
     },
     "/v11/compatibility-fabric/diagnostics": {
       "get": {
-        "operationId": "_lambda__v11_compatibility_fabric_diagnostics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "compatibility-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_compatibility_fabric_diagnostics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Compatibility Fabric Diagnostics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -34822,39 +34678,23 @@
     },
     "/v11/compatibility-fabric/health": {
       "get": {
-        "operationId": "_lambda__v11_compatibility_fabric_health_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "compatibility-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_compatibility_fabric_health_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Compatibility Fabric Health Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -34862,39 +34702,23 @@
     },
     "/v11/compatibility-fabric/metrics": {
       "get": {
-        "operationId": "_lambda__v11_compatibility_fabric_metrics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "compatibility-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_compatibility_fabric_metrics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Compatibility Fabric Metrics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -34902,39 +34726,23 @@
     },
     "/v11/compatibility-fabric/overview": {
       "get": {
-        "operationId": "_lambda__v11_compatibility_fabric_overview_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "compatibility-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_compatibility_fabric_overview_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Compatibility Fabric Overview Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -34942,39 +34750,23 @@
     },
     "/v11/context-engine": {
       "get": {
-        "operationId": "_lambda__v11_context_engine_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "context-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_context_engine_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Context Engine Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -34982,39 +34774,23 @@
     },
     "/v11/context-engine/audit": {
       "get": {
-        "operationId": "_lambda__v11_context_engine_audit_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "context-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_context_engine_audit_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Context Engine Audit Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -35022,39 +34798,23 @@
     },
     "/v11/context-engine/diagnostics": {
       "get": {
-        "operationId": "_lambda__v11_context_engine_diagnostics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "context-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_context_engine_diagnostics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Context Engine Diagnostics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -35062,39 +34822,23 @@
     },
     "/v11/context-engine/health": {
       "get": {
-        "operationId": "_lambda__v11_context_engine_health_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "context-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_context_engine_health_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Context Engine Health Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -35102,39 +34846,23 @@
     },
     "/v11/context-engine/metrics": {
       "get": {
-        "operationId": "_lambda__v11_context_engine_metrics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "context-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_context_engine_metrics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Context Engine Metrics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -35142,39 +34870,23 @@
     },
     "/v11/context-engine/overview": {
       "get": {
-        "operationId": "_lambda__v11_context_engine_overview_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "context-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_context_engine_overview_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Context Engine Overview Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -35182,39 +34894,23 @@
     },
     "/v11/contract-engine": {
       "get": {
-        "operationId": "_lambda__v11_contract_engine_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "contract-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_contract_engine_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Contract Engine Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -35222,39 +34918,23 @@
     },
     "/v11/contract-engine/audit": {
       "get": {
-        "operationId": "_lambda__v11_contract_engine_audit_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "contract-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_contract_engine_audit_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Contract Engine Audit Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -35262,39 +34942,23 @@
     },
     "/v11/contract-engine/diagnostics": {
       "get": {
-        "operationId": "_lambda__v11_contract_engine_diagnostics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "contract-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_contract_engine_diagnostics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Contract Engine Diagnostics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -35302,39 +34966,23 @@
     },
     "/v11/contract-engine/health": {
       "get": {
-        "operationId": "_lambda__v11_contract_engine_health_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "contract-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_contract_engine_health_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Contract Engine Health Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -35342,39 +34990,23 @@
     },
     "/v11/contract-engine/metrics": {
       "get": {
-        "operationId": "_lambda__v11_contract_engine_metrics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "contract-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_contract_engine_metrics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Contract Engine Metrics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -35382,39 +35014,23 @@
     },
     "/v11/contract-engine/overview": {
       "get": {
-        "operationId": "_lambda__v11_contract_engine_overview_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "contract-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_contract_engine_overview_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Contract Engine Overview Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -35422,39 +35038,23 @@
     },
     "/v11/decision-fabric": {
       "get": {
-        "operationId": "_lambda__v11_decision_fabric_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "decision-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_decision_fabric_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Decision Fabric Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -35462,39 +35062,23 @@
     },
     "/v11/decision-fabric/audit": {
       "get": {
-        "operationId": "_lambda__v11_decision_fabric_audit_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "decision-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_decision_fabric_audit_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Decision Fabric Audit Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -35502,39 +35086,23 @@
     },
     "/v11/decision-fabric/diagnostics": {
       "get": {
-        "operationId": "_lambda__v11_decision_fabric_diagnostics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "decision-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_decision_fabric_diagnostics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Decision Fabric Diagnostics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -35542,39 +35110,23 @@
     },
     "/v11/decision-fabric/health": {
       "get": {
-        "operationId": "_lambda__v11_decision_fabric_health_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "decision-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_decision_fabric_health_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Decision Fabric Health Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -35582,39 +35134,23 @@
     },
     "/v11/decision-fabric/metrics": {
       "get": {
-        "operationId": "_lambda__v11_decision_fabric_metrics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "decision-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_decision_fabric_metrics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Decision Fabric Metrics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -35622,39 +35158,23 @@
     },
     "/v11/decision-fabric/overview": {
       "get": {
-        "operationId": "_lambda__v11_decision_fabric_overview_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "decision-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_decision_fabric_overview_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Decision Fabric Overview Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -35662,39 +35182,23 @@
     },
     "/v11/dependency-engine": {
       "get": {
-        "operationId": "_lambda__v11_dependency_engine_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "dependency-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_dependency_engine_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Dependency Engine Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -35702,39 +35206,23 @@
     },
     "/v11/dependency-engine/audit": {
       "get": {
-        "operationId": "_lambda__v11_dependency_engine_audit_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "dependency-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_dependency_engine_audit_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Dependency Engine Audit Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -35742,39 +35230,23 @@
     },
     "/v11/dependency-engine/diagnostics": {
       "get": {
-        "operationId": "_lambda__v11_dependency_engine_diagnostics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "dependency-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_dependency_engine_diagnostics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Dependency Engine Diagnostics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -35782,39 +35254,23 @@
     },
     "/v11/dependency-engine/health": {
       "get": {
-        "operationId": "_lambda__v11_dependency_engine_health_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "dependency-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_dependency_engine_health_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Dependency Engine Health Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -35822,39 +35278,23 @@
     },
     "/v11/dependency-engine/metrics": {
       "get": {
-        "operationId": "_lambda__v11_dependency_engine_metrics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "dependency-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_dependency_engine_metrics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Dependency Engine Metrics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -35862,39 +35302,23 @@
     },
     "/v11/dependency-engine/overview": {
       "get": {
-        "operationId": "_lambda__v11_dependency_engine_overview_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "dependency-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_dependency_engine_overview_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Dependency Engine Overview Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -35902,39 +35326,23 @@
     },
     "/v11/diagnostics-engine": {
       "get": {
-        "operationId": "_lambda__v11_diagnostics_engine_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "diagnostics-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_diagnostics_engine_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Diagnostics Engine Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -35942,39 +35350,23 @@
     },
     "/v11/diagnostics-engine/audit": {
       "get": {
-        "operationId": "_lambda__v11_diagnostics_engine_audit_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "diagnostics-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_diagnostics_engine_audit_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Diagnostics Engine Audit Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -35982,39 +35374,23 @@
     },
     "/v11/diagnostics-engine/diagnostics": {
       "get": {
-        "operationId": "_lambda__v11_diagnostics_engine_diagnostics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "diagnostics-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_diagnostics_engine_diagnostics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Diagnostics Engine Diagnostics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -36022,39 +35398,23 @@
     },
     "/v11/diagnostics-engine/health": {
       "get": {
-        "operationId": "_lambda__v11_diagnostics_engine_health_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "diagnostics-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_diagnostics_engine_health_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Diagnostics Engine Health Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -36062,39 +35422,23 @@
     },
     "/v11/diagnostics-engine/metrics": {
       "get": {
-        "operationId": "_lambda__v11_diagnostics_engine_metrics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "diagnostics-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_diagnostics_engine_metrics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Diagnostics Engine Metrics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -36102,39 +35446,23 @@
     },
     "/v11/diagnostics-engine/overview": {
       "get": {
-        "operationId": "_lambda__v11_diagnostics_engine_overview_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "diagnostics-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_diagnostics_engine_overview_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Diagnostics Engine Overview Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -36142,39 +35470,23 @@
     },
     "/v11/governance-fabric": {
       "get": {
-        "operationId": "_lambda__v11_governance_fabric_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "governance-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_governance_fabric_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Governance Fabric Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -36182,39 +35494,23 @@
     },
     "/v11/governance-fabric/audit": {
       "get": {
-        "operationId": "_lambda__v11_governance_fabric_audit_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "governance-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_governance_fabric_audit_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Governance Fabric Audit Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -36222,39 +35518,23 @@
     },
     "/v11/governance-fabric/diagnostics": {
       "get": {
-        "operationId": "_lambda__v11_governance_fabric_diagnostics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "governance-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_governance_fabric_diagnostics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Governance Fabric Diagnostics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -36262,39 +35542,23 @@
     },
     "/v11/governance-fabric/health": {
       "get": {
-        "operationId": "_lambda__v11_governance_fabric_health_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "governance-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_governance_fabric_health_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Governance Fabric Health Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -36302,39 +35566,23 @@
     },
     "/v11/governance-fabric/metrics": {
       "get": {
-        "operationId": "_lambda__v11_governance_fabric_metrics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "governance-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_governance_fabric_metrics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Governance Fabric Metrics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -36342,39 +35590,23 @@
     },
     "/v11/governance-fabric/overview": {
       "get": {
-        "operationId": "_lambda__v11_governance_fabric_overview_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "governance-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_governance_fabric_overview_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Governance Fabric Overview Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -36668,39 +35900,23 @@
     },
     "/v11/integrity-fabric": {
       "get": {
-        "operationId": "_lambda__v11_integrity_fabric_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "integrity-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_integrity_fabric_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Integrity Fabric Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -36708,39 +35924,23 @@
     },
     "/v11/integrity-fabric/audit": {
       "get": {
-        "operationId": "_lambda__v11_integrity_fabric_audit_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "integrity-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_integrity_fabric_audit_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Integrity Fabric Audit Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -36748,39 +35948,23 @@
     },
     "/v11/integrity-fabric/diagnostics": {
       "get": {
-        "operationId": "_lambda__v11_integrity_fabric_diagnostics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "integrity-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_integrity_fabric_diagnostics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Integrity Fabric Diagnostics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -36788,39 +35972,23 @@
     },
     "/v11/integrity-fabric/health": {
       "get": {
-        "operationId": "_lambda__v11_integrity_fabric_health_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "integrity-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_integrity_fabric_health_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Integrity Fabric Health Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -36828,39 +35996,23 @@
     },
     "/v11/integrity-fabric/metrics": {
       "get": {
-        "operationId": "_lambda__v11_integrity_fabric_metrics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "integrity-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_integrity_fabric_metrics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Integrity Fabric Metrics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -36868,39 +36020,23 @@
     },
     "/v11/integrity-fabric/overview": {
       "get": {
-        "operationId": "_lambda__v11_integrity_fabric_overview_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "integrity-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_integrity_fabric_overview_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Integrity Fabric Overview Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -36931,39 +36067,23 @@
     },
     "/v11/intelligence-core": {
       "get": {
-        "operationId": "_lambda__v11_intelligence_core_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "intelligence-core",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_intelligence_core_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Intelligence Core Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -36971,39 +36091,23 @@
     },
     "/v11/intelligence-core/audit": {
       "get": {
-        "operationId": "_lambda__v11_intelligence_core_audit_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "intelligence-core",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_intelligence_core_audit_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Intelligence Core Audit Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -37011,39 +36115,23 @@
     },
     "/v11/intelligence-core/diagnostics": {
       "get": {
-        "operationId": "_lambda__v11_intelligence_core_diagnostics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "intelligence-core",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_intelligence_core_diagnostics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Intelligence Core Diagnostics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -37051,39 +36139,23 @@
     },
     "/v11/intelligence-core/health": {
       "get": {
-        "operationId": "_lambda__v11_intelligence_core_health_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "intelligence-core",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_intelligence_core_health_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Intelligence Core Health Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -37091,39 +36163,23 @@
     },
     "/v11/intelligence-core/metrics": {
       "get": {
-        "operationId": "_lambda__v11_intelligence_core_metrics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "intelligence-core",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_intelligence_core_metrics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Intelligence Core Metrics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -37131,39 +36187,23 @@
     },
     "/v11/intelligence-core/overview": {
       "get": {
-        "operationId": "_lambda__v11_intelligence_core_overview_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "intelligence-core",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_intelligence_core_overview_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Intelligence Core Overview Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -37774,39 +36814,23 @@
     },
     "/v11/interface-engine": {
       "get": {
-        "operationId": "_lambda__v11_interface_engine_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "interface-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_interface_engine_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Interface Engine Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -37814,39 +36838,23 @@
     },
     "/v11/interface-engine/audit": {
       "get": {
-        "operationId": "_lambda__v11_interface_engine_audit_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "interface-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_interface_engine_audit_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Interface Engine Audit Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -37854,39 +36862,23 @@
     },
     "/v11/interface-engine/diagnostics": {
       "get": {
-        "operationId": "_lambda__v11_interface_engine_diagnostics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "interface-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_interface_engine_diagnostics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Interface Engine Diagnostics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -37894,39 +36886,23 @@
     },
     "/v11/interface-engine/health": {
       "get": {
-        "operationId": "_lambda__v11_interface_engine_health_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "interface-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_interface_engine_health_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Interface Engine Health Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -37934,39 +36910,23 @@
     },
     "/v11/interface-engine/metrics": {
       "get": {
-        "operationId": "_lambda__v11_interface_engine_metrics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "interface-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_interface_engine_metrics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Interface Engine Metrics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -37974,39 +36934,23 @@
     },
     "/v11/interface-engine/overview": {
       "get": {
-        "operationId": "_lambda__v11_interface_engine_overview_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "interface-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_interface_engine_overview_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Interface Engine Overview Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -38014,39 +36958,23 @@
     },
     "/v11/knowledge-graph": {
       "get": {
-        "operationId": "_lambda__v11_knowledge_graph_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "knowledge-graph",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_knowledge_graph_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Knowledge Graph Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -38054,39 +36982,23 @@
     },
     "/v11/knowledge-graph/audit": {
       "get": {
-        "operationId": "_lambda__v11_knowledge_graph_audit_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "knowledge-graph",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_knowledge_graph_audit_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Knowledge Graph Audit Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -38094,39 +37006,23 @@
     },
     "/v11/knowledge-graph/diagnostics": {
       "get": {
-        "operationId": "_lambda__v11_knowledge_graph_diagnostics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "knowledge-graph",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_knowledge_graph_diagnostics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Knowledge Graph Diagnostics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -38134,39 +37030,23 @@
     },
     "/v11/knowledge-graph/health": {
       "get": {
-        "operationId": "_lambda__v11_knowledge_graph_health_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "knowledge-graph",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_knowledge_graph_health_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Knowledge Graph Health Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -38174,39 +37054,23 @@
     },
     "/v11/knowledge-graph/metrics": {
       "get": {
-        "operationId": "_lambda__v11_knowledge_graph_metrics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "knowledge-graph",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_knowledge_graph_metrics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Knowledge Graph Metrics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -38214,39 +37078,23 @@
     },
     "/v11/knowledge-graph/overview": {
       "get": {
-        "operationId": "_lambda__v11_knowledge_graph_overview_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "knowledge-graph",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_knowledge_graph_overview_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Knowledge Graph Overview Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -38254,39 +37102,23 @@
     },
     "/v11/metrics-engine": {
       "get": {
-        "operationId": "_lambda__v11_metrics_engine_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "metrics-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_metrics_engine_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Metrics Engine Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -38294,39 +37126,23 @@
     },
     "/v11/metrics-engine/audit": {
       "get": {
-        "operationId": "_lambda__v11_metrics_engine_audit_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "metrics-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_metrics_engine_audit_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Metrics Engine Audit Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -38334,39 +37150,23 @@
     },
     "/v11/metrics-engine/diagnostics": {
       "get": {
-        "operationId": "_lambda__v11_metrics_engine_diagnostics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "metrics-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_metrics_engine_diagnostics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Metrics Engine Diagnostics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -38374,39 +37174,23 @@
     },
     "/v11/metrics-engine/health": {
       "get": {
-        "operationId": "_lambda__v11_metrics_engine_health_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "metrics-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_metrics_engine_health_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Metrics Engine Health Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -38414,39 +37198,23 @@
     },
     "/v11/metrics-engine/metrics": {
       "get": {
-        "operationId": "_lambda__v11_metrics_engine_metrics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "metrics-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_metrics_engine_metrics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Metrics Engine Metrics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -38454,39 +37222,23 @@
     },
     "/v11/metrics-engine/overview": {
       "get": {
-        "operationId": "_lambda__v11_metrics_engine_overview_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "metrics-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_metrics_engine_overview_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Metrics Engine Overview Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -38494,39 +37246,23 @@
     },
     "/v11/operations-fabric": {
       "get": {
-        "operationId": "_lambda__v11_operations_fabric_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "operations-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_operations_fabric_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Operations Fabric Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -38534,39 +37270,23 @@
     },
     "/v11/operations-fabric/audit": {
       "get": {
-        "operationId": "_lambda__v11_operations_fabric_audit_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "operations-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_operations_fabric_audit_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Operations Fabric Audit Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -38574,39 +37294,23 @@
     },
     "/v11/operations-fabric/diagnostics": {
       "get": {
-        "operationId": "_lambda__v11_operations_fabric_diagnostics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "operations-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_operations_fabric_diagnostics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Operations Fabric Diagnostics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -38614,39 +37318,23 @@
     },
     "/v11/operations-fabric/health": {
       "get": {
-        "operationId": "_lambda__v11_operations_fabric_health_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "operations-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_operations_fabric_health_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Operations Fabric Health Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -38654,39 +37342,23 @@
     },
     "/v11/operations-fabric/metrics": {
       "get": {
-        "operationId": "_lambda__v11_operations_fabric_metrics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "operations-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_operations_fabric_metrics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Operations Fabric Metrics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -38694,39 +37366,23 @@
     },
     "/v11/operations-fabric/overview": {
       "get": {
-        "operationId": "_lambda__v11_operations_fabric_overview_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "operations-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_operations_fabric_overview_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Operations Fabric Overview Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -38734,39 +37390,23 @@
     },
     "/v11/planning-fabric": {
       "get": {
-        "operationId": "_lambda__v11_planning_fabric_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "planning-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_planning_fabric_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Planning Fabric Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -38774,39 +37414,23 @@
     },
     "/v11/planning-fabric/audit": {
       "get": {
-        "operationId": "_lambda__v11_planning_fabric_audit_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "planning-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_planning_fabric_audit_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Planning Fabric Audit Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -38814,39 +37438,23 @@
     },
     "/v11/planning-fabric/diagnostics": {
       "get": {
-        "operationId": "_lambda__v11_planning_fabric_diagnostics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "planning-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_planning_fabric_diagnostics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Planning Fabric Diagnostics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -38854,39 +37462,23 @@
     },
     "/v11/planning-fabric/health": {
       "get": {
-        "operationId": "_lambda__v11_planning_fabric_health_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "planning-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_planning_fabric_health_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Planning Fabric Health Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -38894,39 +37486,23 @@
     },
     "/v11/planning-fabric/metrics": {
       "get": {
-        "operationId": "_lambda__v11_planning_fabric_metrics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "planning-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_planning_fabric_metrics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Planning Fabric Metrics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -38934,39 +37510,23 @@
     },
     "/v11/planning-fabric/overview": {
       "get": {
-        "operationId": "_lambda__v11_planning_fabric_overview_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "planning-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_planning_fabric_overview_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Planning Fabric Overview Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -38996,39 +37556,23 @@
     },
     "/v11/reasoning-fabric": {
       "get": {
-        "operationId": "_lambda__v11_reasoning_fabric_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "reasoning-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_reasoning_fabric_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Reasoning Fabric Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -39036,39 +37580,23 @@
     },
     "/v11/reasoning-fabric/audit": {
       "get": {
-        "operationId": "_lambda__v11_reasoning_fabric_audit_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "reasoning-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_reasoning_fabric_audit_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Reasoning Fabric Audit Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -39076,39 +37604,23 @@
     },
     "/v11/reasoning-fabric/diagnostics": {
       "get": {
-        "operationId": "_lambda__v11_reasoning_fabric_diagnostics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "reasoning-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_reasoning_fabric_diagnostics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Reasoning Fabric Diagnostics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -39116,39 +37628,23 @@
     },
     "/v11/reasoning-fabric/health": {
       "get": {
-        "operationId": "_lambda__v11_reasoning_fabric_health_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "reasoning-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_reasoning_fabric_health_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Reasoning Fabric Health Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -39156,39 +37652,23 @@
     },
     "/v11/reasoning-fabric/metrics": {
       "get": {
-        "operationId": "_lambda__v11_reasoning_fabric_metrics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "reasoning-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_reasoning_fabric_metrics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Reasoning Fabric Metrics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -39196,39 +37676,23 @@
     },
     "/v11/reasoning-fabric/overview": {
       "get": {
-        "operationId": "_lambda__v11_reasoning_fabric_overview_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "reasoning-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_reasoning_fabric_overview_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Reasoning Fabric Overview Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -39808,39 +38272,23 @@
     },
     "/v11/recovery-fabric": {
       "get": {
-        "operationId": "_lambda__v11_recovery_fabric_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "recovery-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_recovery_fabric_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Recovery Fabric Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -39848,39 +38296,23 @@
     },
     "/v11/recovery-fabric/audit": {
       "get": {
-        "operationId": "_lambda__v11_recovery_fabric_audit_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "recovery-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_recovery_fabric_audit_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Recovery Fabric Audit Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -39888,39 +38320,23 @@
     },
     "/v11/recovery-fabric/diagnostics": {
       "get": {
-        "operationId": "_lambda__v11_recovery_fabric_diagnostics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "recovery-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_recovery_fabric_diagnostics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Recovery Fabric Diagnostics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -39928,39 +38344,23 @@
     },
     "/v11/recovery-fabric/health": {
       "get": {
-        "operationId": "_lambda__v11_recovery_fabric_health_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "recovery-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_recovery_fabric_health_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Recovery Fabric Health Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -39968,39 +38368,23 @@
     },
     "/v11/recovery-fabric/metrics": {
       "get": {
-        "operationId": "_lambda__v11_recovery_fabric_metrics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "recovery-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_recovery_fabric_metrics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Recovery Fabric Metrics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -40008,39 +38392,23 @@
     },
     "/v11/recovery-fabric/overview": {
       "get": {
-        "operationId": "_lambda__v11_recovery_fabric_overview_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "recovery-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_recovery_fabric_overview_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Recovery Fabric Overview Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -40048,39 +38416,23 @@
     },
     "/v11/registry-engine": {
       "get": {
-        "operationId": "_lambda__v11_registry_engine_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "registry-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_registry_engine_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Registry Engine Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -40088,39 +38440,23 @@
     },
     "/v11/registry-engine/audit": {
       "get": {
-        "operationId": "_lambda__v11_registry_engine_audit_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "registry-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_registry_engine_audit_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Registry Engine Audit Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -40128,39 +38464,23 @@
     },
     "/v11/registry-engine/diagnostics": {
       "get": {
-        "operationId": "_lambda__v11_registry_engine_diagnostics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "registry-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_registry_engine_diagnostics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Registry Engine Diagnostics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -40168,39 +38488,23 @@
     },
     "/v11/registry-engine/health": {
       "get": {
-        "operationId": "_lambda__v11_registry_engine_health_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "registry-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_registry_engine_health_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Registry Engine Health Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -40208,39 +38512,23 @@
     },
     "/v11/registry-engine/metrics": {
       "get": {
-        "operationId": "_lambda__v11_registry_engine_metrics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "registry-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_registry_engine_metrics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Registry Engine Metrics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -40248,39 +38536,23 @@
     },
     "/v11/registry-engine/overview": {
       "get": {
-        "operationId": "_lambda__v11_registry_engine_overview_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "registry-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_registry_engine_overview_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Registry Engine Overview Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -40288,39 +38560,23 @@
     },
     "/v11/relationship-engine": {
       "get": {
-        "operationId": "_lambda__v11_relationship_engine_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "relationship-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_relationship_engine_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Relationship Engine Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -40328,39 +38584,23 @@
     },
     "/v11/relationship-engine/audit": {
       "get": {
-        "operationId": "_lambda__v11_relationship_engine_audit_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "relationship-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_relationship_engine_audit_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Relationship Engine Audit Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -40368,39 +38608,23 @@
     },
     "/v11/relationship-engine/diagnostics": {
       "get": {
-        "operationId": "_lambda__v11_relationship_engine_diagnostics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "relationship-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_relationship_engine_diagnostics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Relationship Engine Diagnostics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -40408,39 +38632,23 @@
     },
     "/v11/relationship-engine/health": {
       "get": {
-        "operationId": "_lambda__v11_relationship_engine_health_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "relationship-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_relationship_engine_health_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Relationship Engine Health Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -40448,39 +38656,23 @@
     },
     "/v11/relationship-engine/metrics": {
       "get": {
-        "operationId": "_lambda__v11_relationship_engine_metrics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "relationship-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_relationship_engine_metrics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Relationship Engine Metrics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -40488,39 +38680,23 @@
     },
     "/v11/relationship-engine/overview": {
       "get": {
-        "operationId": "_lambda__v11_relationship_engine_overview_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "relationship-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_relationship_engine_overview_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Relationship Engine Overview Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -40528,39 +38704,23 @@
     },
     "/v11/security-engine": {
       "get": {
-        "operationId": "_lambda__v11_security_engine_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "security-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_security_engine_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Security Engine Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -40568,39 +38728,23 @@
     },
     "/v11/security-engine/audit": {
       "get": {
-        "operationId": "_lambda__v11_security_engine_audit_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "security-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_security_engine_audit_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Security Engine Audit Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -40608,39 +38752,23 @@
     },
     "/v11/security-engine/diagnostics": {
       "get": {
-        "operationId": "_lambda__v11_security_engine_diagnostics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "security-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_security_engine_diagnostics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Security Engine Diagnostics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -40648,39 +38776,23 @@
     },
     "/v11/security-engine/health": {
       "get": {
-        "operationId": "_lambda__v11_security_engine_health_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "security-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_security_engine_health_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Security Engine Health Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -40688,39 +38800,23 @@
     },
     "/v11/security-engine/metrics": {
       "get": {
-        "operationId": "_lambda__v11_security_engine_metrics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "security-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_security_engine_metrics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Security Engine Metrics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -40728,39 +38824,23 @@
     },
     "/v11/security-engine/overview": {
       "get": {
-        "operationId": "_lambda__v11_security_engine_overview_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "security-engine",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_security_engine_overview_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Security Engine Overview Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -40768,39 +38848,23 @@
     },
     "/v11/trust-fabric": {
       "get": {
-        "operationId": "_lambda__v11_trust_fabric_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "trust-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_trust_fabric_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Trust Fabric Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -40808,39 +38872,23 @@
     },
     "/v11/trust-fabric/audit": {
       "get": {
-        "operationId": "_lambda__v11_trust_fabric_audit_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "trust-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_trust_fabric_audit_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Trust Fabric Audit Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -40848,39 +38896,23 @@
     },
     "/v11/trust-fabric/diagnostics": {
       "get": {
-        "operationId": "_lambda__v11_trust_fabric_diagnostics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "trust-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_trust_fabric_diagnostics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Trust Fabric Diagnostics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -40888,39 +38920,23 @@
     },
     "/v11/trust-fabric/health": {
       "get": {
-        "operationId": "_lambda__v11_trust_fabric_health_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "trust-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_trust_fabric_health_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Trust Fabric Health Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -40928,39 +38944,23 @@
     },
     "/v11/trust-fabric/metrics": {
       "get": {
-        "operationId": "_lambda__v11_trust_fabric_metrics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "trust-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_trust_fabric_metrics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Trust Fabric Metrics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -40968,39 +38968,23 @@
     },
     "/v11/trust-fabric/overview": {
       "get": {
-        "operationId": "_lambda__v11_trust_fabric_overview_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "trust-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_trust_fabric_overview_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Trust Fabric Overview Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -41008,39 +38992,23 @@
     },
     "/v11/validation-fabric": {
       "get": {
-        "operationId": "_lambda__v11_validation_fabric_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "validation-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_validation_fabric_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Validation Fabric Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -41048,39 +39016,23 @@
     },
     "/v11/validation-fabric/audit": {
       "get": {
-        "operationId": "_lambda__v11_validation_fabric_audit_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "validation-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_validation_fabric_audit_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Validation Fabric Audit Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -41088,39 +39040,23 @@
     },
     "/v11/validation-fabric/diagnostics": {
       "get": {
-        "operationId": "_lambda__v11_validation_fabric_diagnostics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "validation-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_validation_fabric_diagnostics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Validation Fabric Diagnostics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -41128,39 +39064,23 @@
     },
     "/v11/validation-fabric/health": {
       "get": {
-        "operationId": "_lambda__v11_validation_fabric_health_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "validation-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_validation_fabric_health_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Validation Fabric Health Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -41168,39 +39088,23 @@
     },
     "/v11/validation-fabric/metrics": {
       "get": {
-        "operationId": "_lambda__v11_validation_fabric_metrics_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "validation-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_validation_fabric_metrics_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Validation Fabric Metrics Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]
@@ -41208,39 +39112,23 @@
     },
     "/v11/validation-fabric/overview": {
       "get": {
-        "operationId": "_lambda__v11_validation_fabric_overview_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "slug",
-            "required": false,
-            "schema": {
-              "default": "validation-fabric",
-              "title": "Slug"
-            }
-          }
-        ],
+        "description": "partial(func, *args, **keywords) - new function with partial application\nof the given arguments and keywords.",
+        "operationId": "partial_v11_validation_fabric_overview_get",
         "responses": {
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "additionalProperties": true,
+                  "title": "Response Partial V11 Validation Fabric Overview Get",
+                  "type": "object"
                 }
               }
             },
-            "description": "Validation Error"
+            "description": "Successful Response"
           }
         },
-        "summary": "<Lambda>",
+        "summary": "Partial",
         "tags": [
           "TKAI V11"
         ]

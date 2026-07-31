@@ -1,5 +1,5 @@
 {
-  "api_version": "v10",
+  "api_version": "v11",
   "version": "11.0.0",
   "deployment_profile": "production",
   "git_commit": "${TKAI_GIT_COMMIT}",
@@ -10,6 +10,7 @@
     "v8",
     "v9",
     "v10",
+    "v11",
     "tiktok",
     "dashboard",
     "ai-studio",

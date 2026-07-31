@@ -1,4 +1,4 @@
-param([string]$Archive = "artifacts\tkai-10.0.0.zip")
+param([string]$Archive = "artifacts\tkai-11.0.0.zip")
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 $repository = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot ".."))
@@ -37,7 +37,7 @@ try {
 } finally {
     $zip.Dispose()
 }
-$checksumFile = Join-Path (Split-Path $path) "CHECKSUMS_V10.txt"
+$checksumFile = Join-Path (Split-Path $path) "CHECKSUMS_V11.txt"
 $checksumLine = Get-Content $checksumFile | Where-Object {
     $_ -match [regex]::Escape((Split-Path $path -Leaf)) + "$"
 } | Select-Object -First 1

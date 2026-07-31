@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from functools import partial
 from typing import Any
 
 from tkai.v11.platform import COMPONENTS, V11Platform
@@ -25,14 +26,12 @@ def route_handlers(platform: V11Platform) -> dict[str, Callable[[], object]]:
     handlers: dict[str, Callable[[], object]] = {"/v11": platform.overview}
     for component in COMPONENTS:
         slug = component.slug
-        handlers[f"/v11/{slug}"] = lambda slug=slug: platform.component(slug)
-        handlers[f"/v11/{slug}/overview"] = lambda slug=slug: platform.component(slug)
-        handlers[f"/v11/{slug}/health"] = lambda slug=slug: platform.health(slug)
-        handlers[f"/v11/{slug}/diagnostics"] = lambda slug=slug: platform.diagnostics(
-            slug
-        )
-        handlers[f"/v11/{slug}/metrics"] = lambda slug=slug: platform.metrics(slug)
-        handlers[f"/v11/{slug}/audit"] = lambda slug=slug: platform.audit(slug)
+        handlers[f"/v11/{slug}"] = partial(platform.component, slug)
+        handlers[f"/v11/{slug}/overview"] = partial(platform.component, slug)
+        handlers[f"/v11/{slug}/health"] = partial(platform.health, slug)
+        handlers[f"/v11/{slug}/diagnostics"] = partial(platform.diagnostics, slug)
+        handlers[f"/v11/{slug}/metrics"] = partial(platform.metrics, slug)
+        handlers[f"/v11/{slug}/audit"] = partial(platform.audit, slug)
     return handlers
 
 

@@ -250,8 +250,21 @@ def audit() -> dict[str, object]:
     if ROOT.resolve() != expected_root:
         errors.append(f"unexpected repository path: {ROOT.resolve()}")
     branch = git("branch", "--show-current")
-    if branch != BRANCH:
+    release = json.loads((ROOT / "release.json").read_text(encoding="utf-8"))
+    expected_branch_prefix = f"release/tkai-v{release['version']}"
+    if branch != expected_branch_prefix and not branch.startswith(
+        f"{expected_branch_prefix}-"
+    ):
         errors.append(f"unexpected release branch: {branch}")
+    historical_release = json.loads(
+        (ARTIFACTS / "RELEASE_MANIFEST_V10.json").read_text(encoding="utf-8")
+    )
+    if (
+        historical_release["version"] != VERSION
+        or historical_release["tag"] != TAG
+        or historical_release["branch"] != BRANCH
+    ):
+        errors.append("inconsistent V10 release identity")
     try:
         subprocess.run(
             ["git", "merge-base", "--is-ancestor", BASE_COMMIT, "HEAD"],
@@ -275,14 +288,15 @@ def audit() -> dict[str, object]:
     ]
     if missing_docs:
         errors.append(f"missing V10 production documentation: {missing_docs}")
+    current_version = release["version"]
     version_sources = {
-        "pyproject.toml": 'version = "10.0.0"',
-        "src/tkai/__init__.py": '__version__ = "10.0.0"',
-        "release.json": '"version": "10.0.0"',
-        "RELEASE_MANIFEST.json": '"version": "10.0.0"',
-        "BUILD_METADATA.json": '"version": "10.0.0"',
-        "dashboard/frontend/package.json": '"version": "10.0.0"',
-        "studio/frontend/package.json": '"version": "10.0.0"',
+        "pyproject.toml": f'version = "{current_version}"',
+        "src/tkai/__init__.py": f'__version__ = "{current_version}"',
+        "release.json": f'"version": "{current_version}"',
+        "RELEASE_MANIFEST.json": f'"version": "{current_version}"',
+        "BUILD_METADATA.json": f'"version": "{current_version}"',
+        "dashboard/frontend/package.json": f'"version": "{current_version}"',
+        "studio/frontend/package.json": f'"version": "{current_version}"',
     }
     inconsistent_versions = [
         name
@@ -290,7 +304,7 @@ def audit() -> dict[str, object]:
         if marker not in (ROOT / name).read_text(encoding="utf-8-sig")
     ]
     if inconsistent_versions:
-        errors.append(f"inconsistent V10 version metadata: {inconsistent_versions}")
+        errors.append(f"inconsistent current version metadata: {inconsistent_versions}")
     return {
         "schema_version": 1,
         "version": VERSION,

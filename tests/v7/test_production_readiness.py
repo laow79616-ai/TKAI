@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import tkai
+
 ROOT = Path(__file__).resolve().parents[2]
 
 
@@ -16,7 +18,7 @@ def test_release_and_framework_manifests_are_consistent() -> None:
         (ROOT / "INTEGRITY_MANIFEST.json").read_text(encoding="utf-8")
     )
 
-    assert manifest["version"] == release["version"] == "10.0.0"
+    assert manifest["version"] == release["version"] == tkai.__version__
     assert frameworks["release"] == "7.0.0"
     assert len(frameworks["frameworks"]) == 15
     assert len({item["name"] for item in frameworks["frameworks"]}) == 15

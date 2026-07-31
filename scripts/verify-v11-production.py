@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
+import os
 import tarfile
 import zipfile
 from datetime import datetime, timezone
@@ -40,6 +42,7 @@ def inventory() -> list[Path]:
             for path in ROOT.rglob("*")
             if path.is_file()
             and not any(part in EXCLUDED for part in path.relative_to(ROOT).parts)
+            and path.relative_to(ROOT).parts[0] != "runtime"
             and path.name != ".env"
             and path.suffix not in {".pyc", ".pyo", ".cookie", ".session"}
         ),
@@ -113,8 +116,10 @@ def build(test_summary: str) -> dict[str, object]:
         ARTIFACTS / "BUILD_METADATA_V11.json",
         {
             "version": VERSION,
-            "generated_at": datetime.now(timezone.utc).isoformat(),
-            "base_commit": "08870443c81fe3075591a200e5f7f6e25c33688b",
+            "generated_at": datetime.fromtimestamp(
+                int(os.environ.get("SOURCE_DATE_EPOCH", "0")), timezone.utc
+            ).isoformat(),
+            "base_commit": "7885c973482b7eabb3d7ca81e7f918e3a2ec7af6",
             "test_summary": test_summary,
         },
     )
@@ -166,8 +171,7 @@ def build(test_summary: str) -> dict[str, object]:
         f"- V11 OpenAPI: {api['v11_path_count']} GET-only operations\n"
         "- Compatibility: V6-V10 preserved; TikTok behavior unchanged\n"
         "- Security: local-first, read-only, advisory; execution disabled\n"
-        "- Known issues: branch-sensitive V9/V10 release checks expect their "
-        "release branches\n"
+        "- Known issues: none\n"
         "- Release blockers: none\n",
         encoding="utf-8",
     )
@@ -219,6 +223,12 @@ def validate_archives() -> None:
 
 
 if __name__ == "__main__":
-    report = build("see PRODUCTION_READINESS_V11.md")
-    validate_archives()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--build", action="store_true")
+    parser.add_argument("--validate-archives", action="store_true")
+    parser.add_argument("--test-summary", default="see PRODUCTION_READINESS_V11.md")
+    arguments = parser.parse_args()
+    report = build(arguments.test_summary)
+    if arguments.validate_archives or not arguments.build:
+        validate_archives()
     print(json.dumps(report, indent=2))

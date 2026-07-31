@@ -7,6 +7,7 @@ from types import SimpleNamespace
 
 import pytest
 
+import tkai
 from server import ApiRequest, Pagination
 from server.api import ApiDependencies, create_app
 from server.api.errors import ApiValidationError, map_error
@@ -160,7 +161,7 @@ def test_read_only_endpoints_delegate_to_explicit_reference_dependencies() -> No
 
     assert health_data["checks"][0]["name"] == "reference"
     assert version_data["server_version"] == "6.0"
-    assert version_data["framework_version"] == "10.0.0"
+    assert version_data["framework_version"] == tkai.__version__
     assert metadata_data["server_name"] == "tkai-marketplace-server"
     assert metadata_data["supported_modules"] == list(dependencies.supported_modules)
 

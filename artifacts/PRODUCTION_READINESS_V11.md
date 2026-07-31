@@ -6,5 +6,5 @@
 - V11 OpenAPI: 192 GET-only operations
 - Compatibility: V6-V10 preserved; TikTok behavior unchanged
 - Security: local-first, read-only, advisory; execution disabled
-- Known issues: branch-sensitive V9/V10 release checks expect their release branches
+- Known issues: none
 - Release blockers: none
